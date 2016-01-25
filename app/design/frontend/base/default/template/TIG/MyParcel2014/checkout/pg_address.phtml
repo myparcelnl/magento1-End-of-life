@@ -1,0 +1,103 @@
+<?php
+/**
+ *                  ___________       __            __
+ *                  \__    ___/____ _/  |_ _____   |  |
+ *                    |    |  /  _ \\   __\\__  \  |  |
+ *                    |    | |  |_| ||  |   / __ \_|  |__
+ *                    |____|  \____/ |__|  (____  /|____/
+ *                                              \/
+ *          ___          __                                   __
+ *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
+ *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
+ *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
+ *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
+ *                  \/                           \/
+ *                  ________
+ *                 /  _____/_______   ____   __ __ ______
+ *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
+ *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
+ *                 \______  /|__|    \____/ |____/ |   __/
+ *                        \/                       |__|
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Creative Commons License.
+ * It is available through the world-wide-web at this URL:
+ * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to servicedesk@tig.nl so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future. If you wish to customize this module for your
+ * needs please contact servicedesk@tig.nl for more information.
+ *
+ * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
+ * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ */
+
+    $_helper = Mage::helper('tig_myparcel');
+    $_user   = $_helper->getConfig('username', 'api');
+    $_apiKey = $_helper->getConfig('key', 'api', null, true);
+    $_shop   = $this->getUrl('myparcel2014/index/pakjegemak', array('_secure' => true));
+    $_hash   = hash_hmac('sha1', $_user . 'MyParcel' . $_shop, $_apiKey);
+?>
+<div id="tig_myparcel_pg_container" style="display:none;">
+    <fieldset id="tig_myparcel_pg_address">
+        <input type="hidden" name="tig_myparcel_pg_address[firstname]" data-tig-myparcel-address-key="firstname" />
+        <input type="hidden" name="tig_myparcel_pg_address[lastname]" data-tig-myparcel-address-key="lastname" />
+        <input type="hidden" name="tig_myparcel_pg_address[company]" data-tig-myparcel-address-key="name" />
+        <input type="hidden" name="tig_myparcel_pg_address[street][1]" data-tig-myparcel-address-key="street" />
+        <input type="hidden" name="tig_myparcel_pg_address[street][2]" data-tig-myparcel-address-key="housenumber" />
+        <input type="hidden" name="tig_myparcel_pg_address[street][3]" data-tig-myparcel-address-key="housenumberadd" />
+        <input type="hidden" name="tig_myparcel_pg_address[postcode]" data-tig-myparcel-address-key="postalcode" />
+        <input type="hidden" name="tig_myparcel_pg_address[city]" data-tig-myparcel-address-key="city" />
+        <input type="hidden" name="tig_myparcel_pg_address[country_id]" data-tig-myparcel-address-key="country" />
+        <input type="hidden" name="tig_myparcel_pg_address[telephone]" data-tig-myparcel-address-key="phone" />
+    </fieldset>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    if (typeof MyParcelPgAddress == 'undefined') {
+        console.error('<?php echo $_helper->__('MyParcel PgAddress class missing.');?>');
+    }
+
+    window.myParcelPgAddress = new MyParcelPgAddress($('tig_myparcel_pg_address'), {debug: false});
+
+    var pg_popup;
+    document.observe('click', function(e, el){
+        if(el = e.findElement('#s_method_tig_myparcel_pakjegemak'))
+        {
+            if(!pg_popup || pg_popup.closed)
+            {
+                var viewport = document.viewport.getDimensions();
+                var width = viewport.width;
+                var height = viewport.height;
+
+                pg_popup = window.open(
+                    '<?php echo $_helper->getConfig('url'); ?>/pakjegemak-locatie?hash=<?php echo $_hash; ?>&webshop=<?php echo urlencode($_shop); ?>&user=<?php echo $_user; ?>',
+                    'tig_myparcel_pakjegemak',
+                    'width=' + width + ',height=' + height + ',dependent,resizable,scrollbars'
+                );
+                if(window.focus) { pg_popup.focus(); }
+            }
+            else
+            {
+                pg_popup.focus();
+            }
+            // refresh info div placeholder
+            var pginfo = $('pginfodiv');
+            if(pginfo) {
+                pginfo.remove();
+            }
+            pginfo = document.createElement('div');
+            pginfo.id = 'pginfodiv'
+            el.parentNode.appendChild(pginfo);
+
+            return false;
+        }
+    });
+
+//]]>
+</script>

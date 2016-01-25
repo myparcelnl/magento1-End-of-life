@@ -1,0 +1,185 @@
+<?php
+/**
+ *                  ___________       __            __
+ *                  \__    ___/____ _/  |_ _____   |  |
+ *                    |    |  /  _ \\   __\\__  \  |  |
+ *                    |    | |  |_| ||  |   / __ \_|  |__
+ *                    |____|  \____/ |__|  (____  /|____/
+ *                                              \/
+ *          ___          __                                   __
+ *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
+ *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
+ *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
+ *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
+ *                  \/                           \/
+ *                  ________
+ *                 /  _____/_______   ____   __ __ ______
+ *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
+ *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
+ *                 \______  /|__|    \____/ |____/ |   __/
+ *                        \/                       |__|
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Creative Commons License.
+ * It is available through the world-wide-web at this URL:
+ * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to servicedesk@tig.nl so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future. If you wish to customize this module for your
+ * needs please contact servicedesk@tig.nl for more information.
+ *
+ * @copyright   Copyright (c) 2015 Total Internet Group B.V. (http://www.tig.nl)
+ * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ */
+?>
+<?php $_helper = Mage::helper('tig_myparcel'); ?>
+<div id="myparcel_checkout_overlay_container" style="display:none;"></div>
+<div id="myparcel_checkout_container" style="display:none;">
+    <div id="#{overlay_id}" class="responsive-add-location">
+        <div class="overlay close"></div>
+        <div id="#{overlay_window_id}">
+            <div class="logo">
+                <img src="<?php echo $this->getSkinUrl('images/TIG/MyParcel/checkout/logo_postnl.png');?>" alt="" />
+                <p class="powered-by"><?php echo $_helper->__('Powered by MyParcel'); ?></p>
+            </div>
+            <span class="close"><?php echo $_helper->__('Close'); ?></span>
+            <h3><?php echo $_helper->__('Choose a PostNL pickup location'); ?></h3>
+            <div class="responsive-location-search">
+                <div class="search-form">
+                    <label for="#{postcode_field_id}"><?php echo $_helper->__('Search by zipcode and housenumber'); ?>:</label>
+                    <input type="text" class="myparcel-input" name="" id="#{postcode_field_id}" value="" placeholder="<?php echo $_helper->__('Zipcode'); ?>" />
+                    <label for="#{housenr_field_id}"><?php echo $_helper->__('Housenumber'); ?>:</label>
+                    <input type="text" class="myparcel-input" name="" id="#{housenr_field_id}" value="" placeholder="<?php echo $_helper->__('Housenumber'); ?>" />
+                </div>
+                <div class="actions">
+                    <div id="#{location_loader_id}" class="myparcel-loader" style="display:none;"></div>
+                    <button class="myparcel-button" id="#{search_button_id}"><?php echo $_helper->__('Search'); ?></button>
+                </div>
+            </div>
+
+            <div class="responsive-location-results">
+                <div class="heading">
+                    <h3><?php echo $_helper->__('Nearest myparcel pickup points'); ?></h3>
+                </div>
+
+                <ul class="list" id="#{location_list_id}">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myparcel_checkout_location_template" style="display:none;">
+    <li class="location-details #{location_class}" id="#{location_id}" data-location_code="#{location_code}">
+        <div class="content">
+            <div class="location-info">
+                <span class="radio selected"></span><span class="address"><strong>#{location}</strong><br>#{street} #{street_number}<br>#{postcode} #{city}</span><span class="distance"><strong>#{distance} m</strong></span>
+            </div>
+            <a style="display:none;" href="#" class="info-link">More info</a>
+            <button class="myparcel-button" onclick="#{select_location_onclick}"><?php echo $_helper->__('Select'); ?></button>
+        </div>
+        <div class="more-info" id="#{location_info_id}" style="display:none;">
+            <table class="business-hours">
+                <thead>
+                    <tr>
+                        <th colspan="2"><?php echo $this->__('Business hours') ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><?php echo $this->__('Mo') ?></th>
+                        <td>#{opening_hours_monday}</td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Tu') ?></th>
+                        <td>#{opening_hours_tuesday}</td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('We') ?></th>
+                        <td>#{opening_hours_wednesday}</td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Th') ?></th>
+                        <td>#{opening_hours_thursday}</td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Fr') ?></th>
+                        <td>#{opening_hours_friday}</td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Sa') ?></th>
+                        <td>#{opening_hours_saturday}</td>
+                    </tr>
+                    <tr>
+                        <th><?php echo $this->__('Su') ?></th>
+                        <td>#{opening_hours_sunday}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </li>
+</div>
+<div id="myparcel_checkout_location_error_template" style="display:none;">
+    <li id="no_locations_error" class="location-error-msg">
+        <?php echo $_helper->__('Unfortunately no locations could be found. Please check your postcode and house number combination.'); ?>
+    </li>
+</div>
+<div id="myparcel_checkout_selected_location_template" style="display:none;">
+    <div id="#{selected_location_id}" class="complete">
+        <label><?php echo $this->__('Selected post office location:') ?></label>
+        <address>
+            #{location}<br />
+            #{street} #{street_number}<br />
+            #{city},  #{postcode}<br />
+            Nederland<br />
+            T: #{phone_number}
+            <a href="#" onclick="myParcelCheckout.openOverlay();return false;" class="myparcel_checkout_edit_link"><?php echo $this->__('Edit'); ?></a>
+        </address>
+    </div>
+</div>
+<script type="text/javascript">
+    //<![CDATA[
+    var myParcelCheckout;
+    document.observe('dom:loaded', function() {
+        var checkoutContainer         = $('myparcel_checkout_container');
+        var locationContainer         = $('myparcel_checkout_location_template');
+        var locationErrorContainer    = $('myparcel_checkout_location_error_template');
+        var selectedLocationContainer = $('myparcel_checkout_selected_location_template');
+        var templates = {
+            overlay           : new Template(checkoutContainer.innerHTML),
+            location          : new Template(locationContainer.innerHTML),
+            location_error    : new Template(locationErrorContainer.innerHTML),
+            selected_location : new Template(selectedLocationContainer.innerHTML)
+        };
+
+        checkoutContainer.remove();
+        locationContainer.remove();
+        locationErrorContainer.remove();
+        selectedLocationContainer.remove();
+
+        var config = {
+            get_locations_url                : '<?php echo $this->getUrl('myparcel2014/checkout/getLocations', array('_secure' => true)); ?>',
+            save_location_url                : '<?php echo $this->getUrl('myparcel2014/checkout/saveLocation', array('_secure' => true)); ?>',
+            use_shipping_or_billing_checkbox : true,
+            save_location_on_select          : true
+        };
+
+        var selectors = {
+            shipping_methods_container : '.onestepcheckout-shipping-method-block',
+            shipping_method            : '#s_method_myparcel_pakjegemak',
+            billing_or_shipping_field  : '#billing\\:use_for_shipping_yes'
+        };
+
+        myParcelCheckout = new MyParcelCheckout(config, selectors, templates, {});
+
+        var shippingMethod =$('s_method_myparcel_pakjegemak');
+        if (shippingMethod.checked) {
+            shippingMethod.checked = false;
+        }
+    });
+    //]]>
+</script>

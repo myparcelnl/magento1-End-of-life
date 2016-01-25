@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <tig_myparcel translate="title">
+                                        <title>MyParcel</title>
+                                        <sort_order>0</sort_order>
+                                    </tig_myparcel>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <tig_myparcel>
+                        <title>MyParcel</title>
+                        <sort_order>300</sort_order>
+                    </tig_myparcel>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

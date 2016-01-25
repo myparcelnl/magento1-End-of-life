@@ -1,0 +1,377 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <TIG_MyParcel2014>
+            <version>1.3.2</version>
+        </TIG_MyParcel2014>
+    </modules>
+    <global>
+        <models>
+            <tig_myparcel>
+                <class>TIG_MyParcel2014_Model</class>
+                <resourceModel>tig_myparcel_resource</resourceModel>
+            </tig_myparcel>
+            <tig_myparcel_resource>
+                <class>TIG_MyParcel2014_Model_Resource</class>
+                <entities>
+                    <shipment>
+                        <table>tig_myparcel_shipment</table>
+                    </shipment>
+                </entities>
+            </tig_myparcel_resource>
+        </models>
+        <blocks>
+            <tig_myparcel>
+                <class>TIG_MyParcel2014_Block</class>
+            </tig_myparcel>
+        </blocks>
+        <helpers>
+            <tig_myparcel>
+                <class>TIG_MyParcel2014_Helper</class>
+            </tig_myparcel>
+        </helpers>
+        <resources>
+            <tig_myparcel_setup>
+                <setup>
+                    <module>TIG_MyParcel2014</module>
+                    <class>TIG_MyParcel2014_Model_Resource_Setup</class>
+                </setup>
+            </tig_myparcel_setup>
+        </resources>
+        <events>
+            <sales_order_shipment_save_after>
+                <observers>
+                    <tig_myparcel_shipment_save_after>
+                        <type>model</type>
+                        <class>tig_myparcel/observer_saveShipment</class>
+                        <method>saveConsignmentOption</method>
+                    </tig_myparcel_shipment_save_after>
+                </observers>
+            </sales_order_shipment_save_after>
+            <sales_order_place_after>
+                <observers>
+                    <!-- Copy a PakjeGemak address to the order. -->
+                    <tig_myparcel_copy_pg_address>
+                        <type>model</type>
+                        <class>tig_myparcel/observer_savePgAddress</class>
+                        <method>copyAddressToOrder</method>
+                    </tig_myparcel_copy_pg_address>
+                </observers>
+            </sales_order_place_after>
+            <controller_action_postdispatch_adminhtml_system_config_save>
+                <observers>
+                    <tig_myparcel_save_config>
+                        <type>model</type>
+                        <class>tig_myparcel/observer_saveConfig</class>
+                        <method>registerConfig</method>
+                    </tig_myparcel_save_config>
+                </observers>
+            </controller_action_postdispatch_adminhtml_system_config_save>
+        </events>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <myparcel_admin after="Mage_Adminhtml">TIG_MyParcel2014</myparcel_admin>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <tig_myparcel>
+                    <file>TIG/tig_myparcel.xml</file>
+                </tig_myparcel>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <TIG_MyParcel2014>
+                    <files>
+                        <default>TIG_MyParcel2014.csv</default>
+                    </files>
+                </TIG_MyParcel2014>
+            </modules>
+        </translate>
+        <events>
+            <controller_action_layout_render_before_adminhtml_system_config_edit>
+                <observers>
+                    <!-- Add 'download logs' button to system > config -->
+                    <myparcel_add_download_log_button>
+                        <type>model</type>
+                        <class>tig_myparcel/adminhtml_observer_systemConfig</class>
+                        <method>addDownloadLogButton</method>
+                    </myparcel_add_download_log_button>
+                </observers>
+            </controller_action_layout_render_before_adminhtml_system_config_edit>
+            <controller_action_predispatch_adminhtml_sales_order_shipment_save>
+                <observers>
+                    <!-- Registers the myparcel consignment options the user selected on the sales_order_shipment_new page -->
+                    <tig_myparcel_shipment_save>
+                        <type>model</type>
+                        <class>tig_myparcel/observer_saveShipment</class>
+                        <method>registerConsignmentOption</method>
+                    </tig_myparcel_shipment_save>
+                </observers>
+            </controller_action_predispatch_adminhtml_sales_order_shipment_save>
+            <adminhtml_block_html_before>
+                <observers>
+                     <!-- Adds a massaction the grid that allows merchants to print shipping labels for selected orders-->
+                    <tig_myparcel_adminhtml_ordergrid>
+                        <type>singleton</type>
+                        <class>tig_myparcel/adminhtml_observer_orderGrid</class>
+                        <method>modifyGrid</method>
+                    </tig_myparcel_adminhtml_ordergrid>
+                    <!-- Adds a column with shipping status to the shipment grid -->
+                    <tig_myparcel_adminhtml_shipmentgrid>
+                        <type>singleton</type>
+                        <class>tig_myparcel/adminhtml_observer_shipmentGrid</class>
+                        <method>modifyGrid</method>
+                    </tig_myparcel_adminhtml_shipmentgrid>
+                 </observers>
+            </adminhtml_block_html_before>
+            <adminhtml_widget_container_html_before>
+                <observers>
+                    <tig_myparcel_adminhtml_view_shipment>
+                        <class>tig_myparcel/adminhtml_observer_viewShipment</class>
+                        <type>singleton</type>
+                        <method>adminhtmlWidgetContainerHtmlBefore</method>
+                    </tig_myparcel_adminhtml_view_shipment>
+                </observers>
+            </adminhtml_widget_container_html_before>
+        </events>
+    </adminhtml>
+
+    <frontend>
+        <secure_url>
+            <myparcel_checkout>/myparcel2014/checkout</myparcel_checkout>
+        </secure_url>
+        <routers>
+            <tig_myparcel>
+                <use>standard</use>
+                <args>
+                    <module>TIG_MyParcel2014</module>
+                    <frontName>myparcel2014</frontName>
+                </args>
+            </tig_myparcel>
+        </routers>
+        <layout>
+            <updates>
+                <tig_myparcel>
+                    <file>TIG/tig_myparcel.xml</file>
+                </tig_myparcel>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <TIG_MyParcel2014>
+                    <files>
+                        <default>TIG_MyParcel2014.csv</default>
+                    </files>
+                </TIG_MyParcel2014>
+            </modules>
+        </translate>
+    </frontend>
+
+    <crontab>
+        <jobs>
+            <!-- checks the statusses of all consignments that do not have the status "is_final" -->
+            <tig_myparcel_check_status>
+                <!-- the cron expression is generated at installation -->
+                <run>
+                    <model>tig_myparcel/observer_cron::checkStatus</model>
+                </run>
+            </tig_myparcel_check_status>
+        </jobs>
+    </crontab>
+
+    <default>
+        <carriers>
+            <myparcel>
+                <active>0</active>
+                <model>tig_myparcel/carrier_myParcel</model>
+                <title>MyParcel Shipping</title>
+                <name>MyParcel</name>
+                <rate_type>flat</rate_type>
+                <pakjegemak_active>0</pakjegemak_active>
+                <pakjegemak_title>Pakjegemak</pakjegemak_title>
+                <pakjegemak_fee>0</pakjegemak_fee>
+                <pakjegemak_min_order_enabled>0</pakjegemak_min_order_enabled>
+                <sort_order>10</sort_order>
+                <sallowspecific>0</sallowspecific>
+            </myparcel>
+        </carriers>
+        <tig_myparcel>
+            <api>
+                <username/>
+                <key/>
+            </api>
+            <general>
+                <url>http://www.myparcel.nl</url>
+                <active>0</active>
+                <test>0</test>
+                <print_orientation>A4</print_orientation>
+                <myparcel_shipping_methods>tig_myparcel_flatrate,myparcel_flatrate,tig_myparcel_tablerate,myparcel_tablerate,tig_myparcel_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
+                <ssl_handshake>0</ssl_handshake>
+            </general>
+            <shipment>
+                <home_address_only>0</home_address_only>
+                <signature_on_receipt>0</signature_on_receipt>
+                <return_if_no_answer>0</return_if_no_answer>
+                <insured_50>0</insured_50>
+                <insured_250>0</insured_250>
+                <insured_500>0</insured_500>
+                <customs_type>Commercial Goods</customs_type>
+                <customs_hstariffnr></customs_hstariffnr>
+                <split_street>1</split_street> <!-- split street -->
+                <streetname_field>1</streetname_field> <!-- first address line -->
+                <housenr_field>2</housenr_field> <!-- second address line -->
+                <split_housenr>0</split_housenr> <!-- do not split housenumber and houndenumber extension -->
+                <housenr_extension_field>3</housenr_extension_field> <!-- third address line (not used, since split_housenr is disabled) -->
+            </shipment>
+        </tig_myparcel>
+    </default>
+
+    <!-- Custom TiG config values -->
+    <tig>
+        <!-- Version compatibility per Magento edition as well as PHP version compatibility -->
+        <compatibility>
+            <tig_myparcel>
+                <community>1.6,1.7,1.8,1.9</community>
+                <php>5.3,5.4</php>
+            </tig_myparcel>
+        </compatibility>
+
+        <!-- Stability of this release -->
+        <stability>
+            <tig_myparcel>develop</tig_myparcel>
+        </stability>
+
+        <!-- A list of possible error codes recognized by this extension. Each error has a default message, a link to
+            the associated knowledge base article and a 'type' (whether it's an error, warning or notice) -->
+        <errors>
+            <MYPA-0001>
+                <message>Please select one or more shipments.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0001>
+            <MYPA-0002>
+                <message>Please select one or more orders.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0002>
+            <MYPA-0003>
+                <message>This action is not available for shipment #%s, because it was not shipped using MyParcel.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0003>
+            <MYPA-0004>
+                <message>Order #%s cannot be shipped at this time.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0004>
+            <MYPA-0005>
+                <message>Invalid full street supplied: %s.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0005>
+            <MYPA-0006>
+                <message>Invalid housnumber supplied: %s.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0006>
+            <MYPA-0007>
+                <message>Invalid session requested.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0007>
+            <MYPA-0008>
+                <message>Invalid message type requested: %s.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0008>
+            <MYPA-0009>
+                <message>No message supplied.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0009>
+            <MYPA-0010>
+                <message>No message type supplied.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0010>
+            <MYPA-0011>
+                <message>The createConsignment action is currently unavailable.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0011>
+            <MYPA-0012>
+                <message>Invalid createConsignment response.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0012>
+            <MYPA-0013>
+                <message>Unable to add tracking info: no track&amp;trace code or shipment available.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0013>
+            <MYPA-0014>
+                <message>Unknown rate type specified: %s.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0014>
+            <MYPA-0015>
+                <message>Invalid argument supplied. A valid PakjeGemak address must contain at least a company name, city, country code, street and zipcode.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0015>
+            <MYPA-0016>
+                <message>Invalid PakjeGemak address.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0016>
+            <MYPA-0017>
+                <message>Invalid phone number.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0017>
+            <MYPA-0018>
+                <message>Invalid housenumber extension.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0018>
+            <MYPA-0019>
+                <message>Unable to send track and trace email for shipment #%s</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0019>
+            <MYPA-0020>
+                <message>Retourlink is not created, check the log files for details.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0020>
+            <MYPA-0021>
+                <message>Credit has not been created, check MyParcel backend for details</message>
+                <url/>
+                <type>notice</type>
+            </MYPA-0021>
+            <MYPA-0022>
+                <message>Unable to save check_status cron expression: %s</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0022>
+            <MYPA-0023>
+                <message>The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0023>
+            <MYPA-0024>
+                <message>Order %s cannot be shipped, because it is cancelled.</message>
+            </MYPA-0024>
+        </errors>
+    </tig>
+</config>
