@@ -179,6 +179,7 @@ MyParcelCheckout.prototype = {
         this._observers['shipping_method'] = this.shippingMethodOnClick.bindAsEventListener(this);
         this._observers['search_field'] = this.searchFieldOnClick.bindAsEventListener(this);
         this._observers['overlay_hide'] = this.overlayOnClick.bindAsEventListener(this);
+        this._observers['overlay_hide_big_screen'] = this.overlayOnClick.bindAsEventListener(this);
         this._observers['housenr_keypress'] = this.searchFieldOnKeypress.bindAsEventListener(this);
     },
 
@@ -236,6 +237,11 @@ MyParcelCheckout.prototype = {
 
         overlay.select('.close').invoke('stopObserving', 'click', this._observers.overlay_hide);
         overlay.select('.close').invoke('observe', 'click', this._observers.overlay_hide);
+
+        // Overlay not clickable on mobile
+        if(document.body.clientWidth > 900) {
+            overlay.select('.close-big-screen').invoke('observe', 'click', this._observers.overlay_hide_big_screen);
+        }
 
         return this;
     },
