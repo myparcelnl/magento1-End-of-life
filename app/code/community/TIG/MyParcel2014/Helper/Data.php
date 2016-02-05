@@ -323,7 +323,27 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
             $storeId = Mage::app()->getStore()->getId();
         }
 
+        if(strlen($address->getStreetFull()) > 40){
+
+            $helper = Mage::helper('tig_myparcel');
+            throw new TIG_MyParcel2014_Exception(
+                $helper->__('Streetname is to long: %s.', $address->getStreetFull()),
+                'MYPA-0025'
+            );
+        }
+
         $splitStreet = Mage::helper('tig_myparcel/addressValidation')->useSplitStreet($storeId);
+
+//        if($address->getCountry() != 'NL' && $addressHelper->getHousenumberField());
+        /*$streetData = array(
+            'streetname'           => 'EARL coudrais earl des coudrais le petit coudray', //Hoofdweg 679, //EARL coudrais earl des coudrais le petit coudray
+            'housenumber'          => '',
+            'housenumberExtension' => '',
+            'fullStreet'           => '',
+        );*/
+//        var_dump($streetData);
+//        exit('test3');
+//        return $streetData;
 
         /**
          * Website uses multi-line address mode
@@ -344,9 +364,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
 
         /**
          * Split the address using PREG.
+         * @var TIG_MyParcel2014_Helper_Data $this
          */
         $streetData = $this->_getSplitStreetData($fullStreet);
 
+        var_dump($streetData);
+        exit('test1');
         return $streetData;
     }
 
@@ -444,7 +467,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         $housenumberParts = $this->_splitHousenumber($housenumber);
         $housenumber = $housenumberParts['number'];
         $housenumberExtension = $housenumberParts['extension'];
-
         $streetData = array(
             'streetname'           => $streetname,
             'housenumber'          => $housenumber,

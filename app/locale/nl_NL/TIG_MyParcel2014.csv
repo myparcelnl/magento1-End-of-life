@@ -64,6 +64,7 @@ TIG_MyParcel2014::Click here for more information from the TiG knowledgebase.,Kl
 TIG_MyParcel2014::An error occurred while processing your request: ,Er is een fout opgetreden tijdens het verwerken van dit verzoek:
 TIG_MyParcel2014::The createConsignment action is currently unavailable.,De createConsigment actie is tijdelijk niet beschikbaar
 TIG_MyParcel2014::Invalid createConsignment response.,Invalide createConsignment antwoord
+TIG_MyParcel2014::Streetname is to long: %s.,Straatnaam is te lang: %s (gebruikt maximaal 40 letters)
 TIG_MyParcel2014::Shipping status,Verzend status
 TIG_MyParcel2014::MyParcel - Create Shipments,MyParcel - Cre&euml;er verzendingen
 TIG_MyParcel2014::MyParcel - Print shipping labels,MyParcel - Print verzend labels
