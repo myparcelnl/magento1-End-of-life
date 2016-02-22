@@ -94,4 +94,24 @@
             <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/idev_onestepcheckout/js.phtml"/>
         </reference>
     </onestepcheckout_index_index>
+
+    <opc_index_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/checkout.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <file>css/TIG/MyParcel2014/checkout.css</file>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/iwd_onepagecheckout/js.phtml"/>
+        </reference>
+    </opc_index_index>
 </layout>
