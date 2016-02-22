@@ -73,7 +73,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         if (!$value) {
 
             $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
-            return '<a class="scalable go" href="' . $orderSendUrl . '" style="">Verzenden</a>';
+            return '<a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a>';
         }
 
         /**
