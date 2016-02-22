@@ -179,7 +179,7 @@
 
                 return false;
             };
-            $$('.form-buttons').first().appendChild(printButton).insert('<span>Label</span>');
+            $$('.form-buttons').first().appendChild(printButton).insert('<span><?=$this->_order->getTracksCollection()->count() == 0 ? $this->__('Create &amp; print shipping label') : 'Label';?></span>');
 
             // Create the button in de action bar to print the packing slip
             var printPackingUrl = '<?=$shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/printPackingSlip', array('order_id' => $this->_order->getId()));?>';
