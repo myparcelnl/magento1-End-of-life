@@ -29,8 +29,8 @@
 /skin/frontend/base/default/lib/prototype/windows/themes
 /skin/frontend/default
 /skin/install
-#/app/design/frontend/rwd
-#/app/design/frontend/default
+/app/design/frontend/rwd
+/app/design/frontend/default
 /dev
 /skin/frontend/base/default/images/xmlconnect
 /skin/frontend/base/default/images/reload.png
