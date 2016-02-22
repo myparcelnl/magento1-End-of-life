@@ -74,6 +74,15 @@
     </adminhtml_sales_order_index>
 
     <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addCss">
+                <name>css/TIG/MyParcel2014/prototype_windows_themes_magento.css</name>
+            </action>
+        </reference>
         <reference name="before_body_end">
             <block type="tig_myparcel/adminhtml_sales_order_view_shippingInfo"
                    name="tig_myparcel_order_view_shipping_info"
