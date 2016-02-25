@@ -230,8 +230,37 @@ var adminSystemConfig = {
             });
         }
         callback(this);
+    },
+    setFieldsInTabs: function(){
+
+
+
+        var tabButtonGeneral = new Element('li', { 'id': 'js-tab_general', 'class': 'active' }).update("<a>Algemene instellingen</a>");
+        var tabButtonShippingShippingMethods = new Element('li', { 'id': 'js-tab_buttons' }).update("<a>Verzendmethodes</a>");
+        var tabButtons = new Element('ul', { 'id': 'tabButtons' })
+            .insert(tabButtonGeneral)
+            .insert(tabButtonShippingShippingMethods);
+
+        $$('.entry-edit').last().insert(tabButtons);
+
+
+        // General content
+        $$('.entry-edit').last().insert('<fieldset id="configGeneralContent">');
+        var configGeneralContent = $('configGeneralContent');
+        configGeneralContent.insert($('tig_myparcel_api-head').up(1));
+        configGeneralContent.insert($('tig_myparcel_general-head').up(1));
+        configGeneralContent.insert($('tig_myparcel_shipment-head').up(1));
+
+        // Shipping methods content
+        $$('.entry-edit').last().insert('<fieldset id="configShippingMethodsContent" style="display:none;">');
+        var configShippingMethodsContent = $('configShippingMethodsContent');
+        configShippingMethodsContent.insert($('tig_myparcel_morningdelivery-head').up(1));
+        configShippingMethodsContent.insert($('tig_myparcel_pakjegemak-head').up(1));
+
     }
 };
+
+adminSystemConfig.setFieldsInTabs();
 
 $$('.shared').each(function(element){
     Event.observe(element, 'change', adminSystemConfig.onchangeSharedElement);
