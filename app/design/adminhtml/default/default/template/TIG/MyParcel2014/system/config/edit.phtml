@@ -233,10 +233,8 @@ var adminSystemConfig = {
     },
     setFieldsInTabs: function(){
 
-
-
-        var tabButtonGeneral = new Element('li', { 'id': 'js-tab_general', 'class': 'active' }).update("<a>Algemene instellingen</a>");
-        var tabButtonShippingShippingMethods = new Element('li', { 'id': 'js-tab_buttons' }).update("<a>Verzendmethodes</a>");
+        var tabButtonGeneral = new Element('li', { 'id': 'js-tabButton_General', 'class': 'active' }).update("<a>Algemene instellingen</a>");
+        var tabButtonShippingShippingMethods = new Element('li', { 'id': 'js-tabButton_ShippingMethods' }).update("<a>Verzendmethodes</a>");
         var tabButtons = new Element('ul', { 'id': 'tabButtons' })
             .insert(tabButtonGeneral)
             .insert(tabButtonShippingShippingMethods);
@@ -255,7 +253,36 @@ var adminSystemConfig = {
         $$('.entry-edit').last().insert('<fieldset id="configShippingMethodsContent" style="display:none;">');
         var configShippingMethodsContent = $('configShippingMethodsContent');
         configShippingMethodsContent.insert($('tig_myparcel_morningdelivery-head').up(1));
+        configShippingMethodsContent.insert($('tig_myparcel_eveningdelivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_pakjegemak-head').up(1));
+
+        tabButtonGeneral.observe('click', respondToClick);
+        tabButtonShippingShippingMethods.observe('click', respondToClick);
+
+        function respondToClick(event) {
+
+            // set all tabs nonactive
+            $$('#tabButtons li').each(
+                function (index) {
+                    index.removeClassName('active');
+                    var tabButtonId = index.getAttribute('id');
+                    var tabContentId = tabButtonId.replace(/js-tabButton_/i, 'config') + 'Content';
+
+                    $(tabContentId).hide();
+                }
+            );
+
+            // select current tab
+            var element = event.element();
+            element.up(0).addClassName('active');
+
+
+            var tabButtonId = element.up(0).getAttribute('id');
+            var tabContentId = tabButtonId.replace(/js-tabButton_/i, 'config') + 'Content';
+
+            $(tabContentId).show();
+        }
+
 
     }
 };

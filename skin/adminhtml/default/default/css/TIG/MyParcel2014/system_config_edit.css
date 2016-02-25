@@ -6,7 +6,7 @@
 
 
 ul#tabButtons {
-    height: 28px;
+    /*height: 28px;*/
     background: #e6e6e6;
     border: 1px solid #d6d6d6;
 }
@@ -23,6 +23,14 @@ ul#tabButtons li a {
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
+    font-size: 18px;
+
+    /*border: 1px solid #6f8992;*/
+}
+
+ul#tabButtons li:hover a {
+    background-color: #6f8992;
+    color: white;
 }
 
 ul#tabButtons li.active a {
