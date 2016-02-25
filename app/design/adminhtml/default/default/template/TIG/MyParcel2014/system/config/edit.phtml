@@ -243,14 +243,14 @@ var adminSystemConfig = {
 
 
         // General content
-        $$('.entry-edit').last().insert('<fieldset id="configGeneralContent">');
+        $$('.entry-edit').last().insert('<fieldset id="configGeneralContent"></fieldset>');
         var configGeneralContent = $('configGeneralContent');
         configGeneralContent.insert($('tig_myparcel_api-head').up(1));
         configGeneralContent.insert($('tig_myparcel_general-head').up(1));
         configGeneralContent.insert($('tig_myparcel_shipment-head').up(1));
 
         // Shipping methods content
-        $$('.entry-edit').last().insert('<fieldset id="configShippingMethodsContent" style="display:none;">');
+        $$('.entry-edit').last().insert('<fieldset id="configShippingMethodsContent" style="display:none;"></fieldset>');
         var configShippingMethodsContent = $('configShippingMethodsContent');
         configShippingMethodsContent.insert($('tig_myparcel_morningdelivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_eveningdelivery-head').up(1));
