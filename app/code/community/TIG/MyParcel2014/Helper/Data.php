@@ -949,4 +949,14 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         }
         return false;
     }
+
+    public function getShippingMethodConfig($shippingMethod, $setting){
+        $aConfig = Mage::getStoreConfig('tig_myparcel/' . $shippingMethod,Mage::app()->getStore());
+
+        if($aConfig[$shippingMethod . '_' . $setting] != false) {
+            return $aConfig[$shippingMethod . '_' . $setting];
+        } else {
+            return false;
+        }
+    }
 }

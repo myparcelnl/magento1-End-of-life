@@ -175,20 +175,20 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         // add PakjeGemak if country is NL and not in admin
         if (!$helper->isAdmin()
             && 'NL' === $request->getDestCountryId()
-            && $this->getConfigFlag('pakjegemak_active')
-            && $this->_pakjeGemakValidOrderAmount()
+            && $helper->getShippingMethodConfig('pakjegemak', 'active')
+            && $this->_shippingMethodValidOrderAmount('pakjegemak')
         ) {
             $currentRate = current($result->getRatesByCarrier($this->_code));
 
             if ($currentRate) {
                 $currentPrice = $currentRate->getPrice();
-                $pakjegemakPrice = floatval($this->getConfigData('pakjegemak_fee'));
+                $pakjegemakPrice = floatval($helper->getShippingMethodConfig('pakjegemak', 'fee'));
 
                 // use a modified clone of the configured shipping rate
                 $pakjegemakRate = clone $currentRate;
 
                 $pakjegemakRate->setMethod('pakjegemak');
-                $pakjegemakRate->setMethodTitle($this->getConfigData('pakjegemak_title'));
+                $pakjegemakRate->setMethodTitle($helper->getShippingMethodConfig('pakjegemak', 'title'));
                 $pakjegemakRate->setPrice($currentPrice + $pakjegemakPrice);
 
                 $result->append($pakjegemakRate);
@@ -203,13 +203,16 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
      *
      * @return bool
      */
-    protected function _pakjeGemakValidOrderAmount()
+    protected function _shippingMethodValidOrderAmount($method)
     {
-        if (!$this->getConfigFlag('pakjegemak_min_order_enabled')) {
+
+        $helper = Mage::helper('tig_myparcel');
+
+        if (!$helper->getShippingMethodConfig($method, 'min_order_enabled')) {
             return true;
         }
 
-        $minOrderTotal = $this->getConfigData('pakjegemak_min_order_total');
+        $minOrderTotal = $helper->getShippingMethodConfig($method, 'min_order_total');
 
         if (!$minOrderTotal) {
             return true;
