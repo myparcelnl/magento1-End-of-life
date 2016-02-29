@@ -29,7 +29,6 @@
 /skin/frontend/base/default/lib/prototype/windows/themes
 /skin/frontend/default
 /skin/install
-/skin/frontend/rwd
 /app/design/frontend/rwd
 /app/design/frontend/default
 /dev
@@ -46,6 +45,7 @@
 /skin/frontend/base/default/css/email-inline.css
 /skin/frontend/base/default/css/widgets.css
 /skin/frontend/base/default/css/email-non-inline.css
+/skin/frontend/rwd
 /skin/adminhtml/default/default/xmlconnect
 /skin/adminhtml/default/default/iestyles.css
 /skin/adminhtml/default/default/reset.css
