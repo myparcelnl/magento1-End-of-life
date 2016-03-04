@@ -36,16 +36,170 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
- * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions $this
+ * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo $this
  */
-?>
-<script type ="text/javascript">
-    //<![CDATA[
-    document.observe('dom:loaded', function(){
-        var pgaddress = '<?php echo $this->getPgAddressHtml(); ?>';
-        var target = document.getElementsByClassName('head-shipping-method')[0].parentNode.parentNode;
 
-        target.innerHTML = target.innerHTML.replace('</fieldset>', pgaddress + '</fieldset>');
-    });
-    //]]>
-</script>
+?>
+
+    <script type ="text/javascript">
+        //<![CDATA[
+        document.observe('dom:loaded', function(){
+            var pgaddress = '<?php echo $this->getPgAddressHtml(); ?>';
+            var target = document.getElementsByClassName('head-shipping-method')[0].parentNode.parentNode;
+
+            target.innerHTML = target.innerHTML.replace('</fieldset>', pgaddress + '</fieldset>');
+        });
+
+        //]]>
+    </script>
+
+
+<?php if ($this->_order->getTracksCollection()->count() != 0):?>
+
+    <form action="" id="sales_order_grid_massaction-form" method="post">
+        <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey();  ?>">
+    </form>
+
+
+    <div id="print_container" style="display:none;">
+        <div id="print_pages">
+            <div class="print_page">1</div>
+            <div class="print_page">2</div>
+            <div class="print_page">3</div>
+            <div class="print_page">4</div>
+        </div>
+    </div>
+    <style type="text/css">
+        #myparcel_popup_window .magento_w,
+        #myparcel_popup_window .magento_e { width:0; }
+        #myparcel_popup_window .magento_content { background-image:none; }
+        #print_pages { width:200px; height:280px; float:left; }
+        #print_pages .print_page { width:90px; height:130px; background:#dfdfdf; margin:10px 0 0 10px; float:left; cursor:pointer; text-indent:-5000px; overflow:hidden; }
+        #print_pages .print_page:hover { background:#eb5e00; }
+
+
+    </style>
+    <script type="text/javascript">
+        //<![CDATA[
+
+
+
+        var form = $('sales_order_grid_massaction-form');
+        var printUrl = '<?=$shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/printShipmentLabel', array('order_id' => $this->_order->getId()));?>';
+
+
+        (function(){
+
+
+            // Create hidden input to store the chosen option
+            var inputstart = document.createElement('input');
+            inputstart.id = 'myparcel_print_labels_start';
+            inputstart.type = 'hidden';
+            inputstart.name = 'myparcel_print_labels_start';
+            inputstart.value = 1;
+            this.form.appendChild(inputstart);
+
+
+
+            function openMyParcelPopupWindow(){
+                Dialog.info(null, {
+                    closable:true,
+                    resizable:false,
+                    draggable:true,
+                    className:'magento',
+                    windowClassName:'myparcel-popup-window',
+                    title:'<?php echo $this->__('Select A4 print start position'); ?>',
+                    top:100,
+                    width:200,
+                    height:290,
+                    zIndex:5000,
+                    recenterAuto:true,
+                    hideEffect:Element.hide,
+                    showEffect:Element.show,
+                    id:'myparcel_popup_window'
+                });
+                Dialog.setInfoMessage($('print_container').innerHTML);
+
+                var printPages = $('print_pages');
+                printPages.show();
+
+                var printChildren = printPages.childElements();
+                for(var i = 0, j = printChildren.length; i < j; i++)
+                {
+                    printChildren[i].observe('mouseover', function(){
+                        $(this).toggleClassName('hover');
+                    });
+                    printChildren[i].observe('mouseout', function(){
+                        $(this).toggleClassName('hover');
+                    });
+                    printChildren[i].observe('click', function(event){
+                        $('myparcel_print_labels_start').value = Event.element(event).innerHTML;
+                        Windows.close('myparcel_popup_window');
+                        printMyParcelLabel();
+                    }.bindAsEventListener(this));
+                }
+
+                $('myparcel_popup_window_close').observe('click', function(){
+                    Windows.close('myparcel_popup_window');
+                });
+
+                // close popup when clicked outside
+                setTimeout(function(){
+                    $('overlay_modal').observe('click', function(){
+                        $('myparcel_popup_window_close').click();
+                    });
+                }, 300);
+
+
+            }
+
+            // original apply method
+            function printMyParcelLabel() {
+
+                if (this.useAjax && printUrl) {
+                    new Ajax.Request(printUrl, {
+                        'method'     : 'post',
+                        'parameters' : this.form.serialize(true),
+                        'onComplete' : this.onMassactionComplete.bind(this)
+                    });
+                } else if (printUrl) {
+                    form.action = printUrl;
+                    form.submit();
+                }
+            }
+
+            // Create the button in de action bar to print the label
+            var printLabelButton = document.createElement('button');
+            printLabelButton.id = 'myparcel_print_labels_button';
+            printLabelButton.className = 'scalable save';
+            printLabelButton.onclick = function(){
+
+                <?php if(Mage::helper('tig_myparcel')->getConfig('print_orientation') != 'A4'): ?>
+                    printMyParcelLabel();
+                <?php else: ?>
+                    openMyParcelPopupWindow();
+                <?php endif; ?>
+
+                return false;
+            };
+            $$('.form-buttons').first().appendChild(printLabelButton).insert('<span>Print Label</span>');
+
+            // Create the button in de action bar to print the packing slip
+            var printPackingUrl = '<?=$shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/printPackingSlip', array('order_id' => $this->_order->getId()));?>';
+
+            var printPackingButton = document.createElement('button');
+            printPackingButton.id = 'myparcel_print_packingslip_button';
+            printPackingButton.onclick = function(){
+                setLocation(printPackingUrl);return false;
+            };
+            printPackingButton.className = 'scalable save';
+
+            $$('.form-buttons').first().appendChild(printPackingButton).insert('<span><?= $this->__('Print packing slip');?></span>');
+
+        })();
+
+
+        //]]>
+    </script>
+
+<?php endif; ?>

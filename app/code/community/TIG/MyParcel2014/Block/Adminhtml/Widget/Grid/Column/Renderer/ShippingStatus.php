@@ -66,18 +66,20 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             return '';
         }
 
+        $countryCode = $row->getData(self::COUNTRY_ID_COLUMN);
         /**
          * Check if any data is available.
          */
         $value = $row->getData($this->getColumn()->getIndex());
         if (!$value) {
-            return '';
+
+            $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
+            return  ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ' . $countryCode;
         }
 
         /**
          * Create a track & trace URL based on shipping destination
          */
-        $countryCode = $row->getData(self::COUNTRY_ID_COLUMN);
         $postcode = $row->getData(self::POSTCODE_COLUMN);
         $destinationData = array(
             'countryCode' => $countryCode,
@@ -90,12 +92,15 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         foreach ($statusses as $key => $status) {
             if (!empty($barcodes[$key])) {
                 $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
-
-                $barcodeData[] = "<small>{$status}</small> - <a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a>";
+                $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>{$status}</small>";
+                if(!in_array($oneBarcodeData, $barcodeData)) {
+                    $barcodeData[] = $oneBarcodeData;
+                }
             }
         }
 
         $barcodeHtml = implode('<br />', $barcodeData);
+
         return $barcodeHtml;
     }
 }
