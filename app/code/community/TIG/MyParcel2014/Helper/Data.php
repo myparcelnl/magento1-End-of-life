@@ -167,6 +167,14 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
             $shippingMethods = $this->getConfig('myparcel_shipping_methods');
             $shippingMethods = explode(',', $shippingMethods);
 
+            // if methode == bolcom_bolcom change all shipping methods to bolcom_fratrate
+            if(in_array('bolcom_flatrate',$shippingMethods)){
+                $resource = Mage::getSingleton('core/resource');
+                $writeConnection = $resource->getConnection('core_write');
+                $query = 'UPDATE sales_flat_order SET shipping_method="bolcom_flatrate" WHERE shipping_method="bolcom_bolcom"';
+                $writeConnection->query($query);
+            }
+
             $this->_myParcelShippingMethods = $shippingMethods;
         }
 
