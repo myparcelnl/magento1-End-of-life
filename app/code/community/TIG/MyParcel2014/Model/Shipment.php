@@ -532,8 +532,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                         ->sendRequest()
                         ->getRequestResponse();
 
-        var_dump($response);
-        exit('test1');
         /**
          * Validate the response.
          */

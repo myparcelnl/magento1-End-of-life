@@ -312,10 +312,11 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      * system > config > customer configuration. Or if you use Enterprise, in customers > attributes > manage customer
      * address attributes.
      *
-     * @param Mage_Customer_Model_Address_Abstract $address
+     * @param Mage_Sales_Model_Order_Address $address
      * @param null|int $storeId
      *
      * @return array
+     *
      */
     public function getStreetData($address,$storeId = null)
     {
@@ -334,16 +335,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
 
         $splitStreet = Mage::helper('tig_myparcel/addressValidation')->useSplitStreet($storeId);
 
-//        if($address->getCountry() != 'NL' && $addressHelper->getHousenumberField());
-        /*$streetData = array(
-            'streetname'           => 'EARL coudrais earl des coudrais le petit coudray', //Hoofdweg 679, //EARL coudrais earl des coudrais le petit coudray
-            'housenumber'          => '',
-            'housenumberExtension' => '',
-            'fullStreet'           => '',
-        );*/
-//        var_dump($streetData);
-//        exit('test3');
-//        return $streetData;
 
         /**
          * Website uses multi-line address mode
@@ -368,8 +359,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
          */
         $streetData = $this->_getSplitStreetData($fullStreet);
 
-        var_dump($streetData);
-        exit('test1');
         return $streetData;
     }
 
@@ -411,12 +400,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
              * Make sure the house number is actually split.
              */
             if (!$housenumberExtension && !is_numeric($housenumber)) {
-                $housenumberParts     = $this->_splitHousenumber($housenumber);
+                $housenumberParts     = $this->_splitHousenumber($housenumber, $address->getCountry());
                 $housenumber          = $housenumberParts['number'];
                 $housenumberExtension = $housenumberParts['extension'];
             }
         } else {
-            $housenumberParts     = $this->_splitHousenumber($housenumber);
+            $housenumberParts     = $this->_splitHousenumber($housenumber, $address->getCountry());
             $housenumber          = $housenumberParts['number'];
             $housenumberExtension = $housenumberParts['extension'];
         }
@@ -446,6 +435,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     protected function _getSplitStreetData($fullStreet)
     {
+        $fullStreet = preg_replace("/[\n\r]/","",$fullStreet);
+
         $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
         if (!$result || !is_array($matches)) {
             throw new TIG_MyParcel2014_Exception(
@@ -486,10 +477,21 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      *
      * @throws TIG_MyParcel2014_Exception
      */
-    protected function _splitHousenumber($housenumber)
+    protected function _splitHousenumber($housenumber, $country = 'NL' )
     {
+
+
         $housenumber = trim($housenumber);
         $result = preg_match(self::SPLIT_HOUSENUMBER_REGEX, $housenumber, $matches);
+
+        if($country != 'NL' && $result == 0){
+            $housenumberParts = array(
+                'number' => trim($housenumber),
+                'extension' => '',
+            );
+            return $housenumberParts;
+        }
+
         if (!$result || !is_array($matches)) {
             throw new TIG_MyParcel2014_Exception(
                 $this->__('Invalid housnumber supplied: %s.', $housenumber),
