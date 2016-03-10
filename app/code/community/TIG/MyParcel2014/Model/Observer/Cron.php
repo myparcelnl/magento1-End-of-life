@@ -65,7 +65,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
                             ->sendRequest()
                             ->getRequestResponse();
 
-            if (is_array($response)) {
+            if (is_array($response) && $response['tracktrace'] != false && strlen($response['tracktrace']) > 8) {
                 if($response['tracktrace'] != $barcode){
                     $helper->log('new barcode: '.$response['tracktrace']);
 
