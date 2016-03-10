@@ -372,6 +372,12 @@
             <MYPA-0024>
                 <message>Order %s cannot be shipped, because it is cancelled.</message>
             </MYPA-0024>
+
+            <MYPA-0025>
+                <message>Street name is to long.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0025>
         </errors>
     </tig>
 </config>
