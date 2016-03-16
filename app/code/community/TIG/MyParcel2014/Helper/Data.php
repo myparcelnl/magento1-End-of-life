@@ -335,32 +335,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
             $storeId = Mage::app()->getStore()->getId();
         }
 
-        // If the street name is too long, it should be split
-        if(strlen($fullStreet) > 40){
-
-                if($this->countryNeedsCustoms($address->getCountry()) == false && $address->getCountry() != 'NL'){
-                    var_dump($fullStreet);
-                    exit;
-                    $streetData = array(
-                        'streetname'           => $fullStreet,
-                        'housenumber'          => '',
-                        'housenumberExtension' => '',
-                        'fullStreet'           => '',
-                    );
-                    return $streetData;
-                } else {
-
-                    $helper = Mage::helper('tig_myparcel');
-                    throw new TIG_MyParcel2014_Exception(
-                        $helper->__('Streetname is to long: %s.', $fullStreet),
-                        'MYPA-0025'
-                    );
-                }
-
-        }
-
         $splitStreet = Mage::helper('tig_myparcel/addressValidation')->useSplitStreet($storeId);
-
 
         /**
          * Website uses multi-line address mode
