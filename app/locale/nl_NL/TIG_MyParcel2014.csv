@@ -54,7 +54,7 @@ TIG_MyParcel2014::Please select one or more orders.,Selecteer &eacute;&eacute;n 
 TIG_MyParcel2014::MyParcel replied with the following warnings:,MyParcel heeft geantwoord met de volgende waarschuwingen:
 TIG_MyParcel2014::The following shipments or orders could not be processed:,De volgende verzendingen konden niet verwerkt worden:
 TIG_MyParcel2014::Order #%s cannot be shipped at this time.,Order #%s kan niet verzonden worden op dit moment
-TIG_MyParcel2014::Invalid full street supplied: %s.,Invalide volledige straatnaam opgegeven: %s
+TIG_MyParcel2014::Invalid full street supplied: %s.,Invalide volledige straatnaam opgegeven: %s.
 TIG_MyParcel2014::Invalid housnumber supplied: %s.,Invalide huisnummer opgegeven: %s
 TIG_MyParcel2014::Invalid session requested.,Invalide sessie opgevraagd
 TIG_MyParcel2014::Invalid message type requested: %s.,Invalide bericht-type opgevraagd: %s
