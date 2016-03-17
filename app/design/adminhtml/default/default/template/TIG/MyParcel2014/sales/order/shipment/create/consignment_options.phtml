@@ -99,7 +99,7 @@ if(true == $_isPakjegemak){
                     <input id="tig_myparcel_return_if_no_answer" type="checkbox" value="1" name="tig_myparcel[return_if_no_answer]" <?php echo $_returnNoAnswerSelected;?> />
                 </p>
                 <p>
-                    <label for="tig_myparcel_insured" class="normal"><?= $this->__('Total order value: &euro; %s',$this->getOrderTotal());?> <?= $this->__('Insured up to: &euro; %s','');?></label>
+                    <label for="tig_myparcel_insured" class="normal">(<?= $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?= $this->__('Insured up to:');?> </label>
                     <select id="tig_myparcel_insured_amount" name="tig_myparcel[insured_amount]">
                         <option value="50" <?= $_insuredUpTo == 50 ? 'selected="selected"' : '';?>>&euro; 50</option>
                         <option value="250" <?= $_insuredUpTo == 250 ? 'selected="selected"' : '';?>>&euro; 250</option>
