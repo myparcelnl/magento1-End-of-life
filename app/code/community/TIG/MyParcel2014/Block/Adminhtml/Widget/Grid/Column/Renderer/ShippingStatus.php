@@ -58,10 +58,23 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
      */
     public function render(Varien_Object $row)
     {
+
+
         /**
          * The shipment was not shipped using MyParcel
          */
         $shippingMethod = $row->getData(self::SHIPPING_METHOD_COLUMN);
+
+        // if methode == bolcom_bolcom change all shipping methods to bolcom_fratrate
+
+        if('bolcom_bolcom' == $shippingMethod){
+            $resource = Mage::getSingleton('core/resource');
+            $writeConnection = $resource->getConnection('core_write');
+            $query = 'UPDATE sales_flat_order SET shipping_method="bolcom_flatrate" WHERE shipping_method="bolcom_bolcom"';
+            $writeConnection->query($query);
+            $shippingMethod = 'bolcom_flatrate';
+        }
+
         if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod)) {
             return '';
         }
