@@ -1,0 +1,693 @@
+<div id="mp_checkout" class="mp_col-12">
+    <div class="mp_checkout-head mp_checkout-bar">
+        Verzenden via MyParcel
+    </div>
+
+    <div class="mp_checkout-container">
+        <div class="mp_checkout-error-message mp_checkout-bar">
+            <p>Probeer een andere postcode</p>
+        </div>
+        <div class="mp_checkout-content">
+            <div class="mp_col-6">
+                <button class="mp_checkout-btn mp_checkout-btn-large" type="button">Bezorgen</button>
+            </div>
+            <div class="mp_col-6">
+                <button class="mp_checkout-btn mp_checkout-btn-large" type="button">Ophalen</button>
+            </div>
+            <div class="mp_col-12" id="overlay-input">
+                <div class="mp_col-6 address-search-bar">
+                    <input type="text" class="form-control modal-input user-success" id="postal-code-overlay" placeholder="Postcode">
+                </div>
+                <div class="mp_col-3 address-search-bar">
+                    <input type="text" class="form-control modal-input user-success" id="number-overlay" placeholder="Huisnummer">
+                </div>
+                <div class="mp_col-3">
+                    <a class="mp_checkout-btn mp_search-loc-time">Zoeken</a>
+                </div>
+            </div>
+            <div class="mp_col-12" id="pickup-locations">
+                <div>
+                    <div class="deliv-options-select-head">
+                        <span>Locatie</span>
+                    </div>
+                    <ul id="pickup-list" class="list-delivery-options pickup-list">
+                        <li id="ItemView-c163" class="list-delivery-options-item">
+                            <p class="fixed-width-pickup ">
+                                <b>
+                                    The Read Shop <span class="deliv-distance-field">(0.2km)</span> -
+                                </b>
+                                Anjelierenstraat 43
+                                , 2231GT
+                            </p>
+                            <div data-target="UHID-view169" class="icon-help-circled pickup-info DO-right">
+                                <div class="icon-left-top DO-buble hidden" id="UHID-view169">
+                                    <h6 class="no-mar-h">Openingstijden</h6>
+                                    <table class="pickup-item-open-table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Dag
+                                            </th>
+                                            <th>
+                                                Van
+                                            </th>
+                                            <th>
+                                                Tot
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="1">
+                                                Maandag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Dinsdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Woensdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Donderdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Vrijdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>19:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Zaterdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="0">
+                                                Zondag
+                                            </td>
+                                            <td colspan="2">
+                                                gesloten
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    Brieven en pakketten die je ma t/m vr afgeeft, worden uiterlijk om 18.00 uur dezelfde dag opgehaald voor bezorging
+                                </div>
+                            </div>
+                            <p></p>
+                            <p class="li-deliv-options-pickup pickup-select " id="0">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 16:00 uur</span>
+                                <span class="low-pad-ship">€0,00</span>
+                            </p>
+                            <p class="li-deliv-options-pickup pickup-select " id="1">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 08:30 uur</span>
+                                <span class="low-pad-ship">€1,25</span>
+                            </p>
+
+                        </li><li id="ItemView-c172" class="list-delivery-options-item"><p class="fixed-width-pickup ">
+                                <b>
+                                    KantoorExpert Katwijk <span class="deliv-distance-field">(1.0km)</span> -
+                                </b>
+                                Scheepmakerstraat 63
+                                , 2222AB
+                            </p><div data-target="UHID-view178" class="icon-help-circled pickup-info DO-right">
+                                <div class="icon-left-top DO-buble hidden" id="UHID-view178">
+                                    <h6 class="no-mar-h">Openingstijden</h6>
+                                    <table class="pickup-item-open-table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Dag
+                                            </th>
+                                            <th>
+                                                Van
+                                            </th>
+                                            <th>
+                                                Tot
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="1">
+                                                Maandag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Dinsdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Woensdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Donderdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Vrijdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>18:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Zaterdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>09:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="0">
+                                                Zondag
+                                            </td>
+                                            <td colspan="2">
+                                                gesloten
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    Brieven en pakketten die je ma t/m vr afgeeft, worden uiterlijk om 18.00 uur dezelfde dag opgehaald voor bezorging
+                                </div>
+                            </div>
+                            <p></p>
+                            <p class="li-deliv-options-pickup pickup-select " id="0">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 16:00 uur</span>
+                                <span class="low-pad-ship">€0,00</span>
+                            </p>
+                            <p class="li-deliv-options-pickup pickup-select " id="1">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 08:30 uur</span>
+                                <span class="low-pad-ship">€1,25</span>
+                            </p>
+
+                        </li><li id="ItemView-c181" class="list-delivery-options-item"><p class="fixed-width-pickup ">
+                                <b>
+                                    Gamma <span class="deliv-distance-field">(1.0km)</span> -
+                                </b>
+                                Ambachtsweg 23
+                                , 2222AJ
+                            </p><div data-target="UHID-view185" class="icon-help-circled pickup-info DO-right">
+                                <div class="icon-left-top DO-buble hidden" id="UHID-view185">
+                                    <h6 class="no-mar-h">Openingstijden</h6>
+                                    <table class="pickup-item-open-table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Dag
+                                            </th>
+                                            <th>
+                                                Van
+                                            </th>
+                                            <th>
+                                                Tot
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="1">
+                                                Maandag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Dinsdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Woensdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Donderdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Vrijdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Zaterdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>18:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="0">
+                                                Zondag
+                                            </td>
+                                            <td colspan="2">
+                                                gesloten
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    Dit is een PostNL Pakketpunt. Je kunt hier terecht voor het versturen van (voorgefrankeerd en voorzien van barcode) pakketten binnen Nederland of naar het buitenland (EUR1 en EUR2). Ook kun je hier retourzendingen naar een antwoordnummer versturen.
+                                </div>
+                            </div>
+                            <p></p>
+                            <p class="li-deliv-options-pickup pickup-select " id="0">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 16:00 uur</span>
+                                <span class="low-pad-ship">€0,00</span>
+                            </p>
+
+                        </li><li id="ItemView-c188" class="list-delivery-options-item"><p class="fixed-width-pickup ">
+                                <b>
+                                    KARWEI Katwijk aan Zee <span class="deliv-distance-field">(1.1km)</span> -
+                                </b>
+                                Ambachtsweg 19
+                                , 2222AH
+                            </p><div data-target="UHID-view192" class="icon-help-circled pickup-info DO-right">
+                                <div class="icon-left-top DO-buble hidden" id="UHID-view192">
+                                    <h6 class="no-mar-h">Openingstijden</h6>
+                                    <table class="pickup-item-open-table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Dag
+                                            </th>
+                                            <th>
+                                                Van
+                                            </th>
+                                            <th>
+                                                Tot
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="1">
+                                                Maandag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Dinsdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Woensdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Donderdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Vrijdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>21:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Zaterdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>18:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="0">
+                                                Zondag
+                                            </td>
+                                            <td colspan="2">
+                                                gesloten
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    Dit is een PostNL Pakketpunt. Je kunt hier terecht voor het versturen van (voorgefrankeerd en voorzien van barcode) pakketten binnen Nederland of naar het buitenland (EUR1 en EUR2). Ook kun je hier retourzendingen naar een antwoordnummer versturen.
+                                </div>
+                            </div>
+                            <p></p>
+                            <p class="li-deliv-options-pickup pickup-select " id="0">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 16:00 uur</span>
+                                <span class="low-pad-ship">€0,00</span>
+                            </p>
+
+                        </li><li id="ItemView-c195" class="list-delivery-options-item"><p class="fixed-width-pickup ">
+                                <b>
+                                    Hoogvliet <span class="deliv-distance-field">(1.9km)</span> -
+                                </b>
+                                Hoofdstraat 104
+                                , 2235CK
+                            </p><div data-target="UHID-view199" class="icon-help-circled pickup-info DO-right">
+                                <div class="icon-left-top DO-buble hidden" id="UHID-view199">
+                                    <h6 class="no-mar-h">Openingstijden</h6>
+                                    <table class="pickup-item-open-table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Dag
+                                            </th>
+                                            <th>
+                                                Van
+                                            </th>
+                                            <th>
+                                                Tot
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="1">
+                                                Maandag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Dinsdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Woensdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Donderdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Vrijdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Zaterdag
+                                            </td>
+                                            <td>08:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="0">
+                                                Zondag
+                                            </td>
+                                            <td colspan="2">
+                                                gesloten
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    Brieven en pakketten die je ma t/m vr afgeeft, worden uiterlijk om 18.00 uur dezelfde dag opgehaald voor bezorging
+                                </div>
+                            </div>
+                            <p></p>
+                            <p class="li-deliv-options-pickup pickup-select " id="0">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 16:00 uur</span>
+                                <span class="low-pad-ship">€0,00</span>
+                            </p>
+
+                        </li><li id="ItemView-c202" class="list-delivery-options-item"><p class="fixed-width-pickup ">
+                                <b>
+                                    Primera <span class="deliv-distance-field">(2.0km)</span> -
+                                </b>
+                                Ommevoort 10
+                                , 2341VV
+                            </p><div data-target="UHID-view206" class="icon-help-circled pickup-info DO-right">
+                                <div class="icon-left-top DO-buble hidden" id="UHID-view206">
+                                    <h6 class="no-mar-h">Openingstijden</h6>
+                                    <table class="pickup-item-open-table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Dag
+                                            </th>
+                                            <th>
+                                                Van
+                                            </th>
+                                            <th>
+                                                Tot
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="1">
+                                                Maandag
+                                            </td>
+                                            <td>12:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Dinsdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Woensdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Donderdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Vrijdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>20:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Zaterdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>16:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Zondag
+                                            </td>
+                                            <td>12:00</td>
+                                            <td>17:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    Brieven en pakketten die je ma t/m vr afgeeft, worden uiterlijk om 18.00 uur dezelfde dag opgehaald voor bezorging
+                                </div>
+                            </div>
+                            <p></p>
+                            <p class="li-deliv-options-pickup pickup-select " id="0">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 16:00 uur</span>
+                                <span class="low-pad-ship">€0,00</span>
+                            </p>
+
+                        </li><li id="ItemView-c209" class="list-delivery-options-item"><p class="fixed-width-pickup ">
+                                <b>
+                                    Primera <span class="deliv-distance-field">(2.2km)</span> -
+                                </b>
+                                Hoornesplein 23
+                                , 2221BC
+                            </p><div data-target="UHID-view213" class="icon-help-circled pickup-info DO-right">
+                                <div class="icon-left-top DO-buble hidden" id="UHID-view213">
+                                    <h6 class="no-mar-h">Openingstijden</h6>
+                                    <table class="pickup-item-open-table">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Dag
+                                            </th>
+                                            <th>
+                                                Van
+                                            </th>
+                                            <th>
+                                                Tot
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td rowspan="1">
+                                                Maandag
+                                            </td>
+                                            <td>13:00</td>
+                                            <td>17:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Dinsdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>17:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Woensdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>17:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Donderdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>17:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Vrijdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>17:30</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="1">
+                                                Zaterdag
+                                            </td>
+                                            <td>09:00</td>
+                                            <td>16:00</td>
+                                        </tr>
+                                        <tr>
+                                        </tr><tr>
+                                            <td rowspan="0">
+                                                Zondag
+                                            </td>
+                                            <td colspan="2">
+                                                gesloten
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    Dit is een PostNL Pakketpunt. Je kunt hier terecht voor het versturen van (voorgefrankeerd en voorzien van barcode) pakketten binnen Nederland of naar het buitenland (EUR1 en EUR2). Ook kun je hier retourzendingen naar een antwoordnummer versturen.
+                                </div>
+                            </div>
+                            <p></p>
+                            <p class="li-deliv-options-pickup pickup-select " id="0">
+                                <span class="low-pad-ship">Di 22 Mrt vanaf 16:00 uur</span>
+                                <span class="low-pad-ship">€0,00</span>
+                            </p>
+
+                        </li>
+                        <li id="no-pickup-items" class="list-delivery-options-item hidden">Geen opties op deze postcode en huisnummer combinatie</li>
+                    </ul>
+                    <a class="btn btn-block btn-primary" id="more-pickup-locations">
+                        Meer locaties weergeven
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

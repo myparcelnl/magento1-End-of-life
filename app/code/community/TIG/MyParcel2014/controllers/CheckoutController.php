@@ -161,4 +161,39 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
         return $this;
     }
+
+    public function getInfoAction(){
+
+
+        /**
+         * info for the checkout
+         */
+        $requestData = array(
+            'baseUrl'      => Mage::getUrl('myparcel2014/checkout/getInfo', array('_secure' => true)),
+            'template_shipping_method'      => $this->_getTemplateShippingMethod()
+        );
+
+        /**
+         * Print the response in JSON format.
+         */
+        $json = Mage::helper('core')->jsonEncode($requestData);
+        $this->getResponse()
+            ->setBody($json);
+
+        return $this;
+    }
+
+    private function _getTemplateShippingMethod(){
+        $test = 'hoi dit is een test ';
+
+
+        ob_start();
+        require('app/design/frontend/base/default/template/TIG/MyParcel2014/checkout/template_shipping_method.phtml');
+        $html = ob_get_contents();
+        ob_end_clean();
+
+        return $html;
+    }
+
+
 }
