@@ -1,48 +1,131 @@
 
-.mp_col-6, .mp_col-12 {
 
-    float: left;
-}
-.mp_col-6 {
-    width: 50%;
-}
-.mp_col-12 {
+.mp_checkout {
     width: 100%;
 }
 
-#mp_checkout {
-    background-color: white;
+
+.mp-radio, .mp-radio-small {
+    float: left;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    background: grey;
 }
 
-.mp_checkout-btn {
-    color: #fff;
-    background-color: #ff8c00;
-    border-color: transparent;
-    display: inline-block;
-    margin-bottom: 0;
-    font-weight: 500;
-    text-align: center;
-    vertical-align: middle;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
+.mp-radio-small{
+    width: 20px;
+    height: 20px;
+}
+
+.mp-radio.mp-active:after, .mp-radio-small.mp-active:after {
+    content: "\2714";
+    color: white;
+    font-size: 20px;
+    margin-left: 7px;
+}
+
+.mp-radio-small.mp-active:after {
+    font-size: 13px;
+    margin-left: 5px;
+}
+
+.mp-radio.mp-radio-open:after {
+    content: "▼";
+    color: white;
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.mp-methods-delivery li:hover .mp-radio, .mp-method-options li:hover .mp-radio-small {
+    background: #626262;
+}
+
+.mp-active, .mp-bar li:hover {
+    background-color: #ff8c00 !important;
+}
+
+
+.mp-bar {
+    height: 28px;
+    position: relative;
+    width: 100%;
+}
+
+.mp-bar li {
+    background-color: #7f7f7f;
     cursor: pointer;
-    background-image: none;
-    /*border: 1px solid transparent;*/
-    white-space: nowrap;
-    padding: 8px 16px;
-    font-size: 14px;
-    line-height: 1.5;
-    border-radius: 3px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-.mp_checkout-btn-large{
-    display: block;
+    float: left;
+    color: white;
+    width: 25%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
-.mp_checkout-bar{
+.mp-bar .mp-day-holder {
+    padding: 5px 10px;
+    text-align: center;
+}
+
+.mp-methods {
+    width: 100%;
+}
+
+.mp-methods-delivery {
+    padding: 20px 15%;
+}
+
+.mp-methods-delivery li {
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.mp-method-item {
+    height: 35px;
+    margin-top: 5px;
+}
+
+.mp-methods-delivery .mp-method-title-moment {
+    font-size: large;
+    margin-left: 10px;
+}
+
+.mp-methods-delivery .mp-method-title-price {
+    font-size: small;
+}
+
+
+.mp-method-title {
+    float: left;
+    line-height: 1.8;
+}
+
+.mp-method-time {
+    float: right;
+    font-size: small;
+    line-height: 3;
+}
+
+.mp-method-options {
+    padding: 10px;
+    background-color: rgba(128, 128, 128, 0.15);
+}
+
+.mp-method-option-title-holder {
+    height: 25px;
+}
+
+.mp-method-options .mp-method-option-title {
+    margin-left: 10px;
+}
+
+
+
+
+/*
+.mp-bar{
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     padding: 15px;
@@ -50,20 +133,20 @@
     margin-top: 10px;
 }
 
-.mp_checkout-bar > p{
+.mp-bar > p{
     font-size: 14px;
     margin: 0;
 }
 
-.mp_checkout-error-message {
+.mp-error-message {
     background: #fa684b;
     border: 1px solid #dd6a3d;
 }
 
-.mp_checkout-error-message > p {
+.mp-error-message > p {
     color: #333;
 }
-
+*/
 
 
 
@@ -75,15 +158,15 @@ Media queries for responsive theme's
 */
 
 @media only screen and (min-width: 0px) and (max-width: 679px) {
-    #myparcel_checkout_overlay #overlay_window {  height: 80%;  left: 10%;  position: fixed;  top: 10%;  width: 80%;  }
+    #myparcel_overlay #overlay_window {  height: 80%;  left: 10%;  position: fixed;  top: 10%;  width: 80%;  }
 }
 
 @media only screen and (min-width: 680px) and (max-width: 1024px){
-    #myparcel_checkout_overlay #overlay_window {  height: 80%;  left: 50%;  position: fixed;  top: 10%;  width: 500px;  margin-left:-250px;  }
+    #myparcel_overlay #overlay_window {  height: 80%;  left: 50%;  position: fixed;  top: 10%;  width: 500px;  margin-left:-250px;  }
 }
 
 @media only screen and (min-width : 1024px) {
-    #myparcel_checkout_overlay #overlay_window {  height: 80%;  left: 50%;  position: fixed;  top: 10%;  width: 500px;  margin-left:-250px;  }
+    #myparcel_overlay #overlay_window {  height: 80%;  left: 50%;  position: fixed;  top: 10%;  width: 500px;  margin-left:-250px;  }
 }
 
 body.overlay_open{
