@@ -66,22 +66,6 @@ MyParcelCheckout.prototype = {
         return true;
     },
 
-    setTeplateShippingMethod : function() {
-
-        new Ajax.Request('https://api.myparcel.nl/delivery_options?shop_id=1897&account_id=7003&postal_code=2231je&number=55&cc=NL', {
-            method : 'post',
-            onSuccess : this._updateTemplateMethod,
-            onFailure : this._get_error_callback
-
-
-        });
-
-    },
-
-    _updateTemplateMethod : function(callback) {
-
-        $('location-container').insert({ after: 'test'});
-    },
 
     _get_settings_success_callback: function(settings) {
         this._settings = JSON.parse(settings.responseText);
