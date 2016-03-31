@@ -212,8 +212,13 @@ MyParcelCheckout.prototype = {
          * Observe the shipping method.
          */
         var shippingMethod = $$(selectors.shipping_method);
-        shippingMethod.invoke('observe', 'click', this._observers.shipping_method);
+        //shippingMethod.invoke('observe', 'click', this._observers.shipping_method);
 
+        document.observe('click', function(e, el) {
+            if (el = e.findElement(myParcelCheckout._selectors.shipping_method)) {
+                myParcelCheckout._observers.shipping_method();
+            }
+        });
         return this;
     },
 

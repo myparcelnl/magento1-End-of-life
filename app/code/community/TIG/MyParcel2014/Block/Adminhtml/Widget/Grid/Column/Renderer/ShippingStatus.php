@@ -46,6 +46,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
     const POSTCODE_COLUMN        = 'postcode';
     const COUNTRY_ID_COLUMN      = 'country_id';
     const BARCODE_COLUMN         = 'barcode';
+    const STATUS_COLUMN          = 'status';
 
     /**
      * Renders the barcode column. This column will be empty for non-MyParcel shipments.
@@ -87,14 +88,24 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         }
 
         $countryCode = $row->getData(self::COUNTRY_ID_COLUMN);
+
         /**
          * Check if any data is available.
+         * If not available, show send link and country code
          */
         $value = $row->getData($this->getColumn()->getIndex());
-        if (!$value) {
 
-            $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
-            return  ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ' . $countryCode;
+        if (!$value) {
+            if($row->getData(self::STATUS_COLUMN) == 'pending'){
+
+                $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
+                return  $countryCode . ' - <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ';
+
+            } else {
+
+                return $countryCode;
+
+            }
         }
 
         /**
