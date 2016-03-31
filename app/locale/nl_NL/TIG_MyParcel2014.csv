@@ -163,7 +163,7 @@ TIG_MyParcel2014::Search by zipcode, address or city,Zoek op postcode, adres of 
 TIG_MyParcel2014::Search by zipcode and housenumber,Zoeken op postcode en huisnummer
 "TIG_MyParcel2014::Search by zipcode, address or city","Zoek op postcode, adres of plaats"
 "TIG_MyParcel2014::Search by zipcode and housenumber","Zoeken op postcode en huisnummer"
-"TIG_MyParcel2014::Unfortunately no locations could be found. Please check your postcode and house number combination.","Er zijn geen resultaten gevonden. Probeer een andere postcode/huisnummer combinatie."
+"TIG_MyParcel2014::Unfortunately no locations could be found. Please check your postcode and house number combination.","Er zijn geen resultaten gevonden. Probeer een andere postcode/huisnummer combinatie en/of verwijder de huisnummertoevoeging."
 TIG_MyParcel2014::Housenumber,Huisnummer
 TIG_MyParcel2014::Search,Zoeken
 TIG_MyParcel2014::Nearest myparcel pickup points,Dichtstbijzijnde afhaal locaties
