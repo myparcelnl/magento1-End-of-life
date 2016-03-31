@@ -182,7 +182,7 @@ TIG_MyParcel2014::Choose a PostNL pickup location,Kies PostNL afhaallocatie
 TIG_MyParcel2014::MyParcel - Create Magento shipments (no labels),MyParcel - Cre&euml;er Magento verzendingen (geen labels)
 TIG_MyParcel2014::Insured up to: &euro; %s,Verzekerd tot : &euro; %s
 TIG_MyParcel2014::Total order value: &euro; %s,Totaal order bedrag: &euro; %s
-TIG_MyParcel2014::Shipment insured up to &euro; %s purchase value,Zending verzekerd tot € %s inkoopwaarde
+TIG_MyParcel2014::Shipment insured up to &euro; %s purchase value,Verzekerd tot een inkoopbedrag van € %s,-
 TIG_MyParcel2014::Post Office Address,Gekozen afhaallocatie
 "TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","De geselecteerde zending type kan niet gebruikt worden. Pakjegemak zendingen kunnen enkel aangemaakt worden middels de normale verzendtype. <br/>De Magento zending is aangemaakt zonder een MyParcel zending, selecteer een ander verzend type of ga naar de Magento zending pagina en maak daar een MyParcel zending aan. <a target=""_blank"" href=""%s"">Bekijk zending</a>"
 TIG_MyParcel2014::Only for dutch shipments,Alleen voor Nederlandse verzendingen
