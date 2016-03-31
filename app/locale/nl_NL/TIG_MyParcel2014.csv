@@ -152,7 +152,7 @@ TIG_MyParcel2014::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
 TIG_MyParcel2014::Track&amp;Trace link: %s,Track&amp;Trace link: %s
 TIG_MyParcel2014::Is letter box parcel,Is brievenbuspakje
 TIG_MyParcel2014::Shipment type,Zendingtype
-TIG_MyParcel2014::Normal,Normaal
+TIG_MyParcel2014::Normal,Pakket
 TIG_MyParcel2014::Letter box,Brievenbuspakje
 TIG_MyParcel2014::Unstamped,Ongefrankeerd
 TIG_MyParcel2014::The MyParcel consignment is successfully created.,De MyParcel zending is succesvol aangemaakt.
