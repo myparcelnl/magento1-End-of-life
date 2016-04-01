@@ -161,6 +161,9 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function getRequestResponse()
     {
+        var_dump($this->requestError);
+        exit;
+
         if(!empty($this->requestError)){
             return $this->requestError;
         }
@@ -251,7 +254,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $helper = Mage::helper('tig_myparcel');
 
         //curl request string
-        $body = $this->requestString . '&signature=' . $this->requestHash;
+        $body = $this->requestString;
+//        $body = $this->requestString . '&signature=' . $this->requestHash;
 
         //curl options
         $options = array(
@@ -265,19 +269,19 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'timeout' => 60,
         );
 
+        $header = array();
+//        $header[] = 'Content-length: 0';
+        $header[] = 'Content-type: application/vnd.shipment+json; charset=utf-8';
+        $header[] = 'Authorization: OAuth ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
+
         //complete request url
         $url = $this->apiUrl . $this->requestType;
         // log the request url
         $helper->log($url);
 
-
-        var_dump($body);
         //for logging
         parse_str(urldecode($body), $bodyArray);
 
-        var_dump($body);
-        var_dump($bodyArray);
-        exit();
         $bodyArray['json'] = json_decode($bodyArray['json']);
         $helper->log($bodyArray['json']);
 
@@ -289,16 +293,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $request->addOption($option, $value);
         }
 
-
-        var_dump($url);
-        var_dump($body);
-        exit;
         //do the curl request
         $request->setConfig($config)
-            ->write(Zend_Http_Client::POST, $url, '1.1', array(), $body);
+            ->write(Zend_Http_Client::POST, $url, '1.1', $header, $body);
 
         //read the response
         $response = $request->read();
+        var_dump($response);
         //log the response
         $helper->log(json_decode($response, true));
 
@@ -340,10 +341,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function createConsignmentRequest(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
-        $data = array(
-            'process'     => 1,
-            'consignment' => $this->_getConsignmentData($myParcelShipment),
-        );
+        $data = $this->_getConsignmentData($myParcelShipment);
 
         $requestString = $this->_createRequestString($data);
 
@@ -553,30 +551,28 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $email           = $myParcelShipment->getOrder()->getCustomerEmail();
 
         $data = array(
-            'ToAddress'     => array(
-                'country_code'    => $shippingAddress->getCountry(),
-                'name'            => trim($shippingAddress->getName()),
-                'business'        => $shippingAddress->getCompany(),
-                'postcode'        => trim($shippingAddress->getPostcode()),
-                'street'          => trim($streetData['streetname']),
-                'house_number'    => trim($streetData['housenumber']),
-                'number_addition' => $streetData['housenumberExtension'],
-                'town'            => $shippingAddress->getCity(),
-                'email'           => $email,
+            'recipient'     => array(
+                'cc'    =>      $shippingAddress->getCountry(),
+                'person'        => trim($shippingAddress->getName()),
+                //'company'       => $shippingAddress->getCompany(),
+                'postal_code'  => trim($shippingAddress->getPostcode()),
+                'street'        => trim($streetData['streetname']),
+                'number'        => trim($streetData['housenumber']),
+                //'number_suffix' => $streetData['housenumberExtension'],
+                'city'          => $shippingAddress->getCity(),
+                'phone'          => '',
+                'email'         => $email,
             ),
-            'ProductCode'    => $this->_getProductCodeData($myParcelShipment),
-            'insured_amount' => $this->_getInsuredAmount($myParcelShipment),
-            'custom_id'      => $order->getIncrementId(),
-            'comments'       => '',
+            'options'    => $this->_getOptionsData($myParcelShipment),
         );
 
         if($shippingAddress->getCountry() != 'NL')
         {
-            $data['ToAddress']['eps_postcode'] = $data['ToAddress']['postcode'];
-            $data['ToAddress']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
-            unset($data['ToAddress']['postcode']);
-            unset($data['ToAddress']['house_number']);
-            unset($data['ToAddress']['number_addition']);
+            $data['recipient']['eps_postal_code"'] = $data['recipient']['postal_code"'];
+            $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
+            unset($data['recipient']['postal_code"']);
+            unset($data['recipient']['number']);
+            unset($data['recipient']['number_suffix']);
         }
 
         // add customs data for EUR3 and World shipments
@@ -646,34 +642,19 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
             $pgStreetData      = $helper->getStreetData($pgAddress,$storeId);
             $data['PgAddress'] = array(
-                'country_code'    => $pgAddress->getCountry(),
-                'name'            => $pgAddress->getName(),
+                'cc'    => $pgAddress->getCountry(),
+                'person'            => $pgAddress->getName(),
                 'business'        => $pgAddress->getCompany(),
-                'postcode'        => trim($pgAddress->getPostcode()),
+                'postal_code"'        => trim($pgAddress->getPostcode()),
                 'street'          => $pgStreetData['streetname'],
-                'house_number'    => $pgStreetData['housenumber'],
-                'number_addition' => $pgStreetData['housenumberExtension'],
-                'town'            => $pgAddress->getCity(),
+                'number'    => $pgStreetData['housenumber'],
+                'number_suffix' => $pgStreetData['housenumberExtension'],
+                'city'            => $pgAddress->getCity(),
                 'email'           => $email,
             );
         }
 
-        /**
-         * Add the shipment type parameter.
-         */
-
-        switch ($myParcelShipment->getShipmentType()) {
-            case $myParcelShipment::TYPE_LETTER_BOX:
-                $data['shipment_type'] = 'letterbox';
-                break;
-            case $myParcelShipment::TYPE_UNPAID:
-                $data['shipment_type'] = 'unpaid_letter';
-                break;
-            case $myParcelShipment::TYPE_NORMAL:
-            default:
-                $data['shipment_type'] = 'standard';
-        }
-
+        $data['carrier'] = 1;
         return $data;
     }
 
@@ -684,23 +665,48 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @return array
      */
-    protected function _getProductCodeData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
+    protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
+
+
+        /**
+         * Add the shipment type parameter.
+         */
+        switch ($myParcelShipment->getShipmentType()) {
+            case $myParcelShipment::TYPE_LETTER_BOX:
+                $packageType = 2;
+                break;
+            case $myParcelShipment::TYPE_UNPAID:
+                $packageType = 3;
+                break;
+            case $myParcelShipment::TYPE_NORMAL:
+            default:
+                $packageType = 1;
+        }
+
         $data = array(
-            'extra_size'           => 0,
-            'home_address_only'    => $myParcelShipment->getHomeAddressOnly(),
-            'signature_on_receipt' => $myParcelShipment->getSignatureOnReceipt(),
-            'return_if_no_answer'  => $myParcelShipment->getReturnIfNoAnswer(),
-            'insured'              => $myParcelShipment->getInsured(),
+            'package_type'           => $packageType,
+            'large_format'           => 0,
+            'only_recipient'    => 1,//$myParcelShipment->getHomeAddressOnly(),
+            'signature' => 1,//$myParcelShipment->getSignatureOnReceipt(),
+            'return'  => 1,//$myParcelShipment->getReturnIfNoAnswer(),
+            //'label_description'      => $myParcelShipment->getOrder()->getIncrementId(),
         );
+        if($myParcelShipment->getInsured() === 1){
+            $data['insurance']['amount'] = $this->_getInsuredAmount($myParcelShipment) * 100;
+            $data['insurance']['currency'] = 'EUR';
+        }
+
+
         if($myParcelShipment->getShippingAddress()->getCountry() != 'NL')
         {
             // strip all Dutch domestic options if shipment is not NL
-            unset($data['home_address_only']);
-            unset($data['signature_on_receipt']);
-            unset($data['return_if_no_answer']);
+            unset($data['only_recipient']);
+            unset($data['signature']);
+            unset($data['return']);
             unset($data['insured']);
         }
+
 
         return $data;
     }
@@ -730,19 +736,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _createRequestString(array $data)
     {
-        $json = json_encode($data);
+        $requestData['data']['shipments'][] = $data;
 
-        $string = http_build_query(
-            array(
-                'json'      => $json,
-                'nonce'     => 0, // @TODO What are we supposed to do with this parameter
-                'test'      => 0,
-                'timestamp' => time(),
-                'username'  => $this->apiUsername,
-            )
-        );
+                //for testing
+/*                header('Content-Type: application/json');
+                echo (json_encode($requestData));
+                exit;*/
 
-        return $string;
+        return json_encode($requestData);
+
     }
 
     /**
