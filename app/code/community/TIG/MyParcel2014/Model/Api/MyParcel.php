@@ -46,7 +46,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Supported request types.
      */
-    const REQUEST_TYPE_CREATE_CONSIGNMENT  = 'create-consignment';
+    const REQUEST_TYPE_CREATE_CONSIGNMENT  = 'shipments';
     const REQUEST_TYPE_CREATE_CONSIGNMENTS = 'create-consignments';
     const REQUEST_TYPE_REGISTER_CONFIG     = 'register-config';
     const REQUEST_TYPE_RETRIEVE_PDF        = 'retrieve-pdf';
@@ -124,7 +124,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             return;
         }
 
-        $this->apiUrl      = $url . '/api/';
+        $this->apiUrl      = $url;
         $this->apiUsername = $username;
         $this->apiKey      = $key;
     }
@@ -270,8 +270,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         // log the request url
         $helper->log($url);
 
+
+        var_dump($body);
         //for logging
         parse_str(urldecode($body), $bodyArray);
+
+        var_dump($body);
+        var_dump($bodyArray);
+        exit();
         $bodyArray['json'] = json_decode($bodyArray['json']);
         $helper->log($bodyArray['json']);
 
@@ -283,6 +289,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $request->addOption($option, $value);
         }
 
+
+        var_dump($url);
+        var_dump($body);
+        exit;
         //do the curl request
         $request->setConfig($config)
             ->write(Zend_Http_Client::POST, $url, '1.1', array(), $body);

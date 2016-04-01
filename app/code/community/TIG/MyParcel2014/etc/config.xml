@@ -211,7 +211,7 @@
                 <key/>
             </api>
             <general>
-                <url>http://www.myparcel.nl</url>
+                <url>https://api.myparcel.nl/</url>
                 <active>0</active>
                 <test>0</test>
                 <print_orientation>A4</print_orientation>
