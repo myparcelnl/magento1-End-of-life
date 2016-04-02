@@ -533,8 +533,8 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
          * Validate the response.
          */
         if (!is_array($response)
-            || !isset($response['consignment_id'])
-            || !is_numeric($response['consignment_id'])
+            || !isset($response['data']['ids'][0])
+            || !is_numeric($response['data']['ids'][0]['id'])
         ) {
             throw new TIG_MyParcel2014_Exception(
                 $helper->__('Invalid createConsignment response: %s', $api->getRequestErrorDetail()),
