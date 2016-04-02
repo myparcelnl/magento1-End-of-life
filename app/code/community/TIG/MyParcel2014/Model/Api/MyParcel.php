@@ -161,8 +161,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function getRequestResponse()
     {
-        var_dump($this->requestError);
-        exit;
 
         if(!empty($this->requestError)){
             return $this->requestError;
@@ -255,7 +253,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         //curl request string
         $body = $this->requestString;
-//        $body = $this->requestString . '&signature=' . $this->requestHash;
 
         //curl options
         $options = array(
@@ -270,12 +267,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         );
 
         $header = array();
-//        $header[] = 'Content-length: 0';
         $header[] = 'Content-type: application/vnd.shipment+json; charset=utf-8';
         $header[] = 'Authorization: OAuth ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
 
         //complete request url
         $url = $this->apiUrl . $this->requestType;
+
         // log the request url
         $helper->log($url);
 
@@ -299,7 +296,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         //read the response
         $response = $request->read();
-        var_dump($response);
+
         //log the response
         $helper->log(json_decode($response, true));
 
@@ -554,11 +551,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'recipient'     => array(
                 'cc'    =>      $shippingAddress->getCountry(),
                 'person'        => trim($shippingAddress->getName()),
-                //'company'       => $shippingAddress->getCompany(),
+                'company'       => $shippingAddress->getCompany(),
                 'postal_code'  => trim($shippingAddress->getPostcode()),
                 'street'        => trim($streetData['streetname']),
                 'number'        => trim($streetData['housenumber']),
-                //'number_suffix' => $streetData['housenumberExtension'],
+                'number_suffix' => $streetData['housenumberExtension'],
                 'city'          => $shippingAddress->getCity(),
                 'phone'          => '',
                 'email'         => $email,
@@ -685,12 +682,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         }
 
         $data = array(
-            'package_type'           => $packageType,
-            'large_format'           => 0,
-            'only_recipient'    => 1,//$myParcelShipment->getHomeAddressOnly(),
-            'signature' => 1,//$myParcelShipment->getSignatureOnReceipt(),
-            'return'  => 1,//$myParcelShipment->getReturnIfNoAnswer(),
-            //'label_description'      => $myParcelShipment->getOrder()->getIncrementId(),
+            'package_type'          => $packageType,
+            'large_format'          => 0,
+            'only_recipient'        => $myParcelShipment->getHomeAddressOnly(),
+            'signature'             => $myParcelShipment->getSignatureOnReceipt(),
+            'return'                => $myParcelShipment->getReturnIfNoAnswer(),
+            'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
         );
         if($myParcelShipment->getInsured() === 1){
             $data['insurance']['amount'] = $this->_getInsuredAmount($myParcelShipment) * 100;
