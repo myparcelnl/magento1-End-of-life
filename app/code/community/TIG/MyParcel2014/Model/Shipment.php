@@ -581,7 +581,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         /**
          * Get the consignment ID and set it.
          */
-        $consignmentId = (int) $response['consignment_id'];
+        $consignmentId = (int) $response['data']['ids'][0]['id'];
 
         $this->setConsignmentId($consignmentId);
         return $this;
