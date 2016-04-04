@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.3.2</version>
+            <version>1.4.0 extra</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -372,6 +372,12 @@
             <MYPA-0024>
                 <message>Order %s cannot be shipped, because it is cancelled.</message>
             </MYPA-0024>
+
+            <MYPA-0025>
+                <message>Street name is to long.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0025>
         </errors>
     </tig>
 </config>

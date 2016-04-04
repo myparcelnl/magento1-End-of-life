@@ -46,6 +46,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
     const POSTCODE_COLUMN        = 'postcode';
     const COUNTRY_ID_COLUMN      = 'country_id';
     const BARCODE_COLUMN         = 'barcode';
+    const STATUS_COLUMN          = 'status';
 
     /**
      * Renders the barcode column. This column will be empty for non-MyParcel shipments.
@@ -58,26 +59,58 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
      */
     public function render(Varien_Object $row)
     {
+
         /**
          * The shipment was not shipped using MyParcel
          */
         $shippingMethod = $row->getData(self::SHIPPING_METHOD_COLUMN);
+
+        // if methode == bolcom_bolcom change all shipping methods to bolcom_fratrate
+        if('bolcom_bolcom' == $shippingMethod){
+
+            $orders = Mage::getModel('sales/order')->getCollection();
+            try {
+                $orders->addAttributeToFilter('shipping_method', array('eq' => 'bolcom_bolcom'))->load();
+                foreach($orders as $order)
+                {
+                    $order->setShippingMethod('bolcom_flatrate')->save();
+                    $shippingMethod = 'bolcom_flatrate';
+                }
+
+            } catch (Exception $e){
+                echo $e->getMessage();
+            }
+
+        }
+
         if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod)) {
             return '';
         }
 
+        $countryCode = $row->getData(self::COUNTRY_ID_COLUMN);
+
         /**
          * Check if any data is available.
+         * If not available, show send link and country code
          */
         $value = $row->getData($this->getColumn()->getIndex());
+
         if (!$value) {
-            return '';
+            if($row->getData(self::STATUS_COLUMN) == 'pending'){
+
+                $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
+                return  $countryCode . ' - <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ';
+
+            } else {
+
+                return $countryCode;
+
+            }
         }
 
         /**
          * Create a track & trace URL based on shipping destination
          */
-        $countryCode = $row->getData(self::COUNTRY_ID_COLUMN);
         $postcode = $row->getData(self::POSTCODE_COLUMN);
         $destinationData = array(
             'countryCode' => $countryCode,
@@ -90,12 +123,15 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         foreach ($statusses as $key => $status) {
             if (!empty($barcodes[$key])) {
                 $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
-
-                $barcodeData[] = "<small>{$status}</small> - <a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a>";
+                $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>{$status}</small>";
+                if(!in_array($oneBarcodeData, $barcodeData)) {
+                    $barcodeData[] = $oneBarcodeData;
+                }
             }
         }
 
         $barcodeHtml = implode('<br />', $barcodeData);
+
         return $barcodeHtml;
     }
 }
