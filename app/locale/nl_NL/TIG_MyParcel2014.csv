@@ -54,7 +54,7 @@ TIG_MyParcel2014::Please select one or more orders.,Selecteer &eacute;&eacute;n 
 TIG_MyParcel2014::MyParcel replied with the following warnings:,MyParcel heeft geantwoord met de volgende waarschuwingen:
 TIG_MyParcel2014::The following shipments or orders could not be processed:,De volgende verzendingen konden niet verwerkt worden:
 TIG_MyParcel2014::Order #%s cannot be shipped at this time.,Order #%s kan niet verzonden worden op dit moment
-TIG_MyParcel2014::Invalid full street supplied: %s.,Invalide volledige straatnaam opgegeven: %s
+TIG_MyParcel2014::Invalid full street supplied: %s.,Invalide volledige straatnaam opgegeven: %s.
 TIG_MyParcel2014::Invalid housnumber supplied: %s.,Invalide huisnummer opgegeven: %s
 TIG_MyParcel2014::Invalid session requested.,Invalide sessie opgevraagd
 TIG_MyParcel2014::Invalid message type requested: %s.,Invalide bericht-type opgevraagd: %s
@@ -64,6 +64,7 @@ TIG_MyParcel2014::Click here for more information from the TiG knowledgebase.,Kl
 TIG_MyParcel2014::An error occurred while processing your request: ,Er is een fout opgetreden tijdens het verwerken van dit verzoek:
 TIG_MyParcel2014::The createConsignment action is currently unavailable.,De createConsigment actie is tijdelijk niet beschikbaar
 TIG_MyParcel2014::Invalid createConsignment response.,Invalide createConsignment antwoord
+TIG_MyParcel2014::Streetname is to long: %s.,Straatnaam is te lang: %s (gebruikt maximaal 40 letters)
 TIG_MyParcel2014::Shipping status,Verzend status
 TIG_MyParcel2014::MyParcel - Create Shipments,MyParcel - Cre&euml;er verzendingen
 TIG_MyParcel2014::MyParcel - Print shipping labels,MyParcel - Print verzend labels
@@ -151,13 +152,18 @@ TIG_MyParcel2014::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
 TIG_MyParcel2014::Track&amp;Trace link: %s,Track&amp;Trace link: %s
 TIG_MyParcel2014::Is letter box parcel,Is brievenbuspakje
 TIG_MyParcel2014::Shipment type,Zendingtype
-TIG_MyParcel2014::Normal,Normaal
+TIG_MyParcel2014::Normal,Pakket
 TIG_MyParcel2014::Letter box,Brievenbuspakje
 TIG_MyParcel2014::Unstamped,Ongefrankeerd
 TIG_MyParcel2014::The MyParcel consignment is successfully created.,De MyParcel zending is succesvol aangemaakt.
 TIG_MyParcel2014::Choose a pickup location,Selecteer MyParcel Verzendopties
+TIG_MyParcel2014::Selected post office location:,Geselecteerde postkantoor locatie:
 TIG_MyParcel2014::Zipcode,Postcode
+TIG_MyParcel2014::Search by zipcode, address or city,Zoek op postcode, adres of plaats
+TIG_MyParcel2014::Search by zipcode and housenumber,Zoeken op postcode en huisnummer
 "TIG_MyParcel2014::Search by zipcode, address or city","Zoek op postcode, adres of plaats"
+"TIG_MyParcel2014::Search by zipcode and housenumber","Zoeken op postcode en huisnummer"
+"TIG_MyParcel2014::Unfortunately no locations could be found. Please check your postcode and house number combination.","Er zijn geen resultaten gevonden. Probeer een andere postcode/huisnummer combinatie en/of verwijder de huisnummertoevoeging."
 TIG_MyParcel2014::Housenumber,Huisnummer
 TIG_MyParcel2014::Search,Zoeken
 TIG_MyParcel2014::Nearest myparcel pickup points,Dichtstbijzijnde afhaal locaties
@@ -165,14 +171,18 @@ TIG_MyParcel2014::Pakjegemak Method Name,Pakjegemak methode naam
 TIG_MyParcel2014::Unpaid,Ongefrankeerd
 TIG_MyParcel2014::The consignment is already credited.,Deze zending is al gecrediteerd.
 TIG_MyParcel2014::MyParcel - Create &amp; Print shipping labels,MyParcel - Cre&euml;er &amp; Print verzend labels
+TIG_MyParcel2014::Print packing slip,Print pakbon
+TIG_MyParcel2014::Send,Verzenden
 TIG_MyParcel2014::Letterbox,Brievenbuspakje
 TIG_MyParcel2014::Select,Selecteer
-TIG_MyParcel2014::Insured Up To %s,Verzekerd tot: &euro;
+TIG_MyParcel2014::Insured up to:,Verzekeren tot:
 TIG_MyParcel2014::Close,Sluiten
 TIG_MyParcel2014::Choose a PostNL pickup location,Kies PostNL afhaallocatie
 "TIG_MyParcel2014::The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.","Het geselecteerde zending-type kan niet gebruikt worden, Pakjegemak zendingen kunnen enkel aangemaakt worden met het normale verzend-type."
 TIG_MyParcel2014::MyParcel - Create Magento shipments (no labels),MyParcel - Cre&euml;er Magento verzendingen (geen labels)
 TIG_MyParcel2014::Insured up to: &euro; %s,Verzekerd tot : &euro; %s
+TIG_MyParcel2014::Total order value: &euro; %s,Totaal order bedrag: &euro; %s
+TIG_MyParcel2014::Shipment insured up to &euro; %s purchase value,Verzekerd tot een inkoopbedrag van € %s,-
 TIG_MyParcel2014::Post Office Address,Gekozen afhaallocatie
 "TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","De geselecteerde zending type kan niet gebruikt worden. Pakjegemak zendingen kunnen enkel aangemaakt worden middels de normale verzendtype. <br/>De Magento zending is aangemaakt zonder een MyParcel zending, selecteer een ander verzend type of ga naar de Magento zending pagina en maak daar een MyParcel zending aan. <a target=""_blank"" href=""%s"">Bekijk zending</a>"
 TIG_MyParcel2014::Only for dutch shipments,Alleen voor Nederlandse verzendingen
