@@ -321,14 +321,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     public function getStreetData($address,$storeId = null)
     {
 
-
         $fullStreet = $address->getStreetFull();
-
-        if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-
-        $splitStreet = Mage::helper('tig_myparcel/addressValidation')->useSplitStreet($storeId);
 
         if ($address->getCountry() != 'NL'){
             $fullStreet = preg_replace("/[\n\r]/"," ",$fullStreet);
@@ -337,9 +330,16 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
                 'housenumber'          => '',
                 'housenumberExtension' => '',
                 'fullStreet'           => '',
-                );
+            );
             return $streetData;
         }
+
+        if (is_null($storeId)) {
+            $storeId = Mage::app()->getStore()->getId();
+        }
+
+        $splitStreet = Mage::helper('tig_myparcel/addressValidation')->useSplitStreet($storeId);
+
         /**
          * Website uses multi-line address mode
          */
