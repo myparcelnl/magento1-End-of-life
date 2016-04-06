@@ -499,7 +499,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
         $perpage = $helper->getConfig('print_orientation');
         $pdfData = $api->createRetrievePdfsRequest($consignmentIds, $start, $perpage)
-                       ->sendRequest()
+                       ->sendRequest('GET')
                        ->getRequestResponse();
 
         $fileName = 'MyParcel Shipping Labels '
@@ -512,6 +512,20 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          * We need to check for warnings before the label download response.
          */
         $this->_checkForWarnings();
+
+        /**
+         * Load the shipments and check if they are valid.
+         * returns an array with shipment objects
+         *
+         * @var TIG_MyParcel2014_Model_Shipment $shipment
+         */
+
+        /** @todo; send barcode mail */
+        /*$shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
+        foreach ($shipments as $shipment) {
+            $shipment->sendBarcodeAfterResponse();
+        }*/
+
 
         return $this;
     }

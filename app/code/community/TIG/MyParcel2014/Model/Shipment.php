@@ -511,7 +511,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function createConsignment()
     {
-        $helper = Mage::helper('tig_myparcel');
 
         if (!$this->canCreateConsignment()) {
             throw new TIG_MyParcel2014_Exception(
@@ -546,6 +545,32 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
         $status = self::STATUS_NEW;
 
+
+
+        /**
+         * set status (new or confirmed)
+         */
+        $this->setStatus($status);
+
+        /**
+         * Get the consignment ID and set it.
+         */
+        $consignmentId = (int) $response['data']['ids'][0]['id'];
+
+        $this->setConsignmentId($consignmentId);
+        return $this;
+    }
+
+    /**
+     * Send barcode mail and set status history comment
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public function sendBarcodeAfterResponse()
+    {
+
+        $helper = Mage::helper('tig_myparcel');
         /**
          * check if barcode is available
          */
@@ -573,20 +598,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             $order->addStatusHistoryComment($comment);
             $order->setEmailSent(false);
             $order->save();
+
+            return true;
+        } else {
+            return false;
         }
-
-        /**
-         * set status (new or confirmed)
-         */
-        $this->setStatus($status);
-
-        /**
-         * Get the consignment ID and set it.
-         */
-        $consignmentId = (int) $response['data']['ids'][0]['id'];
-
-        $this->setConsignmentId($consignmentId);
-        return $this;
     }
 
     /**

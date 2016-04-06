@@ -46,15 +46,18 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Supported request types.
      */
-    const REQUEST_TYPE_CREATE_CONSIGNMENT  = 'shipments';
-    const REQUEST_TYPE_CREATE_CONSIGNMENTS = 'create-consignments';
-    const REQUEST_TYPE_REGISTER_CONFIG     = 'register-config';
-    const REQUEST_TYPE_RETRIEVE_PDF        = 'retrieve-pdf';
-    const REQUEST_TYPE_RETRIEVE_PDFS       = 'retrieve-pdfs';
-    const REQUEST_TYPE_RETRIEVE_STATUS     = 'retrieve-status';
-    const REQUEST_TYPE_CONSIGNMENT_CREDIT  = 'consignment-credit';
-    const REQUEST_TYPE_CREATE_RETOURLINK   = 'create-retourlink';
-    const REQUEST_TYPE_GET_LOCATIONS       = 'pickup';
+    const REQUEST_TYPE_CREATE_CONSIGNMENT   = 'shipments';
+    const REQUEST_TYPE_CREATE_CONSIGNMENTS  = 'create-consignments';
+    const REQUEST_TYPE_REGISTER_CONFIG      = 'register-config';
+    const REQUEST_TYPE_RETRIEVE_LABEL        = 'shipment_labels';
+    const REQUEST_TYPE_RETRIEVE_STATUS      = 'retrieve-status';
+    const REQUEST_TYPE_CONSIGNMENT_CREDIT   = 'consignment-credit';
+    const REQUEST_TYPE_CREATE_RETOURLINK    = 'create-retourlink';
+    const REQUEST_TYPE_GET_LOCATIONS        = 'pickup';
+
+    const REQUEST_HEADER_SHIPMENT           = 'Content-Type: application/vnd.shipment+json; ';
+    const REQUEST_HEADER_RETURN             = 'Content-Type: application/vnd.return_shipment+json; ';
+    const REQUEST_HEADER_UNRALED_RETURN     = 'Content-Type: application/vnd.unrelated_return_shipment+json; ';
 
     /**
      * @var string
@@ -85,6 +88,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * @var string
      */
     protected $requestType = '';
+
+    /**
+     * @var string
+     */
+    protected $requestHeader = '';
 
     /**
      * @var string
@@ -224,13 +232,18 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param string $requestString
      * @param string $requestType
+     * @param string $requestHeader
      *
      * @return $this
      */
-    protected function _setRequestParameters($requestString, $requestType)
+    protected function _setRequestParameters($requestString, $requestType, $requestHeader = '')
     {
         $this->requestString = $requestString;
         $this->requestType   = $requestType;
+
+        $header[] = $requestHeader . 'charset=utf-8';
+        $header[] = 'Authorization: OAuth ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
+        $this->requestHeader   = $header;
 
         $this->_hashRequest();
 
@@ -240,19 +253,18 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * send the created request to MyParcel
      *
+     * @param string $method
+     *
      * @return $this|false|array|string
      */
-    public function sendRequest()
+    public function sendRequest($method = 'POST')
     {
-        if (!$this->_checkConfigForRequest()) {
+        if (!$this->_checkConfigForRequest() && $method == 'POST') {
             return false;
         }
 
         //instantiate the helper
         $helper = Mage::helper('tig_myparcel');
-
-        //curl request string
-        $body = $this->requestString;
 
         //curl options
         $options = array(
@@ -266,16 +278,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'timeout' => 60,
         );
 
-        $header[] = 'Content-type: application/vnd.shipment+json; charset=utf-8';
-        $header[] = 'Authorization: OAuth ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
-
-        //complete request url
-        $url = $this->apiUrl . $this->requestType;
-
-        // log the request url
-        $helper->log($url);
-        $helper->log(json_decode($body));
-
         //instantiate the curl adapter
         $request = new TIG_MyParcel2014_Model_Api_Curl();
         //add the options
@@ -284,19 +286,42 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $request->addOption($option, $value);
         }
 
-        if(isset($_COOKIE['mp-write'])){
-            var_dump($header);
-            var_dump($url);
-            var_dump(json_decode($body));
-            exit;
-        }
-
         //do the curl request
-        $request->setConfig($config)
-            ->write(Zend_Http_Client::POST, $url, '1.1', $header, $body);
+        if($method == 'POST'){
+
+            //curl request string
+            $body = $this->requestString;
+            $header = $this->requestHeader;
+
+            //complete request url
+            $url = $this->apiUrl . $this->requestType;
+
+            // log the request url
+            $helper->log($url);
+            $helper->log(json_decode($body));
+
+            $request->setConfig($config)
+                ->write(Zend_Http_Client::POST, $url, '1.1', $header, $body);
+        } else {
+
+            //complete request url
+            $url = $this->apiUrl . $this->requestType;
+
+            // log the request url
+            $helper->log($url);
+            var_dump($url);
+            var_dump($this->requestString);
+            exit;
+
+            $request->setConfig($config)
+                ->write(Zend_Http_Client::GET, $url, '1.1');
+        }
 
         //read the response
         $response = $request->read();
+
+            var_dump($response);
+            exit;
 
         //log the response
         $helper->log(json_decode($response, true));
@@ -343,7 +368,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         $requestString = $this->_createRequestString($data);
 
-        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT);
+        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_SHIPMENT);
 
         return $this;
     }
@@ -353,27 +378,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * @param array $shippingIds
      */
     public function createConsignmentsRequest($shippingIds = array()){}
-
-    /**
-     * Prepares the API for retrieving pdf's for a consignment ID.
-     *
-     * @param array $consignmentId
-     *
-     * @return $this
-     */
-    public function createRetrievePdfRequest($consignmentId)
-    {
-        $data = array(
-            'consignment_id' => $consignmentId,
-            'format'         => 'json',
-        );
-
-        $requestString = $this->_createRequestString($data);
-
-        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_RETRIEVE_PDF);
-
-        return $this;
-    }
 
     /**
      * Prepares the API for retrieving pdf's for an array of consignment IDs.
@@ -392,10 +396,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'perpage'      => strtoupper($perpage),
             'format'       => 'json',
         );
+        /* @todo; set pdf url */
 
-        $requestString = $this->_createRequestString($data);
+        $this->requestType   = self::REQUEST_TYPE_RETRIEVE_LABEL;
 
-        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_RETRIEVE_PDFS);
+        $this->_setRequestParameters('url2', self::REQUEST_TYPE_RETRIEVE_LABEL);
 
         return $this;
     }
