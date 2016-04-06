@@ -548,7 +548,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $email           = $myParcelShipment->getOrder()->getCustomerEmail();
 
         $data = array(
-<<<<<<< HEAD
             'recipient'     => array(
                 'cc'    =>      $shippingAddress->getCountry(),
                 'person'        => trim($shippingAddress->getName()),
@@ -560,18 +559,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'city'          => $shippingAddress->getCity(),
                 'phone'          => '',
                 'email'         => $email,
-=======
-            'ToAddress'     => array(
-                'country_code'    => $shippingAddress->getCountry(),
-                'name'            => trim($shippingAddress->getName()),
-                'business'        => $shippingAddress->getCompany(),
-                'postcode'        => trim($shippingAddress->getPostcode()),
-                'street'          => trim($streetData['streetname']),
-                'house_number'    => trim($streetData['housenumber']),
-                'number_addition' => $streetData['housenumberExtension'],
-                'town'            => $shippingAddress->getCity(),
-                'email'           => trim($email),
->>>>>>> develop
             ),
             'options'    => $this->_getOptionsData($myParcelShipment),
         );
