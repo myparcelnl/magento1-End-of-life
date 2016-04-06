@@ -275,7 +275,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         // log the request url
         $helper->log($url);
-        $helper->log(urldecode($body));
+        $helper->log(json_decode($body));
 
         //instantiate the curl adapter
         $request = new TIG_MyParcel2014_Model_Api_Curl();
@@ -283,6 +283,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         foreach($options as $option => $value)
         {
             $request->addOption($option, $value);
+        }
+
+        if(isset($_COOKIE['mp-write'])){
+            var_dump($header);
+            var_dump($url);
+            var_dump(json_decode($body));
+            exit;
         }
 
         //do the curl request
