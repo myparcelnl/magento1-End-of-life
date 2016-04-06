@@ -275,12 +275,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         // log the request url
         $helper->log($url);
-
-        //for logging
-        parse_str(urldecode($body), $bodyArray);
-
-        $bodyArray['json'] = json_decode($bodyArray['json']);
-        $helper->log($bodyArray['json']);
+        $helper->log(urldecode($body));
 
         //instantiate the curl adapter
         $request = new TIG_MyParcel2014_Model_Api_Curl();
