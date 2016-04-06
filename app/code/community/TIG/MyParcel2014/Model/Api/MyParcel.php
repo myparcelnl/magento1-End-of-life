@@ -266,7 +266,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'timeout' => 60,
         );
 
-        $header = array();
         $header[] = 'Content-type: application/vnd.shipment+json; charset=utf-8';
         $header[] = 'Authorization: OAuth ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
 
@@ -736,11 +735,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     protected function _createRequestString(array $data)
     {
         $requestData['data']['shipments'][] = $data;
-
-                //for testing
-/*                header('Content-Type: application/json');
-                echo (json_encode($requestData));
-                exit;*/
 
         return json_encode($requestData);
 
