@@ -390,8 +390,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function createRetrievePdfsRequest($consignmentIds = array(), $start = 1, $perpage = 'A4')
     {
+        $positions = '';
+
+        if($perpage == 'A4') {
+            $positions = '&positions=' . $this->_getPositions((int) $start);
+        }
         $data = implode(';',$consignmentIds);
-        $getParam = '/' . $data . '?format=' . $perpage . '&positions=' . $start . ';4';
+        $getParam = '/' . $data . '?format=' . $perpage . $positions;
 
         $this->_setRequestParameters($getParam, self::REQUEST_TYPE_RETRIEVE_LABEL);
 
@@ -749,5 +754,25 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestHash = hash_hmac('sha1', 'POST&' . urlencode($this->requestString), $this->apiKey);
 
         return $this;
+    }
+
+    /**
+     * Generating positions for A4 paper
+     *
+     * @param int $start
+     * @return string
+     */
+    protected function _getPositions($start)
+    {
+        $aPositions = array();
+        switch ($start){
+            case 1: $aPositions[] = 1;
+            case 2: $aPositions[] = 2;
+            case 3: $aPositions[] = 3;
+            case 4: $aPositions[] = 4;
+                break;
+        }
+
+        return implode(';',$aPositions);
     }
 }
