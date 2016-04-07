@@ -98,15 +98,15 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     /**
      * Statusses used by MyParcel shipments.
      */
-    const STATUS_NEW       = 'new';
-    const STATUS_CONFIRMED = 'Aangemeld';
+    const STATUS_NEW        = 'new';
+    const STATUS_CONFIRMED  = 'Aangemeld';
 
     /**
      * Supported shipment types.
      */
-    const TYPE_LETTER_BOX = 'letter_box';
-    const TYPE_NORMAL     = 'normal';
-    const TYPE_UNPAID  = 'unstamped';
+    const TYPE_LETTER_BOX   = 'letter_box';
+    const TYPE_NORMAL       = 'normal';
+    const TYPE_UNPAID       = 'unstamped';
 
     /**
      * Initialize the shipment
@@ -530,12 +530,14 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                         ->sendRequest()
                         ->getRequestResponse();
 
+        $aResponse = json_decode($response);
+
         /**
          * Validate the response.
          */
-        if (!is_array($response)
-            || !isset($response['data']['ids'][0])
-            || !is_numeric($response['data']['ids'][0]['id'])
+        if (!is_object($aResponse)
+            || !isset($aResponse->data)
+            || !is_numeric($aResponse->data->ids[0]->id)
         ) {
             throw new TIG_MyParcel2014_Exception(
                 $helper->__('Invalid createConsignment response: %s', $api->getRequestErrorDetail()),
@@ -545,8 +547,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
         $status = self::STATUS_NEW;
 
-
-
         /**
          * set status (new or confirmed)
          */
@@ -555,7 +555,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         /**
          * Get the consignment ID and set it.
          */
-        $consignmentId = (int) $response['data']['ids'][0]['id'];
+        $consignmentId = (int) $aResponse->data->ids[0]->id;
 
         $this->setConsignmentId($consignmentId);
         return $this;
@@ -569,6 +569,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function sendBarcodeAfterResponse()
     {
+        /** not use this function, use one plate for the webhooks :) no cronjob :) */
 
         $helper = Mage::helper('tig_myparcel');
         /**
