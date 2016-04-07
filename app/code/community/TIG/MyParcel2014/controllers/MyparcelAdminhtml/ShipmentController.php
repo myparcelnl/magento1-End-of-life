@@ -506,7 +506,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             . date('Ymd-His', Mage::getSingleton('core/date')->timestamp())
             . '.pdf';
 
-        $this->_preparePdfResponse($fileName, urldecode($pdfData['pdf']));
+        $this->_preparePdfResponse($fileName, $pdfData);
 
         /**
          * We need to check for warnings before the label download response.

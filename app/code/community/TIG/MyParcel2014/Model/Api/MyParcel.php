@@ -242,7 +242,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestType   = $requestType;
 
         $header[] = $requestHeader . 'charset=utf-8';
-        $header[] = 'Authorization: OAuth ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
+        $header[] = 'Authorization: basic ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
+
         $this->requestHeader   = $header;
 
         $this->_hashRequest();
@@ -286,12 +287,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $request->addOption($option, $value);
         }
 
+        $header = $this->requestHeader;
+
         //do the curl request
         if($method == 'POST'){
 
             //curl request string
             $body = $this->requestString;
-            $header = $this->requestHeader;
 
             //complete request url
             $url = $this->apiUrl . $this->requestType;
@@ -305,49 +307,47 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         } else {
 
             //complete request url
-            $url = $this->apiUrl . $this->requestType;
+            $url  = $this->apiUrl;
+            $url .= $this->requestType;
+            $url .= $this->requestString;
 
             // log the request url
             $helper->log($url);
-            var_dump($url);
-            var_dump($this->requestString);
-            exit;
 
             $request->setConfig($config)
-                ->write(Zend_Http_Client::GET, $url, '1.1');
+                ->write(Zend_Http_Client::GET, $url, '1.1', $header);
         }
 
         //read the response
         $response = $request->read();
 
-            var_dump($response);
-            exit;
-
-        //log the response
-        $helper->log(json_decode($response, true));
-
-        //check if there are curl-errors
-        if ($response === false) {
-            $error              = $request->getError();
-            $this->requestError = $error;
-            //$this->requestErrorDetail = $error;
-            return $this;
-        }
-
         //decode the json response
-        $result = json_decode($response, true);
+        $aResult = json_decode($response, true);
 
-        //check if the response has errors codes
-        if(isset($result['error'])){
-            $this->requestError = $result['error'];
-            unset($result['error']);
-            $this->requestErrorDetail = $result;
-            $request->close();
+        if(is_array($aResult)){
 
-            return $this;
+            //log the response
+            $helper->log(json_decode($aResult, true));
+
+            //check if there are curl-errors
+            if ($response === false) {
+                $error              = $request->getError();
+                $this->requestError = $error;
+                //$this->requestErrorDetail = $error;
+                return $this;
+            }
+
+            //check if the response has errors codes
+            if(isset($aResult['errors'][0]['code'])){
+                $this->requestError = $aResult['errors'][0]['code'];
+                $this->requestErrorDetail = $aResult['errors'][0]['code'];
+                $request->close();
+
+                return $this;
+            }
         }
 
-        $this->requestResult = $result;
+        $this->requestResult = $response;
 
         //close the server connection with MyParcel
         $request->close();
@@ -390,17 +390,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function createRetrievePdfsRequest($consignmentIds = array(), $start = 1, $perpage = 'A4')
     {
-        $data = array(
-            'consignments' => $consignmentIds,
-            'start'        => intval($start),
-            'perpage'      => strtoupper($perpage),
-            'format'       => 'json',
-        );
-        /* @todo; set pdf url */
+        $data = implode(';',$consignmentIds);
+        $getParam = '/' . $data . '?format=' . $perpage . '&positions=' . $start . ';4';
 
-        $this->requestType   = self::REQUEST_TYPE_RETRIEVE_LABEL;
-
-        $this->_setRequestParameters('url2', self::REQUEST_TYPE_RETRIEVE_LABEL);
+        $this->_setRequestParameters($getParam, self::REQUEST_TYPE_RETRIEVE_LABEL);
 
         return $this;
     }
