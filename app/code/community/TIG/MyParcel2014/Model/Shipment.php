@@ -511,7 +511,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function createConsignment()
     {
-
+        $helper = Mage::helper('tig_myparcel');
         if (!$this->canCreateConsignment()) {
             throw new TIG_MyParcel2014_Exception(
                 $helper->__('The createConsignment action is currently unavailable.'),
