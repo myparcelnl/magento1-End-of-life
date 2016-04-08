@@ -693,7 +693,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
             'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
         );
-        if($myParcelShipment->getInsured() === 1){
+
+        if((int) $myParcelShipment->getInsured() === 1){
             $data['insurance']['amount'] = $this->_getInsuredAmount($myParcelShipment) * 100;
             $data['insurance']['currency'] = 'EUR';
         }
