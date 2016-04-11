@@ -82,11 +82,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * @var string
      */
-    protected $requestHash = '';
-
-    /**
-     * @var string
-     */
     protected $requestType = '';
 
     /**
@@ -245,8 +240,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $header[] = 'Authorization: basic ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
 
         $this->requestHeader   = $header;
-
-        $this->_hashRequest();
 
         return $this;
     }
@@ -522,9 +515,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             return false;
         }
 
-        if(empty($this->requestHash)){
-            return false;
-        }
 
         return true;
     }
@@ -740,18 +730,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
     }
 
-    /**
-     * Creates a hash to ensure security, sets the $requestHash class-variable
-     *
-     * @return $this
-     */
-    protected function _hashRequest()
-    {
-        //generate hash
-        $this->requestHash = hash_hmac('sha1', 'POST&' . urlencode($this->requestString), $this->apiKey);
-
-        return $this;
-    }
 
     /**
      * Generating positions for A4 paper
