@@ -339,8 +339,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             //check if the response has errors codes
             if(isset($aResult['errors'][0]['code'])){
-                $this->requestError = $aResult['errors'][0]['code'];
-                $this->requestErrorDetail = $aResult['errors'][0]['code'];
+                $this->requestError = $aResult['errors'][0]['code'] . ' - ' . $aResult['errors'][0]['human'][0];
+                $this->requestErrorDetail = $aResult['errors'][0]['code'] . ' - ' . $aResult['errors'][0]['human'][0];
                 $request->close();
 
                 return $this;
