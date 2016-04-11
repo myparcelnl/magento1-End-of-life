@@ -741,10 +741,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     {
         $aPositions = array();
         switch ($start){
-            case 1: $aPositions[] = 1;
-            case 2: $aPositions[] = 2;
-            case 3: $aPositions[] = 3;
-            case 4: $aPositions[] = 4;
+            case 1:
+                $aPositions[] = 1;
+            case 2:
+                $aPositions[] = 2;
+            case 3:
+                $aPositions[] = 3;
+            case 4:
+                $aPositions[] = 4;
                 break;
         }
 
