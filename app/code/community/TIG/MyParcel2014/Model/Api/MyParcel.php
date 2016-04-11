@@ -640,16 +640,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
             $pgStreetData      = $helper->getStreetData($pgAddress,$storeId);
-            $data['PgAddress'] = array(
-                'cc'    => $pgAddress->getCountry(),
-                'person'            => $pgAddress->getName(),
-                'business'        => $pgAddress->getCompany(),
-                'postal_code"'        => trim($pgAddress->getPostcode()),
+            $data['options']['signature'] = 1;
+            $data['options']['delivery_type'] = 4;
+            $data['pickup'] = array(
+                'postal_code'        => trim($pgAddress->getPostcode()),
                 'street'          => $pgStreetData['streetname'],
-                'number'    => $pgStreetData['housenumber'],
-                'number_suffix' => $pgStreetData['housenumberExtension'],
                 'city'            => $pgAddress->getCity(),
-                'email'           => $email,
+                'number'    => $pgStreetData['housenumber'],
+                'location_name'        => $pgAddress->getCompany(),
             );
         }
 
