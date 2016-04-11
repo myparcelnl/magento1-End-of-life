@@ -237,7 +237,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestType   = $requestType;
 
         $header[] = $requestHeader . 'charset=utf-8';
-        $header[] = 'Authorization: basic ' . base64_encode('MYSNIzQWqNrYaDeFxJtVrujS9YEuF9kiykBxf8Sj');
+        $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
 
         $this->requestHeader   = $header;
 
@@ -545,12 +545,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'recipient'     => array(
                 'cc'    =>      $shippingAddress->getCountry(),
                 'person'        => trim($shippingAddress->getName()),
-                'company'       => $shippingAddress->getCompany(),
+                'company'       => (string) trim($shippingAddress->getCompany()),
                 'postal_code'  => trim($shippingAddress->getPostcode()),
                 'street'        => trim($streetData['streetname']),
                 'number'        => trim($streetData['housenumber']),
-                'number_suffix' => $streetData['housenumberExtension'],
-                'city'          => $shippingAddress->getCity(),
+                'number_suffix' => trim($streetData['housenumberExtension']),
+                'city'          => trim($shippingAddress->getCity()),
                 'phone'          => '',
                 'email'         => $email,
             ),
@@ -633,11 +633,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $data['options']['signature'] = 1;
             $data['options']['delivery_type'] = 4;
             $data['pickup'] = array(
-                'postal_code'        => trim($pgAddress->getPostcode()),
-                'street'          => $pgStreetData['streetname'],
-                'city'            => $pgAddress->getCity(),
-                'number'    => $pgStreetData['housenumber'],
-                'location_name'        => $pgAddress->getCompany(),
+                'postal_code'       => trim($pgAddress->getPostcode()),
+                'street'            => trim($pgStreetData['streetname']),
+                'city'              => trim($pgAddress->getCity()),
+                'number'            => trim($pgStreetData['housenumber']),
+                'location_name'     => trim($pgAddress->getCompany()),
             );
         }
 
