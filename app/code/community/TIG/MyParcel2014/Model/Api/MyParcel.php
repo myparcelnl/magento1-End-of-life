@@ -569,9 +569,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         if($shippingAddress->getCountry() != 'NL')
         {
-            $data['recipient']['eps_postal_code"'] = $data['recipient']['postal_code"'];
             $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
-            unset($data['recipient']['postal_code"']);
             unset($data['recipient']['number']);
             unset($data['recipient']['number_suffix']);
         }
