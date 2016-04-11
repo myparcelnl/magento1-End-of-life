@@ -253,7 +253,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function sendRequest($method = 'POST')
     {
-        if (!$this->_checkConfigForRequest() && $method == 'POST') {
+        if (!$this->_checkConfigForRequest()) {
             return false;
         }
 
