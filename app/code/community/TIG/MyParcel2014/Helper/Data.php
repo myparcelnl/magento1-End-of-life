@@ -53,23 +53,20 @@
          * Street (key street)
          * (?P<street>.*?)
          *
-         * Street and house number are always separated by a whitespace
-         * \s+
+         * An Street and house number is sometimes separated by a whitespace
+         * \s?
          *
          * Insert number and extension together in one array
          * (?P<house_number>
          *
          * Set number (int)
-         * (?P<number>[\d-]+)
-         *
-         * Or the number of a caravan or houseboat without ship name or caravan name
-         * |[WW|AB]{1,}$
-         *
-         * Or the number of a caravan or houseboat with ship name or caravan name
-         * |[WW|AB]{1,}\s[a-zA-Z0-9-/]+
+         * (?P<number>[\d]+)
          *
          * An housenumber and extension is sometimes separated by a whitespace
          * \s?+
+         *
+         * Sometimes an extension begins with a dash
+         * -?
          *
          * Set key for extension
          * (?P<extension>
@@ -77,7 +74,7 @@
          * If extension have text
          * [a-zA-Z/-]{0,4}$
          *
-         * or if extension have a number
+         * OR(!) if extension have a number
          * |[0-9/-]{0,4}$
          *
          * Close key for extension
@@ -87,15 +84,15 @@
          * Close number and extension together
          * )
          *
+         * @todo; Allow address without a house number. Address of a ship, a caravan or houseboat. Use: [WW|AB]
          */
-//        const SPLIT_STREET_REGEX = '#\A(.*?)\s+(\d+\s[a-zA-Z0-9]+|\d+[a-zA-Z]{0,1}\s{0,1}[-/]{1}\s{0,1}\d*[a-zA-Z]{0,1}[[:space:]]+[0-9][a-zA-Z]|\d+[a-zA-Z-/]{0,1}\d*[a-zA-Z/]{0,1})#';
-        const SPLIT_STREET_REGEX = '#(?P<street>.*?)\s+(?P<house_number>(?P<number>[\d-]+|[WW|AB]{1,}$|[WW|AB]{1,}\s[a-zA-Z0-9-/]+)\s?+(?P<extension>[a-zA-Z/-]{0,4}$|[0-9/-]{0,4}$))$#';
+        const SPLIT_STREET_REGEX = '#(?P<street>.*?)\s?(?P<house_number>(?P<number>[\d]+)\s?+-?(?P<extension>[a-zA-Z/-]{0,4}$|[0-9/-]{0,4}$))$#';
 
         /**
          * Regular expression used to split house number and house number extension
          * This data is the same as above
          */
-        const SPLIT_HOUSENUMBER_REGEX = '#(?P<number>[\d-]+|[WW|AB]{1,}$|[WW|AB]{1,}\s[a-zA-Z0-9-/]+)\s?+(?P<extension>[a-zA-Z/-]{0,4}$|[0-9/-]{0,4}$)#';
+        const SPLIT_HOUSENUMBER_REGEX = '#(?P<number>[\d]+)\s?+-?(?P<extension>[a-zA-Z/-]{0,4}$|[0-9/-]{0,4}$)#';
 
         /**
          * Log filename to log all non-specific MyParcel exceptions.
@@ -477,7 +474,6 @@
          */
         protected function _getSplitStreetData($fullStreet)
         {
-            $fullStreet = 'Mauritskade AB FUCHSIA';
             $fullStreet = preg_replace("/[\n\r]/","",$fullStreet);
 
             $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
