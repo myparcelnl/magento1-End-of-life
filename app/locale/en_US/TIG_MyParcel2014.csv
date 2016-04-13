@@ -56,6 +56,8 @@ TIG_MyParcel2014::The following shipments or orders could not be processed:,The 
 TIG_MyParcel2014::Order #%s cannot be shipped at this time.,Order #%s cannot be shipped at this time.
 TIG_MyParcel2014::Invalid full street supplied: %s.,Invalid full street supplied: %s.
 TIG_MyParcel2014::Invalid housnumber supplied: %s.,Invalid housnumber supplied: %s.
+TIG_MyParcel2014::Something went wrong with splitting up address %s.,Something went wrong with splitting up address %s. Add the address manually to the back office of MyParcel.
+TIG_MyParcel2014::Something went wrong with splitting up housenumber %s.,Something went wrong with splitting up housenumber %s. Add the address manually to the back office of MyParcel.
 TIG_MyParcel2014::Invalid session requested.,Invalid session requested.
 TIG_MyParcel2014::Invalid message type requested: %s.,Invalid message type requested: %s.
 TIG_MyParcel2014::No message supplied.,No message supplied.
