@@ -105,7 +105,7 @@
         const MYPARCEL_DEBUG_LOG_FILE = 'TIG_MyParcel2014_Debug.log';
 
         /**
-         * email addres of the shop owner
+         * email address of the shop owner
          */
         const XML_PATH_EMAIL_IDENTITY = 'sales_email/order/identity';
         /**
