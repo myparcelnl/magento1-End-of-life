@@ -477,8 +477,6 @@
 
             $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
-            var_dump($matches);
-            exit;
             if (!$result || !is_array($matches) || $fullStreet != $matches[0]) {
                 if($fullStreet != $matches[0]){
                     // Characters are gone by preg_match
