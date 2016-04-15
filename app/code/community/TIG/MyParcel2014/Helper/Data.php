@@ -71,11 +71,11 @@
          * Set key for extension
          * (?P<extension>
          *
-         * If extension have text
-         * [a-zA-Z/-]{0,4}$
+         * If extension have text, / of whitespace
+         * [a-zA-Z/\s]{0,4}$
          *
          * OR(!) if extension have a number
-         * |[0-9/-]{0,4}$
+         * |[0-9/]{0,4}$
          *
          * Close key for extension
          * )
@@ -85,13 +85,13 @@
          * )
          *
          */
-        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)\s*-?(?P<extension>[a-zA-Z/]{0,4}$|[0-9/]{0,4}$))$~';
+        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)\s*-?(?P<extension>[a-zA-Z/\s]{0,4}$|[0-9/]{0,4}$))$~';
 
         /**
          * Regular expression used to split house number and house number extension
          * This data is the same as above
          */
-        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)\s?+-?(?P<extension>[a-zA-Z/-]{0,4}$|[0-9/-]{0,4}$)~';
+        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)\s*-?(?P<extension>[a-zA-Z/\s]{0,4}$|[0-9/]{0,4}$)~';
 
         /**
          * Log filename to log all non-specific MyParcel exceptions.
