@@ -567,9 +567,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         // add customs data for EUR3 and World shipments
         if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
         {
-            $data['customs_shipment_type'] = $helper->getConfig('customs_type', 'shipment', $storeId);
-            $data['customs_invoice']       = $order->getIncrementId();
-            $data['CustomsContent']        = array();
+            $data['customs_declaration']                        = array();
+            $data['customs_declaration']['items']               = array();
+            $data['customs_declaration']['invoice']             = $order->getIncrementId();
+            $data['customs_declaration']['package_contents']    = $helper->getConfig('customs_type', 'shipment', $storeId);
 
             $customsContentType = $helper->getConfig('customs_hstariffnr', 'shipment', $storeId);
             if($myParcelShipment->getCustomsContentType()){
@@ -605,13 +606,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                     $price *= $qty;
 
-                    $data['CustomsContent'][$i] = array(
-                        'Description'     => $item->getName(),
-                        'Quantity'        => $qty,
-                        'Weight'          => $weight,
-                        'Value'           => $price,
-                        'HSTariffNr'      => $customsContentType,
-                        'CountryOfOrigin' => Mage::getStoreConfig('general/country/default', $storeId),
+
+                    $data['customs_declaration']['items'][] = array(
+                        'description'       => $item->getName(),
+                        'amount'            => $qty,
+                        'weight'            => $weight,
+                        'item_value'        => array('amount' => $price, 'currency' => 'EUR'),
+                        'classification'      => $customsContentType,
+                        'country' => Mage::getStoreConfig('general/country/default', $storeId),
+
                     );
 
                     if(++$i >= 5) {
@@ -619,7 +622,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     }
                 }
             }
-            $data['weight'] = $totalWeight;
+            $data['physical_properties'] = array('weight' => $totalWeight);
         }
 
         /**
@@ -692,7 +695,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             unset($data['only_recipient']);
             unset($data['signature']);
             unset($data['return']);
-            unset($data['insured']);
         }
 
 
