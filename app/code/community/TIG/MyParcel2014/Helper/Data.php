@@ -85,13 +85,13 @@
          * )
          *
          */
-        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)\s*-?(?P<extension>[a-zA-Z/]{0,4}$|[0-9/]{0,4}$))$~';
+        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)\s*-?(?P<extension>[a-zA-Z/\s]{0,4}$|[0-9/]{0,4}$))$~';
 
         /**
          * Regular expression used to split house number and house number extension
          * This data is the same as above
          */
-        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)\s?+-?(?P<extension>[a-zA-Z/-]{0,4}$|[0-9/-]{0,4}$)~';
+        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)\s*-?(?P<extension>[a-zA-Z/\s]{0,4}$|[0-9/]{0,4}$)~';
 
         /**
          * Log filename to log all non-specific MyParcel exceptions.
@@ -477,6 +477,8 @@
 
             $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
+            var_dump($matches);
+            exit();
             if (!$result || !is_array($matches) || $fullStreet != $matches[0]) {
                 if($fullStreet != $matches[0]){
                     // Characters are gone by preg_match
