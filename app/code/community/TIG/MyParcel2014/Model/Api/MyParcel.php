@@ -49,7 +49,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     const REQUEST_TYPE_CREATE_CONSIGNMENT   = 'shipments';
     const REQUEST_TYPE_CREATE_CONSIGNMENTS  = 'create-consignments';
     const REQUEST_TYPE_REGISTER_CONFIG      = 'register-config';
-    const REQUEST_TYPE_RETRIEVE_LABEL        = 'shipment_labels';
+    const REQUEST_TYPE_RETRIEVE_LABEL       = 'shipment_labels';
     const REQUEST_TYPE_RETRIEVE_STATUS      = 'retrieve-status';
     const REQUEST_TYPE_CONSIGNMENT_CREDIT   = 'consignment-credit';
     const REQUEST_TYPE_CREATE_RETOURLINK    = 'create-retourlink';
@@ -719,12 +719,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * Creates a url-encoded request string.
      *
      * @param array $data
+     * @param string $dataType
      *
      * @return string
      */
-    protected function _createRequestString(array $data)
+    protected function _createRequestString(array $data, $dataType = 'shipments')
     {
-        $requestData['data']['shipments'][] = $data;
+        $requestData['data'][$dataType][] = $data;
 
         return json_encode($requestData);
 
