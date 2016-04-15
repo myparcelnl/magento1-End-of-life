@@ -71,11 +71,11 @@
          * Set key for extension
          * (?P<extension>
          *
-         * If extension have text
-         * [a-zA-Z/-]{0,4}$
+         * If extension have text, / of whitespace
+         * [a-zA-Z/\s]{0,4}$
          *
          * OR(!) if extension have a number
-         * |[0-9/-]{0,4}$
+         * |[0-9/]{0,4}$
          *
          * Close key for extension
          * )
@@ -477,8 +477,6 @@
 
             $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
-            var_dump($matches);
-            exit();
             if (!$result || !is_array($matches) || $fullStreet != $matches[0]) {
                 if($fullStreet != $matches[0]){
                     // Characters are gone by preg_match
