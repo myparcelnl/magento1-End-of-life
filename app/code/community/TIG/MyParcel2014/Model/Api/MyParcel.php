@@ -570,7 +570,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $data['customs_declaration']                        = array();
             $data['customs_declaration']['items']               = array();
             $data['customs_declaration']['invoice']             = $order->getIncrementId();
-            $data['customs_declaration']['package_contents']    = $helper->getConfig('customs_type', 'shipment', $storeId);
+            $data['customs_declaration']['contents']    = (int)$helper->getConfig('customs_type', 'shipment', $storeId);
 
             $customsContentType = $helper->getConfig('customs_hstariffnr', 'shipment', $storeId);
             if($myParcelShipment->getCustomsContentType()){
@@ -622,6 +622,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     }
                 }
             }
+
+            $data['customs_declaration']['weight'] = $totalWeight;
             $data['physical_properties'] = array('weight' => $totalWeight);
         }
 

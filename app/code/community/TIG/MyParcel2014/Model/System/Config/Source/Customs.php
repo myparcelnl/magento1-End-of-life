@@ -50,23 +50,23 @@ class TIG_MyParcel2014_Model_System_Config_Source_Customs
 
         $array = array(
              array(
-                'value' => 'Commercial Goods',
+                'value' => 1,
                 'label' => $helper->__('Commercial Goods'),
              ),
              array(
-                'value' => 'Commercial Sample',
+                'value' => 2,
                 'label' => $helper->__('Commercial Sample'),
              ),
              array(
-                'value' => 'Documents',
+                'value' => 3,
                 'label' => $helper->__('Documents'),
              ),
              array(
-                'value' => 'Gift',
+                'value' => 4,
                 'label' => $helper->__('Gift'),
              ),
              array(
-                'value' => 'Returned Goods',
+                'value' => 5,
                 'label' => $helper->__('Returned Goods'),
              ),
         );
