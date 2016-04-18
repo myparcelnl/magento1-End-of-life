@@ -57,13 +57,10 @@
          * \s?
          *
          * Insert number and extension together in one array
-         * (?P<house_number>
+         * (?P<street_suffix>
          *
          * Set number (int)
          * (?P<number>[\d]+)
-         *
-         * An housenumber and extension is sometimes separated by a whitespace
-         * \s*
          *
          * Sometimes an extension begins with a dash
          * -?
@@ -71,8 +68,8 @@
          * Set key for extension
          * (?P<extension>
          *
-         * If extension have text, / of whitespace
-         * [a-zA-Z/\s]{0,4}$
+         * If extension have text, / or whitespace
+         * [a-zA-Z/\s]{0,5}$
          *
          * OR(!) if extension have a number
          * |[0-9/]{0,4}$
@@ -80,18 +77,17 @@
          * Close key for extension
          * )
          *
-         *
          * Close number and extension together
          * )
          *
          */
-        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)\s*-?(?P<extension>[a-zA-Z/\s]{0,4}$|[0-9/]{0,4}$))$~';
+        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$~';
 
         /**
          * Regular expression used to split house number and house number extension
          * This data is the same as above
          */
-        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)\s*-?(?P<extension>[a-zA-Z/\s]{0,4}$|[0-9/]{0,4}$)~';
+        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$)~';
 
         /**
          * Log filename to log all non-specific MyParcel exceptions.
