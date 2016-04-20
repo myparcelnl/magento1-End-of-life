@@ -569,6 +569,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
         {
 
+            $customsContentType = $helper->getConfig('customs_hstariffnr', 'shipment', $storeId);
+            if($myParcelShipment->getCustomsContentType()){
+                $customsContentType = $myParcelShipment->getCustomsContentType();
+            }
+
             if($data['options']['package_type'] == 2){
                 throw new TIG_MyParcel2014_Exception(
                     $helper->__('International shipments can not be sent by') . ' ' . strtolower($helper->__('Letter box')),
@@ -576,7 +581,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 );
             }
 
-            if(empty($helper->getConfig('customs_hstariffnr', 'shipment', $storeId))) {
+            if(empty($customsContentType)) {
                 throw new TIG_MyParcel2014_Exception(
                     $helper->__('No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.'),
                     'MYPA-0026'
@@ -588,10 +593,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $data['customs_declaration']['invoice']             = $order->getIncrementId();
             $data['customs_declaration']['contents']            = (int)$helper->getConfig('customs_type', 'shipment', $storeId);
 
-            $customsContentType = $helper->getConfig('customs_hstariffnr', 'shipment', $storeId);
-            if($myParcelShipment->getCustomsContentType()){
-                $customsContentType = $myParcelShipment->getCustomsContentType();
-            }
 
             $totalWeight = 0;
             $items = $myParcelShipment->getOrder()->getAllItems();
