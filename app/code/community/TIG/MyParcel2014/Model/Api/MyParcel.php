@@ -627,7 +627,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         'description'       => $item->getName(),
                         'amount'            => $qty,
                         'weight'            => $weight * 1000,
-                        'item_value'        => array('amount' => $price, 'currency' => 'EUR'),
+                        'item_value'        => array('amount' => $price * 100, 'currency' => 'EUR'),
                         'classification'      => $customsContentType,
                         'country' => Mage::getStoreConfig('general/country/default', $storeId),
 
