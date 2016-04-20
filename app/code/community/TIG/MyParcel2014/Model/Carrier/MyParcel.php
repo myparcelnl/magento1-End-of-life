@@ -219,10 +219,10 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
          * We have to collect the totals because they have not always been loaded at this point
          * @var Mage_Sales_Model_Quote $quote
          */
-        $quote = Mage::getSingleton('checkout/session')->getQuote()->collectTotals();
-        $baseOrderTotal = $quote->getBaseSubtotalWithDiscount();
+        $totals = Mage::getSingleton('checkout/cart')->getQuote()->getTotals();
+        $subtotal = $totals["subtotal"]->getValue();
 
-        if ($baseOrderTotal < $minOrderTotal) {
+        if ($subtotal < $minOrderTotal) {
             return false;
         }
 
