@@ -626,7 +626,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     $data['customs_declaration']['items'][] = array(
                         'description'       => $item->getName(),
                         'amount'            => $qty,
-                        'weight'            => $weight,
+                        'weight'            => $weight * 1000,
                         'item_value'        => array('amount' => $price, 'currency' => 'EUR'),
                         'classification'      => $customsContentType,
                         'country' => Mage::getStoreConfig('general/country/default', $storeId),
@@ -639,8 +639,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 }
             }
 
-            $data['customs_declaration']['weight'] = $totalWeight;
-            $data['physical_properties'] = array('weight' => $totalWeight);
+            $data['customs_declaration']['weight'] = $totalWeight * 1000;
+            $data['physical_properties'] = array('weight' => $totalWeight * 1000);
         }
 
         /**
