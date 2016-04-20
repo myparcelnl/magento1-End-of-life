@@ -523,12 +523,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * Gets the shipping address and product code data for this shipment.
      *
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
-     *
      * @return array
+     * @throws TIG_MyParcel2014_Exception
      */
     protected function _getConsignmentData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
         $helper = Mage::helper('tig_myparcel');
+
         $order = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
 
@@ -567,10 +568,21 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         // add customs data for EUR3 and World shipments
         if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
         {
+
+            if(empty($helper->getConfig('customs_hstariffnr', 'shipment', $storeId))) {
+
+                throw new TIG_MyParcel2014_Exception(
+                    $helper->__('No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.'),
+                    'MYPA-0026'
+                );
+            }
+
+
+
             $data['customs_declaration']                        = array();
             $data['customs_declaration']['items']               = array();
             $data['customs_declaration']['invoice']             = $order->getIncrementId();
-            $data['customs_declaration']['contents']    = (int)$helper->getConfig('customs_type', 'shipment', $storeId);
+            $data['customs_declaration']['contents']            = (int)$helper->getConfig('customs_type', 'shipment', $storeId);
 
             $customsContentType = $helper->getConfig('customs_hstariffnr', 'shipment', $storeId);
             if($myParcelShipment->getCustomsContentType()){
@@ -590,7 +602,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     if(!empty($parentId)) {
                         $parent = Mage::getModel('sales/order_item')->load($parentId);
 
-                        // TODO: check for multiple test cases with configurable and bundled products
                         if (empty($weight)) {
                             $weight = $parent->getWeight();
                         }
