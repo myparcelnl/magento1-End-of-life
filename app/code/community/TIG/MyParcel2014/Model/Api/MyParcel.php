@@ -569,15 +569,19 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
         {
 
-            if(empty($helper->getConfig('customs_hstariffnr', 'shipment', $storeId))) {
+            if($data['options']['package_type'] == 2){
+                throw new TIG_MyParcel2014_Exception(
+                    $helper->__('International shipments can not be sent by') . ' ' . strtolower($helper->__('Letter box')),
+                    'MYPA-0027'
+                );
+            }
 
+            if(empty($helper->getConfig('customs_hstariffnr', 'shipment', $storeId))) {
                 throw new TIG_MyParcel2014_Exception(
                     $helper->__('No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.'),
                     'MYPA-0026'
                 );
             }
-
-
 
             $data['customs_declaration']                        = array();
             $data['customs_declaration']['items']               = array();

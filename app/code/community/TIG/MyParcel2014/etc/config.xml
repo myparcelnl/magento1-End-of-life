@@ -377,11 +377,16 @@
                 <url/>
                 <type>error</type>
             </MYPA-0025>
-            <MYPA->
+            <MYPA-0026>
                 <message>No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.</message>
                 <url/>
                 <type>error</type>
-            </MYPA->
+            </MYPA-0026>
+            <MYPA-0027>
+                <message>International shipments can not be sent by letter box</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0027>
         </errors>
     </tig>
 </config>

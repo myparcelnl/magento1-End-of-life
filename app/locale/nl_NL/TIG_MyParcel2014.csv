@@ -178,6 +178,7 @@ TIG_MyParcel2014::Letterbox,Brievenbuspakje
 TIG_MyParcel2014::Select,Selecteer
 TIG_MyParcel2014::Insured up to:,Verzekeren tot:
 TIG_MyParcel2014::Close,Sluiten
+TIG_MyParcel2014::International shipments can not be sent by,Internationale zendingen kunnen niet verzonden worden met een
 TIG_MyParcel2014::Choose a PostNL pickup location,Kies PostNL afhaallocatie
 "TIG_MyParcel2014::The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.","Het geselecteerde zending-type kan niet gebruikt worden, Pakjegemak zendingen kunnen enkel aangemaakt worden met het normale verzend-type."
 TIG_MyParcel2014::MyParcel - Create Magento shipments (no labels),MyParcel - Cre&euml;er Magento verzendingen (geen labels)
