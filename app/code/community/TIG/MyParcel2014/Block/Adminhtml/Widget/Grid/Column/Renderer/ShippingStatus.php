@@ -66,18 +66,17 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $shippingMethod = $row->getData(self::SHIPPING_METHOD_COLUMN);
 
         // if methode == bolcom_bolcom change all shipping methods to bolcom_fratrate
-        if('bolcom_bolcom' == $shippingMethod){
+        if ('bolcom_bolcom' == $shippingMethod) {
 
             $orders = Mage::getModel('sales/order')->getCollection();
             try {
                 $orders->addAttributeToFilter('shipping_method', array('eq' => 'bolcom_bolcom'))->load();
-                foreach($orders as $order)
-                {
-                    $order->setShippingMethod('bolcom_flatrate')->save();
+                foreach ($orders as $tmpOrder) {
+                    $tmpOrder->setShippingMethod('bolcom_flatrate')->save();
                     $shippingMethod = 'bolcom_flatrate';
                 }
 
-            } catch (Exception $e){
+            } catch (Exception $e) {
                 echo $e->getMessage();
             }
 
@@ -94,9 +93,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
          * If not available, show send link and country code
          */
         $value = $row->getData($this->getColumn()->getIndex());
+        $order = Mage::getModel('sales/order')->load($row->getId());
 
         if (!$value) {
-            if($row->getData(self::STATUS_COLUMN) == 'pending'){
+            if($order->canShip()) {
 
                 $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
                 return  $countryCode . ' - <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ';
@@ -120,13 +120,18 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $barcodeData = array();
         $barcodes = explode(',', $row->getData(self::BARCODE_COLUMN));
         $statusses = explode(',', $value);
+
+
         foreach ($statusses as $key => $status) {
+
             if (!empty($barcodes[$key])) {
                 $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
-                $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>{$status}</small>";
+                $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>" . $this->__('status_' . $status) . "</small>";
                 if(!in_array($oneBarcodeData, $barcodeData)) {
                     $barcodeData[] = $oneBarcodeData;
                 }
+            } else {
+                $barcodeData[] = "<small>" . $this->__('status_' . $status) . "</small>";
             }
         }
 

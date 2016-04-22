@@ -307,6 +307,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             // log the request url
             $helper->log($url);
 
+
             $request->setConfig($config)
                 ->write(Zend_Http_Client::GET, $url, '1.1', $header);
         }
@@ -314,7 +315,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         //read the response
         $response = $request->read();
 
-        //decode the json response
         $aResult = json_decode($response, true);
 
         if(is_array($aResult)){
@@ -367,10 +367,20 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     }
 
     /**
-     * @TODO for use in massaction
-     * @param array $shippingIds
+     * @param array $consignmentIds
+     *
+     * @return $this
      */
-    public function createConsignmentsRequest($shippingIds = array()){}
+    public function createConsignmentsInfoRequest($consignmentIds = array()){
+
+
+        $requestString = '/' . implode(';',$consignmentIds);
+
+        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_SHIPMENT);
+
+        return $this;
+
+    }
 
     /**
      * Prepares the API for retrieving pdf's for an array of consignment IDs.

@@ -519,13 +519,19 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          *
          * @var TIG_MyParcel2014_Model_Shipment $shipment
          */
+        $shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
 
-        /** @todo; send barcode mail */
-        /*$shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
-        foreach ($shipments as $shipment) {
-            $shipment->sendBarcodeAfterResponse();
-        }*/
+        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $apiInfo    ->setStoreId($storeId);
+        $responseData = $apiInfo->createConsignmentsInfoRequest($consignmentIds)
+            ->sendRequest('GET')
+            ->getRequestResponse();
+        $responseData = json_decode($responseData);
 
+        foreach($responseData->data->shipments as $responseShipment){
+            $shipment = $shipments[$responseShipment->id];
+            $shipment->updateStatus($responseShipment);
+        }
 
         return $this;
     }
@@ -729,7 +735,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 continue;
             }
 
-            $shipments[] = $shipment;
+            $shipments[$shipment->getData('consignment_id')] = $shipment;
         }
 
         return $shipments;

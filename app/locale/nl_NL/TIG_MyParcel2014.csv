@@ -190,6 +190,33 @@ TIG_MyParcel2014::Post Office Address,Gekozen afhaallocatie
 TIG_MyParcel2014::Only for dutch shipments,Alleen voor Nederlandse verzendingen
 "TIG_MyParcel2014::Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200","Alleen voor Nederlandse verzendingen, zendingen naar landen buiten de EU zijn standaard verzekerd tot &euro; 200"
 "TIG_MyParcel2014::Please select the shipping methods that will be considered to be 'MyParcel' by this extension. Orders placed using one of these shipping methods may be processed using the MyParcel extension.","Selecteer de verzendmethodes die deze extensie als 'MyParcel' moet beschouwen. Orders die worden geplaatst via deze verzendmethodes, kunnen worden verwerkt door de MyParcel extensie."
+
+TIG_MyParcel2014::status_1,Concept
+TIG_MyParcel2014::status_2,Voorgemeld
+TIG_MyParcel2014::status_3,Aangeboden aan postNL
+TIG_MyParcel2014::status_4,In sorteerproces
+TIG_MyParcel2014::status_5,In distributie
+TIG_MyParcel2014::status_6,Zending bij douane
+TIG_MyParcel2014::status_7,Zending afgeleverd
+TIG_MyParcel2014::status_8,Zending op afhaallocatie
+TIG_MyParcel2014::status_9,Zending afgehaald op afhaallocatie
+TIG_MyParcel2014::status_10,Retourzending afgeleverd
+TIG_MyParcel2014::status_11,Retourzending op afhaallocatie
+TIG_MyParcel2014::status_12,Ongefrankeerd label geprint
+TIG_MyParcel2014::status_13,Gecrediteerd
+TIG_MyParcel2014::status_30,Inactief - Concept
+TIG_MyParcel2014::status_31,Inactief - Voorgemeld
+TIG_MyParcel2014::status_32,Inactief - Aangeboden bij PostNL
+TIG_MyParcel2014::status_33,Inactief - In sorteerprocess
+TIG_MyParcel2014::status_34,Inactief - In distributie
+TIG_MyParcel2014::status_35,Inactief - Zending bij douane
+TIG_MyParcel2014::status_36,Inactief - Zending afgeleverd
+TIG_MyParcel2014::status_37,Inactief - Zending op afhaallocatie
+TIG_MyParcel2014::status_38,Inactief - Zending afgehaald op afhaallocatie
+TIG_MyParcel2014::status_39,Inactief - Retourzending afgeleverd
+TIG_MyParcel2014::status_40,Inactief - Retourzending op afhaallocactie
+TIG_MyParcel2014::status_99,Inactief - Onbekende status
+
 "All Allowed Countries","Alle toegestane landen"
 "Specific Countries","Specifieke landen"
 "The configuration has been saved.","De configuratie is opgeslagen."

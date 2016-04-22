@@ -98,8 +98,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     /**
      * Statusses used by MyParcel shipments.
      */
-    const STATUS_NEW        = 'new';
-    const STATUS_CONFIRMED  = 'Aangemeld';
+    const STATUS_NEW        = 1;
 
     /**
      * Supported shipment types.
@@ -495,7 +494,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             return false;
         }
 
-        if ($this->hasStatus() && $this->getStatus() != self::STATUS_NEW) {
+        if ($this->hasStatus()) {
             return false;
         }
 
@@ -512,6 +511,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     public function createConsignment()
     {
         $helper = Mage::helper('tig_myparcel');
+        $storeId = $this->getOrder()->getStoreId();
         if (!$this->canCreateConsignment()) {
             throw new TIG_MyParcel2014_Exception(
                 $helper->__('The createConsignment action is currently unavailable.'),
@@ -545,62 +545,78 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             );
         }
 
-        $status = self::STATUS_NEW;
-
-        /**
-         * set status (new or confirmed)
-         */
-        $this->setStatus($status);
-
         /**
          * Get the consignment ID and set it.
          */
         $consignmentId = (int) $aResponse->data->ids[0]->id;
 
+        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $apiInfo    ->setStoreId($storeId);
+        $responseData = $apiInfo->createConsignmentsInfoRequest(array($consignmentId))
+            ->sendRequest('GET')
+            ->getRequestResponse();
+        $responseData = json_decode($responseData);
+
+        $responseShipment = $responseData->data->shipments[0];
+        if($responseShipment){
+            $this->updateStatus($responseShipment);
+        }
+
+
         $this->setConsignmentId($consignmentId);
+
         return $this;
     }
 
     /**
      * Send barcode mail and set status history comment
      *
+     * @param $responseShipment
+     *
      * @return bool
-     * @throws Exception
      */
-    public function sendBarcodeAfterResponse()
+    public function updateStatus($responseShipment)
     {
-        /** not use this function, use one plate for the webhooks :) no cronjob :) */
+        if (is_object($responseShipment)) {
 
-        $helper = Mage::helper('tig_myparcel');
-        /**
-         * check if barcode is available
-         */
-        if(isset($response['tracktrace']) && !empty($response['tracktrace'])){
-            $barcode  = $response['tracktrace'];
-            $shipment = $this;
-            $isSend   = $helper->sendBarcodeEmail($barcode,$shipment);
-            $this->setBarcode($barcode);
-            $status = self::STATUS_CONFIRMED;
+            $helper = Mage::helper('tig_myparcel');
 
-            //add comment to order-comment history
-            $shippingAddress = $this->getShippingAddress();
-            $barcodeUrl      = $helper->getBarcodeUrl($barcode, $shippingAddress);
-            if($isSend){
+            $this->setStatus($responseShipment->status);
+
+            /**
+             * check if barcode is available
+             */
+            if ($this->getBarcode() === null && $responseShipment->barcode != $this->getBarcode() && (int)$this->getBarcodeSend() == false && !empty($responseShipment->barcode)) {
+
+                $barcode = $responseShipment->barcode;
+                $this->setBarcode($barcode);
+                $isSend = $helper->sendBarcodeEmail($barcode, $shipment);
+
                 //add comment to order-comment history
-                $comment = $helper->__('Track&amp;Trace e-mail is send: %s', $barcodeUrl);
+                $shippingAddress = $this->getShippingAddress();
+                $barcodeUrl = $helper->getBarcodeUrl($barcode, $shippingAddress);
+                if ($isSend) {
+                    //add comment to order-comment history
+                    $comment = $helper->__('Track&amp;Trace e-mail is send: %s', $barcodeUrl);
 
-                //flag the myparcel shipment that barcode
-                $this->setBarcodeSend(true);
-            } else {
-                $comment = $helper->__('Track&amp;Trace link: %s', $barcodeUrl);
+                    //flag the myparcel shipment that barcode
+                    $this->setBarcodeSend(true);
+                } else {
+                    $comment = $helper->__('Track&amp;Trace link: %s', $barcodeUrl);
+                }
+                $helper->log($comment);
+                $order = $this->getOrder();
+                $order->addStatusHistoryComment($comment);
+
+                $order->setEmailSent((int)$isSend);
+                $order->save();
+
             }
-            $helper->log($comment);
-            $order = $shipment->getOrder();
-            $order->addStatusHistoryComment($comment);
-            $order->setEmailSent(false);
-            $order->save();
+
+            $this->save();
 
             return true;
+
         } else {
             return false;
         }
