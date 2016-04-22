@@ -494,10 +494,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             return false;
         }
 
-        if ($this->hasStatus()) {
-            return false;
-        }
-
         return true;
     }
 
@@ -551,13 +547,9 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $consignmentId = (int) $aResponse->data->ids[0]->id;
 
         $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
-        $apiInfo    ->setStoreId($storeId);
-        $responseData = $apiInfo->createConsignmentsInfoRequest(array($consignmentId))
-            ->sendRequest('GET')
-            ->getRequestResponse();
-        $responseData = json_decode($responseData);
+        $responseShipments = $apiInfo->getConsignmentsInfoData(array($consignmentId));
 
-        $responseShipment = $responseData->data->shipments[0];
+        $responseShipment = $responseShipments[0];
         if($responseShipment){
             $this->updateStatus($responseShipment);
         }

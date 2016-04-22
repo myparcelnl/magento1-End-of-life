@@ -521,14 +521,12 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          */
         $shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
 
+
         $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
         $apiInfo    ->setStoreId($storeId);
-        $responseData = $apiInfo->createConsignmentsInfoRequest($consignmentIds)
-            ->sendRequest('GET')
-            ->getRequestResponse();
-        $responseData = json_decode($responseData);
+        $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
 
-        foreach($responseData->data->shipments as $responseShipment){
+        foreach($responseShipments as $responseShipment){
             $shipment = $shipments[$responseShipment->id];
             $shipment->updateStatus($responseShipment);
         }

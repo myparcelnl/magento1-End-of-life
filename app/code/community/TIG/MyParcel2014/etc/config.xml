@@ -24,6 +24,11 @@
             <tig_myparcel>
                 <class>TIG_MyParcel2014_Block</class>
             </tig_myparcel>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_grid>Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid</sales_order_grid>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <helpers>
             <tig_myparcel>

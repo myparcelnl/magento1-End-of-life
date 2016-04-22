@@ -307,7 +307,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             // log the request url
             $helper->log($url);
 
-
             $request->setConfig($config)
                 ->write(Zend_Http_Client::GET, $url, '1.1', $header);
         }
@@ -364,6 +363,31 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_SHIPMENT);
 
         return $this;
+    }
+
+    /**
+     * @param array $consignmentIds
+     *
+     * @return array $responseShipments|false
+     */
+    public function getConsignmentsInfoData($consignmentIds = array()){
+
+        if($consignmentIds){
+
+            $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+            $responseData = $apiInfo->createConsignmentsInfoRequest($consignmentIds)
+                ->sendRequest('GET')
+                ->getRequestResponse();
+
+            $responseData = json_decode($responseData);
+
+            $responseShipments = $responseData->data->shipments;
+
+            return $responseShipments;
+
+        } else {
+            return false;
+        }
     }
 
     /**
