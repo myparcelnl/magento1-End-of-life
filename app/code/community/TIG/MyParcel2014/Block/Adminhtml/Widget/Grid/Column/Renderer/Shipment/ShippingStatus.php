@@ -87,12 +87,11 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_Shipment_Ship
         $barcode = $row->getData(self::BARCODE_COLUMN);
             if (!empty($barcode)) {
                 $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcode, $destinationData, false, true);
+                $barcodeHtml = "<a href='{$barcodeUrl}' target='_blank'>{$barcode}</a> - <small>" . $this->__('status_' . $value) . "</small>";
 
-                $barcodeHtml = "<small>{$value}</small> - <a href='{$barcodeUrl}' target='_blank'>{$barcode}</a>";
             } else {
-                $barcodeHtml = $value;
+                $barcodeHtml = "<small>" . $this->__('status_' . $value) . "</small>";
             }
-
         return $barcodeHtml;
     }
 }
