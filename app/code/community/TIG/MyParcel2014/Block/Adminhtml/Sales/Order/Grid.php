@@ -10,7 +10,7 @@ class Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_B
     protected function _afterLoadCollection()
     {
         /**
-         * @var Mage_Sales_Model_Order_Shipment $order
+         * @var Mage_Sales_Model_Order $order
          * @var TIG_MyParcel2014_Model_Shipment $myParcelShipment
          */
         $orderIds = array();
