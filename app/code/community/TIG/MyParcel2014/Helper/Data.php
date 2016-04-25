@@ -210,6 +210,19 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     }
 
     /**
+     * Returns the whiteList codes for customs.
+     * @return array
+     */
+    public function whiteListCodes()
+    {
+        return array(
+            'NL','BE','BG','DK','DE','EE','FI','FR','HU','IE',
+            'IT','LV','LT','LU','MC','AT','PL','PT','RO','SI',
+            'SK','ES','CZ','GB','SE'
+        );
+    }
+
+    /**
      * Checks if country needs to have customs
      *
      * @param $countryCode
@@ -217,12 +230,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function countryNeedsCustoms($countryCode)
     {
-        $whitelist = array(
-            'NL','BE','BG','DK','DE','EE','FI','FR','HU','IE',
-            'IT','LV','LT','LU','MC','AT','PL','PT','RO','SI',
-            'SK','ES','CZ','GB','SE',
-        );
-        $whitelisted = in_array($countryCode, $whitelist);
+        $whitelisted = in_array($countryCode, $this->whiteListCodes());
         if (!$whitelisted) {
             return true;
         }
@@ -358,7 +366,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
 
         /**
          * Split the address using PREG.
-         * @var TIG_MyParcel2014_Helper_Data $this
          */
         $streetData = $this->_getSplitStreetData($fullStreet);
 
@@ -461,6 +468,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         $housenumberParts = $this->_splitHousenumber($housenumber);
         $housenumber = $housenumberParts['number'];
         $housenumberExtension = $housenumberParts['extension'];
+
         $streetData = array(
             'streetname'           => $streetname,
             'housenumber'          => $housenumber,
@@ -482,11 +490,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     protected function _splitHousenumber($housenumber)
     {
-
-
         $housenumber = trim($housenumber);
         $result = preg_match(self::SPLIT_HOUSENUMBER_REGEX, $housenumber, $matches);
-
         if (!$result || !is_array($matches)) {
             throw new TIG_MyParcel2014_Exception(
                 $this->__('Invalid housnumber supplied: %s.', $housenumber),
