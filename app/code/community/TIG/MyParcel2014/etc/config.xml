@@ -27,6 +27,7 @@
             <adminhtml>
                 <rewrite>
                     <sales_order_grid>Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid</sales_order_grid>
+                    <sales_shipment_grid>Tig_MyParcel2014_Block_Adminhtml_Sales_Shipment_Grid</sales_shipment_grid>
                 </rewrite>
             </adminhtml>
         </blocks>
