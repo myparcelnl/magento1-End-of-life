@@ -216,6 +216,7 @@
         {
             $myParcelShippingMethods = $this->getMyParcelShippingMethods();
 
+            $method = strpos($method, 'matrixrate_matrixrate') !== false ? 'matrixrate_matrixrate' : $method;
             if (in_array($method, $myParcelShippingMethods)) {
                 return true;
             }
