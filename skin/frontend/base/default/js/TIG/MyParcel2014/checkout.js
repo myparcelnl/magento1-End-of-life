@@ -211,15 +211,18 @@ MyParcelCheckout.prototype = {
         /**
          * Observe the shipping method.
          */
-        var shippingMethod = $$(selectors.shipping_method);
-        //shippingMethod.invoke('observe', 'click', this._observers.shipping_method);
+        document.observe('click', this.handleClick.bind(this));
 
-        document.observe('click', function(e, el) {
-            if (el = e.findElement(myParcelCheckout._selectors.shipping_method)) {
-                myParcelCheckout._observers.shipping_method();
-            }
-        });
         return this;
+    },
+
+    /**
+     * Show the overlay window when the appropriate shipping method is being clicked on.
+     */
+    handleClick : function(e, el) {
+        if (el = e.findElement(this._selectors.shipping_method)) {
+            this._observers.shipping_method();
+        }
     },
 
     /**

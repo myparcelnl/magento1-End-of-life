@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.4.0.2</version>
+            <version>1.4.1.1</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -378,18 +378,6 @@
                 <url/>
                 <type>error</type>
             </MYPA-0025>
-
-            <MYPA-0026>
-                <message>Something went wrong with splitting up address %s.</message>
-                <url/>
-                <type>error</type>
-            </MYPA-0026>
-
-            <MYPA-0027>
-                <message>Something went wrong with splitting up housenumber %s.</message>
-                <url/>
-                <type>error</type>
-            </MYPA-0027>
         </errors>
     </tig>
 </config>
