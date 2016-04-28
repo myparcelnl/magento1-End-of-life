@@ -575,6 +575,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $shippingAddress = $myParcelShipment->getShippingAddress();
         $streetData      = $helper->getStreetData($shippingAddress,$storeId);
         $email           = $myParcelShipment->getOrder()->getCustomerEmail();
+        $phone           = $order->getBillingAddress()->getTelephone();
 
         $data = array(
             'recipient'     => array(
@@ -586,8 +587,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'number'        => trim($streetData['housenumber']),
                 'number_suffix' => trim($streetData['housenumberExtension']),
                 'city'          => trim($shippingAddress->getCity()),
-                'phone'          => '',
                 'email'         => $email,
+                'phone'         => $phone,
             ),
             'options'    => $this->_getOptionsData($myParcelShipment),
         );
