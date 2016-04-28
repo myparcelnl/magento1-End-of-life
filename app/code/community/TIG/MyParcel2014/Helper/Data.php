@@ -184,6 +184,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     {
         $myParcelShippingMethods = $this->getMyParcelShippingMethods();
 
+        $method = strpos($method, 'matrixrate_matrixrate') !== false ? 'matrixrate_matrixrate' : $method;
         if (in_array($method, $myParcelShippingMethods)) {
             return true;
         }
