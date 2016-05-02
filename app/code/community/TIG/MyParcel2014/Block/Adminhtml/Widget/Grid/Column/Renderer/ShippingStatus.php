@@ -76,9 +76,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
          * If not available, show send link and country code
          */
         $value = $row->getData($this->getColumn()->getIndex());
+        $order = Mage::getModel('sales/order')->load($row->getId());
 
         if (!$value) {
-            if($row->getData(self::STATUS_COLUMN) == 'pending'){
+            if($order->canShip()) {
 
                 $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
                 return  $countryCode . ' - <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ';
