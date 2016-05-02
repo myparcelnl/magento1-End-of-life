@@ -38,6 +38,13 @@
  */
 class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Action
 {
+    public function cronAction()
+    {
+        require('app/code/community/TIG/MyParcel2014/Model/Observer/Cron.php');
+        $cronController = new TIG_MyParcel2014_Model_Observer_Cron;
+        $cronController->checkStatus();
+    }
+
     /**
      * Get available locations for the supplied postcode and housenr from MyParcel.
      *

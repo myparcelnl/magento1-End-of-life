@@ -582,7 +582,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
                 $barcode = $responseShipment->barcode;
                 $this->setBarcode($barcode);
-                $isSend = $helper->sendBarcodeEmail($barcode, $shipment);
+                $isSend = $helper->sendBarcodeEmail($barcode, $this);
 
                 //add comment to order-comment history
                 $shippingAddress = $this->getShippingAddress();

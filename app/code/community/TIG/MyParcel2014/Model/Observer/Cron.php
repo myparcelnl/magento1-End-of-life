@@ -110,10 +110,32 @@ class TIG_MyParcel2014_Model_Observer_Cron
      */
     protected function _checkStatus($collection)
     {
+        /**
+         * @var Mage_Sales_Model_Order_Shipment $shipment
+         * @var TIG_MyParcel2014_Model_Shipment $myParcelShipment
+         */
+        $consignmentIds = array();
+        $myParcelShipments = array();
 
-        $helper = Mage::helper('tig_myparcel');
+        foreach ($collection as $myParcelShipment){
+            if($myParcelShipment->hasConsignmentId()){
+                $consignmentId = $myParcelShipment->getConsignmentId();
+                $consignmentIds[] = $consignmentId;
+                $myParcelShipments[$consignmentId] = $myParcelShipment;
+            }
+        }
 
-        foreach ($collection as $shipment)  {
+
+        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
+
+        if($responseShipments){
+            foreach($responseShipments as $responseShipment){
+                $myParcelShipment = $myParcelShipments[$responseShipment->id];
+                $myParcelShipment->updateStatus($responseShipment);
+            }
+        }
+        /*foreach ($collection as $shipment)  {
             $api           = Mage::getModel('tig_myparcel/api_myParcel');
             $consignmentId = $shipment->getConsignmentId();
             $barcode       = $shipment->getBarcode();
@@ -162,7 +184,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
             } else {
                 $helper->log($api->getRequestErrorDetail(),Zend_Log::ERR);
             }
-        }
+        }*/
 
     }
 
