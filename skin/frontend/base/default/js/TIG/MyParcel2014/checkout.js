@@ -179,7 +179,6 @@ MyParcelCheckout.prototype = {
         this._observers['shipping_method'] = this.shippingMethodOnClick.bindAsEventListener(this);
         this._observers['search_field'] = this.searchFieldOnClick.bindAsEventListener(this);
         this._observers['overlay_hide'] = this.overlayOnClick.bindAsEventListener(this);
-        this._observers['overlay_hide_big_screen'] = this.overlayOnClick.bindAsEventListener(this);
         this._observers['housenr_keypress'] = this.searchFieldOnKeypress.bindAsEventListener(this);
     },
 
@@ -211,10 +210,18 @@ MyParcelCheckout.prototype = {
         /**
          * Observe the shipping method.
          */
-        var shippingMethod = $$(selectors.shipping_method);
-        shippingMethod.invoke('observe', 'click', this._observers.shipping_method);
+        document.observe('click', this.handleClick.bind(this));
 
         return this;
+    },
+
+    /**
+     * Show the overlay window when the appropriate shipping method is being clicked on.
+     */
+    handleClick : function(e, el) {
+        if (el = e.findElement(this._selectors.shipping_method)) {
+            this._observers.shipping_method();
+        }
     },
 
     /**
@@ -237,11 +244,6 @@ MyParcelCheckout.prototype = {
 
         overlay.select('.close').invoke('stopObserving', 'click', this._observers.overlay_hide);
         overlay.select('.close').invoke('observe', 'click', this._observers.overlay_hide);
-
-        // Overlay not clickable on mobile
-        if(document.body.clientWidth > 900) {
-            overlay.select('.close-big-screen').invoke('observe', 'click', this._observers.overlay_hide_big_screen);
-        }
 
         return this;
     },

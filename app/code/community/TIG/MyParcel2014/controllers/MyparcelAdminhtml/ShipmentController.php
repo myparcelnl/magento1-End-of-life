@@ -132,24 +132,15 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
     protected function _getOrderIds()
     {
         $orderIds = $this->getRequest()->getParam('order_ids', array());
-        $orderId = $this->getRequest()->getParam('order_id', array());
 
         /**
-         * Check if the request came from the order detail page.
+         * Check if an order was selected.
          */
-        if(!empty($orderId)) {
-            $orderIds[] = $orderId;
-        } else {
-            /**
-             * Request came from the order overview
-             * Check if an order was selected.
-             */
-            if (!is_array($orderIds) || empty($orderIds)) {
-                throw new TIG_MyParcel2014_Exception(
-                    $this->__('Please select one or more orders.'),
-                    'MYPA-0002'
-                );
-            }
+        if (!is_array($orderIds) || empty($orderIds)) {
+            throw new TIG_MyParcel2014_Exception(
+                $this->__('Please select one or more orders.'),
+                'MYPA-0002'
+            );
         }
 
         return $orderIds;
@@ -619,50 +610,6 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         $this->_checkForWarnings();
 
         return $this;
-    }
-
-    /**
-     * Print one shipping label.
-     *
-     * @return boolean
-     */
-    public function printShipmentLabelAction(){
-
-        return $this->massPrintLabelsAction();
-
-    }
-
-    public function printPackingSlipAction(){
-
-        $orderIds = $this->_getOrderIds();
-        $flag = false;
-        if (!empty($orderIds)) {
-            foreach ($orderIds as $orderId) {
-                $shipments = Mage::getResourceModel('sales/order_shipment_collection')
-                    ->setOrderFilter($orderId)
-                    ->load();
-                if ($shipments->getSize()) {
-                    $flag = true;
-                    if (!isset($pdf)){
-                        $pdf = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
-                    } else {
-                        $pages = Mage::getModel('sales/order_pdf_shipment')->getPdf($shipments);
-                        $pdf->pages = array_merge ($pdf->pages, $pages->pages);
-                    }
-                }
-            }
-            if ($flag) {
-                return $this->_prepareDownloadResponse(
-                    'packingslip'.Mage::getSingleton('core/date')->date('Y-m-d_H-i-s').'.pdf', $pdf->render(),
-                    'application/pdf'
-                );
-            } else {
-                $this->_getSession()->addError($this->__('There are no printable documents related to selected orders.'));
-                $this->_redirect('*/*/');
-            }
-        }
-        $this->_redirect('*/*/');
-
     }
 
     /**
