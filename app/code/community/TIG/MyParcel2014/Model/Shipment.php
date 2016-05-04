@@ -107,12 +107,16 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     const TYPE_NORMAL       = 'normal';
     const TYPE_UNPAID       = 'unstamped';
 
+    /** @var TIG_MyParcel2014_Helper_Data $helper */
+    public $helper;
+
     /**
      * Initialize the shipment
      */
     public function _construct()
     {
         $this->_init('tig_myparcel/shipment');
+        $this->helper = Mage::helper('tig_myparcel');
     }
 
     /**
@@ -280,11 +284,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         $consignmentOption = 'home_address_only';
 
-        $helper = Mage::helper('tig_myparcel');
         $storeId = $this->getOrder()->getStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
-        $configValue = $helper->getConfig($consignmentOption,'shipment',$storeId);
+        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
         if(!empty($configValue) && $configValue > 0){
             if($orderTotalShipped >= $configValue){
                 return array(
@@ -307,11 +310,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         $consignmentOption = 'signature_on_receipt';
 
-        $helper = Mage::helper('tig_myparcel');
         $storeId = $this->getOrder()->getStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
-        $configValue = $helper->getConfig($consignmentOption,'shipment',$storeId);
+        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
         if(!empty($configValue) && $configValue > 0){
             if($orderTotalShipped >= $configValue){
                 return array(
@@ -333,11 +335,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         $consignmentOption = 'return_if_no_answer';
 
-        $helper = Mage::helper('tig_myparcel');
         $storeId = $this->getOrder()->getStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
-        $configValue = $helper->getConfig($consignmentOption,'shipment',$storeId);
+        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
         if(!empty($configValue) && $configValue > 0){
             if($orderTotalShipped >= $configValue){
                 return array(
@@ -360,7 +361,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     public function getInsuredOption()
     {
         //load helper, store id and orderTotal
-        $helper            = Mage::helper('tig_myparcel');
+        $helper            = $this->helper;
         $storeId           = $this->getOrderStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
@@ -506,11 +507,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function createConsignment()
     {
-        $helper = Mage::helper('tig_myparcel');
         $storeId = $this->getOrder()->getStoreId();
         if (!$this->canCreateConsignment()) {
             throw new TIG_MyParcel2014_Exception(
-                $helper->__('The createConsignment action is currently unavailable.'),
+                $this->helper->__('The createConsignment action is currently unavailable.'),
                 'MYPA-0011'
             );
         }
@@ -536,7 +536,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             || !is_numeric($aResponse->data->ids[0]->id)
         ) {
             throw new TIG_MyParcel2014_Exception(
-                $helper->__('Invalid createConsignment response: %s', $api->getRequestErrorDetail()),
+                $this->helper->__('Invalid createConsignment response: %s', $api->getRequestErrorDetail()),
                 'MYPA-0012'
             );
         }
@@ -571,10 +571,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         if (is_object($responseShipment)) {
 
-            $helper = Mage::helper('tig_myparcel');
-
             $this->setStatus($responseShipment->status);
 
+            if($responseShipment->status > 6){
+                $this->setIsFinal('1');
+            }
             /**
              * check if barcode is available
              */
@@ -582,30 +583,34 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
                 $barcode = $responseShipment->barcode;
                 $this->setBarcode($barcode);
-                $isSend = $helper->sendBarcodeEmail($barcode, $this);
+                $isSend = $this->helper->sendBarcodeEmail($barcode, $this);
 
                 //add comment to order-comment history
                 $shippingAddress = $this->getShippingAddress();
-                $barcodeUrl = $helper->getBarcodeUrl($barcode, $shippingAddress);
+                $barcodeUrl = $this->helper->getBarcodeUrl($barcode, $shippingAddress);
                 if ($isSend) {
                     //add comment to order-comment history
-                    $comment = $helper->__('Track&amp;Trace e-mail is send: %s', $barcodeUrl);
+                    $comment = $this->helper->__('Track&amp;Trace e-mail is send: %s', $barcodeUrl);
 
-                    //flag the myparcel shipment that barcode
+                    // flag the myparcel shipment that barcode is send
                     $this->setBarcodeSend(true);
+
                 } else {
-                    $comment = $helper->__('Track&amp;Trace link: %s', $barcodeUrl);
+                    $comment = $this->helper->__('Track&amp;Trace link: %s', $barcodeUrl);
                 }
-                $helper->log($comment);
+
+                $this->helper->log($comment);
+
+                /** @var Mage_Sales_Model_Order $order */
                 $order = $this->getOrder();
                 $order->addStatusHistoryComment($comment);
-
                 $order->setEmailSent((int)$isSend);
-                $order->save();
-
+                $this->setOrder($order);
             }
 
-            $this->save();
+            if($this->hasDataChanges()){
+                $this->save();
+            }
 
             return true;
 
@@ -625,12 +630,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function addTrackingCodeToShipment($trackAndTraceCode)
     {
-        $helper = Mage::helper('tig_myparcel');
         $shipment = $this->getShipment();
 
         if (!$shipment || !$trackAndTraceCode) {
             throw new TIG_MyParcel2014_Exception(
-                $helper->__(
+                $this->helper->__(
                     'Unable to add tracking info: no track&amp;trace code or shipment available.'
                 ),
                 'MYPA-0013'
