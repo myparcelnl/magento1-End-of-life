@@ -40,7 +40,6 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 {
     public function cronAction()
     {
-        require('app/code/community/TIG/MyParcel2014/Model/Observer/Cron.php');
         $cronController = new TIG_MyParcel2014_Model_Observer_Cron;
         $cronController->checkStatus();
     }
