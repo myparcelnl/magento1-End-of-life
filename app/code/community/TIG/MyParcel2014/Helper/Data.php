@@ -49,13 +49,45 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     /**
      * Regular expression used to split street name from house number. This regex works well for dutch addresses, but
      * may fail for international addresses. We strongly recommend using split address lines instead.
+         *
+         * Street (key street)
+         * (?P<street>.*?)
+         *
+         * An Street and house number is sometimes separated by a whitespace
+         * \s?
+         *
+         * Insert number and extension together in one array
+         * (?P<street_suffix>
+         *
+         * Set number (int)
+         * (?P<number>[\d]+)
+         *
+         * Sometimes an extension begins with a dash
+         * -?
+         *
+         * Set key for extension
+         * (?P<extension>
+         *
+         * If extension have text, / or whitespace
+         * [a-zA-Z/\s]{0,5}$
+         *
+         * OR(!) if extension have a number
+         * |[0-9/]{0,4}$
+         *
+         * Close key for extension
+         * )
+         *
+         * Close number and extension together
+         * )
+         *
      */
-    const SPLIT_STREET_REGEX = '#\A(.*?)\s+(\d+\s[a-zA-Z]?|\d+[a-zA-Z]{0,1}\s{0,1}[-]{1}\s{0,1}\d*[a-zA-Z]{0,1}|\d+[a-zA-Z-]{0,1}\d*[a-zA-Z]{0,1})#';
+        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$~';
 
     /**
      * Regular expression used to split house number and house number extension
+     * This data is the same as above
      */
-    const SPLIT_HOUSENUMBER_REGEX = '#^([\d]+)(.*)#s';
+        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$)~';
 
     /**
      * Log filename to log all non-specific MyParcel exceptions.
@@ -68,7 +100,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     const MYPARCEL_DEBUG_LOG_FILE = 'TIG_MyParcel2014_Debug.log';
 
     /**
-     * email addres of the shop owner
+         * email address of the shop owner
      */
     const XML_PATH_EMAIL_IDENTITY = 'sales_email/order/identity';
     /**
@@ -184,6 +216,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     {
         $myParcelShippingMethods = $this->getMyParcelShippingMethods();
 
+            $method = 'bolcom_bolcom' !== $method ? 'bolcom_flatrate' : $method;
+            $method = strpos($method, 'matrixrate_matrixrate') !== false ? 'matrixrate_matrixrate' : $method;
         if (in_array($method, $myParcelShippingMethods)) {
             return true;
         }
@@ -210,6 +244,19 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     }
 
     /**
+     * Returns the whiteList codes for customs.
+     * @return array
+     */
+    public function whiteListCodes()
+    {
+        return array(
+            'NL','BE','BG','DK','DE','EE','FI','FR','HU','IE',
+            'IT','LV','LT','LU','MC','AT','PL','PT','RO','SI',
+            'SK','ES','CZ','GB','SE'
+        );
+    }
+
+    /**
      * Checks if country needs to have customs
      *
      * @param $countryCode
@@ -217,12 +264,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function countryNeedsCustoms($countryCode)
     {
-        $whitelist = array(
-            'NL','BE','BG','DK','DE','EE','FI','FR','HU','IE',
-            'IT','LV','LT','LU','MC','AT','PL','PT','RO','SI',
-            'SK','ES','CZ','GB','SE',
-        );
-        $whitelisted = in_array($countryCode, $whitelist);
+        $whitelisted = in_array($countryCode, $this->whiteListCodes());
         if (!$whitelisted) {
             return true;
         }
@@ -427,7 +469,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     }
 
     /**
-     * Splits street data into separate parts for street name, housen umber and extension.
+         * Splits street data into separate parts for street name, housenumber and extension.
      *
      * @param string $fullStreet The full street name including all parts
      *
@@ -440,11 +482,21 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         $fullStreet = preg_replace("/[\n\r]/","",$fullStreet);
 
         $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
-        if (!$result || !is_array($matches)) {
-            throw new TIG_MyParcel2014_Exception(
-                $this->__('Invalid full street supplied: %s.', $fullStreet),
-                'MYPA-0005'
-            );
+
+        if (!$result || !is_array($matches) || $fullStreet != $matches[0]) {
+            if($fullStreet != $matches[0]){
+                // Characters are gone by preg_match
+                throw new TIG_MyParcel2014_Exception(
+                    $this->__('Something went wrong with splitting up address %s.', $fullStreet),
+                    'MYPA-0026'
+                );
+            } else {
+                // Invalid full street supplied
+                throw new TIG_MyParcel2014_Exception(
+                    $this->__('Invalid full street supplied: %s.', $fullStreet),
+                    'MYPA-0005'
+                );
+            }
         }
 
         $streetname = '';
@@ -481,22 +533,29 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     protected function _splitHousenumber($housenumber)
     {
-
-
         $housenumber = trim($housenumber);
         $result = preg_match(self::SPLIT_HOUSENUMBER_REGEX, $housenumber, $matches);
 
-        if (!$result || !is_array($matches)) {
-            throw new TIG_MyParcel2014_Exception(
-                $this->__('Invalid housnumber supplied: %s.', $housenumber),
-                'MYPA-0006'
-            );
+        if (!$result || !is_array($matches) || $housenumber != $matches[0]) {
+            if($housenumber != $matches[0]){
+                // Characters are gone by preg_match
+                throw new TIG_MyParcel2014_Exception(
+                    $this->__('Something went wrong with splitting up housenumber %s.', $housenumber),
+                    'MYPA-0027'
+                );
+            } else {
+                // Invalid housnumber supplied
+                throw new TIG_MyParcel2014_Exception(
+                    $this->__('Invalid housnumber supplied: %s.', $housenumber),
+                    'MYPA-0006'
+                );
+            }
         }
 
         $extension = '';
         $number = '';
         if (isset($matches[1])) {
-            $number = $matches[1];
+                $number = trim($matches[1]);
         }
 
         if (isset($matches[2])) {

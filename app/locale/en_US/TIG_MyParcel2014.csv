@@ -24,7 +24,7 @@ TIG_MyParcel2014::Insured up to &euro; 500,Insured up to &euro; 500
 "TIG_MyParcel2014::For NL shipping only, shipments inside the EU insured default is &euro; 500","For NL shipping only, shipments inside the EU insured default is &euro; 500"
 TIG_MyParcel2014::Customs Shipment Type,Customs Shipment Type
 TIG_MyParcel2014::Customs Content HS Code,Customs Content HS Code
-"TIG_MyParcel2014::Default content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>","Default content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>. Up to 4 characters"
+"TIG_MyParcel2014::Default content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>","Default content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>"
 "TIG_MyParcel2014::Fill in your preferences for a shipment. These settings will only apply for the mass actions in the order grid. When creating a single shipment, these settings can be changed manually.<br/>These settings will activate based on the order total amount. When shipping outside of the EU you can set default values for customs type and customs goods HS code.","Fill in your preferences for a shipment. These settings will only apply for the mass actions in the order grid. When creating a single shipment, these settings can be changed manually.<br/>These settings will activate based on the order total amount. When shipping outside of the EU you can set default values for customs type and customs goods HS code."
 TIG_MyParcel2014::Retourlink e-mail Template,Retourlink e-mail Template
 TIG_MyParcel2014::PLACEHOLDER,PLACEHOLDER
@@ -56,6 +56,8 @@ TIG_MyParcel2014::The following shipments or orders could not be processed:,The 
 TIG_MyParcel2014::Order #%s cannot be shipped at this time.,Order #%s cannot be shipped at this time.
 TIG_MyParcel2014::Invalid full street supplied: %s.,Invalid full street supplied: %s.
 TIG_MyParcel2014::Invalid housnumber supplied: %s.,Invalid housnumber supplied: %s.
+TIG_MyParcel2014::Something went wrong with splitting up address %s.,Something went wrong with splitting up address %s. Add the address manually to the back office of MyParcel.
+TIG_MyParcel2014::Something went wrong with splitting up housenumber %s.,Something went wrong with splitting up housenumber %s. Add the address manually to the back office of MyParcel.
 TIG_MyParcel2014::Invalid session requested.,Invalid session requested.
 TIG_MyParcel2014::Invalid message type requested: %s.,Invalid message type requested: %s.
 TIG_MyParcel2014::No message supplied.,No message supplied.
@@ -91,6 +93,7 @@ TIG_MyParcel2014::Magento &amp; 3rd party version compatibility,Magento &amp; 3r
 TIG_MyParcel2014::Magento Community Edition version,Magento Community Edition version
 TIG_MyParcel2014::Magento Enterprise Edition version,Magento Enterprise Edition version
 TIG_MyParcel2014::Idev's OneStepCheckout version,Idev's OneStepCheckout version
+TIG_MyParcel2014::IWD's OnePageCheckout version,IWD's OnePageCheckout version
 "TIG_MyParcel2014::If you wish to use this extension on an unsupported Magento version or edition, or in combination with an unsupported 3rd party extension, we cannot guarantee the MyParcel extension will function as expected. For questions please contact the Total Internet Group servicedesk.","If you wish to use this extension on an unsupported Magento version or edition, or in combination with an unsupported 3rd party extension, we cannot guarantee the MyParcel extension will function as expected. For questions please contact the Total Internet Group servicedesk."
 TIG_MyParcel2014::Support,Support
 TIG_MyParcel2014::The extension is developed by Total Internet Group.,The extension is developed by Total Internet Group.
@@ -177,7 +180,6 @@ TIG_MyParcel2014::Post Office Address,Post Office Address
 "TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>"
 TIG_MyParcel2014::Only for dutch shipments,Only for dutch shipments
 "TIG_MyParcel2014::Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200","Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200"
-
 TIG_MyParcel2014::status_1,Concept
 TIG_MyParcel2014::status_2,Registered
 TIG_MyParcel2014::status_3,Enroute - handed to carrier

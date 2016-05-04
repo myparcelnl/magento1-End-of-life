@@ -65,23 +65,6 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
          */
         $shippingMethod = $row->getData(self::SHIPPING_METHOD_COLUMN);
 
-        // if methode == bolcom_bolcom change all shipping methods to bolcom_fratrate
-        if ('bolcom_bolcom' == $shippingMethod) {
-
-            $orders = Mage::getModel('sales/order')->getCollection();
-            try {
-                $orders->addAttributeToFilter('shipping_method', array('eq' => 'bolcom_bolcom'))->load();
-                foreach ($orders as $tmpOrder) {
-                    $tmpOrder->setShippingMethod('bolcom_flatrate')->save();
-                    $shippingMethod = 'bolcom_flatrate';
-                }
-
-            } catch (Exception $e) {
-                echo $e->getMessage();
-            }
-
-        }
-
         if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod)) {
             return '';
         }
@@ -120,7 +103,6 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $barcodeData = array();
         $barcodes = explode(',', $row->getData(self::BARCODE_COLUMN));
         $statusses = explode(',', $value);
-
 
         foreach ($statusses as $key => $status) {
 

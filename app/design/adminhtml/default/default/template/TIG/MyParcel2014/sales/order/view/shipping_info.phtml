@@ -54,7 +54,7 @@
     </script>
 
 
-<?php if (in_array($this->_order->getStatus(), array('processing','complete') )):?>
+<?php if ($this->_order->getTracksCollection()->count() != 0):?>
 
     <form action="" id="sales_order_grid_massaction-form" method="post">
         <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey();  ?>">
