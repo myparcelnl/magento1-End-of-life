@@ -46,7 +46,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
     /**
      * Init
      */
-    public function _construct()
+    public function __construct()
     {
         $this->helper = Mage::helper('tig_myparcel');
     }
@@ -100,6 +100,9 @@ class TIG_MyParcel2014_Model_Observer_Cron
         $collection->addFieldToFilter('main_table.is_final', array('eq' => '0'));
         $collection->addFieldToFilter('shipping_address.country_id', array(
                 'nin' => array($this->helper->whiteListCodes()))
+        );
+        $collection->addFieldToFilter('main_table.created_at', array(
+                'gt' => date('Y-m-d', strtotime('-2 months')))
         );
 
         $this->_checkCollectionStatus($collection);
