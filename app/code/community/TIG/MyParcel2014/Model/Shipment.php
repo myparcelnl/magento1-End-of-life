@@ -53,7 +53,6 @@
  * @method boolean hasShipmentType()
  *
  * @method string getShipmentId()
- * @method string getOrderId()
  * @method string getTrackId()
  * @method string getConsignmentId()
  * @method string getCreatedAt()
