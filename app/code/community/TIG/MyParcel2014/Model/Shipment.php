@@ -53,6 +53,8 @@
  * @method boolean hasShipmentType()
  *
  * @method string getShipmentId()
+ * @method string getOrderId()
+ * @method string getTrackId()
  * @method string getConsignmentId()
  * @method string getCreatedAt()
  * @method string getUpdatedAt()
@@ -70,6 +72,7 @@
  *
  * @method TIG_MyParcel2014_Model_Shipment setShipmentId(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setOrderId(int $value)
+ * @method TIG_MyParcel2014_Model_Shipment setTrackId(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setConsignmentId(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setCreatedAt(string $value)
  * @method TIG_MyParcel2014_Model_Shipment setUpdatedAt(string $value)
