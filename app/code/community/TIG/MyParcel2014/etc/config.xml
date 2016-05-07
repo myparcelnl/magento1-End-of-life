@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.6.0 extra</version>
+            <version>1.6.4</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -44,6 +44,7 @@
                 </setup>
             </tig_myparcel_setup>
         </resources>
+        <!-- use <fieldsets></fieldsets>  for udpate from chechout -->
         <events>
             <sales_order_shipment_save_after>
                 <observers>
@@ -57,13 +58,13 @@
             <sales_order_place_after>
                 <observers>
                     <!-- Copy a PakjeGemak address to the order. -->
-                    <tig_myparcel_copy_pg_address>
-                        <type>model</type>
-                        <class>tig_myparcel/observer_savePgAddress</class>
-                        <method>copyAddressToOrder</method>
-                    </tig_myparcel_copy_pg_address>
-                </observers>
-            </sales_order_place_after>
+        <tig_myparcel_copy_pg_address>
+            <type>model</type>
+            <class>tig_myparcel/observer_savePgAddress</class>
+            <method>copyAddressToOrder</method>
+        </tig_myparcel_copy_pg_address>
+    </observers>
+</sales_order_place_after>
             <controller_action_postdispatch_adminhtml_system_config_save>
                 <observers>
                     <tig_myparcel_save_config>
