@@ -216,7 +216,7 @@
         {
             $myParcelShippingMethods = $this->getMyParcelShippingMethods();
 
-            $method = 'bolcom_bolcom' !== $method ? 'bolcom_flatrate' : $method;
+            $method = 'bolcom_bolcom' === $method ? 'bolcom_flatrate' : $method;
             $method = strpos($method, 'matrixrate_matrixrate') !== false ? 'matrixrate_matrixrate' : $method;
             if (in_array($method, $myParcelShippingMethods)) {
                 return true;
