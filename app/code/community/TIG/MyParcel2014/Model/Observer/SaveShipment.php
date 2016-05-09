@@ -190,10 +190,6 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
 
             foreach($trackCollection as $track) {
                 $track->save();
-                if($track->getNumber() == $barcode) {
-                    $myParcelShipment->setTrackId($track->getId());
-                    $myParcelShipment->save();
-                }
             }
         }
 
