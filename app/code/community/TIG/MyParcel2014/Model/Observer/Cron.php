@@ -46,7 +46,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
     /**
      * Init
      */
-    public function _construct()
+    public function __construct()
     {
         $this->helper = Mage::helper('tig_myparcel');
     }
