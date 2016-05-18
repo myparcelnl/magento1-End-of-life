@@ -125,7 +125,7 @@ TIG_MyParcel2014::Generate Retourlink,Genereer Retourlabel
 TIG_MyParcel2014::Retourlink generated: %s,Retourlink aangemaakt en gemaild naar de klant. %s
 "TIG_MyParcel2014::Credit has not been created, check MyParcel backend for details","Credit is niet aangemaakt, zie MyParcel backend voor meer informatie."
 TIG_MyParcel2014::Consignment %s is credited at MyParcel,Zending %s is gecrediteerd bij MyParcel.
-"TIG_MyParcel2014::If you do not use split street lines and you wish to ship to outside the EU, there is a strong possibility that MyParcel will be unable to properly parse the address. This may result in the shipment being refused or it may even lead to the shipment being delivered at the wrong address!","Als je adresgegevens niet opsplitst en je stuurt zendingen naar buiten de EU, dan is er een mogelijkheid dat MyParcel het adres niet kan omzetten. Dit kan leiden tot zendingen die geweigerd worden of zelfs niet afgeleverd kunnen worden."
+"TIG_MyParcel2014::Select 'no' if you have problems with addresses on the labels","Selecteer 'nee' als u problemen heeft met adressen op de labels."
 TIG_MyParcel2014::Split street parts,Deel straatnaam velden op
 TIG_MyParcel2014::Streetname field,Straatnaam veld
 TIG_MyParcel2014::Housenr. field,Huisnummer veld
