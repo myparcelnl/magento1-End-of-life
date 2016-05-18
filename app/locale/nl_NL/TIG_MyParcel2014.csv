@@ -4,8 +4,8 @@ TIG_MyParcel2014::Method Name,Methode naam
 TIG_MyParcel2014::Rate Type,Tarief type
 TIG_MyParcel2014::Type,Type
 TIG_MyParcel2014::Price,Prijs
-TIG_MyParcel2014::PostNL location active,"PostNL locatie actief"
-TIG_MyParcel2014::PostNL location fee,"PostNL locatie afhandelingskosten"
+TIG_MyParcel2014::PostNL location active,PostNL locatie actief
+TIG_MyParcel2014::PostNL location fee,PostNL locatie afhandelingskosten
 TIG_MyParcel2014::Condition,Voorwaarde
 TIG_MyParcel2014::Calculate Handling Fee,Verzendkosten berekeningswijze
 TIG_MyParcel2014::Handling Fee,Afhandelingskosten
@@ -170,7 +170,7 @@ TIG_MyParcel2014::Search by zipcode and housenumber,Zoeken op postcode en huisnu
 TIG_MyParcel2014::Housenumber,Huisnummer
 TIG_MyParcel2014::Search,Zoeken
 TIG_MyParcel2014::Nearest myparcel pickup points,Dichtstbijzijnde afhaal locaties
-TIG_MyParcel2014::PostNL location Method name,"PostNL locatie methode naam"
+TIG_MyParcel2014::PostNL location Method name,PostNL locatie methode naam
 TIG_MyParcel2014::Unpaid,Ongefrankeerd
 TIG_MyParcel2014::The consignment is already credited.,Deze zending is al gecrediteerd.
 TIG_MyParcel2014::MyParcel - Create &amp; Print shipping labels,MyParcel - Cre&euml;er &amp; Print verzend labels
