@@ -65,7 +65,7 @@
     inputstart.type = 'hidden';
     inputstart.name = 'myparcel_print_labels_start';
     inputstart.value = 1;
-    $('sales_order_grid_massaction-form').appendChild(inputstart);
+    $('html-body').appendChild(inputstart);
 
     Object.extend(sales_order_grid_massactionJsObject, {
         apply : function (skipMyParcelCheck) {
