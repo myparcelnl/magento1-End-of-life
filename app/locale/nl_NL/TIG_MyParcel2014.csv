@@ -74,7 +74,7 @@ TIG_MyParcel2014::Download log files,Download log bestanden
 TIG_MyParcel2014::Unknown rate type specified: %s.,Onbekend tarief type opgegeven: %s.
 TIG_MyParcel2014::Flat,Plat
 TIG_MyParcel2014::Table,Tabel
-TIG_MyParcel2014::Invalid PakjeGemak address.,"Ongeldig 'PostNL locatie' adres".
+TIG_MyParcel2014::Invalid PakjeGemak address.,Ongeldig PostNL locatie adres.
 TIG_MyParcel2014::Invalid phone number.,Invalide telefoonnummer.
 TIG_MyParcel2014::Invalid housenumber extension.,Invalide huisnummer extensie.
 TIG_MyParcel2014::A4,A4
