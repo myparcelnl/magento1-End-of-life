@@ -124,7 +124,7 @@ TIG_MyParcel2014::Generate Retourlink,Generate Retourlink
 TIG_MyParcel2014::Retourlink generated: %s,Retourlink generated: %s
 "TIG_MyParcel2014::Credit has not been created, check MyParcel backend for details","Credit has not been created, check MyParcel backend for details"
 TIG_MyParcel2014::Consignment %s is credited at MyParcel,Consignment %s is credited at MyParcel
-"TIG_MyParcel2014::If you do not use split street lines and you wish to ship to outside the EU, there is a strong possibility that MyParcel will be unable to properly parse the address. This may result in the shipment being refused or it may even lead to the shipment being delivered at the wrong address!","If you do not use split street lines and you wish to ship to outside the EU, there is a strong possibility that MyParcel will be unable to properly parse the address. This may result in the shipment being refused or it may even lead to the shipment being delivered at the wrong address!"
+"TIG_MyParcel2014::Select 'no' if you have problems with addresses on the labels","Select 'no' if you have problems with addresses on the labels"
 TIG_MyParcel2014::Split street parts,Split street parts
 TIG_MyParcel2014::Streetname field,Streetname field
 TIG_MyParcel2014::Housenr. field,Housenr. field
