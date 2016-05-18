@@ -194,11 +194,11 @@
             <myparcel>
                 <active>0</active>
                 <model>tig_myparcel/carrier_myParcel</model>
-                <title>MyParcel Shipping</title>
+                <title>Verzenden met MyParcel</title>
                 <name>MyParcel</name>
                 <rate_type>flat</rate_type>
                 <pakjegemak_active>0</pakjegemak_active>
-                <pakjegemak_title>Pakjegemak</pakjegemak_title>
+                <pakjegemak_title>Ophalen op een PostNL locatie</pakjegemak_title>
                 <pakjegemak_fee>0</pakjegemak_fee>
                 <pakjegemak_min_order_enabled>0</pakjegemak_min_order_enabled>
                 <sort_order>10</sort_order>
