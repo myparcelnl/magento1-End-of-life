@@ -4,8 +4,8 @@ TIG_MyParcel2014::Method Name,Method Name
 TIG_MyParcel2014::Rate Type,Rate Type
 TIG_MyParcel2014::Type,Type
 TIG_MyParcel2014::Price,Price
-TIG_MyParcel2014::PostNL location active,PostNL location active"
-TIG_MyParcel2014::PostNL location fee,PostNL location fee"
+TIG_MyParcel2014::PostNL location active,PostNL location active
+TIG_MyParcel2014::PostNL location fee,PostNL location fee
 TIG_MyParcel2014::Condition,Condition
 TIG_MyParcel2014::Calculate Handling Fee,Calculate Handling Fee
 TIG_MyParcel2014::Handling Fee,Handling Fee
