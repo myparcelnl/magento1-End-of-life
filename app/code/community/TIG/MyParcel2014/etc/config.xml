@@ -19,6 +19,11 @@
                     </shipment>
                 </entities>
             </tig_myparcel_resource>
+            <sales>
+                <rewrite>
+                    <order>TIG_MyParcel2014_Model_Sales_Order</order>
+                </rewrite>
+            </sales>
         </models>
         <blocks>
             <tig_myparcel>
