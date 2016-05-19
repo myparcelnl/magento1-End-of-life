@@ -51,14 +51,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
         /**
          * Delete old pg address
          */
-        $oldPgAddresses= Mage::getModel('sales/quote_address')
-            ->getCollection()
-            ->addFieldToFilter('quote_id', array('eq' => $quote->getId()))
-            ->addFieldToFilter('address_type', array('eq' => 'pakje_gemak'));
-
-        foreach ($oldPgAddresses as $tmpOldPgAddress) {
-            $tmpOldPgAddress->delete();
-        }
+        $this->removePgAddress($quote);
 
         /**
          * Create a new address and add the address data.
@@ -69,8 +62,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
                   ->setCountryId('NL')
                   ->setPostcode($addressData['postcode'])
                   ->setCompany($addressData['name'])
-                  ->setFirstname('-')
-                  ->setLastname('-')
+                  ->setFirstname('Ophalen op een PostNL locatie')
+                  ->setLastname('')
                   ->setTelephone($addressData['telephone'])
                   ->setStreet($addressData['street'] . "\n" . $addressData['housenr']);
 
