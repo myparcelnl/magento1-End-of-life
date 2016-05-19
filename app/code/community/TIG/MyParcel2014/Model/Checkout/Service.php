@@ -49,6 +49,18 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $helper = Mage::helper('tig_myparcel');
 
         /**
+         * Delete old pg address
+         */
+        $oldPgAddresses= Mage::getModel('sales/quote_address')
+            ->getCollection()
+            ->addFieldToFilter('quote_id', array('eq' => $quote->getId()))
+            ->addFieldToFilter('address_type', array('eq' => 'pakje_gemak'));
+
+        foreach ($oldPgAddresses as $tmpOldPgAddress) {
+            $tmpOldPgAddress->delete();
+        }
+
+        /**
          * Create a new address and add the address data.
          */
         $pgAddress = Mage::getModel('sales/quote_address');
