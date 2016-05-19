@@ -69,8 +69,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
                   ->setCountryId('NL')
                   ->setPostcode($addressData['postcode'])
                   ->setCompany($addressData['name'])
-                  ->setFirstname('-')
-                  ->setLastname('-')
+                  ->setFirstname('Ophalen op een PostNL locatie')
+                  ->setLastname('')
                   ->setTelephone($addressData['telephone'])
                   ->setStreet($addressData['street'] . "\n" . $addressData['housenr']);
 
