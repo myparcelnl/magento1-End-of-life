@@ -204,4 +204,4 @@ TIG_MyParcel2014::PostNL location minimum order total enabled,PostNL locatie min
 "TIG_MyParcel2014::PostNL location minimum order total, incl. BTW","PostNL locatie minimum totaal bedrag, incl. BTW"
 "TIG_MyParcel2014::PostNL location will not be visible if the subtotal of an order is below this value","'Ophalen op een PostNL locatie' zal niet zichtbaar zijn als het bedrag van een bestelling onder deze waarde valt"
 TIG_MyParcel2014::Use shipment address for PostNL location,Voeg PostNL locatie toe aan het afleveradres
-TIG_MyParcel2014::Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.,Gebruik het afleveradres voor 'Ophalen op Een PostNL locatie'. De klant zal het adres op het factuur zien. Ingesteld op 'Nee' als je AfterPay gebruikt.
+TIG_MyParcel2014::Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.,Gebruik het afleveradres voor 'Ophalen op een PostNL locatie'. De klant zal het adres op het factuur zien. Stel in op 'Nee' als je AfterPay gebruikt.
