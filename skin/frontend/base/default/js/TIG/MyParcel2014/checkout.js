@@ -448,14 +448,6 @@ MyParcelCheckout.prototype = {
          */
         this._locations = {};
 
-        /**
-         * If the PakjeGemak shipping method was selected, deselect it. The shipping method may only be selected when a
-         * location has been chosen.
-         */
-        if ($$(this._selectors.shipping_method)[0] && $$(this._selectors.shipping_method)[0].checked) {
-            $$(this._selectors.shipping_method)[0].checked = false;
-        }
-
         this._config.shipping_methods_load_callback();
 
         /**
