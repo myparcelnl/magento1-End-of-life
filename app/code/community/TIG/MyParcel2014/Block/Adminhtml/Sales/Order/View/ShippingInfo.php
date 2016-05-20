@@ -83,7 +83,8 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
         foreach ($myParcelShipments as $myParcelShipment) {
             $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
-            $optionsHtml .= '<br><a href="'.$shipmentUrl.'">' . $myParcelShipment->getBarcode() . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment);
+            $linkText = $myParcelShipment->getBarcode() ? $myParcelShipment->getBarcode() : $this->__('Shipment');
+            $optionsHtml .= '<br><a href="'.$shipmentUrl.'">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment);
         }
 
         return $optionsHtml;
