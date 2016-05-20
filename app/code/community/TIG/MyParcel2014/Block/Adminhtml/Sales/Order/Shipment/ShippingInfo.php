@@ -38,14 +38,21 @@
  */
 class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends Mage_Adminhtml_Block_Template
 {
+    /**
+     * @var Mage_Sales_Model_Order_Shipment
+     */
     protected $_shipment;
+
+    /**
+     * @var TIG_MyParcel2014_Model_Shipment
+     */
+    protected $_myParcelShipment;
 
     public function __construct()
     {
         $shipmentId = $this->getRequest()->getParam('shipment_id');
         $this->_shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
-
-        $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
+        $this->_myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
     }
 
     /**

@@ -65,8 +65,18 @@ $_disabled = '';
 if(true == $_isPakjegemak){
     $_disabled= 'disabled';
 }
-
 ?>
+
+<?php if ($this->hasShipment() && $this->_myParcelShipment):?>
+    <script type ="text/javascript">
+        //<![CDATA[
+        document.observe('dom:loaded', function(){
+            var target = document.getElementById('shipment_tracking_info');
+            target.innerHTML += '<?= $_helper->getCurrentOptionsHtml($this->_myParcelShipment); ?>';
+        });
+        //]]>
+    </script>
+<?php endif;?>
 
 <div id="print_container" style="display:none;">
     <div id="deliveryOptions">
@@ -100,7 +110,7 @@ if(true == $_isPakjegemak){
                                 <input id="tig_myparcel_return_if_no_answer" type="checkbox" value="1" name="tig_myparcel[return_if_no_answer]" <?php echo $_returnNoAnswerSelected;?> />
                             </p>
                             <p>
-                                <label for="tig_myparcel_insured" class="normal"><?php echo $this->__('Insured up to: &euro; %s',$_insured['insuredUpTo']);?></label>
+                                <label for="tig_myparcel_insured" class="normal"><?php echo $this->__('Insured up to &euro;%s',$_insured['insuredUpTo']);?></label>
                                 <input id="tig_myparcel_insured" type="checkbox" value="1" name="tig_myparcel[insured]" <?php echo $_insuredSelected;?> />
                                 <input id="tig_myparcel_insured_amount" type="hidden" value="<?php echo $_insuredAmount;?>" name="tig_myparcel[insured_amount]" class="validate-digits validate-digits-range digits-range-0-5000" />
                             </p>
