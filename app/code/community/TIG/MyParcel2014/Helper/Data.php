@@ -243,6 +243,39 @@
             return false;
         }
 
+        /**
+         * Get html for the MyParcel options
+         *
+         * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+         * @return string
+         */
+        public function getCurrentOptionsHtml($myParcelShipment)
+        {
+            $options = array(
+                $this->__(ucfirst($myParcelShipment->getShipmentType())),
+            );
+
+            if ($myParcelShipment->getShipmentType() == 'normal') {
+
+                if ($myParcelShipment->getHomeAddressOnly() == '1')
+                    $options[] = strtolower($this->__('Home address only'));
+
+                if ($myParcelShipment->getHomeAddressOnly() == '1')
+                    $options[] = strtolower($this->__('Signature on receipt'));
+
+                if ($myParcelShipment->getReturnIfNoAnswer() == '1')
+                    $options[] = strtolower($this->__('Return if no answer'));
+
+                if ($myParcelShipment->getInsuredAmount() > 0)
+                    $options[] = strtolower($this->__('Insured up to &euro;%s',$myParcelShipment->getInsuredAmount()));
+
+            }
+
+            $htmlOptions = implode(', ', $options);
+
+            return $htmlOptions;
+        }
+
     /**
      * Returns the whiteList codes for customs.
      * @return array

@@ -175,7 +175,7 @@ TIG_MyParcel2014::Close,Close
 TIG_MyParcel2014::Choose a PostNL pickup location,Choose a PostNL pickup location
 "TIG_MyParcel2014::The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.","The selected shipment-type cannot be used, 'Ship to PostNL location' can only be created with the normal shipment type."
 TIG_MyParcel2014::MyParcel - Create Magento shipments (no labels),MyParcel - Create Magento shipments (no labels)
-TIG_MyParcel2014::Insured up to: &euro; %s,Insured up to: &euro; %s
+TIG_MyParcel2014::Insured up to &euro;%s,Insured up to &euro;%s
 TIG_MyParcel2014::Post Office Address,Post Office Address
 "TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","The selected shipment type cannot be used. 'Ship to PostNL location' shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>"
 TIG_MyParcel2014::Only for dutch shipments,Only for dutch shipments
