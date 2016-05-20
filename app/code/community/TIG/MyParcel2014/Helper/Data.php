@@ -252,7 +252,7 @@
         public function getCurrentOptionsHtml($myParcelShipment)
         {
             $options = array(
-                $this->__(ucfirst($myParcelShipment->getShipmentType())),
+                $this->__(ucfirst(str_replace('_',' ',$myParcelShipment->getShipmentType()))),
             );
 
             if ($myParcelShipment->getShipmentType() == 'normal') {
