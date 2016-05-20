@@ -457,6 +457,12 @@ MyParcelCheckout.prototype = {
         }
 
         this._config.shipping_methods_load_callback();
+
+        /**
+         * Place Pakjegemak address after reload shipment methods
+         */
+        this.renderSelectedLocation();
+
         return this;
     },
 
