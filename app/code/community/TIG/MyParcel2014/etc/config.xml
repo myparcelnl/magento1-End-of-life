@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.6.0</version>
+            <version>1.6.1</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -229,6 +229,7 @@
                 <home_address_only>0</home_address_only>
                 <signature_on_receipt>0</signature_on_receipt>
                 <return_if_no_answer>0</return_if_no_answer>
+                <is_xl>0</is_xl>
                 <insured_50>0</insured_50>
                 <insured_250>0</insured_250>
                 <insured_500>0</insured_500>

@@ -16,6 +16,7 @@ TIG_MyParcel2014::Default Shipment Settings,Standaard verzend instellingen
 TIG_MyParcel2014::Home address only,Alleen huisadres
 TIG_MyParcel2014::Signature on receipt,Handtekening bij ontvangst
 TIG_MyParcel2014::Return if no answer,Retour bij niet aanwezig
+TIG_MyParcel2014::Large package,Groot pakket
 TIG_MyParcel2014::Insured up to &euro; 50,Verzekerd tot &euro; 50
 TIG_MyParcel2014::For NL shipping only,Alleen voor Nederlandse verzendingen
 TIG_MyParcel2014::Insured up to &euro; 250,Verzekerd tot &euro; 250

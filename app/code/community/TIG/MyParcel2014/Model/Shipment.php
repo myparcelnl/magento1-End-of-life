@@ -51,6 +51,7 @@
  * @method boolean hasShipmentIncrementId()
  * @method boolean hasBarcodeSend()
  * @method boolean hasShipmentType()
+ * @method boolean hasIsXl()
  *
  * @method string getShipmentId()
  * @method string getTrackId()
@@ -68,6 +69,7 @@
  * @method int    getBarcodeSend()
  * @method int    getCustomsContentType()
  * @method string getShipmentType()
+ * @method string getIsXL()
  *
  * @method TIG_MyParcel2014_Model_Shipment setShipmentId(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setOrderId(int $value)
@@ -88,6 +90,7 @@
  * @method TIG_MyParcel2014_Model_Shipment setIsCredit(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setCustomsContentType(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setShipmentType(string $value)
+ * @method TIG_MyParcel2014_Model_Shipment setIsXl(int $value)
  *
  */
 class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
