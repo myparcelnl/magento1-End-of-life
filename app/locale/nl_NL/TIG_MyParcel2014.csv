@@ -4,8 +4,8 @@ TIG_MyParcel2014::Method Name,Methode naam
 TIG_MyParcel2014::Rate Type,Tarief type
 TIG_MyParcel2014::Type,Type
 TIG_MyParcel2014::Price,Prijs
-TIG_MyParcel2014::Pakjegemak active,Pakjegemak actief
-TIG_MyParcel2014::Pakjegemak fee,Pakjegemak afhandelingskosten
+TIG_MyParcel2014::PostNL location active,PostNL locatie actief
+TIG_MyParcel2014::PostNL location fee,PostNL locatie afhandelingskosten
 TIG_MyParcel2014::Condition,Voorwaarde
 TIG_MyParcel2014::Calculate Handling Fee,Verzendkosten berekeningswijze
 TIG_MyParcel2014::Handling Fee,Afhandelingskosten
@@ -25,7 +25,6 @@ TIG_MyParcel2014::Insured up to &euro; 500,Verzekerd tot &euro; 500
 "TIG_MyParcel2014::For NL shipping only, shipments inside the EU insured default is &euro; 500","Alleen voor Nederlandse verzendingen, zendingen naar landen binnen de EU zijn standaard verzekerd tot &euro; 500"
 TIG_MyParcel2014::Customs Shipment Type,Douane verzend type
 TIG_MyParcel2014::Customs Content HS Code,Douane goederen HS code
-TIG_MyParcel2014::No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.,Douane goederen HS code is niet bekend. Ga naar de instellingen van de MyParcel plugin om de code toe te voegen.
 "TIG_MyParcel2014::Default content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>","Standaard goederen type voor Cross Domestic producten, zie <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a> voor de juiste HS code. Maximaal 4 karakters."
 "TIG_MyParcel2014::Fill in your preferences for a shipment. These settings will only apply for the mass actions in the order grid. When creating a single shipment, these settings can be changed manually.<br/>These settings will activate based on the order total amount. When shipping outside of the EU you can set default values for customs type and customs goods HS code.","Vul hier uw standaard voorkeuren in voor uw verzendopties. Deze instellingen worden als default op al uw zendingen toegepast, indien van toepassing. Deze opties zijn later, per zending, uiteraard nog wel aan te passen tijdens het verwerken. <br/><br/>De opties ""Alleen huisadres"", ""Handtekening bij ontvangst"", ""Retour bij niet aanwezig"" en de verschillende verzekeringen worden actief op basis van het totale order bedrag. Bijvoorbeeld, als u bij ""alleen huisadres"" 50 invult, dan wordt voor alle zendingen voor orders vanaf &euro; 50 standaard de instelling ""alleen huisadres"" aangevinkt. Of als u bij ""Verzekerd tot &euro; 250,-"" het getal 150 invult, dan worden alle orders vanaf &euro; 150 standaard verzekerd voor &euro; 250,- inkoopwaarde.<br/><br/>Indien u zendingen naar landen buiten de EU verstuurt, kunt u optioneel voor deze zendingen een standaard waarde invullen bij het Douane verzendtype en de Douane goederen HS code. Deze waardes kunt u nog aanpassen wanneer u uw zending verwerkt."
 TIG_MyParcel2014::Retourlink e-mail Template,Retourlink e-mail Template
@@ -76,7 +75,7 @@ TIG_MyParcel2014::Download log files,Download log bestanden
 TIG_MyParcel2014::Unknown rate type specified: %s.,Onbekend tarief type opgegeven: %s.
 TIG_MyParcel2014::Flat,Plat
 TIG_MyParcel2014::Table,Tabel
-TIG_MyParcel2014::Invalid PakjeGemak address.,Invalide PakjeGemak adres.
+TIG_MyParcel2014::Invalid PakjeGemak address.,Ongeldig PostNL locatie adres.
 TIG_MyParcel2014::Invalid phone number.,Invalide telefoonnummer.
 TIG_MyParcel2014::Invalid housenumber extension.,Invalide huisnummer extensie.
 TIG_MyParcel2014::A4,A4
@@ -127,7 +126,7 @@ TIG_MyParcel2014::Generate Retourlink,Genereer Retourlabel
 TIG_MyParcel2014::Retourlink generated: %s,Retourlink aangemaakt en gemaild naar de klant. %s
 "TIG_MyParcel2014::Credit has not been created, check MyParcel backend for details","Credit is niet aangemaakt, zie MyParcel backend voor meer informatie."
 TIG_MyParcel2014::Consignment %s is credited at MyParcel,Zending %s is gecrediteerd bij MyParcel.
-"TIG_MyParcel2014::If you do not use split street lines and you wish to ship to outside the EU, there is a strong possibility that MyParcel will be unable to properly parse the address. This may result in the shipment being refused or it may even lead to the shipment being delivered at the wrong address!","Als je adresgegevens niet opsplitst en je stuurt zendingen naar buiten de EU, dan is er een mogelijkheid dat MyParcel het adres niet kan omzetten. Dit kan leiden tot zendingen die geweigerd worden of zelfs niet afgeleverd kunnen worden."
+"TIG_MyParcel2014::Select 'no' if you have problems with addresses on the labels","Selecteer 'nee' als u problemen heeft met adressen op de labels."
 TIG_MyParcel2014::Split street parts,Deel straatnaam velden op
 TIG_MyParcel2014::Streetname field,Straatnaam veld
 TIG_MyParcel2014::Housenr. field,Huisnummer veld
@@ -172,7 +171,7 @@ TIG_MyParcel2014::Search by zipcode and housenumber,Zoeken op postcode en huisnu
 TIG_MyParcel2014::Housenumber,Huisnummer
 TIG_MyParcel2014::Search,Zoeken
 TIG_MyParcel2014::Nearest myparcel pickup points,Dichtstbijzijnde afhaal locaties
-TIG_MyParcel2014::Pakjegemak Method Name,Pakjegemak methode naam
+TIG_MyParcel2014::PostNL location Method name,PostNL locatie methode naam
 TIG_MyParcel2014::Unpaid,Ongefrankeerd
 TIG_MyParcel2014::The consignment is already credited.,Deze zending is al gecrediteerd.
 TIG_MyParcel2014::MyParcel - Create &amp; Print shipping labels,MyParcel - Cre&euml;er &amp; Print verzend labels
@@ -184,13 +183,13 @@ TIG_MyParcel2014::Insured up to:,Verzekeren tot:
 TIG_MyParcel2014::Close,Sluiten
 TIG_MyParcel2014::International shipments can not be sent by,Internationale zendingen kunnen niet verzonden worden met een
 TIG_MyParcel2014::Choose a PostNL pickup location,Kies PostNL afhaallocatie
-"TIG_MyParcel2014::The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.","Het geselecteerde zending-type kan niet gebruikt worden, Pakjegemak zendingen kunnen enkel aangemaakt worden met het normale verzend-type."
+"TIG_MyParcel2014::The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.","Het geselecteerde zending-type kan niet gebruikt worden, 'PostNL locatie' zendingen kunnen enkel aangemaakt worden met het normale verzend-type."
 TIG_MyParcel2014::MyParcel - Create Magento shipments (no labels),MyParcel - Cre&euml;er Magento verzendingen (geen labels)
-TIG_MyParcel2014::Insured up to: &euro; %s,Verzekerd tot : &euro; %s
+TIG_MyParcel2014::Insured up to &euro;%s,Verzekerd tot &euro;%s
 TIG_MyParcel2014::Total order value: &euro; %s,Totaal order bedrag: &euro; %s
 TIG_MyParcel2014::Shipment insured up to &euro; %s purchase value,Verzekerd tot een inkoopbedrag van € %s,-
 TIG_MyParcel2014::Post Office Address,Gekozen afhaallocatie
-"TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","De geselecteerde zending type kan niet gebruikt worden. Pakjegemak zendingen kunnen enkel aangemaakt worden middels de normale verzendtype. <br/>De Magento zending is aangemaakt zonder een MyParcel zending, selecteer een ander verzend type of ga naar de Magento zending pagina en maak daar een MyParcel zending aan. <a target=""_blank"" href=""%s"">Bekijk zending</a>"
+"TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","De geselecteerde zending type kan niet gebruikt worden. 'PostNL locatie' zendingen kunnen enkel aangemaakt worden middels de normale verzendtype. <br/>De Magento zending is aangemaakt zonder een MyParcel zending, selecteer een ander verzend type of ga naar de Magento zending pagina en maak daar een MyParcel zending aan. <a target=""_blank"" href=""%s"">Bekijk zending</a>"
 TIG_MyParcel2014::Only for dutch shipments,Alleen voor Nederlandse verzendingen
 "TIG_MyParcel2014::Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200","Alleen voor Nederlandse verzendingen, zendingen naar landen buiten de EU zijn standaard verzekerd tot &euro; 200"
 "TIG_MyParcel2014::Please select the shipping methods that will be considered to be 'MyParcel' by this extension. Orders placed using one of these shipping methods may be processed using the MyParcel extension.","Selecteer de verzendmethodes die deze extensie als 'MyParcel' moet beschouwen. Orders die worden geplaatst via deze verzendmethodes, kunnen worden verwerkt door de MyParcel extensie."
@@ -230,3 +229,8 @@ TIG_MyParcel2014::status_99,Inactief - Onbekende status
 "Fixed","Vast"
 "Percent","Percentage"
 "TIG_MyParcel2014::There are no log files to be downloaded.","Er zijn geen log files om te downloaden."
+TIG_MyParcel2014::PostNL location minimum order total enabled,PostNL locatie minimum totaal bedrag actief
+"TIG_MyParcel2014::PostNL location minimum order total, incl. BTW","PostNL locatie minimum totaal bedrag, incl. BTW"
+"TIG_MyParcel2014::PostNL location will not be visible if the subtotal of an order is below this value","'Ophalen op een PostNL locatie' zal niet zichtbaar zijn als het bedrag van een bestelling onder deze waarde valt"
+TIG_MyParcel2014::Use shipment address for PostNL location,Voeg PostNL locatie toe aan het afleveradres
+TIG_MyParcel2014::Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.,Gebruik het afleveradres voor 'Ophalen op een PostNL locatie'. De klant zal het adres op het factuur zien. Stel in op 'Nee' als je AfterPay gebruikt.

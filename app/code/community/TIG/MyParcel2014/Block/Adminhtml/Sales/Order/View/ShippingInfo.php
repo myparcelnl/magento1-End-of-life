@@ -38,21 +38,26 @@
  */
 class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mage_Adminhtml_Block_Abstract
 {
+    /**
+     * @var Mage_Sales_Model_Order|TIG_MyParcel2014_Model_Sales_Order
+     */
     protected $_order;
+    protected $_helper;
 
     public function __construct()
     {
         $orderId = $this->getRequest()->getParam('order_id');
         $this->_order = Mage::getModel('sales/order')->load($orderId);
+        $this->_helper = Mage::helper('tig_myparcel');
     }
 
     public function getPgAddressHtml()
     {
         $res = array();
-        $pgAddress = Mage::helper('tig_myparcel')->getPgAddress($this->_order);
+        $pgAddress = $this->_helper->getPgAddress($this->_order);
         $shippingMethod = $this->_order->getShippingMethod();
 
-        if ($pgAddress && Mage::helper('tig_myparcel')->shippingMethodIsPakjegemak($shippingMethod))
+        if ($pgAddress && $this->_helper->shippingMethodIsPakjegemak($shippingMethod))
         {
             $res = array(
                 $pgAddress->getCompany(),
@@ -65,6 +70,27 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
     }
 
     /**
+     * Get all current MyParcel options
+     *
+     * @return string
+     */
+    public function getCurrentOrderOptionsHtml()
+    {
+        $optionsHtml = '';
+        $myParcelShipments = Mage::getModel('tig_myparcel/shipment')
+            ->getCollection()
+            ->addFieldToFilter('order_id', $this->_order->getId());
+
+        foreach ($myParcelShipments as $myParcelShipment) {
+            $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
+            $linkText = $myParcelShipment->getBarcode() ? $myParcelShipment->getBarcode() : $this->__('Shipment');
+            $optionsHtml .= '<br><a href="'.$shipmentUrl.'">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment);
+        }
+
+        return $optionsHtml;
+    }
+
+    /**
      * Do a few checks to see if the template should be rendered before actually rendering it.
      *
      * @return string
@@ -73,12 +99,11 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
      */
     protected function _toHtml()
     {
-        $helper = Mage::helper('tig_myparcel');
         $shippingMethod = $this->_order->getShippingMethod();
 
-        if (!$helper->isEnabled()
+        if (!$this->_helper->isEnabled()
             || !$this->_order
-            || !$helper->shippingMethodIsMyParcel($shippingMethod)
+            || !$this->_helper->shippingMethodIsMyParcel($shippingMethod)
         ) {
             return '';
         }
@@ -93,10 +118,9 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
      */
     public function getIsPakjeGemak()
     {
-        $helper   = Mage::helper('tig_myparcel');
         $shipment = Mage::registry('current_shipment');
 
-        if($helper->getPgAddress($shipment->getOrder())){
+        if($this->_helper->getPgAddress($shipment->getOrder())){
             return true;
         }
         return false;

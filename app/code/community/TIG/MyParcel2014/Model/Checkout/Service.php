@@ -49,6 +49,11 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $helper = Mage::helper('tig_myparcel');
 
         /**
+         * Delete old pg address
+         */
+        $this->removePgAddress($quote);
+
+        /**
          * Create a new address and add the address data.
          */
         $pgAddress = Mage::getModel('sales/quote_address');
@@ -57,8 +62,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
                   ->setCountryId('NL')
                   ->setPostcode($addressData['postcode'])
                   ->setCompany($addressData['name'])
-                  ->setFirstname('-')
-                  ->setLastname('-')
+                  ->setFirstname('Ophalen op een PostNL locatie')
+                  ->setLastname('')
                   ->setTelephone($addressData['telephone'])
                   ->setStreet($addressData['street'] . "\n" . $addressData['housenr']);
 

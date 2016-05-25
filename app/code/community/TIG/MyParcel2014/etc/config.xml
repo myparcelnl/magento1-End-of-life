@@ -19,6 +19,11 @@
                     </shipment>
                 </entities>
             </tig_myparcel_resource>
+            <sales>
+                <rewrite>
+                    <order>TIG_MyParcel2014_Model_Sales_Order</order>
+                </rewrite>
+            </sales>
         </models>
         <blocks>
             <tig_myparcel>
@@ -201,11 +206,11 @@
             <myparcel>
                 <active>0</active>
                 <model>tig_myparcel/carrier_myParcel</model>
-                <title>MyParcel Shipping</title>
+                <title>Verzenden met MyParcel</title>
                 <name>MyParcel</name>
                 <rate_type>flat</rate_type>
                 <pakjegemak_active>0</pakjegemak_active>
-                <pakjegemak_title>Pakjegemak</pakjegemak_title>
+                <pakjegemak_title>Ophalen op een PostNL locatie</pakjegemak_title>
                 <pakjegemak_fee>0</pakjegemak_fee>
                 <pakjegemak_min_order_enabled>0</pakjegemak_min_order_enabled>
                 <sort_order>10</sort_order>
@@ -223,6 +228,7 @@
                 <test>0</test>
                 <print_orientation>A4</print_orientation>
                 <myparcel_shipping_methods>tig_myparcel_flatrate,myparcel_flatrate,tig_myparcel_tablerate,myparcel_tablerate,tig_myparcel_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
+                <pakjegemak_use_shipment_address>1</pakjegemak_use_shipment_address>
                 <ssl_handshake>0</ssl_handshake>
             </general>
             <shipment>

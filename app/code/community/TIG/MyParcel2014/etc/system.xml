@@ -171,7 +171,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <pakjegemak_active translate="label" module="tig_myparcel">
-                            <label>Pakjegemak active</label>
+                            <label>PostNL location active</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
@@ -180,7 +180,7 @@
                             <show_in_store>0</show_in_store>
                         </pakjegemak_active>
                         <pakjegemak_title translate="label" module="tig_myparcel">
-                            <label>Pakjegemak Method Name</label>
+                            <label>PostNL location Method name</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>105</sort_order>
                             <show_in_default>1</show_in_default>
@@ -191,7 +191,7 @@
                             </depends>
                         </pakjegemak_title>
                         <pakjegemak_fee translate="label,comment" module="tig_myparcel">
-                            <label>Pakjegemak fee</label>
+                            <label>PostNL location fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
@@ -204,7 +204,7 @@
                             </depends>
                         </pakjegemak_fee>
                         <pakjegemak_min_order_enabled translate="label,comment" module="tig_myparcel">
-                            <label>Pakjegemak minimum order total enabled</label>
+                            <label>PostNL location minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>120</sort_order>
@@ -216,8 +216,8 @@
                             </depends>
                         </pakjegemak_min_order_enabled>
                         <pakjegemak_min_order_total translate="label,comment" module="tig_myparcel">
-                            <label>Pakjegemak minimum order total, incl. BTW</label>
-                            <comment>Pakjegemak will not be visible if the subtotal of an order is below this value</comment>
+                            <label>PostNL location minimum order total, incl. BTW</label>
+                            <comment>PostNL location will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
@@ -533,20 +533,30 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </myparcel_shipping_methods>
+                        <pakjegemak_use_shipment_address translate="label comment">
+                            <label>Use shipment address for PostNL location</label>
+                            <comment>Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pakjegemak_use_shipment_address>
                         <ssl_handshake translate="label comment tooltip">
                             <label>Force unencrypted MyParcel connection</label>
                             <comment>By enabling this, you will force connection to the MyParcel platform over unsecured http, rather than https</comment>
                             <tooltip>In some cases the SSL certification can't be validated, which can lead to problems connection to the MyParcel platform. Only use this if you are aware that all communication to MyParcel will be sent over the unsecure https protocol.</tooltip>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
-                            <sort_order>60</sort_order>
+                            <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <depends><use_in_adminhtml>1</use_in_adminhtml></depends>
                         </ssl_handshake>
                         <use_in_adminhtml>
                             <frontend_type>hidden</frontend_type>
                             <frontend_model>tig_myparcel/adminhtml_system_config_adminSecure</frontend_model>
-                            <sort_order>70</sort_order>
+                            <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                         </use_in_adminhtml>
                     </fields>
@@ -649,7 +659,7 @@
                         </customs_hstariffnr>
                         <split_street translate="label comment">
                             <label>Split street parts</label>
-                            <comment>If you do not use split street lines and you wish to ship to outside the EU, there is a strong possibility that MyParcel will be unable to properly parse the address. This may result in the shipment being refused or it may even lead to the shipment being delivered at the wrong address!</comment>
+                            <comment>Select 'no' if you have problems with addresses on the labels</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>90</sort_order>

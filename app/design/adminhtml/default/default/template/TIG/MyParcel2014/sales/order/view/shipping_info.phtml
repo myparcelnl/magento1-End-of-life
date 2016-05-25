@@ -44,14 +44,16 @@
     <script type ="text/javascript">
         //<![CDATA[
         document.observe('dom:loaded', function(){
-            var pgaddress = '<?php echo $this->getPgAddressHtml(); ?>';
+            var pgaddress = '<?= $this->getPgAddressHtml(); ?>';
+            var currentOptions = '<?= $this->getCurrentOrderOptionsHtml(); ?>';
             var target = document.getElementsByClassName('head-shipping-method')[0].parentNode.parentNode;
 
-            target.innerHTML = target.innerHTML.replace('</fieldset>', pgaddress + '</fieldset>');
+            target.innerHTML = target.innerHTML.replace('</fieldset>', pgaddress + currentOptions + '</fieldset>');
         });
 
         //]]>
     </script>
+
 
 
 <?php if ($this->_order->getTracksCollection()->count() != 0):?>
