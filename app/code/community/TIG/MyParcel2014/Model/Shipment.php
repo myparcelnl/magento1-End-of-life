@@ -69,7 +69,7 @@
  * @method int    getBarcodeSend()
  * @method int    getCustomsContentType()
  * @method string getShipmentType()
- * @method string getIsXL()
+ * @method int    getIsXL()
  *
  * @method TIG_MyParcel2014_Model_Shipment setShipmentId(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setOrderId(int $value)

@@ -43,12 +43,17 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
      */
     protected $_order;
     protected $_helper;
+    protected $_myParcelShipments;
 
     public function __construct()
     {
         $orderId = $this->getRequest()->getParam('order_id');
         $this->_order = Mage::getModel('sales/order')->load($orderId);
         $this->_helper = Mage::helper('tig_myparcel');
+
+        $this->_myParcelShipments = Mage::getModel('tig_myparcel/shipment')
+            ->getCollection()
+            ->addFieldToFilter('order_id', $this->_order->getId());
     }
 
     public function getPgAddressHtml()
@@ -77,11 +82,8 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
     public function getCurrentOrderOptionsHtml()
     {
         $optionsHtml = '';
-        $myParcelShipments = Mage::getModel('tig_myparcel/shipment')
-            ->getCollection()
-            ->addFieldToFilter('order_id', $this->_order->getId());
 
-        foreach ($myParcelShipments as $myParcelShipment) {
+        foreach ($this->_myParcelShipments as $myParcelShipment) {
             $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
             $linkText = $myParcelShipment->getBarcode() ? $myParcelShipment->getBarcode() : $this->__('Shipment');
             $optionsHtml .= '<br><a href="'.$shipmentUrl.'">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment);

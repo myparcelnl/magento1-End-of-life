@@ -269,6 +269,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
                 if ($myParcelShipment->getInsuredAmount() > 0)
                     $options[] = strtolower($this->__('Insured up to &euro;%s',$myParcelShipment->getInsuredAmount()));
 
+                if ($myParcelShipment->getIsXL() == '1')
+                    $options[] = strtolower($this->__('Large package'));
+
             }
 
             $htmlOptions = implode(', ', $options);
