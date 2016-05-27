@@ -1,8 +1,0 @@
-<config>
-    <modules>
-        <Threesixty_Checkout>
-            <active>true</active>
-            <codePool>community</codePool>
-        </Threesixty_Checkout>
-    </modules>
-</config>
