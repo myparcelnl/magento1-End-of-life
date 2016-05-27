@@ -43,7 +43,11 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+                <file>js/TIG/MyParcel2014/moment.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/myparcel.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
@@ -79,7 +83,11 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+                <file>js/TIG/MyParcel2014/moment.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/myparcel.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
@@ -99,7 +107,11 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+                <file>js/TIG/MyParcel2014/moment.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/myparcel.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
