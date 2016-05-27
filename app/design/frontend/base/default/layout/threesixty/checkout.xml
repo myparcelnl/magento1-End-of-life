@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <checkout_index_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+            <action method="setHeaderTitle" translate="title"><title>Checkout</title></action>
+        </reference>
+
+        <reference name="head">
+            <action method="setTitle" translate="title">
+                <title>Threesixty Checkout</title>
+            </action>
+            <action method="addCss" ifconfig="postnl/delivery_options/delivery_options_active">
+                <stylesheet>css/TIG/PostNL/deliveryoptions/default.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="postnl/cif_address/use_postcode_check">
+                <stylesheet>css/TIG/PostNL/postcodecheck.css</stylesheet>
+            </action>
+            <action method="addCss" ifconfig="postnl/delivery_options/delivery_options_active">
+                <stylesheet>css/TIG/PostNL/mijnpakket.css</stylesheet>
+            </action>
+            <action method="addItem" ifconfig="postnl/delivery_options/delivery_options_active">
+                <type>skin_css</type>
+                <name>css/TIG/PostNL/deliveryoptions/ie8.css</name>
+                <params/>
+                <if>lt IE 9</if>
+            </action>
+            <action method="addItem" ifconfig="postnl/checkout/active">
+                <type>skin_js</type>
+                <file>js/TIG/PostNL/ajax.js</file>
+            </action>
+            <action method="addItem" ifconfig="postnl/cif_address/use_postcode_check">
+                <type>skin_js</type>
+                <file>js/TIG/PostNL/postcodecheck.js</file>
+            </action>
+
+            <block type="threesixtycheckout/postnl_deliveryOptions_theme" name="postnl_deliveryoptions_theme" template="TIG/PostNL/delivery_options/theme.phtml"/>
+            <block type="threesixtycheckout/postnl_deliveryOptions_js" name="postnl_deliveryoptions_js" template="TIG/PostNL/delivery_options/js.phtml"/>
+
+            <action method="addItem">
+                <type>js</type>
+                <file>varien/accordion.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/threesixty/checkout.js</file>
+            </action>
+        </reference>
+        <reference name="right">
+            <action method="unsetChildren"/>
+            <remove name="sale.reorder.sidebar"/>
+            <block type="page/html_wrapper" name="threesixtycheckout.sidebar.wrapper" translate="label">
+                <label>Checkout Progress Wrapper</label>
+                <action method="setElementId"><value>checkout-progress-wrapper</value></action>
+                <block type="threesixtycheckout/sidebar" name="threesixtycheckout.sidebar" before="-" template="threesixty/checkout/sidebar.phtml">
+                    <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
+                        <label>Shopping Cart Sidebar Extra Actions</label>
+                    </block>
+                </block>
+            </block>
+        </reference>
+        <reference name="content">
+            <block type="threesixtycheckout/checkout" name="threesixtycheckout.checkout" template="threesixty/checkout/index.phtml">
+                <block type="threesixtycheckout/steps_information" name="information_summary" as="information_summary" template="threesixty/checkout/summary/information.phtml" />
+                <block type="threesixtycheckout/steps_information" name="threesixtycheckout.checkout.information" as="information" template="threesixty/checkout/steps/information.phtml"/>
+                <block type="threesixtycheckout/steps_shipping" name="threesixtycheckout.checkout.shipping" as="shipping" template="threesixty/checkout/steps/shipping.phtml">
+                    <block type="threesixtycheckout/postnl_deliveryOptions_checkout_deliveryOptions" name="postnl.delivery.options" template="threesixty/checkout/postnl/deliveryoptions.phtml">
+                        <block type="core/template" name="postnl.add.location" template="TIG/PostNL/delivery_options/addlocation.phtml"/>
+                        <block type="threesixtycheckout/postnl_deliveryOptions_checkout_addPhoneNumber" name="postnl.add.phonenumber" template="TIG/PostNL/delivery_options/addphonenumber.phtml"/>
+                    </block>
+                </block>
+                <block type="threesixtycheckout/steps_payment" name="threesixtycheckout.checkout.payment" as="payment" template="threesixty/checkout/steps/payment.phtml">
+                    <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                    <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="checkout/onepage/agreements.phtml"/>
+                </block>
+                <block type="threesixtycheckout/steps_confirmation" name="threesixtycheckout.checkout.confirmation" as="confirmation" template="threesixty/checkout/steps/confirmation.phtml" />
+            </block>
+        </reference>
+    </checkout_index_index>
+
+    <threesixtycheckout_ajax_shipping_step>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="threesixtycheckout/steps_shipping" name="root" output="toHtml" template="threesixty/checkout/steps/shipping.phtml">
+            <block type="threesixtycheckout/postnl_deliveryOptions_checkout_deliveryOptions" name="postnl.delivery.options" template="threesixty/checkout/postnl/deliveryoptions.phtml">
+                <block type="core/template" name="postnl.add.location" template="TIG/PostNL/delivery_options/addlocation.phtml"/>
+                <block type="threesixtycheckout/postnl_deliveryOptions_checkout_addPhoneNumber" name="postnl.add.phonenumber" template="TIG/PostNL/delivery_options/addphonenumber.phtml"/>
+            </block>
+        </block>
+    </threesixtycheckout_ajax_shipping_step>
+
+    <threesixtycheckout_ajax_payment_step>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="threesixtycheckout/steps_payment" name="root" output="toHtml" template="threesixty/checkout/steps/payment.phtml">
+            <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+            <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="threesixty/checkout/agreements.phtml"/>
+        </block>
+    </threesixtycheckout_ajax_payment_step>
+
+    <threesixtycheckout_ajax_confirmation_step>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="threesixtycheckout/steps_confirmation" name="root" output="toHtml" template="threesixty/checkout/steps/confirmation.phtml">
+            <block type="threesixtycheckout/steps_confirmation" name="checkout.onepage.comments" as="comments" template="threesixty/checkout/comments.phtml"/>
+            <action method="unsetChild" ifconfig="threesixty_checkout/general_options/comments">
+                <name>comments</name>
+            </action>
+            <block type="checkout/agreements" name="checkout.onepage.agreements" as="agreements" template="threesixty/checkout/agreements.phtml"/>
+        </block>
+    </threesixtycheckout_ajax_confirmation_step>
+
+    <threesixtycheckout_ajax_information_summary>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="threesixtycheckout/steps_information" name="root" output="toHtml" template="threesixty/checkout/summary/information.phtml" />
+    </threesixtycheckout_ajax_information_summary>
+
+    <threesixtycheckout_ajax_shipping_summary>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="threesixtycheckout/steps_shipping" name="root" output="toHtml" template="threesixty/checkout/summary/shipping.phtml" />
+    </threesixtycheckout_ajax_shipping_summary>
+
+    <threesixtycheckout_ajax_payment_summary>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="threesixtycheckout/steps_payment" name="root" output="toHtml" template="threesixty/checkout/summary/payment.phtml" />
+    </threesixtycheckout_ajax_payment_summary>
+
+    <threesixtycheckout_ajax_sidebar>
+        <remove name="right"/>
+        <remove name="left"/>
+
+        <block type="threesixtycheckout/sidebar" name="root" output="toHtml" template="threesixty/checkout/sidebar.phtml">
+            <block type="core/text_list" name="cart_sidebar.extra_actions" as="extra_actions" translate="label" module="checkout">
+                <label>Shopping Cart Sidebar Extra Actions</label>
+            </block>
+        </block>
+    </threesixtycheckout_ajax_sidebar>
+
+    <checkout_index_success translate="label">
+        <label>One Page Checkout Success</label>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="threesixtycheckout/success" name="checkout.success" template="threesixty/checkout/success.phtml"/>
+        </reference>
+    </checkout_index_success>
+
+    <checkout_index_failure translate="label">
+        <label>One Page Checkout Failure</label>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="threesixtycheckout/failure" name="checkout.failure" template="threesixty/checkout/failure.phtml"/>
+        </reference>
+    </checkout_index_failure>
+</layout>
