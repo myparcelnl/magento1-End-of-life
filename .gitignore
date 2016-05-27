@@ -770,3 +770,6 @@
 /var
 
 .idea
+/app/design/frontend/base/default/template/threesixty/
+/app/code/community/Threesixty/
+/app/etc/modules/Threesixty_Checkout.xml
