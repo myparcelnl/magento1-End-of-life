@@ -15,7 +15,8 @@
 (function() {
 
     /* Set up the mutation observer */
-    var myParcelObserver = new MutationObserver(function (mutations, me) {
+    var myParcelObserver;
+    myParcelObserver = new MutationObserver(function (mutations, me) {
 
         var canvas = document.getElementById('s_method_myparcel_flatrate');
         if (canvas) {
@@ -33,20 +34,27 @@
         subtree: true
     });
 
-    /* Load MyParcel options */
-    var myParcelOptions = {
+    var myParcelOptions;
+    myParcelOptions = {
 
         initialize: function () {
 
+            /* Load MyParcel html frame */
             jQuery('#s_method_myparcel_flatrate').parents(':eq(2)').hide();
-            jQuery('#checkout-shipping-method-load').append(jQuery('#mypa-delivery-options-container'));
+            jQuery('#checkout-shipping-method-load').before(jQuery('#mypa-delivery-options-container'));
+
+
+            jQuery("input:radio[name='mypa-delivery-type']").on('change', function () {
+                //noinspection JSValidateTypes
+                jQuery(this).parent().find("input:radio[name='mypa-delivery-time']").first().prop("checked", true);
+            });
 
             jQuery("input:radio[name='mypa-delivery-time']").on('change', function () {
-                console.log($(this).id)
+                console.log(jQuery(this).id)
             });
 
             jQuery("input:checkbox[name='mypa-onoffswitch']").on('change', function () {
-                console.log($(this).checked)
+                console.log(jQuery(this).checked)
             });
 
         }

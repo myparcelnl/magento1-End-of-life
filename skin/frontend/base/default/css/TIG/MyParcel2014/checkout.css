@@ -212,7 +212,7 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
     display: block; width: 20px; margin: 0px;
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
-    right: 21px;
+    right: 25px;
     border: 2px solid #C7C7C7; border-radius: 20px;
     transition: all 0.3s ease-in 0s;
 }

@@ -33,8 +33,10 @@
     fetchDeliveryOptions = function(postal_code, number, street) {
         var options, settings, urlBase;
         settings = window.mypa.settings;
-        //urlBase = "https://api.myparcel.nl/delivery_options";
-        urlBase = "api/delivery_options";
+        //urlBase = "api/delivery_options";
+        urlBase = "https://api.myparcel.nl/delivery_options";
+
+
         if (number == null) {
             number = settings.number;
         }
@@ -53,7 +55,6 @@
         jQuery('.mypa-location').html("" + street);
         options = {
             url: urlBase,
-            dataType: "jsonp",
             data: {
                 cc: NATIONAL,
                 carrier: CARRIER,
@@ -67,7 +68,11 @@
                 deliverydays_window: settings.deliverydays_window != null ? settings.deliverydays_window : void 0,
                 exlude_delivery_type: settings.exclude_delivery_type != null ? settings.exclude_delivery_type : void 0
             },
-            success: renderPage
+            success: renderPage,
+            error: function (xhr, status) {
+                console.log(xhr);
+                console.log(status);
+            },
         };
         return jQuery.ajax(options);
     };
