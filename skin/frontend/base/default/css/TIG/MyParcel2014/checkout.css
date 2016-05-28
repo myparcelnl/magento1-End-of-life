@@ -196,15 +196,15 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
 }
 
 .mypa-onoffswitch-inner:before {
-    content: "N";
+    content: "J";
     padding-left: 7px;
-    background-color: #DE0D0D; color: #FFFFFF;
+    background-color: #39D12E; color: #FFFFFF;
 }
 
 .mypa-onoffswitch-inner:after {
-    content: "Y";
+    content: "N";
     padding-right: 7px;
-    background-color: #39D12E; color: #FFFFFF;
+    background-color: #DE0D0D; color: #FFFFFF;
     text-align: right;
 }
 
@@ -310,4 +310,10 @@ input:checked ~ label.mypa-row-title span.mypa-highlight{
 #mypa-location-container{
     overflow: scroll;
     max-height: 100%
+}
+
+
+/* Magento css */
+.sp-methods > dd:last-child, .sp-methods > dt{
+    display: none;
 }

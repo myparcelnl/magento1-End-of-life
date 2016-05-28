@@ -43,6 +43,10 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/moment.js</file>
             </action>
             <action method="addItem">
@@ -58,29 +62,17 @@
                 <file>css/TIG/MyParcel2014/checkout.css</file>
             </action>
         </reference>
-        <reference name="right">
-            <block type="checkout/onepage_progress" name="myparcel_checkout.progress" template="TIG/MyParcel2014/checkout/onepage/progress.phtml"/>
-        </reference>
         <reference name="before_body_end">
             <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/onepage/js.phtml"/>
         </reference>
     </checkout_onepage_index>
 
-    <checkout_onepage_progress>
-        <reference name="root">
-            <block type="checkout/onepage_progress" name="myparcel.progress" template="TIG/MyParcel2014/checkout/onepage/progress.phtml"/>
-        </reference>
-    </checkout_onepage_progress>
-
-    <checkout_onepage_progress_myparcel_checkout>
-        <remove name="right"/>
-        <remove name="left"/>
-
-        <block type="tig_myparcel/checkout_progress" name="root" template="TIG/MyParcel2014/checkout/onepage/progress/pakje_gemak.phtml" output="toHtml"/>
-    </checkout_onepage_progress_myparcel_checkout>
-
     <onestepcheckout_index_index>
         <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/moment.js</file>
@@ -105,6 +97,10 @@
 
     <opc_index_index>
         <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/moment.js</file>
