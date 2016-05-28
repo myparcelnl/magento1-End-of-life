@@ -72,7 +72,7 @@
             error: function (xhr, status) {
                 console.log(xhr);
                 console.log(status);
-            },
+            }
         };
         return jQuery.ajax(options);
     };
