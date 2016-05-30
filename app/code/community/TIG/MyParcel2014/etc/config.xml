@@ -63,13 +63,13 @@
             <sales_order_place_after>
                 <observers>
                     <!-- Copy a PakjeGemak address to the order. -->
-        <tig_myparcel_copy_pg_address>
-            <type>model</type>
-            <class>tig_myparcel/observer_savePgAddress</class>
-            <method>copyAddressToOrder</method>
-        </tig_myparcel_copy_pg_address>
-    </observers>
-</sales_order_place_after>
+                    <tig_myparcel_copy_pg_address>
+                        <type>model</type>
+                        <class>tig_myparcel/observer_savePgAddress</class>
+                        <method>copyAddressToOrder</method>
+                    </tig_myparcel_copy_pg_address>
+                </observers>
+            </sales_order_place_after>
             <controller_action_postdispatch_adminhtml_system_config_save>
                 <observers>
                     <tig_myparcel_save_config>

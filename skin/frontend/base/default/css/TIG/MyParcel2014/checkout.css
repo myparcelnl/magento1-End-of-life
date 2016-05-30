@@ -1,8 +1,8 @@
 input[name=mypa-delivery-type],
- input[name=mypa-delivery-time],
- input[name=mypa-pickup-option]{
-     display: none;
- }
+input[name=mypa-delivery-time],
+input[name=mypa-pickup-option]{
+    display: none;
+}
 
 #mypa-slider{
     width: 204%;
@@ -197,9 +197,9 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
 }
 
 .mypa-onoffswitch-inner:before {
-    content: "J";
+    content: "N";
     padding-left: 7px;
-    background-color: #39D12E; color: #FFFFFF;
+    background-color: #DE0D0D; color: #FFFFFF;
 }
 
 .mypa-onoffswitch-inner:after {

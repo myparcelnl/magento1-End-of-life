@@ -45,81 +45,11 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
     }
 
     /**
-     * Get available locations for the supplied postcode and housenr from MyParcel.
-     *
-     * @return $this
-     */
-    public function getLocationsAction()
-    {
-        /**
-         * This action may only be called using AJAX requests
-         */
-        if (!$this->getRequest()->isAjax()) {
-            $this->getResponse()
-                 ->setBody('not_allowed');
-
-            return $this;
-        }
-
-        /**
-         * Get the submitted post data and validate it.
-         */
-        $postData = $this->getRequest()->getPost();
-        $validData = Mage::getSingleton('tig_myparcel/checkout_validate')->validateGetLocationsData($postData);
-
-        /**
-         * Check if the data is valid.
-         */
-        if (!$validData) {
-            $this->getResponse()
-                 ->setBody('invalid_data');
-
-            return $this;
-        }
-
-        /**
-         * Form the data array required for the MyParcel API.
-         */
-        $requestData = array(
-            'country'      => 'NL',
-            'postalcode'   => $validData['postcode'],
-            'streetnumber' => $validData['housenr'],
-            'courier'      => 'postnl',
-        );
-
-        /**
-         * Request all available locations from the MYParcel API.
-         */
-        $api = Mage::getModel('tig_myparcel/api_myParcel');
-        $api->createGetLocationsRequest($requestData)->sendRequest();
-
-        /**
-         * Get the result and make sure it's valid.
-         */
-        $result = $api->getRequestResponse();
-        if (!isset($result['data'])) {
-            $this->getResponse()
-                 ->setBody('invalid_response');
-
-            return $this;
-        }
-
-        /**
-         * Print the response in JSON format.
-         */
-        $json = Mage::helper('core')->jsonEncode($result);
-        $this->getResponse()
-             ->setBody($json);
-
-        return $this;
-    }
-
-    /**
      * Save the selected PakjeGemak location.
      *
      * @return $this
      */
-    public function saveLocationAction()
+    public function saveShippingMethodAction()
     {
         /**
          * This action may only be called using AJAX requests
@@ -167,39 +97,5 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
         return $this;
     }
-
-    public function getInfoAction(){
-
-
-        /**
-         * info for the checkout
-         */
-        $requestData = array(
-            'baseUrl'      => Mage::getUrl('myparcel2014/checkout/getInfo', array('_secure' => true)),
-            'template_shipping_method'      => $this->_getTemplateShippingMethod()
-        );
-
-        /**
-         * Print the response in JSON format.
-         */
-        $json = Mage::helper('core')->jsonEncode($requestData);
-        $this->getResponse()
-            ->setBody($json);
-
-        return $this;
-    }
-
-    private function _getTemplateShippingMethod(){
-        $test = 'hoi dit is een test ';
-
-
-        ob_start();
-        require('app/design/frontend/base/default/template/TIG/MyParcel2014/checkout/template_shipping_method.phtml');
-        $html = ob_get_contents();
-        ob_end_clean();
-
-        return $html;
-    }
-
 
 }

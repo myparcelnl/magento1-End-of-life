@@ -63,7 +63,8 @@
             </action>
         </reference>
         <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/onepage/js.phtml"/>
+            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js"
+                   template="TIG/MyParcel2014/checkout/onepage/js.phtml"/>
         </reference>
     </checkout_onepage_index>
 
@@ -91,7 +92,8 @@
             </action>
         </reference>
         <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/idev_onestepcheckout/js.phtml"/>
+            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js"
+                   template="TIG/MyParcel2014/checkout/idev_onestepcheckout/js.phtml"/>
         </reference>
     </onestepcheckout_index_index>
 
@@ -119,7 +121,8 @@
             </action>
         </reference>
         <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/iwd_onepagecheckout/js.phtml"/>
+            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js"
+                   template="TIG/MyParcel2014/checkout/iwd_onepagecheckout/js.phtml"/>
         </reference>
-    </opc_index_index>
+</opc_index_index>
 </layout>
