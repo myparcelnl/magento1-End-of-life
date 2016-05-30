@@ -331,5 +331,5 @@ input:checked ~ span span.mypa-price{
 
 /* Magento css */
 .sp-methods > dd:last-child, .sp-methods > dt{
-    display: none;
+    /*display: none;*/
 }

@@ -24,6 +24,11 @@
                     <order>TIG_MyParcel2014_Model_Sales_Order</order>
                 </rewrite>
             </sales>
+            <checkout>
+                <rewrite>
+                    <type_onepage>TIG_MyParcel2014_Model_Type_Onepage</type_onepage>
+                </rewrite>
+            </checkout>
         </models>
         <blocks>
             <tig_myparcel>
