@@ -1,8 +1,8 @@
 input[name=mypa-delivery-type],
-input[name=mypa-delivery-time],
-input[name=mypa-pickup-option]{
-    display: none;
-}
+ input[name=mypa-delivery-time],
+ input[name=mypa-pickup-option]{
+     display: none;
+ }
 
 #mypa-slider{
     width: 204%;
@@ -187,6 +187,7 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
 .mypa-onoffswitch-inner {
     display: block; width: 200%; margin-left: -100%;
     transition: margin 0.3s ease-in 0s;
+    margin-left: 0;
 }
 
 .mypa-onoffswitch-inner:before, .mypa-onoffswitch-inner:after {
@@ -202,9 +203,9 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
 }
 
 .mypa-onoffswitch-inner:after {
-    content: "N";
+    content: "J";
     padding-right: 7px;
-    background-color: #DE0D0D; color: #FFFFFF;
+    background-color: #39D12E; color: #FFFFFF;
     text-align: right;
 }
 
@@ -212,17 +213,17 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
     display: block; width: 20px; margin: 0px;
     background: #FFFFFF;
     position: absolute; top: 0; bottom: 0;
-    right: 25px;
+    right: 0px;
     border: 2px solid #C7C7C7; border-radius: 20px;
     transition: all 0.3s ease-in 0s;
 }
 
-.mypa-onoffswitch-checkbox:checked + .mypa-onoffswitch-label .mypa-onoffswitch-inner {
-    margin-left: 0;
+.mypa-onoffswitch-checkbox:checked + div.mypa-switch-container .mypa-onoffswitch .mypa-onoffswitch-label .mypa-onoffswitch-inner {
+    margin-left: -41px;
 }
 
-.mypa-onoffswitch-checkbox:checked + .mypa-onoffswitch-label .mypa-onoffswitch-switch {
-    right: 0px;
+.mypa-onoffswitch-checkbox:checked + div.mypa-switch-container .mypa-onoffswitch .mypa-onoffswitch-label .mypa-onoffswitch-switch {
+    right: 21px;
 }
 
 .mypa-switch-container{
@@ -312,6 +313,21 @@ input:checked ~ label.mypa-row-title span.mypa-highlight{
     max-height: 100%
 }
 
+.mypa-price{
+    display: inline-block;
+    padding: 2px 5px;
+    background: #C7C7C7;
+    color: white;
+    float: right;
+    margin-right: 25px;
+    font-weight: 800;
+    font-size: 17px;
+}
+
+input:checked ~ .mypa-price,
+input:checked ~ span span.mypa-price{
+    background: #ff8c00
+}
 
 /* Magento css */
 .sp-methods > dd:last-child, .sp-methods > dt{
