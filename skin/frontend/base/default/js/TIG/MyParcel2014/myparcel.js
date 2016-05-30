@@ -4,7 +4,8 @@
 
     window.mypa = {
         fn: {},
-        settings: {}
+        settings: {},
+        data: {}
     };
 
     NATIONAL = 'NL';
@@ -82,6 +83,7 @@
      */
 
     renderPage = function(response) {
+        window.mypa.data = response.data;
         renderDays(response.data.delivery);
         return preparePickup(response.data.pickup);
     };
@@ -129,7 +131,7 @@
         for (index in data) {
             location = data[index];
       console.log(location);
-            html = "<div for='mypa-pickup-location-" + index + "' class=\"mypa-row-lg\">\n  <input id=\"mypa-pickup-location-" + index + "\" type=\"radio\" name=\"mypa-pickup-option\">\n  <label for='mypa-pickup-location-" + index + "' class='mypa-row-title'>\n    <div class=\"mypa-checkmark mypa-main\">\n      <div class=\"mypa-circle\"></div>\n      <div class=\"mypa-checkmark-stem\"></div>\n      <div class=\"mypa-checkmark-kick\"></div>\n    </div>\n    <span class=\"mypa-highlight\">" + location.location + ", <b>" + location.street + " " + location.number + "</b>,\n    <i>" + (String(Math.round(location.distance / 100) / 10).replace('.', ',')) + " Km</i></span>\n  </label>\n</div>";
+            html = "<div for='mypa-pickup-location-" + index + "' class=\"mypa-row-lg\">\n  <input id=\"mypa-pickup-location-" + index + "\" type=\"radio\" name=\"mypa-pickup-option\" value=\"" + index + "\">\n  <label for='mypa-pickup-location-" + index + "' class='mypa-row-title'>\n    <div class=\"mypa-checkmark mypa-main\">\n      <div class=\"mypa-circle\"></div>\n      <div class=\"mypa-checkmark-stem\"></div>\n      <div class=\"mypa-checkmark-kick\"></div>\n    </div>\n    <span class=\"mypa-highlight\">" + location.location + ", <b>" + location.street + " " + location.number + "</b>,\n    <i>" + (String(Math.round(location.distance / 100) / 10).replace('.', ',')) + " Km</i></span>\n  </label>\n</div>";
             results.push(jQuery('#mypa-location-container').append(html));
         }
         return results;
@@ -148,7 +150,7 @@
         for (index in deliveryDays) {
             delivery = deliveryDays[index];
             date = moment(delivery.date);
-            html = "<input type=\"radio\" id=\"mypa-date-" + index + "\" class=\"mypa-date\" name=\"mypa-date\" checked>\n<label for='mypa-date-" + index + "' class='mypa-tab active'>\n  <span class='day-of-the-week'>" + (date.format('dddd')) + "</span>\n  <br>\n  <span class='date'>" + (date.format('DD MMMM')) + "</span>\n</label>";
+            html = "<input type=\"radio\" id=\"mypa-date-" + index + "\" class=\"mypa-date\" name=\"mypa-date\" value=\"" + index + "\" checked>\n<label for='mypa-date-" + index + "' class='mypa-tab active'>\n  <span class='day-of-the-week'>" + (date.format('dddd')) + "</span>\n  <br>\n  <span class='date'>" + (date.format('DD MMMM')) + "</span>\n</label>";
             $el.append(html);
         }
         $el.width(deliveryDays.length * 105);

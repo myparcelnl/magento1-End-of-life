@@ -18,16 +18,16 @@
     window.mypaController = {
         observer: {
             options: {
-                deliveryType:   "input:radio[name='mypa-delivery-type']",
                 deliveryDate:   "input:radio[name='mypa-date']",
+                deliveryType:   "input:radio[name='mypa-delivery-type']",
                 deliveryTime:   "input:radio[name='mypa-delivery-time']",
                 directReturn:   "input:checkbox[name='mypa-onoffswitch']",
                 pickupType:     "input:radio[name='mypa-pickup-option']"
             }
         },
         store: {
-            deliveryType:   null,
             deliveryDate:   null,
+            deliveryType:   null,
             deliveryTime:   null,
             directReturn:   null,
             pickupType:     null,
@@ -65,17 +65,10 @@
     };
 
     actionObservers = function () {
-        console.log([
-            options.deliveryType,
-            options.deliveryTime,
-            options.deliveryDate,
-            options.directReturn,
-            options.pickupType
-        ].join());
         jQuery([
+            options.deliveryDate,
             options.deliveryType,
             options.deliveryTime,
-            options.deliveryDate,
             options.directReturn,
             options.pickupType
         ].join()).on('change', function () {
@@ -84,7 +77,11 @@
     };
 
     indexStore = function() {
+
+        console.log('test');
+        console.log(window.mypa.data);
         window.mypaController.store = {
+            deliveryDate:   jQuery(options.deliveryDate + ':checked').val(),
             deliveryType:   jQuery(options.deliveryType + ':checked').attr('id'),
             deliveryTime:   jQuery(options.deliveryTime + ':checked').attr('id'),
             directReturn:   jQuery(options.directReturn).is(':checked'),
