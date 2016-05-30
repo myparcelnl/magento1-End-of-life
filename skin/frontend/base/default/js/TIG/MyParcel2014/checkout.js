@@ -13,6 +13,7 @@
  * @since       File available since Release 1.6.0
  */
 (function () {
+    var $ = jQuery.noConflict();
     var options, myParcelObserver, load;
 
     /**
@@ -21,7 +22,7 @@
     myParcelObserver = new MutationObserver(function (mutations, me) {
         var canvas = document.getElementById('s_method_myparcel_flatrate');
         if (canvas) {
-            jQuery(document).ready(
+            $(document).ready(
                 load,
                 me.disconnect() /* stop observing */
             )
@@ -40,8 +41,8 @@
         /**
          * Load MyParcel html frame
          */
-        jQuery('#s_method_myparcel_flatrate').parents(':eq(2)').hide();
-        jQuery('#checkout-shipping-method-load').before(jQuery('#mypa-delivery-options-container'));
+        $('#s_method_myparcel_flatrate').parents(':eq(2)').hide();
+        $('#checkout-shipping-method-load').before($('#mypa-delivery-options-container'));
     };
 
 
