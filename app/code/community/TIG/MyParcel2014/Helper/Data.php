@@ -1072,4 +1072,33 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
             return false;
         }
     }
+
+    /**
+     * Save in checkout MyParcel shipping method
+     */
+    public function saveMyParcelShippingMethod(){
+
+        $request = Mage::app()->getRequest();
+        if ($request->isPost() && strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
+
+            $delivery = $request->getPost('mypa-delivery-time', '');
+
+            if($delivery !== 'on'){
+                echo 'del';
+                var_dump(json_decode($delivery));
+            } else {
+                echo 'pickup';
+                $pickup = $request->getPost('mypa-pickup-option', '');
+                var_dump(json_decode($pickup));
+
+            }
+
+            exit('test');
+        } else {
+            /**
+             * @todo; Delete data if shipping method not is myparcel
+             */
+            exit('not mp');
+        }
+    }
 }

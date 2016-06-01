@@ -30,15 +30,8 @@ class TIG_MyParcel2014_Model_Type_Onepage extends Mage_Checkout_Model_Type_Onepa
      */
     public function saveShippingMethod($shippingMethod)
     {
-        if (Mage::app()->getRequest()->isPost() && strpos($shippingMethod, 'myparcel') !== false) {
-            $data = Mage::app()->getRequest()->getPost('shipping_method', '');
-            var_dump($data);
-            exit('test');
-        } else {
-            /**
-             * @todo; Delete data if shipping method not is myparcel
-             */
-        }
+        $helper   = Mage::helper('tig_myparcel');
+        $helper->saveMyParcelShippingMethod();
 
         /**
          * From Mage_Checkout_Model_Type_Onepage

@@ -14,14 +14,30 @@
  */
 (function () {
     var $ = jQuery.noConflict();
-    var options, myParcelObserver, load;
+    var options, myParcelObserver, load, actionObservers;
+
+    var observer = {
+        deliveryDate:           "input:radio[name='mypa-date']",
+        deliveryType:           "input:radio[name='mypa-delivery-type']",
+        deliveryTime:           "input:radio[name='mypa-delivery-time']",
+        directReturn:           "input:checkbox[name='mypa-onoffswitch']",
+        pickupType:             "input:radio[name='mypa-pickup-option']",
+        magentoMethods:         "input:radio[id^='s_method']",
+        magentoMethodMyParcel:  "input:radio[id^='s_method_myparcel']"
+    };
+
+    $.extend( window.mypa.settings, {
+        postal_code: '2223HH',
+        number: 4
+    });
 
     /**
      *  Set up the mutation observer
      */
     myParcelObserver = new MutationObserver(function (mutations, me) {
-        var canvas = document.getElementById('s_method_myparcel_flatrate');
-        if (canvas) {
+        var canvasFlat = document.getElementById('s_method_myparcel_flatrate');
+        var canvasTable = document.getElementById('s_method_myparcel_tablerate');
+        if (canvasFlat || canvasTable) {
             $(document).ready(
                 load,
                 me.disconnect() /* stop observing */
@@ -41,8 +57,33 @@
         /**
          * Load MyParcel html frame
          */
-        $('#s_method_myparcel_flatrate').parents(':eq(2)').hide();
+        $(observer.magentoMethodMyParcel).parents(':eq(2)').hide();
         $('#checkout-shipping-method-load').before($('#mypa-delivery-options-container'));
+
+        actionObservers();
+    };
+
+    actionObservers = function () {
+
+        $(observer.magentoMethodMyParcel)[0].checked = true;
+
+        /**
+         * If method is MyParcel
+         */
+        $([
+            observer.deliveryType,
+            observer.pickupType
+        ].join()).on('change', function () {
+            $(observer.magentoMethodMyParcel)[0].checked = true;
+        });
+
+        /**
+         * If method not is MyParcel
+         */
+        $(observer.magentoMethods).on('change', function () {
+            console.log('n mp');
+            $(observer.deliveryType + ':checked')[0].checked = false;
+        });
     };
 
 

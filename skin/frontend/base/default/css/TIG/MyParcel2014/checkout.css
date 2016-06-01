@@ -156,8 +156,9 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
 }
 
 .mypa-row-title{
-    display: block;
+    display: inline-block;
     padding: 9px 15px 16px 15px;
+    width: 80%
 }
 
 .mypa-row-subitem{
@@ -329,7 +330,26 @@ input:checked ~ span span.mypa-price{
     background: #ff8c00
 }
 
+.mypa-info{
+    position: relative;
+    left:24px;
+}
+
+.mypa-info::before{
+    content: "I"
+}
+
+.mypa-opening-hours{
+    position: absolute;
+    top: 80px;
+    right: 90px;
+}
+
 /* Magento css */
 .sp-methods > dd:last-child, .sp-methods > dt{
-    /*display: none;*/
+    display: none;
+}
+
+#mypa-delivery-options-container{
+    height: 382px;
 }
