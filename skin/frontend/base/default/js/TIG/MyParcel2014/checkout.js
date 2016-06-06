@@ -59,7 +59,7 @@
         /**
          * Load MyParcel html frame
          */
-        $(observer.magentoMethodMyParcel).parents(':eq(2)').hide();
+        //$(observer.magentoMethodMyParcel).parents(':eq(2)').hide();
         $('#checkout-shipping-method-load').before($('#mypa-delivery-options-container'));
 
         actionObservers();
