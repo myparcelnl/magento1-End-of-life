@@ -56,22 +56,32 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
             ->addFieldToFilter('order_id', $this->_order->getId());
     }
 
-    public function getPgAddressHtml()
+    public function getCheckoutOptionsHtml()
     {
-        $res = array();
+        $html = false;
         $pgAddress = $this->_helper->getPgAddress($this->_order);
+        /** @var object $data Data from checkout */
+        $data = $this->_order->getMyparcelData() !== null ? json_decode($this->_order->getMyparcelData()) : false;
         $shippingMethod = $this->_order->getShippingMethod();
 
         if ($pgAddress && $this->_helper->shippingMethodIsPakjegemak($shippingMethod))
         {
-            $res = array(
-                $pgAddress->getCompany(),
-                implode(' ', $pgAddress->getStreet()),
-                $pgAddress->getPostcode() . ' ' . $pgAddress->getCity() . ' (' . $pgAddress->getCountry() . ')',
-            );
+
+            if($data){
+                $dateTime = date('d-m-Y H:i', strtotime($data->date . ' ' . $data->start_time));
+                $html = $this->__('PostNL location at') . ': ' . $dateTime . ', ' . $data->location . ', ' . $data->city . ' (' . $data->postal_code . ')';
+            } else {
+                /** Old data from orders before version 1.6.0 */
+                $html = $this->__('PostNL location at') . ': ' . $pgAddress->getCompany() . ' ' . $pgAddress->getCity();
+            }
+        } else {
+            if($data){
+                $dateTime = date('d-m-Y H:i', strtotime($data->date . ' ' . $data->time[0]->start));
+                $html = $this->__('Deliver at') . ': ' . $dateTime;
+            }
         }
 
-        return empty($res) ? '' : '<p>' . implode('<br/>', $res) . '</p>';
+        return $html !== false ? '<br>' . $html : '' ;
     }
 
     /**
@@ -86,7 +96,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         foreach ($this->_myParcelShipments as $myParcelShipment) {
             $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
             $linkText = $myParcelShipment->getBarcode() ? $myParcelShipment->getBarcode() : $this->__('Shipment');
-            $optionsHtml .= '<br><a href="'.$shipmentUrl.'">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment);
+            $optionsHtml .= '<p><a href="'.$shipmentUrl.'">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment) .'</p>';
         }
 
         return $optionsHtml;

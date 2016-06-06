@@ -44,11 +44,11 @@
     <script type ="text/javascript">
         //<![CDATA[
         document.observe('dom:loaded', function(){
-            var pgaddress = '<?= $this->getPgAddressHtml(); ?>';
+            var checkoutOptions = '<?= $this->getCheckoutOptionsHtml(); ?>';
             var currentOptions = '<?= $this->getCurrentOrderOptionsHtml(); ?>';
             var target = document.getElementsByClassName('head-shipping-method')[0].parentNode.parentNode;
 
-            target.innerHTML = target.innerHTML.replace('</fieldset>', pgaddress + currentOptions + '</fieldset>');
+            target.innerHTML = target.innerHTML.replace('</fieldset>', checkoutOptions + currentOptions + '</fieldset>');
         });
 
         //]]>
