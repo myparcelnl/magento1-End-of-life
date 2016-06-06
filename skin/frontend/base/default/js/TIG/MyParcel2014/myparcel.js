@@ -21,9 +21,7 @@
     }
 
     if ((base3 = window.mypa.settings).base_url == null) {
-        //base3.base_url = "/api/delivery_options";
-        base3.base_url = "https://ui.staging.myparcel.nl/api/delivery_options";
-
+        base3.base_url = "/api/delivery_options";
     }
 
     NATIONAL = 'NL';

@@ -28,7 +28,8 @@
 
     $.extend( window.mypa.settings, {
         postal_code: '2223HH',
-        number: 4
+        number: 4,
+        base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
     /**
