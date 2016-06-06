@@ -49,45 +49,45 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     /**
      * Regular expression used to split street name from house number. This regex works well for dutch addresses, but
      * may fail for international addresses. We strongly recommend using split address lines instead.
-         *
-         * Street (key street)
-         * (?P<street>.*?)
-         *
-         * An Street and house number is sometimes separated by a whitespace
-         * \s?
-         *
-         * Insert number and extension together in one array
-         * (?P<street_suffix>
-         *
-         * Set number (int)
-         * (?P<number>[\d]+)
-         *
-         * Sometimes an extension begins with a dash
-         * -?
-         *
-         * Set key for extension
-         * (?P<extension>
-         *
-         * If extension have text, / or whitespace
-         * [a-zA-Z/\s]{0,5}$
-         *
-         * OR(!) if extension have a number
-         * |[0-9/]{0,4}$
-         *
-         * Close key for extension
-         * )
-         *
-         * Close number and extension together
-         * )
-         *
+     *
+     * Street (key street)
+     * (?P<street>.*?)
+     *
+     * An Street and house number is sometimes separated by a whitespace
+     * \s?
+     *
+     * Insert number and extension together in one array
+     * (?P<street_suffix>
+     *
+     * Set number (int)
+     * (?P<number>[\d]+)
+     *
+     * Sometimes an extension begins with a dash
+     * -?
+     *
+     * Set key for extension
+     * (?P<extension>
+     *
+     * If extension have text, / or whitespace
+     * [a-zA-Z/\s]{0,5}$
+     *
+     * OR(!) if extension have a number
+     * |[0-9/]{0,4}$
+     *
+     * Close key for extension
+     * )
+     *
+     * Close number and extension together
+     * )
+     *
      */
-        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$~';
+    const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$~';
 
     /**
      * Regular expression used to split house number and house number extension
      * This data is the same as above
      */
-        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$)~';
+    const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$)~';
 
     /**
      * Log filename to log all non-specific MyParcel exceptions.
