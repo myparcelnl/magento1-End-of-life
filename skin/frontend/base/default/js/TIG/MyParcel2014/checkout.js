@@ -13,8 +13,9 @@
  * @since       File available since Release 1.6.0
  */
 (function () {
-    var $ = jQuery.noConflict();
-    var options, myParcelObserver, load, actionObservers;
+    var $, options, myParcelObserver, load, actionObservers;
+
+    $ = jQuery.noConflict();
 
     var observer = {
         deliveryDate:           "input:radio[name='mypa-date']",
