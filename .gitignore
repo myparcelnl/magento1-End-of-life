@@ -789,3 +789,23 @@ package.xml
 skin/adminhtml/default/default/iwd/all/images/iwdlogo.png
 
 skin/adminhtml/default/default/iwd/all/iwdall.css
+
+app/etc/modules/IWD_Opc.xml
+
+app/locale/de_DE/IWD_Opc.csv
+
+app/locale/en_US/IWD_Opc.csv
+
+app/locale/nl_NL/IWD_Opc.csv
+
+app/locale/pt_BR/IWD_Opc.csv
+
+app/locale/ru_RU/IWD_Opc.csv
+
+skin/frontend/base/default/js/iwd/*
+
+skin/frontend/base/default/css/iwd/*
+
+app/design/frontend/base/default/layout/iwd_opc.xml
+
+app/design/adminhtml/default/default/layout/iwd_opc.xml
