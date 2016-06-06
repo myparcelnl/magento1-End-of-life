@@ -243,41 +243,41 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         return false;
     }
 
-        /**
-         * Get html for the MyParcel options
-         *
-         * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
-         * @return string
-         */
-        public function getCurrentOptionsHtml($myParcelShipment)
-        {
-            $options = array(
-                $this->__(ucfirst(str_replace('_',' ',$myParcelShipment->getShipmentType()))),
-            );
+    /**
+     * Get html for the MyParcel options
+     *
+     * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     * @return string
+     */
+    public function getCurrentOptionsHtml($myParcelShipment)
+    {
+        $options = array(
+            $this->__(ucfirst(str_replace('_',' ',$myParcelShipment->getShipmentType()))),
+        );
 
-            if ($myParcelShipment->getShipmentType() == 'normal') {
+        if ($myParcelShipment->getShipmentType() == 'normal') {
 
-                if ($myParcelShipment->getHomeAddressOnly() == '1')
-                    $options[] = strtolower($this->__('Home address only'));
+            if ($myParcelShipment->getHomeAddressOnly() == '1')
+                $options[] = strtolower($this->__('Home address only'));
 
-                if ($myParcelShipment->getHomeAddressOnly() == '1')
-                    $options[] = strtolower($this->__('Signature on receipt'));
+            if ($myParcelShipment->getHomeAddressOnly() == '1')
+                $options[] = strtolower($this->__('Signature on receipt'));
 
-                if ($myParcelShipment->getReturnIfNoAnswer() == '1')
-                    $options[] = strtolower($this->__('Return if no answer'));
+            if ($myParcelShipment->getReturnIfNoAnswer() == '1')
+                $options[] = strtolower($this->__('Return if no answer'));
 
-                if ($myParcelShipment->getInsuredAmount() > 0)
-                    $options[] = strtolower($this->__('Insured up to &euro;%s',$myParcelShipment->getInsuredAmount()));
+            if ($myParcelShipment->getInsuredAmount() > 0)
+                $options[] = strtolower($this->__('Insured up to &euro;%s',$myParcelShipment->getInsuredAmount()));
 
-                if ($myParcelShipment->getIsXL() == '1')
-                    $options[] = strtolower($this->__('Large package'));
+            if ($myParcelShipment->getIsXL() == '1')
+                $options[] = strtolower($this->__('Large package'));
 
-            }
-
-            $htmlOptions = implode(', ', $options);
-
-            return $htmlOptions;
         }
+
+        $htmlOptions = implode(', ', $options);
+
+        return $htmlOptions;
+    }
 
     /**
      * Returns the whiteList codes for customs.
