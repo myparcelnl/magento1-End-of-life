@@ -44,29 +44,34 @@ class TIG_MyParcel2014_Model_Checkout_Service
     public function saveMyParcelShippingMethod(){
 
         $request = Mage::app()->getRequest();
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
+
+        /**
+         * If shipping method is myparcel
+         */
         if ($request->isPost() && strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
             $delivery = $request->getPost('mypa-delivery-time', '');
 
             if($delivery !== 'on'){
-                echo 'del';
-                var_dump(json_decode($delivery));
+                /**
+                 * not pickup
+                 */
+                $data = $delivery;
+                $this->removePgAddress($quote);
             } else {
-//                echo 'pickup';
+                /**
+                 * is pickup
+                 */
                 $data = $request->getPost('mypa-pickup-option', '');
-                $quote = Mage::getSingleton('checkout/session')->getQuote();
-
                 $this->savePgAddress(json_decode($data), $quote);
-//                var_dump(json_decode($pickup));
-
             }
 
-            exit('test');
+            $quote->setMyparcelData($data)->save();
+
         } else {
-            /**
-             * @todo; Delete data if shipping method not is myparcel
-             */
-            exit('not mp');
+            $quote->setMyparcelData('')->save();
+            $this->removePgAddress($quote);
         }
     }
 
