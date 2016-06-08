@@ -55,6 +55,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     const REQUEST_TYPE_CREATE_RETOURLINK    = 'create-retourlink';
     const REQUEST_TYPE_GET_LOCATIONS        = 'pickup';
 
+    const TYPE_MORNING             = 1;
+    const TYPE_STANDARD            = 2;
+    const TYPE_NIGHT               = 3;
+    const TYPE_RETAIL              = 4;
+    const TYPE_RETAIL_EXPRESS      = 5;
+
     const REQUEST_HEADER_SHIPMENT           = 'Content-Type: application/vnd.shipment+json; ';
     const REQUEST_HEADER_RETURN             = 'Content-Type: application/vnd.return_shipment+json; ';
     const REQUEST_HEADER_UNRALED_RETURN     = 'Content-Type: application/vnd.unrelated_return_shipment+json; ';
@@ -687,7 +693,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
             $pgStreetData      = $helper->getStreetData($pgAddress,$storeId);
             $data['options']['signature'] = 1;
-            $data['options']['delivery_type'] = 4;
             $data['pickup'] = array(
                 'postal_code'       => trim($pgAddress->getPostcode()),
                 'street'            => trim($pgStreetData['streetname']),
@@ -736,10 +741,33 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
-        $myParcelData = $myParcelShipment->getOrder()->getMyparcelData();
+        $myParcelData = json_decode($myParcelShipment->getOrder()->getMyparcelData());
         if($myParcelData !== null) {
-            if($myParcelData->delivery_date !== null)
-            $data['delivery_date'] = $myParcelData->delivery_date  . ' 00:00:00';  // delivery_type !
+
+            if($myParcelData->time[0]->price_comment !== null) {
+                switch ($myParcelData->time[0]->price_comment) {
+                    case 'morning':
+                        $data['delivery_type'] = self::TYPE_MORNING;
+                        break;
+                    case 'standard':
+                        $data['delivery_type'] = self::TYPE_STANDARD;
+                        break;
+                    case 'night':
+                        $data['delivery_type'] = self::TYPE_NIGHT;
+                        break;
+                }
+            } elseif ($myParcelData->price_comment !== null) {
+                switch ($myParcelData->price_comment) {
+                    case 'retail':
+                        $data['delivery_type'] = self::TYPE_RETAIL;
+                        break;
+                    case 'retailexpress':
+                        $data['delivery_type'] = self::TYPE_RETAIL_EXPRESS;
+                        break;
+                }
+            }
+//            if($myParcelData->delivery_date !== null)
+//            $data['delivery_date'] = $myParcelData->delivery_date  . ' 00:00:00';  // delivery_type !
         }
 
         if((int) $myParcelShipment->getInsured() === 1) {
