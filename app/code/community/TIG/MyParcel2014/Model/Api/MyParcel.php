@@ -736,7 +736,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
-        if((int) $myParcelShipment->getInsured() === 1){
+        $myParcelData = $myParcelShipment->getOrder()->getMyparcelData();
+        if($myParcelData !== null) {
+            if($myParcelData->delivery_date !== null)
+            $data['delivery_date'] = $myParcelData->delivery_date  . ' 00:00:00';  // delivery_type !
+        }
+
+        if((int) $myParcelShipment->getInsured() === 1) {
             $data['insurance']['amount'] = $this->_getInsuredAmount($myParcelShipment) * 100;
             $data['insurance']['currency'] = 'EUR';
         }
