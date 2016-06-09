@@ -742,6 +742,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         );
 
         $myParcelData = json_decode($myParcelShipment->getOrder()->getMyparcelData());
+
         if($myParcelData !== null) {
 
             if($myParcelData->time[0]->price_comment !== null) {
@@ -752,7 +753,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     case 'standard':
                         $data['delivery_type'] = self::TYPE_STANDARD;
                         break;
-                    case 'night':
+                    case 'avond':
                         $data['delivery_type'] = self::TYPE_NIGHT;
                         break;
                 }
@@ -766,8 +767,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         break;
                 }
             }
-//            if($myParcelData->delivery_date !== null)
-//            $data['delivery_date'] = $myParcelData->delivery_date  . ' 00:00:00';  // delivery_type !
+            if($myParcelData->date !== null)
+            $data['delivery_date'] = $myParcelData->date  . ' 00:00:00';  // delivery_type !
         }
 
         if((int) $myParcelShipment->getInsured() === 1) {
@@ -783,7 +784,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             unset($data['signature']);
             unset($data['return']);
         }
-
 
         return $data;
     }
