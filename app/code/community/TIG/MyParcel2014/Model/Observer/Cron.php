@@ -46,7 +46,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
     /**
      * Init
      */
-    public function __construct()
+    public function _construct()
     {
         $this->helper = Mage::helper('tig_myparcel');
     }
@@ -127,7 +127,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
             if (is_array($response)) {
                 // Check if there is an new barcode
                 if (!empty($response['tracktrace']) && $response['tracktrace'] != $barcode) {
-                    // Send the barcode email, but first check if the e-mail template is set.
+                    // Send the barcode email, but first check if the e-mail tempalte is set.
                     $shipmentTime = strtotime($shipment->getCreatedAt());
                     if ($shipmentTime > strtotime('-1 hour')
                         && $this->helper->sendBarcodeEmail($response['tracktrace'],$shipment)) {
