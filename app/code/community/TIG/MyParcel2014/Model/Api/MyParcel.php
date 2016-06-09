@@ -767,8 +767,9 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         break;
                 }
             }
-            if($myParcelData->date !== null)
-            $data['delivery_date'] = $myParcelData->date  . ' 00:00:00';  // delivery_type !
+            if($myParcelData->date !== null) {
+                $data['delivery_date'] = $myParcelData->date . ' 00:00:00';
+            }
         }
 
         if((int) $myParcelShipment->getInsured() === 1) {

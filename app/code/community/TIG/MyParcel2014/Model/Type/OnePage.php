@@ -30,6 +30,7 @@ class TIG_MyParcel2014_Model_Type_Onepage extends Mage_Checkout_Model_Type_Onepa
      */
     public function saveShippingMethod($shippingMethod)
     {
+        // Save the MyParcel data in quote
         Mage::getModel('tig_myparcel/checkout_service')->saveMyParcelShippingMethod();
 
         /**
