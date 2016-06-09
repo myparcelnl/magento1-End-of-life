@@ -343,6 +343,16 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $storeId = $this->getOrder()->getStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
+        // Get checkout data > return
+        $checkoutData = $this->getOrder()->getMyparcelData();
+        if ($checkoutData !== null && $checkoutData->time['return'] !== null) {
+            return array(
+                'option' => $consignmentOption,
+                'selected' => 1,
+            );
+        }
+
+
         $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
         if(!empty($configValue) && $configValue > 0){
             if($orderTotalShipped >= $configValue){

@@ -62,7 +62,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
                     $aDelivery = json_decode($delivery);
                     $aDelivery->time['return'] = true;
                     $delivery = json_encode($aDelivery);
-                 }
+                }
 
                 $data = $delivery;
                 $this->removePgAddress($quote);

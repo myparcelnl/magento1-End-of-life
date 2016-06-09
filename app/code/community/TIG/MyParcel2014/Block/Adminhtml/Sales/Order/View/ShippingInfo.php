@@ -58,6 +58,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
     public function getCheckoutOptionsHtml()
     {
+
         $html = false;
         $pgAddress = $this->_helper->getPgAddress($this->_order);
         /** @var object $data Data from checkout */
@@ -66,7 +67,6 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
         if ($pgAddress && $this->_helper->shippingMethodIsPakjegemak($shippingMethod))
         {
-
             if($data){
                 $dateTime = date('d-m-Y H:i', strtotime($data->date . ' ' . $data->start_time));
                 $html = $this->__('PostNL location:') . ' ' . $dateTime . ', ' . $data->location . ', ' . $data->city . ' (' . $data->postal_code . ')';
@@ -76,7 +76,8 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
             }
         } else {
             if($data){
-                $dateTime = date('d-m-Y H:i', strtotime($data->date . ' ' . $data->time[0]->start));
+                $tmpTime = (array)$data->time;
+                $dateTime = date('d-m-Y H:i', strtotime($data->date . ' ' . $tmpTime['0']->start));
                 $html = $this->__('Deliver:') .' ' . $dateTime;
             }
         }
