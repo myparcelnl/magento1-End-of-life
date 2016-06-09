@@ -150,7 +150,7 @@
     };
 
     renderPickupLocation = function(data) {
-        var html, i, index, j, k, len, location, openingHoursHtml, orderedHours, ref, ref1, results, time;
+        var day_index, html, i, index, j, k, len, location, openingHoursHtml, orderedHours, ref, ref1, results, time;
         displayOtherTab();
         $('#mypa-location-container').html('');
         results = [];
@@ -158,14 +158,14 @@
             location = data[index];
             orderedHours = orderOpeningHours(location.opening_hours);
             openingHoursHtml = '';
-            for (index = j = 0; j <= 6; index = ++j) {
-                openingHoursHtml += "<div>\n  <div class='mypa-day-of-the-week'>\n    " + DAYS_OF_THE_WEEK_TRANSLATED[index] + ":\n  </div>\n  <div class='mypa-opening-hours-list'>";
-                ref1 = orderedHours[index];
+            for (day_index = j = 0; j <= 6; day_index = ++j) {
+                openingHoursHtml += "<div>\n  <div class='mypa-day-of-the-week'>\n    " + DAYS_OF_THE_WEEK_TRANSLATED[day_index] + ":\n  </div>\n  <div class='mypa-opening-hours-list'>";
+                ref1 = orderedHours[day_index];
                 for (k = 0, len = ref1.length; k < len; k++) {
                     time = ref1[k];
                     openingHoursHtml += "<div>" + time + "</div>";
                 }
-                if (orderedHours[index].length < 1) {
+                if (orderedHours[day_index].length < 1) {
                     openingHoursHtml += "<div><i>Gesloten</i></div>";
                 }
                 openingHoursHtml += '</div></div>';
