@@ -4,8 +4,8 @@ TIG_MyParcel2014::Method Name,Method Name
 TIG_MyParcel2014::Rate Type,Rate Type
 TIG_MyParcel2014::Type,Type
 TIG_MyParcel2014::Price,Price
-TIG_MyParcel2014::PostNL location active,PostNL location active
-TIG_MyParcel2014::PostNL location fee,PostNL location fee
+TIG_MyParcel2014::Pakjegemak active,Pakjegemak active
+TIG_MyParcel2014::Pakjegemak fee,Pakjegemak fee
 TIG_MyParcel2014::Condition,Condition
 TIG_MyParcel2014::Calculate Handling Fee,Calculate Handling Fee
 TIG_MyParcel2014::Handling Fee,Handling Fee
@@ -56,8 +56,6 @@ TIG_MyParcel2014::The following shipments or orders could not be processed:,The 
 TIG_MyParcel2014::Order #%s cannot be shipped at this time.,Order #%s cannot be shipped at this time.
 TIG_MyParcel2014::Invalid full street supplied: %s.,Invalid full street supplied: %s.
 TIG_MyParcel2014::Invalid housnumber supplied: %s.,Invalid housnumber supplied: %s.
-TIG_MyParcel2014::Something went wrong with splitting up address %s.,Something went wrong with splitting up address %s. Add the address manually to the back office of MyParcel.
-TIG_MyParcel2014::Something went wrong with splitting up housenumber %s.,Something went wrong with splitting up housenumber %s. Add the address manually to the back office of MyParcel.
 TIG_MyParcel2014::Invalid session requested.,Invalid session requested.
 TIG_MyParcel2014::Invalid message type requested: %s.,Invalid message type requested: %s.
 TIG_MyParcel2014::No message supplied.,No message supplied.
@@ -73,7 +71,7 @@ TIG_MyParcel2014::Download log files,Download log files
 TIG_MyParcel2014::Unknown rate type specified: %s.,Unknown rate type specified: %s.
 TIG_MyParcel2014::Flat,Flat
 TIG_MyParcel2014::Table,Table
-TIG_MyParcel2014::Invalid PakjeGemak address.,Invalid 'Ship to PostNL location' address.
+TIG_MyParcel2014::Invalid PakjeGemak address.,Invalid PakjeGemak address.
 TIG_MyParcel2014::Invalid phone number.,Invalid phone number.
 TIG_MyParcel2014::Invalid housenumber extension.,Invalid housenumber extension.
 TIG_MyParcel2014::A4,A4
@@ -124,7 +122,7 @@ TIG_MyParcel2014::Generate Retourlink,Generate Retourlink
 TIG_MyParcel2014::Retourlink generated: %s,Retourlink generated: %s
 "TIG_MyParcel2014::Credit has not been created, check MyParcel backend for details","Credit has not been created, check MyParcel backend for details"
 TIG_MyParcel2014::Consignment %s is credited at MyParcel,Consignment %s is credited at MyParcel
-"TIG_MyParcel2014::Select 'no' if you have problems with addresses on the labels","Select 'no' if you have problems with addresses on the labels"
+"TIG_MyParcel2014::If you do not use split street lines and you wish to ship to outside the EU, there is a strong possibility that MyParcel will be unable to properly parse the address. This may result in the shipment being refused or it may even lead to the shipment being delivered at the wrong address!","If you do not use split street lines and you wish to ship to outside the EU, there is a strong possibility that MyParcel will be unable to properly parse the address. This may result in the shipment being refused or it may even lead to the shipment being delivered at the wrong address!"
 TIG_MyParcel2014::Split street parts,Split street parts
 TIG_MyParcel2014::Streetname field,Streetname field
 TIG_MyParcel2014::Housenr. field,Housenr. field
@@ -164,19 +162,19 @@ TIG_MyParcel2014::Zipcode,Zipcode
 TIG_MyParcel2014::Housenumber,Housenumber
 TIG_MyParcel2014::Search,Search
 TIG_MyParcel2014::Nearest myparcel pickup points,Nearest myparcel pickup points
-TIG_MyParcel2014::PostNL location Method Name,PostNL location Method Name
+TIG_MyParcel2014::Pakjegemak Method Name,Pakjegemak Method Name
 TIG_MyParcel2014::Unpaid,Unpaid
 TIG_MyParcel2014::The consignment is already credited.,The consignment is already credited.
 TIG_MyParcel2014::MyParcel - Create &amp; Print shipping labels,MyParcel - Create &amp; Print shipping labels
 TIG_MyParcel2014::Letterbox,Letterbox
 TIG_MyParcel2014::Select,Select
-TIG_MyParcel2014::Insured up to:,Insured up to:
+TIG_MyParcel2014::Insured Up To %s,Insured Up To %s
 TIG_MyParcel2014::Close,Close
 TIG_MyParcel2014::Choose a PostNL pickup location,Choose a PostNL pickup location
-"TIG_MyParcel2014::The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.","The selected shipment-type cannot be used, 'Ship to PostNL location' can only be created with the normal shipment type."
+"TIG_MyParcel2014::The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.","The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type."
 TIG_MyParcel2014::MyParcel - Create Magento shipments (no labels),MyParcel - Create Magento shipments (no labels)
-TIG_MyParcel2014::Insured up to &euro;%s,Insured up to &euro;%s
+TIG_MyParcel2014::Insured up to: &euro; %s,Insured up to: &euro; %s
 TIG_MyParcel2014::Post Office Address,Post Office Address
-"TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","The selected shipment type cannot be used. 'Ship to PostNL location' shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>"
+"TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>"
 TIG_MyParcel2014::Only for dutch shipments,Only for dutch shipments
 "TIG_MyParcel2014::Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200","Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200"

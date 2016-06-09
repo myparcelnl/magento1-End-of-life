@@ -57,15 +57,15 @@
     #print_pages .print_page:hover { background:#eb5e00; }
 </style>
 <script type="text/javascript">
-/*<![CDATA[*/
+//<![CDATA[
 (function(){
-    /* create hidden input to store the chosen option */
+    // create hidden input to store the chosen option
     var inputstart = document.createElement('input');
     inputstart.id = 'myparcel_print_labels_start';
     inputstart.type = 'hidden';
     inputstart.name = 'myparcel_print_labels_start';
     inputstart.value = 1;
-    $('html-body').appendChild(inputstart);
+    $('sales_order_grid_massaction-form').appendChild(inputstart);
 
     Object.extend(sales_order_grid_massactionJsObject, {
         apply : function (skipMyParcelCheck) {

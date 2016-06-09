@@ -522,8 +522,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
         /**
          * Send the createConsignment request using the MyParcel API.
-         *
-         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
          */
         $api = $this->getApi();
         $response = $api->createConsignmentRequest($this)

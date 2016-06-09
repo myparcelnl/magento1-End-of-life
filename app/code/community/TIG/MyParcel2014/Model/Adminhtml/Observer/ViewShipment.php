@@ -95,6 +95,16 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
                     'class'     => 'go',
                     'onclick'   => "setLocation('".$retourUrl."')",
                 ));
+                if (0 == $myParcelShipment->getIsCredit()) {
+                    $block->addButton('myparcel_create_credit_url', array(
+                        'label'     => $helper->__('Credit Consignment'),
+                        'class'     => 'go',
+                        'onclick'   => "setLocation('".$creditUrl."')",
+                    ));
+                } else {
+                    // remove Send Tracking Information button
+                    $block->removeButton('save');
+                }
             }
         }
     }
