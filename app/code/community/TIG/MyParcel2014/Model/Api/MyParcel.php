@@ -732,6 +732,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 $packageType = 1;
         }
 
+        $myParcelData = json_decode($myParcelShipment->getOrder()->getMyparcelData());
+
         $data = array(
             'package_type'          => $packageType,
             'large_format'          => (int)$myParcelShipment->getIsXL(),
@@ -740,8 +742,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
             'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
         );
-
-        $myParcelData = json_decode($myParcelShipment->getOrder()->getMyparcelData());
 
         if($myParcelData !== null) {
 

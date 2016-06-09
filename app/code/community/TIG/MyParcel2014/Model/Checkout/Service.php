@@ -53,10 +53,17 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
             $delivery = $request->getPost('mypa-delivery-time', '');
 
-            if($delivery !== 'on'){
+            if ($delivery !== 'on'){
                 /**
                  * not pickup
                  */
+                $return = $request->getPost('mypa-onoffswitch', '') === 'on' ? 1 : false;
+                if ($return) {
+                    $aDelivery = json_decode($delivery);
+                    $aDelivery->time['return'] = true;
+                    $delivery = json_encode($aDelivery);
+                 }
+
                 $data = $delivery;
                 $this->removePgAddress($quote);
             } else {
