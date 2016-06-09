@@ -69,7 +69,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
             if($data){
                 $dateTime = date('d-m-Y H:i', strtotime($data->date . ' ' . $data->start_time));
-                $html = $this->__('PostNL location:') . $dateTime . ', ' . $data->location . ', ' . $data->city . ' (' . $data->postal_code . ')';
+                $html = $this->__('PostNL location:') . ' ' . $dateTime . ', ' . $data->location . ', ' . $data->city . ' (' . $data->postal_code . ')';
             } else {
                 /** Old data from orders before version 1.6.0 */
                 $html = $this->__('PostNL location:') . ' ' . $pgAddress->getCompany() . ' ' . $pgAddress->getCity();
