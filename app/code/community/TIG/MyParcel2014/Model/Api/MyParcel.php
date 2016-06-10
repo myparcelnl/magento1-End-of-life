@@ -741,11 +741,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
-        $CheckoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData());
+        $CheckoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
         if($CheckoutData !== null) {
 
-            if($CheckoutData['time'][0]->price_comment !== null) {
+            if($CheckoutData['time'][0]['price_comment'] !== null) {
                 switch ($CheckoutData['time'][0]['price_comment']) {
                     case 'morning':
                         $data['delivery_type'] = self::TYPE_MORNING;

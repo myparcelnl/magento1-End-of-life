@@ -63,7 +63,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
                     $delivery['return'] = true;
                 }
 
-                $data = json_encode($delivery);
+                $data = $delivery;
                 $this->removePgAddress($quote);
             } else {
                 /**
@@ -73,10 +73,10 @@ class TIG_MyParcel2014_Model_Checkout_Service
                 $this->savePgAddress($data, $quote);
             }
 
-            $quote->setMyparcelData($data)->save();
+            $quote->setMyparcelData(json_encode($data))->save();
 
         } else {
-            $quote->setMyparcelData('')->save();
+            $quote->setMyparcelData(null)->save();
             $this->removePgAddress(json_encode($quote));
         }
     }
