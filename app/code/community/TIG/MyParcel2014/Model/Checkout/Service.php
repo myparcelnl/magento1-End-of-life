@@ -51,34 +51,33 @@ class TIG_MyParcel2014_Model_Checkout_Service
          */
         if ($request->isPost() && strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
-            $delivery = $request->getPost('mypa-delivery-time', '');
+            $delivery = json_decode($request->getPost('mypa-delivery-time', ''), true);
 
-            if ($delivery !== 'on'){
+
+            if ($delivery !== null){
                 /**
                  * not pickup
                  */
                 $return = $request->getPost('mypa-onoffswitch', '') === 'on' ? 1 : false;
                 if ($return) {
-                    $aDelivery = json_decode($delivery);
-                    $aDelivery->time['return'] = true;
-                    $delivery = json_encode($aDelivery);
+                    $delivery['return'] = true;
                 }
 
-                $data = $delivery;
+                $data = json_encode($delivery);
                 $this->removePgAddress($quote);
             } else {
                 /**
                  * is pickup
                  */
-                $data = $request->getPost('mypa-pickup-option', '');
-                $this->savePgAddress(json_decode($data), $quote);
+                $data = json_decode($request->getPost('mypa-pickup-option', ''), true);
+                $this->savePgAddress($data, $quote);
             }
 
             $quote->setMyparcelData($data)->save();
 
         } else {
             $quote->setMyparcelData('')->save();
-            $this->removePgAddress($quote);
+            $this->removePgAddress(json_encode($quote));
         }
     }
 
@@ -102,14 +101,14 @@ class TIG_MyParcel2014_Model_Checkout_Service
          */
         $pgAddress = Mage::getModel('sales/quote_address');
         $pgAddress->setAddressType($helper::PG_ADDRESS_TYPE)
-                  ->setCity($data->city)
+                  ->setCity($data['city'])
                   ->setCountryId('NL')
-                  ->setPostcode($data->postal_code)
-                  ->setCompany($data->location)
+                  ->setPostcode($data['postal_code'])
+                  ->setCompany($data['location'])
                   ->setFirstname('Ophalen op een PostNL locatie')
                   ->setLastname('')
-                  ->setTelephone($data->phone_number)
-                  ->setStreet($data->street . "\n" . $data->number);
+                  ->setTelephone($data['phone_number'])
+                  ->setStreet($data['street'] . "\n" . $data['number']);
 
         /**
          * Add the address to the quote and save the quote.

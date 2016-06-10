@@ -62,22 +62,21 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         $html = false;
         $pgAddress = $this->_helper->getPgAddress($this->_order);
         /** @var object $data Data from checkout */
-        $data = $this->_order->getMyparcelData() !== null ? json_decode($this->_order->getMyparcelData()) : false;
+        $data = $this->_order->getMyparcelData() !== null ? json_decode($this->_order->getMyparcelData(), true) : false;
         $shippingMethod = $this->_order->getShippingMethod();
 
         if ($pgAddress && $this->_helper->shippingMethodIsPakjegemak($shippingMethod))
         {
             if($data){
-                $dateTime = date('d-m-Y H:i', strtotime($data->date . ' ' . $data->start_time));
-                $html = $this->__('PostNL location:') . ' ' . $dateTime . ', ' . $data->location . ', ' . $data->city . ' (' . $data->postal_code . ')';
+                $dateTime = date('d-m-Y H:i', strtotime($data['date'] . ' ' . $data['start_time']));
+                $html = $this->__('PostNL location:') . ' ' . $dateTime . ', ' . $data['location']. ', ' . $data['city']. ' (' . $data['postal_code']. ')';
             } else {
                 /** Old data from orders before version 1.6.0 */
                 $html = $this->__('PostNL location:') . ' ' . $pgAddress->getCompany() . ' ' . $pgAddress->getCity();
             }
         } else {
             if($data){
-                $tmpTime = (array)$data->time;
-                $dateTime = date('d-m-Y H:i', strtotime($data->date . ' ' . $tmpTime['0']->start));
+                $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time']['0']['start']));
                 $html = $this->__('Deliver:') .' ' . $dateTime;
             }
         }
