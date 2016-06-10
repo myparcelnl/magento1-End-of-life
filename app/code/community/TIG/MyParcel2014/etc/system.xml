@@ -229,31 +229,6 @@
                                 <pakjegemak_min_order_enabled>1</pakjegemak_min_order_enabled>
                             </depends>
                         </pakjegemak_min_order_total>
-                        <pakjegemak_min_free_enabled translate="label,comment" module="tig_myparcel">
-                            <label>Gratis vanaf actief</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
-                            <sort_order>140</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <depends>
-                                <pakjegemak_active>1</pakjegemak_active>
-                            </depends>
-                        </pakjegemak_min_free_enabled>
-                        <pakjegemak_min_free_total translate="label,comment" module="tig_myparcel">
-                            <label>Gratis vanaf</label>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
-                            <sort_order>150</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <depends>
-                                <pakjegemak_active>1</pakjegemak_active>
-                                <pakjegemak_min_free_enabled>1</pakjegemak_min_free_enabled>
-                            </depends>
-                        </pakjegemak_min_free_total>
                     </fields>
                 </pakjegemak>
                 <morningdelivery translate="label comment" module="tig_myparcel">
@@ -322,43 +297,17 @@
                                 <morningdelivery_min_order_enabled>1</morningdelivery_min_order_enabled>
                             </depends>
                         </morningdelivery_min_order_total>
-                        <morningdelivery_min_free_enabled translate="label,comment" module="tig_myparcel">
-                            <label>Gratis vanaf actief</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
-                            <sort_order>140</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <depends>
-                                <morningdelivery_active>1</morningdelivery_active>
-                            </depends>
-                        </morningdelivery_min_free_enabled>
-                        <morningdelivery_min_free_total translate="label,comment" module="tig_myparcel">
-                            <label>Gratis vanaf</label>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
-                            <sort_order>150</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <depends>
-                                <morningdelivery_active>1</morningdelivery_active>
-                                <morningdelivery_min_free_enabled>1</morningdelivery_min_free_enabled>
-                            </depends>
-                        </morningdelivery_min_free_total>
-
                     </fields>
                 </morningdelivery>
                 <eveningdelivery translate="label comment" module="tig_myparcel">
-                    <label>Avondlevering</label>
+                    <label>Eveningdelivery</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
                         <eveningdelivery_active translate="label" module="tig_myparcel">
-                            <label>Avondlevering active</label>
+                            <label>Eveningdelivery active</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
@@ -367,7 +316,7 @@
                             <show_in_store>0</show_in_store>
                         </eveningdelivery_active>
                         <eveningdelivery_title translate="label" module="tig_myparcel">
-                            <label>Avondlevering Method Name</label>
+                            <label>Eveningdelivery Method Name</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>105</sort_order>
                             <show_in_default>1</show_in_default>
@@ -378,7 +327,7 @@
                             </depends>
                         </eveningdelivery_title>
                         <eveningdelivery_fee translate="label,comment" module="tig_myparcel">
-                            <label>Avondlevering fee</label>
+                            <label>Eveningdelivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
@@ -391,7 +340,7 @@
                             </depends>
                         </eveningdelivery_fee>
                         <eveningdelivery_min_order_enabled translate="label,comment" module="tig_myparcel">
-                            <label>Avondlevering minimum order total enabled</label>
+                            <label>Eveningdelivery minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>120</sort_order>
@@ -403,8 +352,8 @@
                             </depends>
                         </eveningdelivery_min_order_enabled>
                         <eveningdelivery_min_order_total translate="label,comment" module="tig_myparcel">
-                            <label>Avondlevering minimum order total, incl. BTW</label>
-                            <comment>Avondlevering will not be visible if the subtotal of an order is below this value</comment>
+                            <label>Eveningdelivery minimum order total, incl. BTW</label>
+                            <comment>Eveningdelivery will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
@@ -416,31 +365,6 @@
                                 <eveningdelivery_min_order_enabled>1</eveningdelivery_min_order_enabled>
                             </depends>
                         </eveningdelivery_min_order_total>
-                        <eveningdelivery_min_free_enabled translate="label,comment" module="tig_myparcel">
-                            <label>Gratis vanaf actief</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
-                            <sort_order>140</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <depends>
-                                <eveningdelivery_active>1</eveningdelivery_active>
-                            </depends>
-                        </eveningdelivery_min_free_enabled>
-                        <eveningdelivery_min_free_total translate="label,comment" module="tig_myparcel">
-                            <label>Gratis vanaf</label>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
-                            <sort_order>150</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <depends>
-                                <eveningdelivery_active>1</eveningdelivery_active>
-                                <eveningdelivery_min_free_enabled>1</eveningdelivery_min_free_enabled>
-                            </depends>
-                        </eveningdelivery_min_free_total>
 
                     </fields>
                 </eveningdelivery>
