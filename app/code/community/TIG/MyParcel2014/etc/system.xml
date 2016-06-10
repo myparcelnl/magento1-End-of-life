@@ -232,14 +232,14 @@
                     </fields>
                 </pakjegemak>
                 <morningdelivery translate="label comment" module="tig_myparcel">
-                    <label>Ochtendlevering</label>
+                    <label>Morning delivery</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
                         <morningdelivery_active translate="label" module="tig_myparcel">
-                            <label>Morningdelivery active</label>
+                            <label>Morning delivery active</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
@@ -248,7 +248,7 @@
                             <show_in_store>0</show_in_store>
                         </morningdelivery_active>
                         <morningdelivery_title translate="label" module="tig_myparcel">
-                            <label>Morningdelivery Method Name</label>
+                            <label>Morning delivery Method Name</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>105</sort_order>
                             <show_in_default>1</show_in_default>
@@ -259,7 +259,7 @@
                             </depends>
                         </morningdelivery_title>
                         <morningdelivery_fee translate="label,comment" module="tig_myparcel">
-                            <label>Morningdelivery fee</label>
+                            <label>Morning delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
@@ -272,7 +272,7 @@
                             </depends>
                         </morningdelivery_fee>
                         <morningdelivery_min_order_enabled translate="label,comment" module="tig_myparcel">
-                            <label>Morningdelivery minimum order total enabled</label>
+                            <label>Morning delivery minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>120</sort_order>
@@ -284,8 +284,8 @@
                             </depends>
                         </morningdelivery_min_order_enabled>
                         <morningdelivery_min_order_total translate="label,comment" module="tig_myparcel">
-                            <label>Morningdelivery minimum order total, incl. BTW</label>
-                            <comment>Morningdelivery will not be visible if the subtotal of an order is below this value</comment>
+                            <label>Morning delivery minimum order total, incl. BTW</label>
+                            <comment>Morning delivery will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
@@ -300,14 +300,14 @@
                     </fields>
                 </morningdelivery>
                 <eveningdelivery translate="label comment" module="tig_myparcel">
-                    <label>Eveningdelivery</label>
+                    <label>Evening delivery</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
                         <eveningdelivery_active translate="label" module="tig_myparcel">
-                            <label>Eveningdelivery active</label>
+                            <label>Evening delivery active</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
@@ -316,7 +316,7 @@
                             <show_in_store>0</show_in_store>
                         </eveningdelivery_active>
                         <eveningdelivery_title translate="label" module="tig_myparcel">
-                            <label>Eveningdelivery Method Name</label>
+                            <label>Evening delivery Method Name</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>105</sort_order>
                             <show_in_default>1</show_in_default>
@@ -327,7 +327,7 @@
                             </depends>
                         </eveningdelivery_title>
                         <eveningdelivery_fee translate="label,comment" module="tig_myparcel">
-                            <label>Eveningdelivery fee</label>
+                            <label>Evening delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
@@ -340,7 +340,7 @@
                             </depends>
                         </eveningdelivery_fee>
                         <eveningdelivery_min_order_enabled translate="label,comment" module="tig_myparcel">
-                            <label>Eveningdelivery minimum order total enabled</label>
+                            <label>Evening delivery minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>120</sort_order>
@@ -352,8 +352,8 @@
                             </depends>
                         </eveningdelivery_min_order_enabled>
                         <eveningdelivery_min_order_total translate="label,comment" module="tig_myparcel">
-                            <label>Eveningdelivery minimum order total, incl. BTW</label>
-                            <comment>Eveningdelivery will not be visible if the subtotal of an order is below this value</comment>
+                            <label>Evening delivery minimum order total, incl. BTW</label>
+                            <comment>Evening delivery will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
