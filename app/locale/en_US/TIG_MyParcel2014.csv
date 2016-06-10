@@ -181,6 +181,7 @@ TIG_MyParcel2014::Post Office Address,Post Office Address
 "TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","The selected shipment type cannot be used. 'Ship to PostNL location' shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>"
 TIG_MyParcel2014::Only for dutch shipments,Only for dutch shipments
 "TIG_MyParcel2014::Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200","Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200"
+
 TIG_MyParcel2014::status_1,Concept
 TIG_MyParcel2014::status_2,Registered
 TIG_MyParcel2014::status_3,Enroute - handed to carrier
@@ -206,3 +207,9 @@ TIG_MyParcel2014::status_38,Inactive - Delivered - Package picked up
 TIG_MyParcel2014::status_39,Inactive - Return shipment delivered
 TIG_MyParcel2014::status_40,Inactive - Return shipment pickup location
 TIG_MyParcel2014::status_99,Inactive - Unknown
+
+TIG_MyParcel2014::PostNL location:,PostNL location:
+TIG_MyParcel2014::Deliver:,Deliver:
+TIG_MyParcel2014::TYPE_morning,Morning
+TIG_MyParcel2014::TYPE_avond,Avondlevering
+TIG_MyParcel2014::TYPE_retailexpress,Extra vroeg ophalen

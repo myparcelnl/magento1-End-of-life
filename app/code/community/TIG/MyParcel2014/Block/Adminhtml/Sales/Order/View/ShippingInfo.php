@@ -69,7 +69,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         {
             if($data){
                 $dateTime = date('d-m-Y H:i', strtotime($data['date'] . ' ' . $data['start_time']));
-                $html = $this->__('PostNL location:') . ' ' . $dateTime . ', ' . $this->__($data['price_comment']) .', ' . $data['location']. ', ' . $data['city']. ' (' . $data['postal_code']. ')';
+                $html = $this->__('PostNL location:') . ' ' . $dateTime;
+                if($data['price_comment'] != 'retail')
+                    $html .= ', ' . $this->__('TYPE_' . $data['price_comment']);
+                $html .= ', ' . $data['location']. ', ' . $data['city']. ' (' . $data['postal_code']. ')';
             } else {
                 /** Old data from orders before version 1.6.0 */
                 $html = $this->__('PostNL location:') . ' ' . $pgAddress->getCompany() . ' ' . $pgAddress->getCity();
@@ -77,7 +80,9 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         } else {
             if($data){
                 $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
-                $html = $this->__('Deliver:') .' ' . $dateTime . ', ' . $this->__($data['time'][0]['price_comment']);
+                $html = $this->__('Deliver:') .' ' . $dateTime;
+                if($data['time'][0]['price_comment'] != 'standard')
+                    $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
             }
         }
 
