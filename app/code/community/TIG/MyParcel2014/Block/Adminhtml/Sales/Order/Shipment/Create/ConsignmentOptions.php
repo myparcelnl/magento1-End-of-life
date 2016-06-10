@@ -217,8 +217,17 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
      */
     public function getIsHomeSelected()
     {
-        return $this->getIsSelected('home_address_only');
-
+        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
+        if($checkoutData !== null) {
+            $aData = json_decode($checkoutData, true);
+            if($aData['return']){
+                return 'checked="checked"';
+            } else {
+                return $this->getIsSelected('home_address_only');
+            }
+        } else {
+            return $this->getIsSelected('home_address_only');
+        }
     }
 
     /**
