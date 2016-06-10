@@ -732,8 +732,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 $packageType = 1;
         }
 
-        $myParcelData = json_decode($myParcelShipment->getOrder()->getMyparcelData());
-
         $data = array(
             'package_type'          => $packageType,
             'large_format'          => (int)$myParcelShipment->getIsXL(),
@@ -743,10 +741,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
-        if($myParcelData !== null) {
+        $CheckoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData());
 
-            if($myParcelData->time[0]->price_comment !== null) {
-                switch ($myParcelData->time[0]->price_comment) {
+        if($CheckoutData !== null) {
+
+            if($CheckoutData['time'][0]->price_comment !== null) {
+                switch ($CheckoutData['time'][0]['price_comment']) {
                     case 'morning':
                         $data['delivery_type'] = self::TYPE_MORNING;
                         break;
@@ -757,8 +757,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         $data['delivery_type'] = self::TYPE_NIGHT;
                         break;
                 }
-            } elseif ($myParcelData->price_comment !== null) {
-                switch ($myParcelData->price_comment) {
+            } elseif ($CheckoutData['price_comment']!== null) {
+                switch ($CheckoutData['price_comment']) {
                     case 'retail':
                         $data['delivery_type'] = self::TYPE_RETAIL;
                         break;
@@ -767,8 +767,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         break;
                 }
             }
-            if($myParcelData->date !== null) {
-                $data['delivery_date'] = $myParcelData->date . ' 00:00:00';
+            if($CheckoutData['date']!== null) {
+                $data['delivery_date'] = $CheckoutData['date']. ' 00:00:00';
             }
         }
 
