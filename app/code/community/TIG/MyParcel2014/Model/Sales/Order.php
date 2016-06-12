@@ -27,11 +27,15 @@
                 'renderView',               // Detail page customer & Detail page order
                 'printAction',              // print invoice
                 'printPackingSlipAction',   // print packing slip
+                'emailAction',              // Send email
+                'submitAll',                // Submit order
             );
             $parentFunctions = debug_backtrace();
-            $parentFunction = $parentFunctions[3]['function'];
 
-            if (!in_array($parentFunction, $usePgAddressIn)) {
+            if (
+                !in_array($parentFunctions[3]['function'], $usePgAddressIn) &&
+                !in_array($parentFunctions[11]['function'], $usePgAddressIn))
+            {
                 $usePgAddress = false;
             }
 
