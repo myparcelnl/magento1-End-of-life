@@ -1020,12 +1020,21 @@
 
             $shippingAddress   = $myParcelShipment->getShippingAddress();
             $barcodeUrl        = $this->getBarcodeUrl($barcode,$shippingAddress);
+
+            // Set pakjegemak
+            foreach ($order->getAddressesCollection() as $address) {
+                if ($address->getAddressType() == 'pakje_gemak' && !$address->isDeleted()) {
+                    $myParcelShipment->setShippingAddress($address);
+                    $order->setShippingAddress($address);
+                }
+            }
+
             $templateVariables = array(
-                'tracktrace_url' => $barcodeUrl,
-                'order'          => $order,
-                'shipment' 		 => $myParcelShipment->getShipment(),
-                'billing' 		 => $order->getBillingAddress(),
-                'payment_html'   => $paymentBlockHtml,
+                'tracktrace_url'    => $barcodeUrl,
+                'order'             => $order,
+                'shipment' 		    => $myParcelShipment->getShipment(),
+                'billing' 		    => $order->getBillingAddress(),
+                'payment_html'      => $paymentBlockHtml,
             );
 
             try {
@@ -1040,6 +1049,7 @@
                 $mailer->setStoreId($storeId);
                 $mailer->setTemplateId($templateId);
                 $mailer->setTemplateParams($templateVariables);
+
 
                 $mailer->send();
             }catch(Exception $e) {
