@@ -24,12 +24,15 @@
         directReturn:           "input:checkbox[name='mypa-onoffswitch']",
         pickupType:             "input:radio[name='mypa-pickup-option']",
         magentoMethods:         "input:radio[id^='s_method']",
-        magentoMethodMyParcel:  "input:radio[id^='s_method_myparcel']"
+        magentoMethodMyParcel:  "input:radio[id^='s_method_myparcel']",
+        postalCode:             "input[id='shipping:postcode']",
+        street1:                 "input[id='billing:street1']",
+        street2:                 "input[id='billing:street2']"
     };
 
     $.extend( window.mypa.settings, {
-        postal_code: '2223HH',
-        number: 4,
+        postal_code: 'holder',
+        number: 0,
         base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
@@ -67,6 +70,18 @@
 
     actionObservers = function () {
 
+        var fullStreet = $(observer.street1).val();
+        if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != ''){
+            fullStreet += ' ' + $(observer.street2).val()
+        }
+        console.log(fullStreet);
+
+        $.extend( window.mypa.settings, {
+            postal_code: $(observer.postalCode).val(),
+            number: $(observer.street1).val()
+        });
+        window.mypa.fn.updatePage();
+
         $(observer.magentoMethodMyParcel)[0].checked = true;
 
         /**
@@ -81,6 +96,14 @@
 
         /**
          * If method not is MyParcel
+         */
+        $(observer.magentoMethods).on('change', function () {
+            console.log('n mp');
+            $(observer.deliveryType + ':checked')[0].checked = false;
+        });
+
+        /**
+         * If zip isset
          */
         $(observer.magentoMethods).on('change', function () {
             console.log('n mp');
