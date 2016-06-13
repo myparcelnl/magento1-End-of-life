@@ -231,12 +231,55 @@
                         </pakjegemak_min_order_total>
                     </fields>
                 </pakjegemak>
+                <dropoff translate="label comment" module="tig_myparcel">
+                    <label>Drop-off</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <dropoff_days_active translate="label" module="tig_myparcel">
+                            <label>Drop-off days active</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </dropoff_days_active>
+                        <dropoff_time translate="label">
+                            <label>Drop-off time</label>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <dropoff_days_active>1</dropoff_days_active>
+                            </depends>
+                            <validate>validate-select</validate>
+                        </dropoff_time>
+                        <dropoff_days translate="label">
+                            <label>Drop-off days</label>
+                            <frontend_type>checkboxes</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_dropOffDays</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <dropoff_days_active>1</dropoff_days_active>
+                            </depends>
+                        </dropoff_days>
+                    </fields>
+                </dropoff>
                 <morningdelivery translate="label comment" module="tig_myparcel">
                     <label>Morning delivery</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
+                    <class>delivery-method</class>
                     <fields>
                         <morningdelivery_active translate="label" module="tig_myparcel">
                             <label>Morning delivery active</label>
