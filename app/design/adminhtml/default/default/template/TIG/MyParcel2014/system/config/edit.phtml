@@ -252,6 +252,7 @@ var adminSystemConfig = {
         // Shipping methods content
         $$('.entry-edit').last().insert('<fieldset id="configShippingMethodsContent" style="display:none;"></fieldset>');
         var configShippingMethodsContent = $('configShippingMethodsContent');
+        configShippingMethodsContent.insert($('tig_myparcel_dropoff-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_morningdelivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_eveningdelivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_pakjegemak-head').up(1));
