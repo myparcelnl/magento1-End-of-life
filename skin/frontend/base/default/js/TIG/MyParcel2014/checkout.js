@@ -33,7 +33,8 @@
     $.extend( window.mypa.settings, {
         postal_code: 'holder',
         number: 0,
-        base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
+        base_url: 'https://api.myparcel.nl/delivery_options'
+        //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
     /**
@@ -70,22 +71,33 @@
 
     actionObservers = function () {
 
-        var objRegExp = /({'street':.*?})\s?({'street_suffix':({'number':[\d]+})-?({'extension':[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$}))$/;
+        /**
+         * If method is MyParcel
+         */
+        /*$([
+            observer.street1,
+            observer.street2
+        ].join()).on('change', function () {*/
 
+            // Start update postcode
+            var fullStreet, objRegExp, streetParts;
+            objRegExp = /(.*?)\s?(([\d]+)-?([a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$/;
+            fullStreet = $(observer.street1).val();
+            if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != ''){
+                fullStreet += ' ' + $(observer.street2).val()
+            }
 
-        var fullStreet = $(observer.street1).val();
-        if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != ''){
-            fullStreet += ' ' + $(observer.street2).val()
-        }
+            streetParts = fullStreet.match(objRegExp);
 
-        var streetParts = fullStreet.match(objRegExp);
-        console.log(streetParts);
+            $.extend( window.mypa.settings, {
+                postal_code: $(observer.postalCode).val(),
+                number: streetParts[2]
+            });
 
-        $.extend( window.mypa.settings, {
-            postal_code: $(observer.postalCode).val(),
-            number: $(observer.street1).val()
-        });
-        window.mypa.fn.updatePage();
+            window.mypa.fn.updatePage();
+
+        /*});*/
+        // End update postcode
 
         $(observer.magentoMethodMyParcel)[0].checked = true;
 
