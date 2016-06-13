@@ -70,11 +70,16 @@
 
     actionObservers = function () {
 
+        var objRegExp = /({'street':.*?})\s?({'street_suffix':({'number':[\d]+})-?({'extension':[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$}))$/;
+
+
         var fullStreet = $(observer.street1).val();
         if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != ''){
             fullStreet += ' ' + $(observer.street2).val()
         }
-        console.log(fullStreet);
+
+        var streetParts = fullStreet.match(objRegExp);
+        console.log(streetParts);
 
         $.extend( window.mypa.settings, {
             postal_code: $(observer.postalCode).val(),
