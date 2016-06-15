@@ -99,7 +99,7 @@ TIG_MyParcel2014::IWD's OnePageCheckout version,IWD's OnePageCheckout versie
 TIG_MyParcel2014::Support,Ondersteuning
 TIG_MyParcel2014::The extension is developed by Total Internet Group.,Deze extensie is ontwikkeld door Total Internet Group.
 TIG_MyParcel2014::MyParcel account questions and information,MyParcel account vragen en informatie
-"TIG_MyParcel2014::For questions related to your MyParcel account,please contact MyParcel.","Voor vragen gerelateerd aan uw MyParcel account, neemt u contact op met MyParcel."
+"TIG_MyParcel2014::For questions related to your MyParcel account, configuration problems, extension conflicts and bugs, please contact MyParcel.","Voor vragen gerelateerd aan uw MyParcel account, configuratie problemen, extensie conflicten en bugs, neemt u contact op met MyParcel."
 TIG_MyParcel2014::Phone,Telefoon
 TIG_MyParcel2014::Online knowledgebase,Online kennisbank
 TIG_MyParcel2014::Request help directly,Vraag direct hulp
@@ -141,7 +141,6 @@ TIG_MyParcel2014::We cannot guarantee perfect functionality of the MyParcel exte
 TIG_MyParcel2014::Installation and configuration instructions,Installatie en configuratie handleiding
 TIG_MyParcel2014::Overview articles in knowledge base,Bekijk alle kennisbank artikelen
 TIG_MyParcel2014::Questions and information about your MyParcel account,MyParcel account vragen en informatie
-"TIG_MyParcel2014::For configuration problems, extension conflicts or bugs, please contact TIG.","Voor configuratie problemen, extensie conflicten en bugs, neem contact op met TIG."
 "TIG_MyParcel2014::Shipments will not be delivered at the neighbours, only on house address.","Zendingen worden niet bij de buren aangeboden, alleen op huisadres."
 TIG_MyParcel2014::Shipments will not go the a pickup point but will be returned directly after multiple delivery attempts.,Zendingen gaan niet naar een afhaallocatie en komen direct retour na bezorgpogingen.
 TIG_MyParcel2014::Unable to save check_status cron expression: %s,Het is niet gelukt om de check_status cron expressie op te slaan: %s
