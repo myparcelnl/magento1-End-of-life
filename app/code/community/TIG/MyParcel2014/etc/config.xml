@@ -253,9 +253,13 @@
                 <housenr_extension_field>3</housenr_extension_field> <!-- third address line (not used, since split_housenr is disabled) -->
             </shipment>
             <checkout>
+                <deliverydays_window>5</deliverydays_window>
                 <cutoff_time>15,30,00</cutoff_time>
                 <dropoff_delay>0</dropoff_delay>
             </checkout>
+            <pickup>
+                <pickup_active>1</pickup_active>
+            </pickup>
         </tig_myparcel>
     </default>
 
