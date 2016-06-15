@@ -42,7 +42,7 @@
 ?>
 
     <script type ="text/javascript">
-        //<![CDATA[
+        /*<![CDATA[*/
         document.observe('dom:loaded', function(){
             var pgaddress = '<?= $this->getPgAddressHtml(); ?>';
             var currentOptions = '<?= $this->getCurrentOrderOptionsHtml(); ?>';
@@ -50,8 +50,7 @@
 
             target.innerHTML = target.innerHTML.replace('</fieldset>', pgaddress + currentOptions + '</fieldset>');
         });
-
-        //]]>
+        /*]]>*/
     </script>
 
 
@@ -82,7 +81,7 @@
 
     </style>
     <script type="text/javascript">
-        //<![CDATA[
+        /*<![CDATA[*/
 
 
 
@@ -201,7 +200,7 @@
         })();
 
 
-        //]]>
+        /*]]>*/
     </script>
 
 <?php endif; ?>
