@@ -171,12 +171,12 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <cutoff_time translate="label">
-                            <label>Drop-off time</label>
+                            <label>Cut-off time</label>
                             <frontend_type>time</frontend_type>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <validate>validate-select</validate>
                         </cutoff_time>
                         <dropoff_days translate="label">
@@ -186,18 +186,49 @@
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[
+                                    <script type="text/javascript">
+                                    /* Set by default all checkboxes. In javascript because magento does not support default on multi select checkboxes. */
+                                    if(
+                                        $('tig_myparcel_checkout_dropoff_days_1').checked == false &&
+                                        $('tig_myparcel_checkout_dropoff_days_2').checked == false &&
+                                        $('tig_myparcel_checkout_dropoff_days_3').checked == false &&
+                                        $('tig_myparcel_checkout_dropoff_days_4').checked == false &&
+                                        $('tig_myparcel_checkout_dropoff_days_5').checked == false
+                                    ) {
+
+                                        $('tig_myparcel_checkout_dropoff_days_1').checked = true;
+                                        $('tig_myparcel_checkout_dropoff_days_2').checked = true;
+                                        $('tig_myparcel_checkout_dropoff_days_3').checked = true;
+                                        $('tig_myparcel_checkout_dropoff_days_4').checked = true;
+                                        $('tig_myparcel_checkout_dropoff_days_5').checked = true;
+                                    }
+                                    </script>
+                                ]]>
+                            </comment>
                         </dropoff_days>
                         <dropoff_delay translate="label" module="tig_myparcel">
                             <label>Dropoff-delay</label>
                             <frontend_type>text</frontend_type>
-                            <comment>This options allows the Merchant to set the number of days it takes her to pick, pack and hand in her parcels at PostNL when ordered before the cutoff time. By default this is 0 and max is 14.</comment>
+                            <comment>This options allows the Merchant to set the number of days it takes her to pick, pack and hand in her parcels at PostNL when ordered before the cutoff time. Max is 14.</comment>
                             <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </dropoff_delay>
+                        <only_recipient translate="label" module="tig_myparcel">
+                            <label>Only deliver to receiver</label>
+                            <comment>Deliver the package only at address of the intended recipient</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </only_recipient>
                     </fields>
                 </checkout>
                 <morningdelivery translate="label comment" module="tig_myparcel">
@@ -338,35 +369,35 @@
 
                     </fields>
                 </eveningdelivery>
-                <pakjegemak translate="label comment" module="tig_myparcel">
+                <pickup translate="label comment" module="tig_myparcel">
                     <label>Retail</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <pakjegemak_active translate="label" module="tig_myparcel">
-                            <label>Retail active</label>
+                        <pickup_active translate="label" module="tig_myparcel">
+                            <label>Pickup active</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </pakjegemak_active>
-                        <pakjegemak_title translate="label" module="tig_myparcel">
-                            <label>Retail Method name</label>
+                        </pickup_active>
+                        <pickup_title translate="label" module="tig_myparcel">
+                            <label>Title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>105</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <depends>
-                                <pakjegemak_active>1</pakjegemak_active>
+                                <pickup_active>1</pickup_active>
                             </depends>
-                        </pakjegemak_title>
-                        <pakjegemak_fee translate="label,comment" module="tig_myparcel">
-                            <label>Retail fee</label>
+                        </pickup_title>
+                        <pickup_fee translate="label,comment" module="tig_myparcel">
+                            <label>Pickup fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
@@ -375,11 +406,11 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
-                                <pakjegemak_active>1</pakjegemak_active>
+                                <pickup_active>1</pickup_active>
                             </depends>
-                        </pakjegemak_fee>
-                        <pakjegemak_min_order_enabled translate="label,comment" module="tig_myparcel">
-                            <label>Retail minimum order total enabled</label>
+                        </pickup_fee>
+                        <pickup_min_order_enabled translate="label,comment" module="tig_myparcel">
+                            <label>Pickup minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>120</sort_order>
@@ -387,12 +418,12 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
-                                <pakjegemak_active>1</pakjegemak_active>
+                                <pickup_active>1</pickup_active>
                             </depends>
-                        </pakjegemak_min_order_enabled>
-                        <pakjegemak_min_order_total translate="label,comment" module="tig_myparcel">
-                            <label>Retail minimum order total, incl. BTW</label>
-                            <comment>Retail will not be visible if the subtotal of an order is below this value</comment>
+                        </pickup_min_order_enabled>
+                        <pickup_min_order_total translate="label,comment" module="tig_myparcel">
+                            <label>Pickup minimum order total, incl. BTW</label>
+                            <comment>Pickup will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>130</sort_order>
@@ -400,12 +431,80 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                             <depends>
-                                <pakjegemak_active>1</pakjegemak_active>
-                                <pakjegemak_min_order_enabled>1</pakjegemak_min_order_enabled>
+                                <pickup_active>1</pickup_active>
+                                <pickup_min_order_enabled>1</pickup_min_order_enabled>
                             </depends>
-                        </pakjegemak_min_order_total>
+                        </pickup_min_order_total>
                     </fields>
-                </pakjegemak>
+                </pickup>
+                <pickup_express translate="label comment" module="tig_myparcel">
+                    <label>Pickup Express</label>
+                    <sort_order>20</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <pickup_express_active translate="label" module="tig_myparcel">
+                            <label>Pickup Express active</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </pickup_express_active>
+                        <pickup_express_title translate="label" module="tig_myparcel">
+                            <label>Pickup Express Method name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <pickup_express_active>1</pickup_express_active>
+                            </depends>
+                        </pickup_express_title>
+                        <pickup_express_fee translate="label,comment" module="tig_myparcel">
+                            <label>Pickup Express fee</label>
+                            <comment>This will be added to the regular shipping price</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <pickup_express_active>1</pickup_express_active>
+                            </depends>
+                        </pickup_express_fee>
+                        <pickup_express_min_order_enabled translate="label,comment" module="tig_myparcel">
+                            <label>Pickup Express minimum order total enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <pickup_express_active>1</pickup_express_active>
+                            </depends>
+                        </pickup_express_min_order_enabled>
+                        <pickup_express_min_order_total translate="label,comment" module="tig_myparcel">
+                            <label>Pickup Express minimum order total, incl. BTW</label>
+                            <comment>Pickup Express will not be visible if the subtotal of an order is below this value</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <pickup_express_active>1</pickup_express_active>
+                                <pickup_express_min_order_enabled>1</pickup_express_min_order_enabled>
+                            </depends>
+                        </pickup_express_min_order_total>
+                    </fields>
+                </pickup_express>
                 <api translate="label comment" module="tig_myparcel">
                     <label>API settings</label>
                     <sort_order>20</sort_order>

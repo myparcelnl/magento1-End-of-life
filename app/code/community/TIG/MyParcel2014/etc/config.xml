@@ -252,6 +252,10 @@
                 <split_housenr>0</split_housenr> <!-- do not split housenumber and houndenumber extension -->
                 <housenr_extension_field>3</housenr_extension_field> <!-- third address line (not used, since split_housenr is disabled) -->
             </shipment>
+            <checkout>
+                <cutoff_time>15,30,00</cutoff_time>
+                <dropoff_delay>0</dropoff_delay>
+            </checkout>
         </tig_myparcel>
     </default>
 
