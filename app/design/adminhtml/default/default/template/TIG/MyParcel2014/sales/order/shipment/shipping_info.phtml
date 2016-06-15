@@ -69,12 +69,12 @@ if(true == $_isPakjegemak){
 
 <?php if ($this->hasShipment() && $this->_myParcelShipment):?>
     <script type ="text/javascript">
-        //<![CDATA[
+        /*<![CDATA[*/
         document.observe('dom:loaded', function(){
             var target = document.getElementById('shipment_tracking_info');
             target.innerHTML += '<?= $_helper->getCurrentOptionsHtml($this->_myParcelShipment); ?>';
         });
-        //]]>
+        /*]]>*/
     </script>
 <?php endif;?>
 
@@ -160,7 +160,7 @@ if(true == $_isPakjegemak){
 </style>
 
 <script type ="text/javascript">
-    //<![CDATA[
+    /*<![CDATA[*/
     document.observe('dom:loaded', function(){
         var pgaddress = document.createElement('div');
         pgaddress.innerHTML = '<?php echo $this->getPgAddressHtml(); ?>';
@@ -218,5 +218,5 @@ if(true == $_isPakjegemak){
             });
         }
     });
-    //]]>
+    /*]]>*/
 </script>
