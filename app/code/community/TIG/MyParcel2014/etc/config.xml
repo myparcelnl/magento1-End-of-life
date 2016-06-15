@@ -233,7 +233,7 @@
                 <insured_500>0</insured_500>
                 <customs_type>Commercial Goods</customs_type>
                 <customs_hstariffnr></customs_hstariffnr>
-                <split_street>1</split_street> <!-- split street -->
+                <split_street>0</split_street> <!-- split street -->
                 <streetname_field>1</streetname_field> <!-- first address line -->
                 <housenr_field>2</housenr_field> <!-- second address line -->
                 <split_housenr>0</split_housenr> <!-- do not split housenumber and houndenumber extension -->
@@ -380,7 +380,7 @@
             </MYPA-0024>
 
             <MYPA-0025>
-                <message>Street name is to long.</message>
+                <message>Street name is too long.</message>
                 <url/>
                 <type>error</type>
             </MYPA-0025>
