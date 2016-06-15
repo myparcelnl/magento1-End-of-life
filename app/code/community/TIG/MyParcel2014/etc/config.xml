@@ -380,7 +380,7 @@
             </MYPA-0024>
 
             <MYPA-0025>
-                <message>Street name is to long.</message>
+                <message>Street name is too long.</message>
                 <url/>
                 <type>error</type>
             </MYPA-0025>
