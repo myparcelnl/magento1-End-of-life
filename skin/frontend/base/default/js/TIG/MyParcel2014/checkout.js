@@ -33,8 +33,8 @@
     $.extend( window.mypa.settings, {
         postal_code: 'holder',
         number: 0,
-        base_url: 'https://api.myparcel.nl/delivery_options'
-        //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
+        //base_url: 'https://api.myparcel.nl/delivery_options'
+        base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
     /**
