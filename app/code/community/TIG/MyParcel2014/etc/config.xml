@@ -256,9 +256,12 @@
                 <deliverydays_window>5</deliverydays_window>
                 <cutoff_time>15,30,00</cutoff_time>
                 <dropoff_delay>0</dropoff_delay>
+                <delivery_title>Thuis of op het werk bezorgd</delivery_title>
             </checkout>
             <pickup>
                 <pickup_active>1</pickup_active>
+                <pickup_title>Ophalen bij een PostNL locatie</pickup_title>
+                <pickup_fee>0</pickup_fee>
             </pickup>
         </tig_myparcel>
     </default>
