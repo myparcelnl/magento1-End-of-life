@@ -233,8 +233,8 @@ var adminSystemConfig = {
     },
     setFieldsInTabs: function(){
 
-        var tabButtonGeneral = new Element('li', { 'id': 'js-tabButton_General', 'class': 'active' }).update("<a>Algemene instellingen</a>");
-        var tabButtonShippingShippingMethods = new Element('li', { 'id': 'js-tabButton_ShippingMethods' }).update("<a>Verzendmethodes</a>");
+        var tabButtonGeneral = new Element('li', { 'id': 'js-tabButton_General', 'class': 'active' }).update("<a>General settings</a>");
+        var tabButtonShippingShippingMethods = new Element('li', { 'id': 'js-tabButton_ShippingMethods' }).update("<a>Checkout settings</a>");
         var tabButtons = new Element('ul', { 'id': 'tabButtons' })
             .insert(tabButtonGeneral)
             .insert(tabButtonShippingShippingMethods);
