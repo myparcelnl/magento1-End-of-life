@@ -188,11 +188,43 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </deliverydays_window>
-                        <dropoff_days translate="label">
+                        <dropoff_day1 translate="label">
                             <label>Drop-off days</label>
                             <frontend_type>checkboxes</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_dropOffDays</source_model>
+                            <source_model>tig_myparcel/system_config_source_dropOffDay1</source_model>
                             <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dropoff_day1>
+                        <dropoff_day_2 translate="label">
+                            <frontend_type>checkboxes</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_dropOffDay2</source_model>
+                            <sort_order>132</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dropoff_day_2>
+                        <dropoff_day_3 translate="label">
+                            <frontend_type>checkboxes</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_dropOffDay3</source_model>
+                            <sort_order>133</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dropoff_day_3>
+                        <dropoff_day_4 translate="label">
+                            <frontend_type>checkboxes</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_dropOffDay4</source_model>
+                            <sort_order>134</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dropoff_day_4>
+                        <dropoff_day_5 translate="label">
+                            <frontend_type>checkboxes</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_dropOffDay2</source_model>
+                            <sort_order>131</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -207,7 +239,6 @@
                                         $('tig_myparcel_checkout_dropoff_days_4').checked == false &&
                                         $('tig_myparcel_checkout_dropoff_days_5').checked == false
                                     ) {
-
                                         $('tig_myparcel_checkout_dropoff_days_1').checked = true;
                                         $('tig_myparcel_checkout_dropoff_days_2').checked = true;
                                         $('tig_myparcel_checkout_dropoff_days_3').checked = true;
@@ -217,37 +248,47 @@
                                     </script>
                                 ]]>
                             </comment>
-                        </dropoff_days>
+                        </dropoff_day_5>
                         <dropoff_delay translate="label" module="tig_myparcel">
                             <label>Dropoff-delay</label>
-                            <frontend_type>text</frontend_type>
-                            <comment>This options allows the Merchant to set the number of days it takes her to pick, pack and hand in her parcels at PostNL when ordered before the cutoff time. Max is 14.</comment>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_delayDays</source_model>
+                            <comment>This options allows the Merchant to set the number of days it takes her to pick, pack and hand in her parcels at PostNL when ordered before the cutoff time.</comment>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </dropoff_delay>
+                    </fields>
+                </checkout>
+                <delivery translate="label comment" module="tig_myparcel">
+                    <label>Delivery</label>
+                    <sort_order>25</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <class>delivery-method</class>
+                    <fields>
+                        <delivery_title translate="label" module="tig_myparcel">
+                            <label>Delivery title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </delivery_title>
                         <only_recipient translate="label" module="tig_myparcel">
                             <label>Only deliver to receiver</label>
                             <comment>Deliver the package only at address of the intended recipient</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
-                            <sort_order>150</sort_order>
+                            <sort_order>160</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </only_recipient>
-                        <delivery_title translate="label" module="tig_myparcel">
-                            <label>Delivery title</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>160</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </delivery_title>
                     </fields>
-                </checkout>
+                </delivery>
                 <morningdelivery translate="label comment" module="tig_myparcel">
                     <label>Morning delivery</label>
                     <sort_order>20</sort_order>
@@ -596,7 +637,9 @@
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
-                            <depends><use_in_adminhtml>1</use_in_adminhtml></depends>
+                            <depends>
+                                <use_in_adminhtml>1</use_in_adminhtml>
+                            </depends>
                         </ssl_handshake>
                         <use_in_adminhtml>
                             <frontend_type>hidden</frontend_type>

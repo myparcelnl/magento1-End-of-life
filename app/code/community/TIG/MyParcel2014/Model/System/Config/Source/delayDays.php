@@ -37,10 +37,10 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
+class TIG_MyParcel2014_Model_System_Config_Source_delayDays
 {
     /**
-     * Source model for customs setting.
+     * Source model for yes / no setting.
      *
      * @return array
      */
@@ -49,27 +49,26 @@ class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
         $helper = Mage::helper('tig_myparcel');
 
         $array = array(
-             array(
-                'value' => 'test1',
-                'label' => $helper->__('Saturday, Sunday, Monday'),
-             ),
-             array(
-                'value' => 'test2',
-                'label' => $helper->__('Tuesday'),
-             ),
-             array(
-                'value' => 'test3',
-                'label' => $helper->__('Wednesday'),
-             ),
-             array(
-                'value' => 'test4',
-                'label' => $helper->__('Thursday'),
-             ),
-             array(
-                'value' => 'test5',
-                'label' => $helper->__('Friday'),
-             ),
+            array(
+                'value' => 0,
+                'label' => $helper->__('No delay'),
+            ),
+            array(
+                'value' => 1,
+                'label' => 1 . ' ' . $helper->__('day'),
+            ),
         );
+
+
+        $x = 2;
+        while($x <= 14) {
+            $array[] = array(
+                'value' => $x,
+                'label' => $x . ' ' . $helper->__('days')
+            );
+            $x++;
+        }
+
         return $array;
     }
 }

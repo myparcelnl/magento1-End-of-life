@@ -37,7 +37,7 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
+class TIG_MyParcel2014_Model_System_Config_Source_DropOffDay1
 {
     /**
      * Source model for customs setting.
@@ -50,24 +50,12 @@ class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
 
         $array = array(
              array(
-                'value' => 'test1',
+                'value' => '0',
                 'label' => $helper->__('Saturday, Sunday, Monday'),
              ),
              array(
-                'value' => 'test2',
-                'label' => $helper->__('Tuesday'),
-             ),
-             array(
-                'value' => 'test3',
-                'label' => $helper->__('Wednesday'),
-             ),
-             array(
-                'value' => 'test4',
-                'label' => $helper->__('Thursday'),
-             ),
-             array(
-                'value' => 'test5',
-                'label' => $helper->__('Friday'),
+                'value' => '1',
+                'label' => $helper->__('No'),
              ),
         );
         return $array;

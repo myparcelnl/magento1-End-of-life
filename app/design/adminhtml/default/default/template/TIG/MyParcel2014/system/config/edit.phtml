@@ -254,10 +254,12 @@ var adminSystemConfig = {
         // Shipping methods content
         $$('.entry-edit').last().insert('<fieldset id="configShippingMethodsContent" style="display:none;"></fieldset>');
         var configShippingMethodsContent = $('configShippingMethodsContent');
-        configShippingMethodsContent.insert($('tig_myparcel_dropoff-head').up(1));
+        configShippingMethodsContent.insert($('tig_myparcel_checkout-head').up(1));
+        configShippingMethodsContent.insert($('tig_myparcel_delivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_morningdelivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_eveningdelivery-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_pakjegemak-head').up(1));
+        configShippingMethodsContent.insert($('tig_myparcel_pickup-head').up(1));
+        configShippingMethodsContent.insert($('tig_myparcel_pickup_express-head').up(1));
 
         tabButtonGeneral.observe('click', respondToClick);
         tabButtonShippingShippingMethods.observe('click', respondToClick);

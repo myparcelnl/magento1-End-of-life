@@ -1,4 +1,5 @@
 <?php
+
 /**
  *                  ___________       __            __
  *                  \__    ___/____ _/  |_ _____   |  |
@@ -45,47 +46,55 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
         $container = file_get_contents('app/design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_container.php');
 
-        $general['cutoffTime'] =               $helper->getConfig('cutoff_time', 'checkout');
-        $general['deliverydaysWindow'] =       $helper->getConfig('deliverydays_window', 'checkout');
-        $general['dropoffDays'] =              $helper->getConfig('dropoff_days', 'checkout');
-        $general['dropoffDelay'] =             $helper->getConfig('dropoff_delay', 'checkout');
-        $general['onlyRecipient'] =            $helper->getConfig('only_recipient', 'checkout');
-        $general['deliveryTitle'] =            $helper->getConfig('delivery_title', 'checkout');
+        $general['cutoffTime'] =                $helper->getConfig('cutoff_time', 'checkout');
+        $general['deliverydaysWindow'] =        $helper->getConfig('deliverydays_window', 'checkout');
+        $general['dropoffDays'] = array(
+                                        1 =>    $helper->getConfig('dropoff_day1', 'checkout'),
+                                        2 =>    $helper->getConfig('dropoff_day2', 'checkout'),
+                                        3 =>    $helper->getConfig('dropoff_day3', 'checkout'),
+                                        4 =>    $helper->getConfig('dropoff_day4', 'checkout'),
+                                        5 =>    $helper->getConfig('dropoff_day5', 'checkout'),
+        );
+        $general['dropoffDelay'] =              $helper->getConfig('dropoff_delay', 'checkout');
         $data['general'] = (object)$general;
+
+        $delivery['onlyRecipient'] =            $helper->getConfig('only_recipient', 'delivery');
+        $delivery['deliveryTitle'] =            $helper->getConfig('delivery_title', 'delivery');
+        $data['delivery'] = (object)$delivery;
 
         $morningDelivery['active'] =            $helper->getConfig('morningdelivery_active', 'morningdelivery');
         $morningDelivery['fee'] =               $helper->getConfig('morningdelivery_fee', 'morningdelivery');
-        $morningDelivery['minOrderEnabled'] = $helper->getConfig('morningdelivery_min_order_enabled', 'morningdelivery');
-        $morningDelivery['minOrderTotal'] =   $helper->getConfig('morningdelivery_min_order_total', 'morningdelivery');
+        $morningDelivery['minOrderEnabled'] =   $helper->getConfig('morningdelivery_min_order_enabled', 'morningdelivery');
+        $morningDelivery['minOrderTotal'] =     $helper->getConfig('morningdelivery_min_order_total', 'morningdelivery');
         $data['morningDelivery'] = (object)$morningDelivery;
 
         $eveningDelivery['active'] =            $helper->getConfig('eveningdelivery_active', 'eveningdelivery');
         $eveningDelivery['fee'] =               $helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
-        $eveningDelivery['minOrderEnabled'] = $helper->getConfig('eveningdelivery_min_order_enabled', 'eveningdelivery');
-        $eveningDelivery['minOrderTotal'] =   $helper->getConfig('eveningdelivery_min_order_total', 'eveningdelivery');
+        $eveningDelivery['minOrderEnabled'] =   $helper->getConfig('eveningdelivery_min_order_enabled', 'eveningdelivery');
+        $eveningDelivery['minOrderTotal'] =     $helper->getConfig('eveningdelivery_min_order_total', 'eveningdelivery');
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
-        $pickup['active'] =            $helper->getConfig('pickup_active', 'pickup');
-        $pickup['title'] =            $helper->getConfig('pickup_title', 'pickup');
-        $pickup['fee'] =               $helper->getConfig('pickup_fee', 'pickup');
-        $pickup['minOrderEnabled'] = $helper->getConfig('pickup_min_order_enabled', 'pickup');
-        $pickup['minOrderTotal'] =   $helper->getConfig('pickup_min_order_total', 'pickup');
+        $pickup['active'] =                     $helper->getConfig('pickup_active', 'pickup');
+        $pickup['title'] =                      $helper->getConfig('pickup_title', 'pickup');
+        $pickup['fee'] =                        $helper->getConfig('pickup_fee', 'pickup');
+        $pickup['minOrderEnabled'] =            $helper->getConfig('pickup_min_order_enabled', 'pickup');
+        $pickup['minOrderTotal'] =              $helper->getConfig('pickup_min_order_total', 'pickup');
         $data['pickup'] = (object)$pickup;
 
-        $pickupExpress['active'] =            $helper->getConfig('pickup_express_active', 'pickup_express');
-        $pickupExpress['fee'] =               $helper->getConfig('pickup_express_fee', 'pickup_express');
-        $pickupExpress['minOrderEnabled'] = $helper->getConfig('pickup_express_min_order_enabled', 'pickup_express');
-        $pickupExpress['minOrderTotal'] =   $helper->getConfig('pickup_express_min_order_total', 'pickup_express');
+        $pickupExpress['active'] =              $helper->getConfig('pickup_express_active', 'pickup_express');
+        $pickupExpress['fee'] =                 $helper->getConfig('pickup_express_fee', 'pickup_express');
+        $pickupExpress['minOrderEnabled'] =     $helper->getConfig('pickup_express_min_order_enabled', 'pickup_express');
+        $pickupExpress['minOrderTotal'] =       $helper->getConfig('pickup_express_min_order_total', 'pickup_express');
         $data['pickupExpress'] = (object)$pickupExpress;
 
 
-        $array = array(
+        $info = array(
             'data' => (object)$data,
             'container' => $container
         );
 
         header('Content-Type: application/json');
-        echo(json_encode($array));
+        echo(json_encode($info));
         exit;
     }
 
