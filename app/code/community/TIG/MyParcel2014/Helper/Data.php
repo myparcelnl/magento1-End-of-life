@@ -47,8 +47,8 @@
         const PG_ADDRESS_TYPE = 'pakje_gemak';
 
         /**
-         * Regular expression used to split street name from house number. This regex works well for dutch addresses, but
-         * may fail for international addresses. We strongly recommend using split address lines instead.
+         * Regular expression used to split street name from house number.
+         * For international shipments, it is not necessary to divide the address.
          *
          * Street (key street)
          * (?P<street>.*?)
@@ -71,8 +71,11 @@
          * If extension have text, / or whitespace
          * [a-zA-Z/\s]{0,5}$
          *
-         * OR(!) if extension have a number
+         * OR(!) extension has a number
          * |[0-9/]{0,4}$
+         *
+         * OR(!) extension has a letter followed by numbers
+         * |\s[a-zA-Z]{1}[0-9]{0,3}$
          *
          * Close key for extension
          * )
@@ -81,13 +84,13 @@
          * )
          *
          */
-        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$~';
+        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<number_suffix>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$|\s[a-zA-Z]{1}[0-9/]{0,3}$))$~';
 
         /**
          * Regular expression used to split house number and house number extension
          * This data is the same as above
          */
-        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$)~';
+        const SPLIT_HOUSENUMBER_REGEX = '~(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$|\s[a-zA-Z]{1}[0-9/]{0,3}$)~';
 
         /**
          * Log filename to log all non-specific MyParcel exceptions.
