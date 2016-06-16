@@ -62,10 +62,10 @@
                 <file>css/TIG/MyParcel2014/checkout.css</file>
             </action>
         </reference>
-        <reference name="before_body_end">
+        <!--<reference name="before_body_end">
             <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js"
                    template="TIG/MyParcel2014/checkout/onepage/js.phtml"/>
-        </reference>
+        </reference>-->
     </checkout_onepage_index>
 
     <onestepcheckout_index_index>

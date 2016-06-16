@@ -1,6 +1,3 @@
-<script>
-//    var MyParcelGetInfoUrl = '<?php //echo Mage::getUrl('myparcel2014/checkout/getInfo', array('_secure' => false));?>//';
-</script>
 <style>
     .mypa-delivery-header {
         background: #3399CC;

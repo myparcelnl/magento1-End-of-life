@@ -365,7 +365,7 @@
                     </fields>
                 </eveningdelivery>
                 <pickup translate="label comment" module="tig_myparcel">
-                    <label>Retail</label>
+                    <label>Pickup</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

@@ -13,7 +13,7 @@
  * @since       File available since Release 1.6.0
  */
 (function () {
-    var $, options, myParcelObserver, load, actionObservers;
+    var $, myParcelObserver, load, actionObservers, info;
 
     $ = jQuery.noConflict();
 
@@ -51,21 +51,29 @@
         }
     });
 
-    /**
-     * start observing
-     */
-    myParcelObserver.observe(document, {
-        childList: true,
-        subtree: true
-    });
+    $(document).ready(
+        function () {
+            var ajaxOptions = {
+                url: 'http://127.0.0.1/magento/index.php/myparcel2014/checkout/getInfo/',
+                success: function (response) {
+                    console.log(response);
+                    info = response;
+
+                    /**
+                     * start observing
+                     */
+                    myParcelObserver.observe(document, {
+                        childList: true,
+                        subtree: true
+                    });
+                }
+            };
+            $.ajax(ajaxOptions);
+        }
+    );
 
     load = function () {
-        /**
-         * Load MyParcel html frame
-         */
-        //$(observer.magentoMethodMyParcel).parents(':eq(2)').hide();
-        $('#checkout-shipping-method-load').before($('#mypa-delivery-options-container').show());
-
+        $('#checkout-shipping-method-load').before(info.container);
         actionObservers();
     };
 
@@ -74,11 +82,6 @@
         /**
          * If method is MyParcel
          */
-        /*$([
-            observer.street1,
-            observer.street2
-        ].join()).on('change', function () {*/
-
             // Start update postcode
             var fullStreet, objRegExp, streetParts;
             objRegExp = /(.*?)\s?(([\d]+)-?([a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$/;
@@ -95,8 +98,6 @@
             });
 
             window.mypa.fn.updatePage();
-
-        /*});*/
         // End update postcode
 
         $(observer.magentoMethodMyParcel)[0].checked = true;
