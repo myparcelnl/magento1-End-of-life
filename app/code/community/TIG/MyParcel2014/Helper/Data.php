@@ -84,7 +84,7 @@
          * )
          *
          */
-        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<number_suffix>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$|\s[a-zA-Z]{1}[0-9/]{0,3}$))$~';
+        const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$|\s[a-zA-Z]{1}[0-9/]{0,3}$))$~';
 
         /**
          * Regular expression used to split house number and house number extension
