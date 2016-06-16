@@ -48,14 +48,8 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
         $general['cutoffTime'] =                $helper->getConfig('cutoff_time', 'checkout');
         $general['deliverydaysWindow'] =        $helper->getConfig('deliverydays_window', 'checkout');
-        $general['dropoffDays'] = array(
-                                        1 =>    $helper->getConfig('dropoff_day1', 'checkout'),
-                                        2 =>    $helper->getConfig('dropoff_day2', 'checkout'),
-                                        3 =>    $helper->getConfig('dropoff_day3', 'checkout'),
-                                        4 =>    $helper->getConfig('dropoff_day4', 'checkout'),
-                                        5 =>    $helper->getConfig('dropoff_day5', 'checkout'),
-        );
-        $general['dropoffDelay'] =              $helper->getConfig('dropoff_delay', 'checkout');
+        $general['dropOffDays'] =               $helper->getConfig('dropoff_days', 'checkout');
+        $general['dropOffDelay'] =              $helper->getConfig('dropoff_delay', 'checkout');
         $data['general'] = (object)$general;
 
         $delivery['onlyRecipient'] =            $helper->getConfig('only_recipient', 'delivery');

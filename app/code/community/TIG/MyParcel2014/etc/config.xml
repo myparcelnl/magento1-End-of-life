@@ -255,11 +255,7 @@
             <checkout>
                 <deliverydays_window>5</deliverydays_window>
                 <cutoff_time>15,30,00</cutoff_time>
-                <dropoff_day1>1</dropoff_day1>
-                <dropoff_day2>1</dropoff_day2>
-                <dropoff_day3>1</dropoff_day3>
-                <dropoff_day4>1</dropoff_day4>
-                <dropoff_day5>1</dropoff_day5>
+                <dropoff_days>1,2,3,4,5</dropoff_days>
                 <dropoff_delay>0</dropoff_delay>
             </checkout>
             <delivery>

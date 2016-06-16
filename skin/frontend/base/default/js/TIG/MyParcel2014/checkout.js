@@ -89,12 +89,26 @@
             if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != ''){
                 fullStreet += ' ' + $(observer.street2).val()
             }
-
             streetParts = fullStreet.match(objRegExp);
 
+            var data = info.data;
+            var price;
+                price['pickup'] = data.pickup['fee'];
+                price['pickup_express'] = data.pickupExpress['fee'];
             $.extend( window.mypa.settings, {
                 postal_code: $(observer.postalCode).val(),
-                number: streetParts[2]
+                street: streetParts[1],
+                number: streetParts[2],
+
+                // delivery_time: data.,
+                // delivery_date: data.,
+                cutoff_time: data.general.cutoffTime,
+                dropoff_days: data.general.dropOffDays,
+                dropoff_delay: data.general.dropOffDelay,
+                deliverydays_window: data.deliverydaysWindow,
+                // exlude_delivery_type: data.,
+
+                price: price
             });
 
             window.mypa.fn.updatePage();

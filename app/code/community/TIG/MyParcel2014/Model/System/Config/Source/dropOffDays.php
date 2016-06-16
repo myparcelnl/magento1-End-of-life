@@ -44,31 +44,31 @@ class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
      *
      * @return array
      */
-    public function toOptionArray()
+    public function toOptionArray($isMultiSelect = false, $isActiveOnlyFlag = false)
     {
         $helper = Mage::helper('tig_myparcel');
 
         $array = array(
-             array(
-                'value' => 'test1',
+            array(
+                'value' => 1,
                 'label' => $helper->__('Saturday, Sunday, Monday'),
-             ),
-             array(
-                'value' => 'test2',
+            ),
+            array(
+                'value' => 2,
                 'label' => $helper->__('Tuesday'),
-             ),
-             array(
-                'value' => 'test3',
+            ),
+            array(
+                'value' => 3,
                 'label' => $helper->__('Wednesday'),
-             ),
-             array(
-                'value' => 'test4',
+            ),
+            array(
+                'value' => 4,
                 'label' => $helper->__('Thursday'),
-             ),
-             array(
-                'value' => 'test5',
+            ),
+            array(
+                'value' => 5,
                 'label' => $helper->__('Friday'),
-             ),
+            ),
         );
         return $array;
     }
