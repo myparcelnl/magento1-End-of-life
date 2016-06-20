@@ -227,7 +227,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </delivery_title>
-                        <only_recipient translate="label" module="tig_myparcel">
+                        <only_recipient_active translate="label" module="tig_myparcel">
                             <label>Only deliver to receiver</label>
                             <comment>Deliver the package only at address of the intended recipient</comment>
                             <frontend_type>select</frontend_type>
@@ -236,7 +236,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </only_recipient>
+                        </only_recipient_active>
                         <only_recipient_title translate="label" module="tig_myparcel">
                             <label>Only deliver to receiver title</label>
                             <frontend_type>text</frontend_type>
@@ -244,7 +244,23 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <depends>
+                                <only_recipient_active>1</only_recipient_active>
+                            </depends>
                         </only_recipient_title>
+                        <only_recipient_fee translate="label,comment" module="tig_myparcel">
+                            <label>Only deliver fee</label>
+                            <comment>This will be added to the regular shipping price</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number validate-zero-or-greater</validate>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <only_recipient_active>1</only_recipient_active>
+                            </depends>
+                        </only_recipient_fee>
                     </fields>
                 </delivery>
                 <morningdelivery translate="label comment" module="tig_myparcel">

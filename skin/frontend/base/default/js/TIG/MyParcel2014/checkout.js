@@ -18,19 +18,19 @@
     $ = jQuery.noConflict();
 
     var observer = {
-        deliveryDate:           "input:radio[name='mypa-date']",
-        deliveryType:           "input:radio[name='mypa-delivery-type']",
-        deliveryTime:           "input:radio[name='mypa-delivery-time']",
-        directReturn:           "input:checkbox[name='mypa-onoffswitch']",
-        pickupType:             "input:radio[name='mypa-pickup-option']",
-        magentoMethods:         "input:radio[id^='s_method']",
-        magentoMethodMyParcel:  "input:radio[id^='s_method_myparcel']",
-        postalCode:             "input[id='shipping:postcode']",
-        street1:                 "input[id='billing:street1']",
-        street2:                 "input[id='billing:street2']"
+        deliveryDate: "input:radio[name='mypa-date']",
+        deliveryType: "input:radio[name='mypa-delivery-type']",
+        deliveryTime: "input:radio[name='mypa-delivery-time']",
+        directReturn: "input:checkbox[name='mypa-onoffswitch']",
+        pickupType: "input:radio[name='mypa-pickup-option']",
+        magentoMethods: "input:radio[id^='s_method']",
+        magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
+        postalCode: "input[id='shipping:postcode']",
+        street1: "input[id='billing:street1']",
+        street2: "input[id='billing:street2']"
     };
 
-    $.extend( window.mypa.settings, {
+    $.extend(window.mypa.settings, {
         postal_code: 'holder',
         number: 0,
         //base_url: 'https://api.myparcel.nl/delivery_options'
@@ -56,7 +56,6 @@
             var ajaxOptions = {
                 url: 'http://127.0.0.1/magento/index.php/myparcel2014/checkout/getInfo/',
                 success: function (response) {
-                    console.log(response);
                     info = response;
 
                     /**
@@ -79,41 +78,65 @@
 
     actionObservers = function () {
 
+        var fullStreet, objRegExp, streetParts, price, data;
         /**
          * If method is MyParcel
          */
-            // Start update postcode
-            var fullStreet, objRegExp, streetParts;
-            objRegExp = /(.*?)\s?(([\d]+)-?([a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$/;
-            fullStreet = $(observer.street1).val();
-            if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != ''){
-                fullStreet += ' ' + $(observer.street2).val()
-            }
-            streetParts = fullStreet.match(objRegExp);
+        // Start update postcode
+        objRegExp = /(.*?)\s?(([\d]+)-?([a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$/;
+        fullStreet = $(observer.street1).val();
+        if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != '') {
+            fullStreet += ' ' + $(observer.street2).val()
+        }
+        streetParts = fullStreet.match(objRegExp);
 
-            var data = info.data;
+        data = info.data;
+        price = [];
 
-            var price = [];
-                price['pickup'] = data.pickup['fee'];
-        console.log(price['pickup']);
-                price['pickup_express'] = data.pickupExpress['fee'];
-            $.extend( window.mypa.settings, {
-                postal_code: $(observer.postalCode).val(),
-                street: streetParts[1],
-                number: streetParts[2],
+        /**
+         * @todo; get normal price
+         */
+        price['standard'] = '&#8364; 12,60';
 
-                // delivery_time: data.,
-                // delivery_date: data.,
-                cutoff_time: data.general.cutoffTime,
-                dropoff_days: data.general.dropOffDays,
-                dropoff_delay: data.general.dropOffDelay,
-                deliverydays_window: data.deliverydaysWindow,
-                // exlude_delivery_type: data.,
+        if (data.morningDelivery['fee'] != 0) {
+            price['morning'] = data.morningDelivery['fee'];
+        }
 
-                price: price
-            });
+        if (data.eveningDelivery['fee'] != 0) {
+            price['avond'] = data.eveningDelivery['fee'];
+        }
 
-            window.mypa.fn.updatePage();
+        if (data.pickup['fee'] != 0) {
+            price['pickup'] = data.pickup['fee'];
+        }
+
+        if (data.pickupExpress['fee'] != 0) {
+            price['pickup_express'] = data.pickupExpress['fee'];
+        }
+
+        if (data.delivery['only_recipient_fee'] != 0) {
+            price['HVO'] = data.delivery['only_recipient_fee'];
+        }
+        console.log(price);
+
+
+        $.extend(window.mypa.settings, {
+            postal_code: $(observer.postalCode).val(),
+            street: streetParts[1],
+            number: streetParts[2],
+
+            // delivery_time: data.,
+            // delivery_date: data.,
+            cutoff_time: data.general.cutoffTime,
+            dropoff_days: data.general.dropOffDays,
+            dropoff_delay: data.general.dropOffDelay,
+            deliverydays_window: data.deliverydaysWindow,
+            // exlude_delivery_type: data.,
+
+            price: price
+        });
+
+        window.mypa.fn.updatePage();
         // End update postcode
 
         $(observer.magentoMethodMyParcel)[0].checked = true;
