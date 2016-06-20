@@ -92,8 +92,10 @@
             streetParts = fullStreet.match(objRegExp);
 
             var data = info.data;
-            var price;
+
+            var price = [];
                 price['pickup'] = data.pickup['fee'];
+        console.log(price['pickup']);
                 price['pickup_express'] = data.pickupExpress['fee'];
             $.extend( window.mypa.settings, {
                 postal_code: $(observer.postalCode).val(),

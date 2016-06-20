@@ -261,6 +261,7 @@
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
                 <only_recipient>1</only_recipient>
+                <only_recipient_title>Bij niet thuis, niet bij de buren bezorgen</only_recipient_title>
             </delivery>
             <morningdelivery>
                 <morningdelivery_active>0</morningdelivery_active>

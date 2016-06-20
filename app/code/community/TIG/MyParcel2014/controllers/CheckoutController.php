@@ -44,16 +44,15 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $helper = Mage::helper('tig_myparcel');
         $data = array();
 
-        $container = file_get_contents('app/design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_container.php');
-
         $general['cutoffTime'] =                $helper->getConfig('cutoff_time', 'checkout');
         $general['deliverydaysWindow'] =        $helper->getConfig('deliverydays_window', 'checkout');
         $general['dropOffDays'] =               $helper->getConfig('dropoff_days', 'checkout');
         $general['dropOffDelay'] =              $helper->getConfig('dropoff_delay', 'checkout');
         $data['general'] = (object)$general;
 
-        $delivery['onlyRecipient'] =            $helper->getConfig('only_recipient', 'delivery');
         $delivery['deliveryTitle'] =            $helper->getConfig('delivery_title', 'delivery');
+        $delivery['onlyRecipient'] =            $helper->getConfig('only_recipient', 'delivery');
+        $delivery['onlyRecipientTitle'] =       $helper->getConfig('only_recipient_title', 'delivery');
         $data['delivery'] = (object)$delivery;
 
         $morningDelivery['active'] =            $helper->getConfig('morningdelivery_active', 'morningdelivery');
@@ -80,6 +79,11 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $pickupExpress['minOrderEnabled'] =     $helper->getConfig('pickup_express_min_order_enabled', 'pickup_express');
         $pickupExpress['minOrderTotal'] =       $helper->getConfig('pickup_express_min_order_total', 'pickup_express');
         $data['pickupExpress'] = (object)$pickupExpress;
+
+        ob_start();
+        include_once('app/design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_container.php');
+        $container = ob_get_contents();
+        ob_clean();
 
 
         $info = array(
