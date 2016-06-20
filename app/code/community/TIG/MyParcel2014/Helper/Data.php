@@ -515,7 +515,7 @@
          */
         protected function _getSplitStreetData($fullStreet)
         {
-            $fullStreet = preg_replace("/[\n\r]/","",$fullStreet);
+            $fullStreet = preg_replace("/[\n\r]/"," ",$fullStreet);
 
             $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
