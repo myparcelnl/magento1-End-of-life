@@ -41,9 +41,16 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 {
     public function getInfoAction()
     {
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+        $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
+        $rates = $rates->getAllRates();
+        $rate = $rates[0];
+        $basePrice = $rate->getData('price');
+
         $helper = Mage::helper('tig_myparcel');
         $data = array();
 
+        $general['base_price'] =                    (float)$basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));
         $general['deliverydays_window'] =           $helper->getConfig('deliverydays_window', 'checkout');
         $general['dropoff_days'] =                  $helper->getConfig('dropoff_days', 'checkout');

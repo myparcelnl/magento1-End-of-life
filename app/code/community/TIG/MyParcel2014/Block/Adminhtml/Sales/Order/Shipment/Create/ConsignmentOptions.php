@@ -235,7 +235,17 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
      */
     public function getIsSignatureOnReceipt()
     {
-        return $this->getIsSelected('signature_on_receipt');
+        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
+        if($checkoutData !== null) {
+            $aData = json_decode($checkoutData, true);
+            if($aData['signed']){
+                return 'checked="checked"';
+            } else {
+                return $this->getIsSelected('signature_on_receipt');
+            }
+        } else {
+            return $this->getIsSelected('signature_on_receipt');
+        }
     }
 
     /**

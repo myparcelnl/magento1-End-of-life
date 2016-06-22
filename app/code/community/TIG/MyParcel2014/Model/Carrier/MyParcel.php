@@ -293,7 +293,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             $method->setMethod('flatrate');
             $method->setMethodTitle($this->getConfigData('name'));
 
-            if ($request->getFreeShipping() === true || $request->getPackageQty() == $this->getFreeBoxes()) {
+            if ($request->getFreeShipping() === true || $request->getPackageQty() !== null && $request->getPackageQty() == $this->getFreeBoxes()) {
                 $shippingPrice = '0.00';
             }
 

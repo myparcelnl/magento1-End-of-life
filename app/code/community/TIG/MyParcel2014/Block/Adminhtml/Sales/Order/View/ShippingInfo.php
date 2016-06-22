@@ -86,10 +86,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
                     $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
 
                 if($data['time'][0]['price_comment'] == 'standard' && $data['return'])
-                    $html .=  ', ' . strtolower($this->__('Only deliver to receiver'));
+                    $html .=  ', ' . strtolower($this->__('Home address only'));
 
                 if($data['time'][0]['price_comment'] == 'standard' && $data['signed'])
-                    $html .=  ', ' . strtolower($this->__('Recipient must sign'));
+                    $html .=  ', ' . strtolower($this->__('Signature on receipt'));
             }
         }
 
