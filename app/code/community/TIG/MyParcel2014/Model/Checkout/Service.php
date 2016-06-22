@@ -58,9 +58,14 @@ class TIG_MyParcel2014_Model_Checkout_Service
                 /**
                  * not pickup
                  */
-                $return = $request->getPost('mypa-onoffswitch', '') === 'on' ? 1 : false;
+                $return = $request->getPost('mypa-only-recipient', '') === 'on' ? 1 : false;
                 if ($return) {
                     $delivery['return'] = true;
+                }
+
+                $signed = $request->getPost('mypa-signed', '') === 'on' ? 1 : false;
+                if ($signed) {
+                    $delivery['signed'] = true;
                 }
 
                 $data = $delivery;
