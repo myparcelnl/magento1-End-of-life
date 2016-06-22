@@ -134,8 +134,12 @@ input[name=mypa-delivery-type] ~ div.mypa-content-lg{
     max-height: 0px;
 }
 
+input:disabled ~ div.mypa-switch-container label.mypa-onoffswitch-label span.mypa-onoffswitch-switch{
+    background: #c7c7c7;
+}
+
 input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
-    max-height: 149px;
+    max-height: 193px;
 }
 
 .mypa-checkmark-stem {
