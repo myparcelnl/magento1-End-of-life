@@ -115,11 +115,11 @@
         }
 
         if (data.delivery['only_recipient_fee'] != 0) {
-            price['only_recipient'] = '&#8364; ' + data.delivery['only_recipient_fee'].toFixed(2).replace(".", ",");
+            price['only_recipient'] = '+ &#8364; ' + data.delivery['only_recipient_fee'].toFixed(2).replace(".", ",");
         }
 
         if (data.delivery['signature_fee'] != 0) {
-            price['signed'] = '&#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
+            price['signed'] = '+ &#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
         }
 
 

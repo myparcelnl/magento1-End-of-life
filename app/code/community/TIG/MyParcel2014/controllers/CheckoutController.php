@@ -45,12 +45,12 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
         $rates = $rates->getAllRates();
         $rate = $rates[0];
-        $basePrice = $rate->getData('price');
+        $basePrice = (float)$rate->getData('price');
 
         $helper = Mage::helper('tig_myparcel');
         $data = array();
 
-        $general['base_price'] =                    (float)$basePrice;
+        $general['base_price'] =                    $basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));
         $general['deliverydays_window'] =           $helper->getConfig('deliverydays_window', 'checkout');
         $general['dropoff_days'] =                  $helper->getConfig('dropoff_days', 'checkout');
@@ -67,26 +67,26 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $data['delivery'] = (object)$delivery;
 
         $morningDelivery['active'] =                $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" ? true : false;
-        $morningDelivery['fee'] =                   (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
+        $morningDelivery['fee'] =                   $basePrice + (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
         $morningDelivery['min_order_enabled'] =     $helper->getConfig('morningdelivery_min_order_enabled', 'morningdelivery') == "1";
         $morningDelivery['min_order_total'] =       (float)$helper->getConfig('morningdelivery_min_order_total', 'morningdelivery');
         $data['morningDelivery'] = (object)$morningDelivery;
 
         $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" ? true : false;
-        $eveningDelivery['fee'] =                   (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
+        $eveningDelivery['fee'] =                   $basePrice + (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
         $eveningDelivery['min_order_enabled'] =     $helper->getConfig('eveningdelivery_min_order_enabled', 'eveningdelivery') == "1";
         $eveningDelivery['min_order_total'] =       (float)$helper->getConfig('eveningdelivery_min_order_total', 'eveningdelivery');
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
         $pickup['active'] =                         $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
         $pickup['title'] =                          $helper->getConfig('pickup_title', 'pickup');
-        $pickup['fee'] =                            (float)$helper->getConfig('pickup_fee', 'pickup');
+        $pickup['fee'] =                            $basePrice + (float)$helper->getConfig('pickup_fee', 'pickup');
         $pickup['min_order_enabled'] =              $helper->getConfig('pickup_min_order_enabled', 'pickup') == "1";
         $pickup['min_order_total'] =                (float)$helper->getConfig('pickup_min_order_total', 'pickup');
         $data['pickup'] = (object)$pickup;
 
         $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" ? true : false;
-        $pickupExpress['fee'] =                     (float)$helper->getConfig('pickup_express_fee', 'pickup_express');
+        $pickupExpress['fee'] =                     $basePrice + (float)$helper->getConfig('pickup_express_fee', 'pickup_express');
         $pickupExpress['min_order_enabled'] =       $helper->getConfig('pickup_express_min_order_enabled', 'pickup_express') == "1";
         $pickupExpress['min_order_total'] =         (float)$helper->getConfig('pickup_express_min_order_total', 'pickup_express');
         $data['pickupExpress'] = (object)$pickupExpress;
