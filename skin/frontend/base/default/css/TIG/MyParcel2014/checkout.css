@@ -393,7 +393,7 @@ input:checked ~ span span.mypa-price{
     display: none;
     position: absolute;
     top: 77px;
-    right: 115px;
+    right: 190px;
     padding: 10px;
     background-color: white;
     -webkit-box-shadow:  1px 1px 10px #B9B9B9;
@@ -420,5 +420,5 @@ input:checked ~ span span.mypa-price{
 }
 
 #mypa-delivery-options-container{
-    height: 382px;
+    height: 435px;
 }

@@ -96,26 +96,30 @@
         /**
          * @todo; get normal price
          */
-        price['standard'] = '&#8364; 12,60';
+        price['default'] = '&#8364; 12,60';
 
         if (data.morningDelivery['fee'] != 0) {
-            price['morning'] = data.morningDelivery['fee'];
+            price['morning'] = '&#8364; ' + data.morningDelivery['fee'].toFixed(2).replace(".", ",");
         }
 
         if (data.eveningDelivery['fee'] != 0) {
-            price['avond'] = data.eveningDelivery['fee'];
+            price['night'] = '&#8364; ' + data.eveningDelivery['fee'].toFixed(2).replace(".", ",");
         }
 
         if (data.pickup['fee'] != 0) {
-            price['pickup'] = data.pickup['fee'];
+            price['pickup'] = '&#8364; ' + data.pickup['fee'].toFixed(2).replace(".", ",");
         }
 
         if (data.pickupExpress['fee'] != 0) {
-            price['pickup_express'] = data.pickupExpress['fee'];
+            price['pickup_express'] = '&#8364; ' + data.pickupExpress['fee'].toFixed(2).replace(".", ",");
         }
 
         if (data.delivery['only_recipient_fee'] != 0) {
-            price['HVO'] = data.delivery['only_recipient_fee'];
+            price['only_recipient'] = '&#8364; ' + data.delivery['only_recipient_fee'].toFixed(2).replace(".", ",");
+        }
+
+        if (data.delivery['signature_fee'] != 0) {
+            price['signed'] = '&#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
         }
         console.log(price);
 

@@ -40,7 +40,7 @@
 
     POST_NL_TRANSLATION = {
         morning: 'morning',
-        standaard: 'default',
+        standard: 'default',
         avond: 'night'
     };
 
@@ -69,7 +69,7 @@
         ref = window.mypa.settings.price;
         for (key in ref) {
             item = ref[key];
-            if (typeof item !== 'string') {
+            if (typeof item !== 'string' && typeof item == 'number') {
                 throw 'Price needs to be of type string';
             }
         }
@@ -128,8 +128,8 @@
         if (pickupExpressPrice == null) {
             pickupExpressPrice = 'GRATIS';
         }
-        $('.mypa-pickup-price').html(escape(pickupPrice));
-        $('.mypa-pickup-express-price').html(escape(pickupExpressPrice));
+        $('.mypa-pickup-price').html(pickupPrice);
+        $('.mypa-pickup-express-price').html(pickupExpressPrice);
         window.mypa.pickupFiltered = filter = {};
         for (i = 0, len = pickupOptions.length; i < len; i++) {
             pickupLocation = pickupOptions[i];

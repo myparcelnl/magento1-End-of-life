@@ -252,7 +252,7 @@
                             <label>Only deliver fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>180</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -261,6 +261,40 @@
                                 <only_recipient_active>1</only_recipient_active>
                             </depends>
                         </only_recipient_fee>
+                        <signature_active translate="label" module="tig_myparcel">
+                            <label>Recipient must sign</label>
+                            <comment>Recipient must sign for the package.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </signature_active>
+                        <signature_title translate="label" module="tig_myparcel">
+                            <label>Recipient must sign title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <signature_active>1</signature_active>
+                            </depends>
+                        </signature_title>
+                        <signature_fee translate="label,comment" module="tig_myparcel">
+                            <label>Signature fee</label>
+                            <comment>This will be added to the regular shipping price</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>210</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <signature_active>1</signature_active>
+                            </depends>
+                        </signature_fee>
                     </fields>
                 </delivery>
                 <morningdelivery translate="label comment" module="tig_myparcel">
@@ -284,7 +318,7 @@
                             <label>Morning delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -309,7 +343,7 @@
                             <label>Morning delivery minimum order total, incl. BTW</label>
                             <comment>Morning delivery will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -341,7 +375,7 @@
                             <label>Evening delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -366,7 +400,7 @@
                             <label>Evening delivery minimum order total, incl. BTW</label>
                             <comment>Evening delivery will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -410,7 +444,7 @@
                             <label>Pickup fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -435,7 +469,7 @@
                             <label>Pickup minimum order total, incl. BTW</label>
                             <comment>Pickup will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -467,7 +501,7 @@
                             <label>Pickup Express fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -492,7 +526,7 @@
                             <label>Pickup Express minimum order total, incl. BTW</label>
                             <comment>Pickup Express will not be visible if the subtotal of an order is below this value</comment>
                             <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
+                            <validate>validate-number</validate>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
