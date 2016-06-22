@@ -121,7 +121,6 @@
         if (data.delivery['signature_fee'] != 0) {
             price['signed'] = '&#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
         }
-        console.log(price);
 
 
         $.extend(window.mypa.settings, {
