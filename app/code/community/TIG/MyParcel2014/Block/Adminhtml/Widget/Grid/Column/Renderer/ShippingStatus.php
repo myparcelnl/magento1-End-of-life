@@ -82,7 +82,14 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             if($order->canShip()) {
 
                 $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
-                return  $countryCode . ' - <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ';
+
+                $data = json_decode($order->getMyparcelData(),true);
+                $dateTime = strtotime($data['date'] . ' 00:00:00');
+
+                $dropOffDate = $this->_getDropOffDay($dateTime);
+                $dropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
+//                date('Ymd') == date('Ymd', strtotime($timestamp))
+                return  $countryCode . ' - ' . $dropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ';
 
             } else {
 
@@ -120,5 +127,34 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $barcodeHtml = implode('<br />', $barcodeData);
 
         return $barcodeHtml;
+    }
+
+    /**
+     * Get drop off day
+     *
+     * @param $dateTime int
+     *
+     * @return int
+     */
+    private function _getDropOffDay($dateTime){
+        $weekDay = date('N', $dateTime);
+
+        switch ($weekDay) {
+            case (1):
+            case (2):
+            case (3):
+            case (4):
+            case (5):
+                $dropOff = strtotime("+1 day", $dateTime);
+                break;
+            case (6):
+                $dropOff = strtotime("+3 day", $dateTime);
+                break;
+            case (7):
+                $dropOff = strtotime("+2 day", $dateTime);
+                break;
+        }
+
+        return $dropOff;
     }
 }

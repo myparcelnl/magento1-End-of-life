@@ -96,7 +96,7 @@
         /**
          * @todo; get normal price
          */
-        price['default'] = '&#8364; 12,60';
+        price['default'] = '&#8364; ' + data.general['base_price'].toFixed(2).replace(".", ",");
 
         if (data.morningDelivery['fee'] != 0) {
             price['morning'] = '&#8364; ' + data.morningDelivery['fee'].toFixed(2).replace(".", ",");
