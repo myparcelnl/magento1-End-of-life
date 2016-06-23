@@ -327,6 +327,7 @@
                                 <morningdelivery_active>1</morningdelivery_active>
                             </depends>
                         </morningdelivery_fee>
+                        <!--
                         <morningdelivery_min_order_enabled translate="label,comment" module="tig_myparcel">
                             <label>Morning delivery minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
@@ -353,6 +354,7 @@
                                 <morningdelivery_min_order_enabled>1</morningdelivery_min_order_enabled>
                             </depends>
                         </morningdelivery_min_order_total>
+                        -->
                     </fields>
                 </morningdelivery>
                 <eveningdelivery translate="label comment" module="tig_myparcel">
@@ -384,6 +386,7 @@
                                 <eveningdelivery_active>1</eveningdelivery_active>
                             </depends>
                         </eveningdelivery_fee>
+                        <!--
                         <eveningdelivery_min_order_enabled translate="label,comment" module="tig_myparcel">
                             <label>Evening delivery minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
@@ -410,7 +413,7 @@
                                 <eveningdelivery_min_order_enabled>1</eveningdelivery_min_order_enabled>
                             </depends>
                         </eveningdelivery_min_order_total>
-
+                           -->
                     </fields>
                 </eveningdelivery>
                 <pickup translate="label comment" module="tig_myparcel">
@@ -453,6 +456,7 @@
                                 <pickup_active>1</pickup_active>
                             </depends>
                         </pickup_fee>
+                        <!--
                         <pickup_min_order_enabled translate="label,comment" module="tig_myparcel">
                             <label>Pickup minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
@@ -479,6 +483,7 @@
                                 <pickup_min_order_enabled>1</pickup_min_order_enabled>
                             </depends>
                         </pickup_min_order_total>
+                        -->
                     </fields>
                 </pickup>
                 <pickup_express translate="label comment" module="tig_myparcel">
@@ -510,6 +515,7 @@
                                 <pickup_express_active>1</pickup_express_active>
                             </depends>
                         </pickup_express_fee>
+                        <!--
                         <pickup_express_min_order_enabled translate="label,comment" module="tig_myparcel">
                             <label>Pickup Express minimum order total enabled</label>
                             <frontend_type>select</frontend_type>
@@ -536,6 +542,7 @@
                                 <pickup_express_min_order_enabled>1</pickup_express_min_order_enabled>
                             </depends>
                         </pickup_express_min_order_total>
+                        -->
                     </fields>
                 </pickup_express>
                 <api translate="label comment" module="tig_myparcel">

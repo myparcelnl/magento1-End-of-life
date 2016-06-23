@@ -268,27 +268,35 @@
             <morningdelivery>
                 <morningdelivery_active>0</morningdelivery_active>
                 <morningdelivery_fee>0</morningdelivery_fee>
+                <!--
                 <morningdelivery_min_order_enabled>0</morningdelivery_min_order_enabled>
                 <morningdelivery_min_order_total>0</morningdelivery_min_order_total>
+                -->
             </morningdelivery>
             <eveningdelivery>
                 <eveningdelivery_active>0</eveningdelivery_active>
                 <eveningdelivery_fee>0</eveningdelivery_fee>
+                <!--
                 <eveningdelivery_min_order_enabled>0</eveningdelivery_min_order_enabled>
                 <eveningdelivery_min_order_total>0</eveningdelivery_min_order_total>
+                -->
             </eveningdelivery>
             <pickup>
                 <pickup_active>1</pickup_active>
                 <pickup_title>Ophalen bij een PostNL locatie</pickup_title>
                 <pickup_fee>0</pickup_fee>
+                <!--
                 <pickup_min_order_enabled>0</pickup_min_order_enabled>
                 <pickup_min_order_total>0</pickup_min_order_total>
+                -->
             </pickup>
             <pickup_express>
                 <pickup_express_active>0</pickup_express_active>
                 <pickup_express_fee>0</pickup_express_fee>
+                <!--
                 <pickup_express_min_order_enabled>0</pickup_express_min_order_enabled>
                 <pickup_express_min_order_total>0</pickup_express_min_order_total>
+                -->
             </pickup_express>
         </tig_myparcel>
     </default>
