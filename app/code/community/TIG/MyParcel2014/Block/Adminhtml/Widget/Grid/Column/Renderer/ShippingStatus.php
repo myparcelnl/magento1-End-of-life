@@ -86,17 +86,19 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                 $data = json_decode($order->getMyparcelData(), true);
                 $dateTime = strtotime($data['date'] . ' 00:00:00');
 
-                $dateTime = strtotime("-1 day", $dateTime);
-
                 $dropOffDate = $this->_getDropOffDay($dateTime);
 
+                $sDropOff =  Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
+
                 if (date('Ymd') == date('Ymd', $dropOffDate)) {
-                    $dropOff = $this->__('Today');
+                    $dropOff = $this->__('Today') . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send') . '</a> ';
+                } else if (date('Ymd') > date('Ymd', $dropOffDate)) {
+                    $dropOff = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send') . '</a> !';
                 } else {
-                    $dropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
+                    $dropOff = $sDropOff;
                 }
-//                date('Ymd') == date('Ymd', strtotime($timestamp))
-                return $countryCode . ' - ' . $dropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send') . '</a> ';
+
+                return $countryCode . ' - ' . $dropOff;
 
             } else {
 
@@ -149,17 +151,17 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
         switch ($weekDay) {
             case (1):
+                $dropOff = strtotime("-3 day", $dateTime);
+                break;
             case (2):
+                $dropOff = strtotime("-2 day", $dateTime);
+                break;
             case (3):
             case (4):
             case (5):
-                $dropOff = strtotime("+1 day", $dateTime);
-                break;
             case (6):
-                $dropOff = strtotime("+3 day", $dateTime);
-                break;
             case (7):
-                $dropOff = strtotime("+2 day", $dateTime);
+                $dropOff = strtotime("-1 day", $dateTime);
                 break;
         }
 
