@@ -79,17 +79,24 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $order = Mage::getModel('sales/order')->load($row->getId());
 
         if (!$value) {
-            if($order->canShip()) {
+            if ($order->canShip()) {
 
                 $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
 
-                $data = json_decode($order->getMyparcelData(),true);
+                $data = json_decode($order->getMyparcelData(), true);
                 $dateTime = strtotime($data['date'] . ' 00:00:00');
 
+                $dateTime = strtotime("-1 day", $dateTime);
+
                 $dropOffDate = $this->_getDropOffDay($dateTime);
-                $dropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
+
+                if (date('Ymd') == date('Ymd', $dropOffDate)) {
+                    $dropOff = $this->__('Today');
+                } else {
+                    $dropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
+                }
 //                date('Ymd') == date('Ymd', strtotime($timestamp))
-                return  $countryCode . ' - ' . $dropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send'). '</a> ';
+                return $countryCode . ' - ' . $dropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send') . '</a> ';
 
             } else {
 
@@ -104,7 +111,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $postcode = $row->getData(self::POSTCODE_COLUMN);
         $destinationData = array(
             'countryCode' => $countryCode,
-            'postcode'    => $postcode,
+            'postcode' => $postcode,
         );
 
         $barcodeData = array();
@@ -116,7 +123,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             if (!empty($barcodes[$key])) {
                 $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
                 $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>" . $this->__('status_' . $status) . "</small>";
-                if(!in_array($oneBarcodeData, $barcodeData)) {
+                if (!in_array($oneBarcodeData, $barcodeData)) {
                     $barcodeData[] = $oneBarcodeData;
                 }
             } else {
@@ -136,7 +143,8 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
      *
      * @return int
      */
-    private function _getDropOffDay($dateTime){
+    private function _getDropOffDay($dateTime)
+    {
         $weekDay = date('N', $dateTime);
 
         switch ($weekDay) {
