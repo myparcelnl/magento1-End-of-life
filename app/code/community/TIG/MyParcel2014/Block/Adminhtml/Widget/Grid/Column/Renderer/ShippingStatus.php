@@ -90,10 +90,13 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
                 $sDropOff =  Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
 
+                /**
+                 * Show info text plus link to send
+                 */
                 if (date('Ymd') == date('Ymd', $dropOffDate)) {
-                    $dropOff = $this->__('Today') . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send') . '</a> ';
+                    $dropOff = '<a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Today') . ' ' . strtolower($this->__('Send')) . '</a> ';
                 } else if (date('Ymd') > date('Ymd', $dropOffDate)) {
-                    $dropOff = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Send') . '</a> !';
+                    $dropOff = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a> !';
                 } else {
                     $dropOff = $sDropOff;
                 }
