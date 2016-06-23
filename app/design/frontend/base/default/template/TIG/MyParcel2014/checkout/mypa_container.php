@@ -1,7 +1,18 @@
 <style>
+    <?php if($general['base_color'] != ''):?>
     .mypa-delivery-header {
-        background: #3399CC;
+        background: #<?=$general['base_color'];?>;
     }
+    <?php endif;?>
+
+    <?php if($general['select_color'] != ''):?>
+    input:checked ~ .mypa-highlight, input:checked ~ label.mypa-row-title span.mypa-highlight {
+        color: #<?=$general['select_color']; ?>;
+    }
+    input:checked + label.mypa-checkmark div.mypa-circle, input[name=mypa-delivery-type]:checked + label div.mypa-main div.mypa-circle, input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle, .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle{
+        background-color: #<?=$general['select_color']; ?>;
+    }
+    <?php endif;?>
 </style>
 
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:700,400|Exo:700,500" rel="stylesheet" type="text/css">
