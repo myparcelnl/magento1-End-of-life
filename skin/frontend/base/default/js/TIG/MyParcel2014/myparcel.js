@@ -21,7 +21,7 @@
     }
 
     if ((base3 = window.mypa.settings).base_url == null) {
-        base3.base_url = "//localhost:8080/api/delivery_options";
+        base3.base_url = "https://api.myparcel.nl/delivery_options";
     }
 
     NATIONAL = 'NL';

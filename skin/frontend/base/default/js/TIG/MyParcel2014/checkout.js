@@ -26,22 +26,22 @@
         magentoMethods: "input:radio[id^='s_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
         postalCode: "input[id='shipping:postcode']",
-        street1: "input[id='billing:street1']",
-        street2: "input[id='billing:street2']"
+        street1: "input[id='shipping:street1']",
+        street2: "input[id='shipping:street2']"
     };
 
     $.extend(window.mypa.settings, {
         postal_code: 'holder',
         number: 0,
-        //base_url: 'https://api.myparcel.nl/delivery_options'
-        base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
+        base_url: 'https://api.myparcel.nl/delivery_options'
+        //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
     /**
      *  Set up the mutation observer
      */
     myParcelObserver = new MutationObserver(function (mutations, me) {
-        var canvasFlat = document.getElementById('s_method_myparcel_flatrate');
+        var canvasFlat2 = document.getElementById('s_method_myparcel_flatrate');
         var canvasTable = document.getElementById('s_method_myparcel_tablerate');
         if (canvasFlat || canvasTable) {
             $(document).ready(
@@ -78,7 +78,7 @@
 
     actionObservers = function () {
 
-        var fullStreet, objRegExp, streetParts, price, data;
+        var fullStreet, objRegExp, streetParts, price, data, delivery_types;
         /**
          * If method is MyParcel
          */
@@ -91,11 +91,9 @@
         streetParts = fullStreet.match(objRegExp);
 
         data = info.data;
+
         price = [];
 
-        /**
-         * @todo; get normal price
-         */
         price['default'] = '&#8364; ' + data.general['base_price'].toFixed(2).replace(".", ",");
 
         if (data.morningDelivery['fee'] != 0) {
@@ -122,25 +120,38 @@
             price['signed'] = '+ &#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
         }
 
+        /**
+         * Exclude delivery types
+         */
+        excludeDeliveryTypes = [];
 
-        $.extend(window.mypa.settings, {
+        if(data.morningDelivery['active'] == false) {
+            excludeDeliveryTypes.push('1');
+        }
+        if(data.eveningDelivery['active'] == false) {
+            excludeDeliveryTypes.push('3');
+        }
+        if(data.pickup['active'] == false) {
+            excludeDeliveryTypes.push('4');
+        }
+        if(data.pickupExpress['active'] == false) {
+            excludeDeliveryTypes.push('5');
+        }
+
+        window.mypa.settings = $.extend(window.mypa.settings, {
             postal_code: $(observer.postalCode).val(),
             street: streetParts[1],
             number: streetParts[2],
-
-            // delivery_time: data.,
-            // delivery_date: data.,
             cutoff_time: data.general.cutoffTime,
             dropoff_days: data.general.dropOffDays,
             dropoff_delay: data.general.dropOffDelay,
             deliverydays_window: data.general.deliverydaysWindow,
-            // exlude_delivery_type: data.,
-
+            exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
             price: price,
-
             hvo_title: data.delivery.signature_title,
             only_recipient_title: data.delivery.only_recipient_title
         });
+        console.log(window.mypa.settings);
 
         window.mypa.fn.updatePage();
         // End update postcode
@@ -148,27 +159,30 @@
         $(observer.magentoMethodMyParcel)[0].checked = true;
 
         /**
+         * If address is change
+         */
+        $([
+            observer.postalCode,
+            observer.street1,
+            observer.street2
+        ].join()).off('change').on('change', function () {
+            actionObservers();
+        });
+
+        /**
          * If method is MyParcel
          */
         $([
             observer.deliveryType,
             observer.pickupType
-        ].join()).on('change', function () {
+        ].join()).off('change').on('change', function () {
             $(observer.magentoMethodMyParcel)[0].checked = true;
         });
 
         /**
          * If method not is MyParcel
          */
-        $(observer.magentoMethods).on('change', function () {
-            console.log('n mp');
-            $(observer.deliveryType + ':checked')[0].checked = false;
-        });
-
-        /**
-         * If zip isset
-         */
-        $(observer.magentoMethods).on('change', function () {
+        $(observer.magentoMethods).off('change').on('change', function () {
             console.log('n mp');
             $(observer.deliveryType + ':checked')[0].checked = false;
         });
