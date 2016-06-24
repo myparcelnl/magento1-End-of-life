@@ -85,7 +85,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
                 if($data['time'][0]['price_comment'] != 'standard')
                     $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
 
-                if($data['time'][0]['price_comment'] == 'standard' && $data['return'])
+                if($data['time'][0]['price_comment'] == 'standard' && $data['home_address_only'])
                     $html .=  ', ' . strtolower($this->__('Home address only'));
 
                 if($data['time'][0]['price_comment'] == 'standard' && $data['signed'])

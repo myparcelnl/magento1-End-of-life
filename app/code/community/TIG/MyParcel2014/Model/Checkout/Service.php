@@ -78,7 +78,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
                  */
                 $return = $request->getPost('mypa-only-recipient', '') === 'on' ? 1 : false;
                 if ($return) {
-                    $delivery['return'] = true;
+                    $delivery['home_address_only'] = true;
                     $price += (float)$helper->getConfig('only_recipient_fee', 'delivery');
                 }
 

@@ -282,6 +282,35 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         return $api;
     }
 
+    public function isHomeAddressOnly()
+    {
+
+        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
+        if($checkoutData !== null) {
+            $aData = json_decode($checkoutData, true);
+            if($aData['home_address_only']){
+                return 1;
+            }
+        }
+
+        return $this->getHomeAddressOnly();
+    }
+
+    public function isSignatureOnReceipt()
+    {
+
+        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
+        if($checkoutData !== null) {
+            $aData = json_decode($checkoutData, true);
+            if($aData['signed']){
+                return 1;
+            }
+        }
+
+        return $this->getSignatureOnReceipt();
+    }
+
+
     /**
      * @return array
      */
@@ -342,16 +371,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
         $storeId = $this->getOrder()->getStoreId();
         $orderTotalShipped = $this->getOrderTotal();
-
-        // Get checkout data > return
-        $checkoutData = $this->getOrder()->getMyparcelData();
-        if ($checkoutData !== null && $checkoutData->time['return'] !== null) {
-            return array(
-                'option' => $consignmentOption,
-                'selected' => 1,
-            );
-        }
-
 
         $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
         if(!empty($configValue) && $configValue > 0){
