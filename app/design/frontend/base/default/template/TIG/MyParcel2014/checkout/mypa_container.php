@@ -1,30 +1,46 @@
 <style>
-    <?php if($general['base_color'] != ''):?>
-    .mypa-tab{
-        background-color: #<?=$general['base_color'];?>;
-    }
-    .mypa-delivery-header,
-    .mypa-date:checked+label, .mypa-tab:hover
-    {
-        background: #<?=$general['base_color'];?>;
-    }
+    /* Set base color */
+    <?php $baseColor = $general['base_color'];?>
+    <?php if($baseColor != ''):?>
+
+        .mypa-tab{
+            background-color: #<?=$baseColor;?>;
+            opacity: 0.6;
+        }
+
+        .mypa-delivery-header,
+        .mypa-date:checked+label, .mypa-tab:hover
+        {
+            background: #<?=$baseColor;?>;
+            opacity: 1;
+        }
+
     <?php endif;?>
 
-    <?php if($general['select_color'] != ''):?>
-    input:checked ~ .mypa-highlight, input:checked ~ label.mypa-row-title span.mypa-highlight
-    {
-        color: #<?=$general['select_color']; ?>;
-    }
-    input:checked + label.mypa-checkmark div.mypa-circle, input[name=mypa-delivery-type]:checked + label div.mypa-main div.mypa-circle, input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle,
-    .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle
-    {
-        background-color: #<?=$general['select_color']; ?>;
-    }
+    /* Set select color */
+    <?php $selectColor = $general['select_color'];?>
+    <?php if($selectColor != ''):?>
+
+        input:checked ~ .mypa-highlight, input:checked ~ label.mypa-row-title span.mypa-highlight,
+        .mypa-arrow-clickable:hover
+        {
+            color: #<?=$selectColor; ?>;
+        }
+
+        input:checked + label.mypa-checkmark div.mypa-circle, input[name=mypa-delivery-type]:checked + label div.mypa-main div.mypa-circle, input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle,
+        .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle,
+        input:checked ~ .mypa-price, input:checked ~ span span.mypa-price
+        {
+            background-color: #<?=$selectColor; ?>;
+        }
+
+        .mypa-arrow-clickable:hover::before{
+            border-left: 0.2em solid #<?=$selectColor;?>;
+            border-bottom: 0.2em solid #<?=$selectColor;?>;
+        }
+
     <?php endif;?>
 </style>
-
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:700,400|Exo:700,500" rel="stylesheet" type="text/css">
-
 <div id='mypa-delivery-options-container'>
     <div id="mypa-slider">
         <!-- First frame -->

@@ -33,7 +33,6 @@ input[name=mypa-pickup-option]{
 
 #mypa-delivery-options-container{
     word-wrap: initial;
-    font-family:"Open Sans";
     font-size: 14px;
     display: inline-block;
     overflow: hidden;
