@@ -87,12 +87,6 @@
         if (!((street != null) || (postal_code != null) || (number != null))) {
             return;
         }
-        if (hvoTitle == null) {
-            hvoTitle = settings.hvoTitle;
-        }
-        if (onlyRecipientTitle == null) {
-            onlyRecipientTitle = settings.onlyRecipientTitle;
-        }
 
         $('.mypa-location').html(street + " " + number);
         options = {
@@ -239,7 +233,7 @@
     };
 
     updateDelivery = function(e) {
-        var date, deliveryTimes, html, hvoPrice, i, index, json, len, onlyRecipientPrice, price, time;
+        var date, deliveryTimes, html, hvoPrice, i, index, json, len, onlyRecipientPrice, price, time, onlyRecipientTitle, hvoTitle;
         date = $("#" + ($(e.currentTarget).prop('for')))[0].value;
         $('#mypa-delivery-options').html('');
         html = '';
@@ -266,11 +260,14 @@
         if (onlyRecipientPrice == null) {
             onlyRecipientPrice = 'GRATIS';
         }
+        hvoTitle = window.mypa.settings.hvo_title;
+        onlyRecipientTitle = window.mypa.settings.only_recipient_title;
+        console.log(hvoTitle);
         if (onlyRecipientPrice !== 'disabled') {
-            html += "<label for=\"mypa-only-recipient\" class='mypa-row-subitem'>\n  <input type=\"checkbox\" name=\"mypa-only-recipient\" class=\"mypa-onoffswitch-checkbox\" id=\"mypa-only-recipient\">\n  <div class=\"mypa-switch-container\">\n    <div class=\"mypa-onoffswitch\">\n      <label class=\"mypa-onoffswitch-label\" for=\"mypa-only-recipient\">\n        <span class=\"mypa-onoffswitch-inner\"></span>\n       <span class=\"mypa-onoffswitch-switch\"></span>\n      </label>\n    </div>\n  </div>\n  <span>Niet bij de buren bezorgen<span class='mypa-price'>" + onlyRecipientPrice + "</span></span>\n</label>";
+            html += "<label for=\"mypa-only-recipient\" class='mypa-row-subitem'>\n  <input type=\"checkbox\" name=\"mypa-only-recipient\" class=\"mypa-onoffswitch-checkbox\" id=\"mypa-only-recipient\">\n  <div class=\"mypa-switch-container\">\n    <div class=\"mypa-onoffswitch\">\n      <label class=\"mypa-onoffswitch-label\" for=\"mypa-only-recipient\">\n        <span class=\"mypa-onoffswitch-inner\"></span>\n       <span class=\"mypa-onoffswitch-switch\"></span>\n      </label>\n    </div>\n  </div>\n  <span>" + onlyRecipientTitle + "<span class='mypa-price'>" + onlyRecipientPrice + "</span></span>\n</label>";
         }
         if (hvoPrice !== 'disabled') {
-            html += "<label for=\"mypa-signed\" class='mypa-row-subitem'>\n  <input type=\"checkbox\" name=\"mypa-signed\" class=\"mypa-onoffswitch-checkbox\" id=\"mypa-signed\">\n  <div class=\"mypa-switch-container\">\n    <div class=\"mypa-onoffswitch\">\n      <label class=\"mypa-onoffswitch-label\" for=\"mypa-signed\">\n        <span class=\"mypa-onoffswitch-inner\"></span>\n      <span class=\"mypa-onoffswitch-switch\"></span>\n      </label>\n    </div>\n  </div>\n  <span>Handtekening voor ontvangst<span class='mypa-price'>" + hvoPrice + "</span></span>\n</label>";
+            html += "<label for=\"mypa-signed\" class='mypa-row-subitem'>\n  <input type=\"checkbox\" name=\"mypa-signed\" class=\"mypa-onoffswitch-checkbox\" id=\"mypa-signed\">\n  <div class=\"mypa-switch-container\">\n    <div class=\"mypa-onoffswitch\">\n      <label class=\"mypa-onoffswitch-label\" for=\"mypa-signed\">\n        <span class=\"mypa-onoffswitch-inner\"></span>\n      <span class=\"mypa-onoffswitch-switch\"></span>\n      </label>\n    </div>\n  </div>\n  <span>" + hvoTitle + "<span class='mypa-price'>" + hvoPrice + "</span></span>\n</label>";
         }
         $('#mypa-delivery-options').html(html);
         return $('#mypa-delivery-options .mypa-row-subitem input').on('change', function(e) {

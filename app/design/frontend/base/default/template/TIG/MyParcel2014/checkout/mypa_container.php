@@ -1,15 +1,23 @@
 <style>
     <?php if($general['base_color'] != ''):?>
-    .mypa-delivery-header {
+    .mypa-tab{
+        background-color: #<?=$general['base_color'];?>;
+    }
+    .mypa-delivery-header,
+    .mypa-date:checked+label, .mypa-tab:hover
+    {
         background: #<?=$general['base_color'];?>;
     }
     <?php endif;?>
 
     <?php if($general['select_color'] != ''):?>
-    input:checked ~ .mypa-highlight, input:checked ~ label.mypa-row-title span.mypa-highlight {
+    input:checked ~ .mypa-highlight, input:checked ~ label.mypa-row-title span.mypa-highlight
+    {
         color: #<?=$general['select_color']; ?>;
     }
-    input:checked + label.mypa-checkmark div.mypa-circle, input[name=mypa-delivery-type]:checked + label div.mypa-main div.mypa-circle, input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle, .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle{
+    input:checked + label.mypa-checkmark div.mypa-circle, input[name=mypa-delivery-type]:checked + label div.mypa-main div.mypa-circle, input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle,
+    .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle
+    {
         background-color: #<?=$general['select_color']; ?>;
     }
     <?php endif;?>
@@ -40,7 +48,7 @@
                                 <div class="mypa-checkmark-stem"></div>
                                 <div class="mypa-checkmark-kick"></div>
                             </div>
-                            <span class="mypa-highlight">Thuis of op het werk bezorgd</span>
+                            <span class="mypa-highlight"><?=$delivery['delivery_title'];?></span>
                         </label>
                         <div id='mypa-delivery-options' class='mypa-content-lg'>
                         </div>
@@ -53,7 +61,7 @@
                                 <div class="mypa-checkmark-stem"></div>
                                 <div class="mypa-checkmark-kick"></div>
                             </div>
-                            <span class="mypa-highlight">Ophalen bij een PostNL locatie</span>
+                            <span class="mypa-highlight"><?=$pickup['title'];?></span>
                         </label>
                         <div id='mypa-pickup-options-content' class='mypa-content-lg'>
                             <div>

@@ -133,10 +133,13 @@
             cutoff_time: data.general.cutoffTime,
             dropoff_days: data.general.dropOffDays,
             dropoff_delay: data.general.dropOffDelay,
-            deliverydays_window: data.deliverydaysWindow,
+            deliverydays_window: data.general.deliverydaysWindow,
             // exlude_delivery_type: data.,
 
-            price: price
+            price: price,
+
+            hvo_title: data.delivery.signature_title,
+            only_recipient_title: data.delivery.only_recipient_title
         });
 
         window.mypa.fn.updatePage();
