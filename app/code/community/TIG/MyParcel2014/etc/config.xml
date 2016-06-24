@@ -26,7 +26,7 @@
             </sales>
             <checkout>
                 <rewrite>
-                    <type_onepage>TIG_MyParcel2014_Model_Type_Onepage</type_onepage>
+                    <type_onepage>TIG_MyParcel2014_Model_Type_OnePage</type_onepage>
                 </rewrite>
             </checkout>
         </models>
