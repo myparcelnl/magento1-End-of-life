@@ -257,6 +257,8 @@
                 <cutoff_time>15,30,00</cutoff_time>
                 <dropoff_days>1,2,3,4,5</dropoff_days>
                 <dropoff_delay>0</dropoff_delay>
+                <base_color>01bbc5</base_color>
+                <select_color>3399cc</select_color>
             </checkout>
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>

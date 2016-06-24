@@ -87,6 +87,13 @@
         if (!((street != null) || (postal_code != null) || (number != null))) {
             return;
         }
+        if (hvoTitle == null) {
+            hvoTitle = settings.hvoTitle;
+        }
+        if (onlyRecipientTitle == null) {
+            onlyRecipientTitle = settings.onlyRecipientTitle;
+        }
+
         $('.mypa-location').html(street + " " + number);
         options = {
             url: urlBase,

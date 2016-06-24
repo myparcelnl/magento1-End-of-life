@@ -212,6 +212,7 @@
                         <base_color translate="label" module="tig_myparcel">
                             <label>Base color</label>
                             <frontend_type>text</frontend_type>
+                            <validate>color</validate>
                             <sort_order>170</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -220,6 +221,7 @@
                         <select_color translate="label" module="tig_myparcel">
                             <label>Select color</label>
                             <frontend_type>text</frontend_type>
+                            <validate>color</validate>
                             <sort_order>175</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
