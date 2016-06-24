@@ -23,7 +23,7 @@
             $tableName,
             'myparcel_data',
             array(
-                'type'     => Varien_Db_Ddl_Table::TYPE_VARCHAR,
+                'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
                 'nullable' => true,
                 'default'  => null,
                 'comment'  => 'Checkout MyParcel data',
@@ -36,7 +36,7 @@
             $tableName,
             'myparcel_data',
             array(
-                'type'     => Varien_Db_Ddl_Table::TYPE_VARCHAR,
+                'type'     => Varien_Db_Ddl_Table::TYPE_TEXT,
                 'nullable' => true,
                 'default'  => null,
                 'comment'  => 'Checkout MyParcel data',
