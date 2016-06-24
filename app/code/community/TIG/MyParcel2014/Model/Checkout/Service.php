@@ -43,6 +43,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
      */
     public function saveMyParcelShippingMethod(){
 
+        $helper = Mage::helper('tig_myparcel');
         $request = Mage::app()->getRequest();
         $quote = Mage::getSingleton('checkout/session')->getQuote();
 
@@ -53,6 +54,23 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
             $delivery = json_decode($request->getPost('mypa-delivery-time', ''), true);
 
+            $quote = Mage::getModel('checkout/cart')->getQuote();
+            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
+            $rates = $rates->getAllRates();
+            $rate = $rates[0];
+            $basePrice = (float)$rate->getData('price');
+
+            $price = $basePrice;
+            $priceComment = $delivery['time'][0]['price_comment'];
+
+            switch ($priceComment) {
+                case ('morning'):
+                    $price += (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
+                    break;
+                case ('avond'):
+                    $price += (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
+                    break;
+            }
 
             if ($delivery !== null){
                 /**
@@ -61,11 +79,13 @@ class TIG_MyParcel2014_Model_Checkout_Service
                 $return = $request->getPost('mypa-only-recipient', '') === 'on' ? 1 : false;
                 if ($return) {
                     $delivery['return'] = true;
+                    $price += (float)$helper->getConfig('only_recipient_fee', 'delivery');
                 }
 
                 $signed = $request->getPost('mypa-signed', '') === 'on' ? 1 : false;
                 if ($signed) {
                     $delivery['signed'] = true;
+                    $price += (float)$helper->getConfig('signature_fee', 'delivery');
                 }
 
                 $data = $delivery;

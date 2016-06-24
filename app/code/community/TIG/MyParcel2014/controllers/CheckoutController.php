@@ -39,6 +39,9 @@
  */
 class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Action
 {
+    /**
+     * generate data in json format for checkout
+     */
     public function getInfoAction()
     {
         $quote = Mage::getModel('checkout/cart')->getQuote();
