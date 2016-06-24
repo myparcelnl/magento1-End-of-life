@@ -233,9 +233,9 @@
     };
 
     updateDelivery = function(e) {
-        $('#mypa-back-arrow').bind('click', function() {
+        $('#mypa-back-arrow').off('click').bind('click', function() {
             $('#mypa-location-container').html('');
-            return displayOtherTab();
+            displayOtherTab();
         });
         var date, deliveryTimes, html, hvoPrice, i, index, json, len, onlyRecipientPrice, price, time, onlyRecipientTitle, hvoTitle;
         date = $("#" + ($(e.currentTarget).prop('for')))[0].value;
