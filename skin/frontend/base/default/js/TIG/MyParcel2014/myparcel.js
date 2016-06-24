@@ -233,6 +233,10 @@
     };
 
     updateDelivery = function(e) {
+        $('#mypa-back-arrow').bind('click', function() {
+            $('#mypa-location-container').html('');
+            return displayOtherTab();
+        });
         var date, deliveryTimes, html, hvoPrice, i, index, json, len, onlyRecipientPrice, price, time, onlyRecipientTitle, hvoTitle;
         date = $("#" + ($(e.currentTarget).prop('for')))[0].value;
         $('#mypa-delivery-options').html('');
@@ -262,7 +266,7 @@
         }
         hvoTitle = window.mypa.settings.hvo_title;
         onlyRecipientTitle = window.mypa.settings.only_recipient_title;
-        console.log(hvoTitle);
+
         if (onlyRecipientPrice !== 'disabled') {
             html += "<label for=\"mypa-only-recipient\" class='mypa-row-subitem'>\n  <input type=\"checkbox\" name=\"mypa-only-recipient\" class=\"mypa-onoffswitch-checkbox\" id=\"mypa-only-recipient\">\n  <div class=\"mypa-switch-container\">\n    <div class=\"mypa-onoffswitch\">\n      <label class=\"mypa-onoffswitch-label\" for=\"mypa-only-recipient\">\n        <span class=\"mypa-onoffswitch-inner\"></span>\n       <span class=\"mypa-onoffswitch-switch\"></span>\n      </label>\n    </div>\n  </div>\n  <span>" + onlyRecipientTitle + "<span class='mypa-price'>" + onlyRecipientPrice + "</span></span>\n</label>";
         }
