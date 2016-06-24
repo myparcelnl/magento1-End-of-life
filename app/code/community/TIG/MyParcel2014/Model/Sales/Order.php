@@ -23,22 +23,6 @@
             $helper = Mage::helper('tig_myparcel');
             $usePgAddress = $helper->getConfig('pakjegemak_use_shipment_address') === '1';
 
-            $usePgAddressIn = array(
-                'renderView',               // Detail page customer & Detail page order
-                'printAction',              // print invoice
-                'printPackingSlipAction',   // print packing slip
-                'emailAction',              // Send email
-                'submitAll',                // Submit order
-            );
-            $parentFunctions = debug_backtrace();
-
-            if (
-                !in_array($parentFunctions[3]['function'], $usePgAddressIn) &&
-                !in_array($parentFunctions[11]['function'], $usePgAddressIn))
-            {
-                $usePgAddress = false;
-            }
-
             $pgAddress = false;
             $shippingAddress = false;
 
