@@ -61,18 +61,19 @@ class TIG_MyParcel2014_Model_Checkout_Service
             $basePrice = (float)$rate->getData('price');
 
             $price = $basePrice;
-            $priceComment = $delivery['time'][0]['price_comment'];
-
-            switch ($priceComment) {
-                case ('morning'):
-                    $price += (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
-                    break;
-                case ('avond'):
-                    $price += (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
-                    break;
-            }
 
             if ($delivery !== null){
+
+                $priceComment = $delivery['time'][0]['price_comment'];
+                switch ($priceComment) {
+                    case ('morning'):
+                        $price += (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
+                        break;
+                    case ('avond'):
+                        $price += (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
+                        break;
+                }
+
                 /**
                  * not pickup
                  */
@@ -90,6 +91,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
                 $data = $delivery;
                 $this->removePgAddress($quote);
+
             } else {
                 /**
                  * is pickup
