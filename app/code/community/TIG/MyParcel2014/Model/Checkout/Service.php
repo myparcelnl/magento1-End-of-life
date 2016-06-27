@@ -1,4 +1,5 @@
 <?php
+
 /**
  *                  ___________       __            __
  *                  \__    ___/____ _/  |_ _____   |  |
@@ -41,7 +42,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
     /**
      * Save in checkout MyParcel shipping method
      */
-    public function saveMyParcelShippingMethod(){
+    public function saveMyParcelShippingMethod()
+    {
 
         $helper = Mage::helper('tig_myparcel');
         $request = Mage::app()->getRequest();
@@ -52,9 +54,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
          */
         if ($request->isPost() && strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
-            if($request->getPost('mypa-delivery-time') == null) {
+            if ($request->getPost('mypa-delivery-time') == null)
                 return false;
-            }
 
             $delivery = json_decode($request->getPost('mypa-delivery-time', ''), true);
 
@@ -66,7 +67,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
             $price = $basePrice;
 
-            if ($delivery !== null){
+            if ($delivery !== null) {
 
                 $priceComment = $delivery['time'][0]['price_comment'];
                 switch ($priceComment) {
@@ -97,7 +98,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
                 $this->removePgAddress($quote);
 
             } else {
-                if($request->getPost('mypa-pickup-option') == null)
+                if ($request->getPost('mypa-pickup-option') == null)
                     return false;
 
                 /**
@@ -136,20 +137,20 @@ class TIG_MyParcel2014_Model_Checkout_Service
          */
         $pgAddress = Mage::getModel('sales/quote_address');
         $pgAddress->setAddressType($helper::PG_ADDRESS_TYPE)
-                  ->setCity($data['city'])
-                  ->setCountryId('NL')
-                  ->setPostcode($data['postal_code'])
-                  ->setCompany($data['location'])
-                  ->setFirstname('Ophalen op een PostNL locatie')
-                  ->setLastname('')
-                  ->setTelephone($data['phone_number'])
-                  ->setStreet($data['street'] . "\n" . $data['number']);
+            ->setCity($data['city'])
+            ->setCountryId('NL')
+            ->setPostcode($data['postal_code'])
+            ->setCompany($data['location'])
+            ->setFirstname('Ophalen op een PostNL locatie')
+            ->setLastname('')
+            ->setTelephone($data['phone_number'])
+            ->setStreet($data['street'] . "\n" . $data['number']);
 
         /**
          * Add the address to the quote and save the quote.
          */
         $quote->addAddress($pgAddress)
-              ->save();
+            ->save();
 
         /**
          * Save the address.
@@ -198,7 +199,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $orderAddress = Mage::getModel('sales/convert_quote')->addressToOrderAddress($address);
 
         $order->addAddress($orderAddress)
-              ->save();
+            ->save();
 
         /**
          * This is a fix for the order address missing a parent ID.
