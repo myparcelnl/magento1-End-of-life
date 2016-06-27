@@ -102,6 +102,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
                  * is pickup
                  */
                 $data = json_decode($request->getPost('mypa-pickup-option', ''), true);
+                var_dump($data['price_comment']);
+                exit;
 
                 $this->savePgAddress($data, $quote);
             }

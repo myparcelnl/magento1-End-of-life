@@ -39,4 +39,14 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
             }
         }
     }
+
+    private function calculatePrice($quote)
+    {
+        $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
+        $rates = $rates->getAllRates();
+        $rate = $rates[0];
+        $price = (float)$rate->getData('price');
+
+
+    }
 }
