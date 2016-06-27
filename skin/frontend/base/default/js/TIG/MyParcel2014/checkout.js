@@ -13,11 +13,8 @@
  * @since       File available since Release 1.6.0
  */
 (function () {
-    var $, myParcelObserver, load, actionObservers, info;
-
-    $ = jQuery.noConflict();
-
-    var observer = {
+    var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData,
+    observer = {
         subItem: "label.mypa-row-subitem",
         deliveryDate: "input:radio[name='mypa-date']",
         deliveryType: "input:radio[name='mypa-delivery-type']",
@@ -28,8 +25,11 @@
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
         postalCode: "input[id='shipping:postcode']",
         street1: "input[id='shipping:street1']",
-        street2: "input[id='shipping:street2']"
+        street2: "input[id='shipping:street2']",
+        country: "select[id='shipping:country_id']"
     };
+
+    $ = jQuery.noConflict();
 
     $.extend(window.mypa.settings, {
         postal_code: 'holder',
@@ -74,17 +74,80 @@
 
     load = function () {
         $('#checkout-shipping-method-load').before(info.container);
-        $('#mypa-slider').addClass('no-display');
+        $('#mypa-slider').hide();
         actionObservers();
     };
 
     actionObservers = function () {
 
-        var fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes;
-        /**
-         * If method is MyParcel
-         */
-        // Start update postcode
+        updateCountry();
+        getData();
+
+        window.mypa.settings = $.extend(window.mypa.settings, {
+            postal_code: $(observer.postalCode).val(),
+            street: streetParts[1],
+            number: streetParts[2],
+            cutoff_time: data.general.cutoffTime,
+            dropoff_days: data.general.dropOffDays,
+            dropoff_delay: data.general.dropOffDelay,
+            deliverydays_window: data.general.deliverydaysWindow,
+            exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
+            price: price,
+            hvo_title: data.delivery.signature_title,
+            only_recipient_title: data.delivery.only_recipient_title
+        });
+
+            $.when(
+                window.mypa.fn.updatePage()
+            ).done(function () {
+
+                $('#mypa-slider').show();
+                $('#mypa-load').hide();
+
+                /**
+                 * If address is change
+                 */
+                $([
+                    observer.postalCode,
+                    observer.street1,
+                    observer.street2,
+                    observer.country
+                ].join()).off('change').on('change', function () {
+                    actionObservers();
+                });
+
+                /**
+                 * Update when shipping method shown
+                 */
+                $(observer.magentoMethodMyParcel).closest('form').off('move').mouseover(function () {
+                    updateCountry();
+                });
+
+                /**
+                 * If method is MyParcel
+                 */
+                $([
+                    observer.subItem
+                ].join()).off('change').on('click', function () {
+                    $(observer.magentoMethodMyParcel)[0].checked = true;
+                });
+
+                /**
+                 * If method not is MyParcel
+                 */
+                $(observer.magentoMethods).off('change').on('change', function () {
+                    if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
+                        $(observer.deliveryType + ':checked')[0].checked = false;
+                        $(observer.deliveryTime + ':checked')[0].checked = false;
+                    }
+                });
+
+            });
+    };
+
+
+    getData = function () {
+
         objRegExp = /(.*?)\s?(([\d]+)-?([a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$/;
         fullStreet = $(observer.street1).val();
         if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != '') {
@@ -139,62 +202,19 @@
         if(data.pickupExpress['active'] == false) {
             excludeDeliveryTypes.push('5');
         }
-
-        window.mypa.settings = $.extend(window.mypa.settings, {
-            postal_code: $(observer.postalCode).val(),
-            street: streetParts[1],
-            number: streetParts[2],
-            cutoff_time: data.general.cutoffTime,
-            dropoff_days: data.general.dropOffDays,
-            dropoff_delay: data.general.dropOffDelay,
-            deliverydays_window: data.general.deliverydaysWindow,
-            exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
-            price: price,
-            hvo_title: data.delivery.signature_title,
-            only_recipient_title: data.delivery.only_recipient_title
-        });
-
-        // End update postcode
-        $.when(
-            window.mypa.fn.updatePage()
-
-        ).done(function() {
-
-            $('#mypa-slider').removeClass('no-display');
-            $('#mypa-load').addClass('no-display');
-
-            /**
-             * If address is change
-             */
-            $([
-                observer.postalCode,
-                observer.street1,
-                observer.street2
-            ].join()).off('change').on('change', function () {
-                actionObservers();
-            });
-
-            /**
-             * If method is MyParcel
-             */
-            $([
-                observer.subItem
-            ].join()).off('change').on('click', function () {
-                console.log('mp');
-                $(observer.magentoMethodMyParcel)[0].checked = true;
-            });
-
-            /**
-             * If method not is MyParcel
-             */
-            $(observer.magentoMethods).off('change').on('change', function () {
-                console.log('n mp');
-                $(observer.deliveryType + ':checked')[0].checked = false;
-                $(observer.deliveryTime + ':checked')[0].checked = false;
-            });
-
-        });
     };
+
+    updateCountry = function () {
+        var country = $(observer.country).val();
+        console.log(country);
+        if (country == 'NL') {
+            $('#mypa-delivery-options-container').show();
+            $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
+        } else {
+            $('#mypa-delivery-options-container').hide();
+            $(observer.magentoMethodMyParcel).closest( "dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
+        }
+    }
 
 
 }).call(this);
