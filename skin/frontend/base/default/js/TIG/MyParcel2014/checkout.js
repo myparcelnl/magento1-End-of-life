@@ -18,6 +18,7 @@
     $ = jQuery.noConflict();
 
     var observer = {
+        subItem: "label.mypa-row-subitem",
         deliveryDate: "input:radio[name='mypa-date']",
         deliveryType: "input:radio[name='mypa-delivery-type']",
         deliveryTime: "input:radio[name='mypa-delivery-time']",
@@ -41,7 +42,7 @@
      *  Set up the mutation observer
      */
     myParcelObserver = new MutationObserver(function (mutations, me) {
-        var canvasFlat2 = document.getElementById('s_method_myparcel_flatrate');
+        var canvasFlat = document.getElementById('s_method_myparcel_flatrate');
         var canvasTable = document.getElementById('s_method_myparcel_tablerate');
         if (canvasFlat || canvasTable) {
             $(document).ready(
@@ -78,7 +79,7 @@
 
     actionObservers = function () {
 
-        var fullStreet, objRegExp, streetParts, price, data, delivery_types;
+        var fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes;
         /**
          * If method is MyParcel
          */
@@ -151,40 +152,41 @@
             hvo_title: data.delivery.signature_title,
             only_recipient_title: data.delivery.only_recipient_title
         });
-        console.log(window.mypa.settings);
 
-        window.mypa.fn.updatePage();
         // End update postcode
+        $.when( window.mypa.fn.updatePage() ).done(function() {
 
-        $(observer.magentoMethodMyParcel)[0].checked = true;
 
-        /**
-         * If address is change
-         */
-        $([
-            observer.postalCode,
-            observer.street1,
-            observer.street2
-        ].join()).off('change').on('change', function () {
-            actionObservers();
-        });
+            /**
+             * If address is change
+             */
+            $([
+                observer.postalCode,
+                observer.street1,
+                observer.street2
+            ].join()).off('change').on('change', function () {
+                actionObservers();
+            });
 
-        /**
-         * If method is MyParcel
-         */
-        $([
-            observer.deliveryType,
-            observer.pickupType
-        ].join()).off('change').on('change', function () {
-            $(observer.magentoMethodMyParcel)[0].checked = true;
-        });
+            /**
+             * If method is MyParcel
+             */
+            $([
+                observer.subItem
+            ].join()).off('change').on('click', function () {
+                console.log('mp');
+                $(observer.magentoMethodMyParcel)[0].checked = true;
+            });
 
-        /**
-         * If method not is MyParcel
-         */
-        $(observer.magentoMethods).off('change').on('change', function () {
-            console.log('n mp');
-            $(observer.deliveryType + ':checked')[0].checked = false;
+            /**
+             * If method not is MyParcel
+             */
+            $(observer.magentoMethods).off('change').on('change', function () {
+                console.log('n mp');
+                $(observer.deliveryType + ':checked')[0].checked = false;
+                $(observer.deliveryTime + ':checked')[0].checked = false;
+            });
+
         });
     };
 
