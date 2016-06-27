@@ -70,13 +70,10 @@ class TIG_MyParcel2014_Model_Checkout_Service
             if ($delivery !== null) {
 
                 $priceComment = $delivery['time'][0]['price_comment'];
-                switch ($priceComment) {
-                    case ('morning'):
-                        $price += (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
-                        break;
-                    case ('avond'):
-                        $price += (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
-                        break;
+                if ($priceComment == 'morning') {
+                    $price += (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
+                } elseif ($priceComment == 'avond') {
+                    $price += (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
                 }
 
                 /**
@@ -105,6 +102,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
                  * is pickup
                  */
                 $data = json_decode($request->getPost('mypa-pickup-option', ''), true);
+
                 $this->savePgAddress($data, $quote);
             }
 

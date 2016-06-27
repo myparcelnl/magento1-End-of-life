@@ -56,6 +56,15 @@
         </resources>
         <!-- use <fieldsets></fieldsets>  for udpate from chechout -->
         <events>
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <your_module>
+                        <type>singleton</type>
+                        <class>tig_myparcel/observer_savePrice</class>
+                        <method>salesQuoteCollectTotalsBefore</method>
+                    </your_module>
+                </observers>
+            </sales_quote_collect_totals_before>
             <sales_order_shipment_save_after>
                 <observers>
                     <tig_myparcel_shipment_save_after>
