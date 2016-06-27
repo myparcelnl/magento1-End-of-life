@@ -52,6 +52,10 @@ class TIG_MyParcel2014_Model_Checkout_Service
          */
         if ($request->isPost() && strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
+            if($request->getPost('mypa-delivery-time') == null) {
+                return false;
+            }
+
             $delivery = json_decode($request->getPost('mypa-delivery-time', ''), true);
 
             $quote = Mage::getModel('checkout/cart')->getQuote();
@@ -93,6 +97,9 @@ class TIG_MyParcel2014_Model_Checkout_Service
                 $this->removePgAddress($quote);
 
             } else {
+                if($request->getPost('mypa-pickup-option') == null)
+                    return false;
+
                 /**
                  * is pickup
                  */
@@ -106,6 +113,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
             $quote->setMyparcelData(null)->save();
             $this->removePgAddress(json_encode($quote));
         }
+        return;
     }
 
     /**
