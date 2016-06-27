@@ -39,6 +39,13 @@
  */
 -->
 <layout version="0.1.0">
+    <default>
+        <reference name="before_body_end">
+            <block type="core/template" name="myparcel_checkout_base_url"
+                   template="TIG/MyParcel2014/checkout/baseUrl.phtml"/>
+        </reference>
+    </default>
+
     <checkout_onepage_index>
         <reference name="head">
             <action method="addItem">
