@@ -55,7 +55,7 @@
     $(document).ready(
         function () {
             var ajaxOptions = {
-                url: 'http://127.0.0.1/magento/index.php/myparcel2014/checkout/getInfo/',
+                url: 'http://127.0.0.1/magento/index.php/myparcel2014/checkout/info/',
                 success: function (response) {
                     info = response;
 
