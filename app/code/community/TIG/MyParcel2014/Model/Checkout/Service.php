@@ -114,7 +114,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
             $quote->setMyparcelData(null)->save();
             $this->removePgAddress(json_encode($quote));
         }
-        return;
+        return true;
     }
 
     /**
