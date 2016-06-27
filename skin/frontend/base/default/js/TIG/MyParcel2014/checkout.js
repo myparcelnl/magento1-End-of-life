@@ -74,6 +74,7 @@
 
     load = function () {
         $('#checkout-shipping-method-load').before(info.container);
+        $('#mypa-slider').addClass('no-display');
         actionObservers();
     };
 
@@ -154,8 +155,13 @@
         });
 
         // End update postcode
-        $.when( window.mypa.fn.updatePage() ).done(function() {
+        $.when(
+            window.mypa.fn.updatePage()
 
+        ).done(function() {
+
+            $('#mypa-slider').removeClass('no-display');
+            $('#mypa-load').addClass('no-display');
 
             /**
              * If address is change
