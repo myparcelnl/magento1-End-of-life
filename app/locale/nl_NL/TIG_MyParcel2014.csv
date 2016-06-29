@@ -38,7 +38,8 @@ TIG_MyParcel2014::Enable to test the extension,Activeer om test verzendingen te 
 TIG_MyParcel2014::Enable Myparcel Extension,Activeer MyParcel extensie
 TIG_MyParcel2014::Enable or disable the MyParcel module.,Activeer of deactiveer de MyParcel extensie
 TIG_MyParcel2014::Selecting 'No' will overrule all individual settings.,"Wanneer ""nee"" is geselecteerd worden alle individuele instellingen overruled."
-TIG_MyParcel2014::General Settings,Algemene instellingen
+TIG_MyParcel2014::General settings,Algemene instellingen
+TIG_MyParcel2014::Checkout settings,Checkout instellingen
 TIG_MyParcel2014::API Key,API Key
 TIG_MyParcel2014::The API Key given by MyParcel.,Stel hier de API key in die is ontvangen vanuit MyParcel
 TIG_MyParcel2014::API Username,API Gebruikersnaam
