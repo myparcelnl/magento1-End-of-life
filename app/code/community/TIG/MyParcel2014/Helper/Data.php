@@ -1072,4 +1072,75 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
             return false;
         }
     }
+
+    /**
+     * Update rate price in the checkout
+     *
+     * TIG_MyParcel2014_Model_Observer_SavePrice::salesQuoteCollectTotalsBefore() also ensures that the price will be adjusted at checkout
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     *
+     * @throws Exception
+     */
+    public function updateRatePrice(Mage_Sales_Model_Quote $quote)
+    {
+        /**
+         * @var $rate Mage_Sales_Model_Quote_Address_Rate
+         */
+        $shipAddress = $quote->getShippingAddress();
+
+        foreach ($shipAddress->getShippingRatesCollection() as $rate) {
+            if ($rate->getCarrier() == 'myparcel') {
+                $code = $rate->getData('code');
+            }
+        }
+        if ($code) {
+            $oRate = $shipAddress->getShippingRateByCode($code);
+            $oRate->setPrice($this->calculatePrice($quote));
+            $oRate->save();
+        }
+    }
+
+    /**
+     * Get the price of the chosen options in the checkout
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     *
+     * @return float
+     * @throws TIG_MyParcel2014_Exception
+     */
+    public function calculatePrice(Mage_Sales_Model_Quote $quote)
+    {
+        $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
+        $rates = $rates->getAllRates();
+        $rate = $rates[0];
+        $price = (float)$rate->getData('price');
+
+        $data = json_decode($quote->getMyparcelData(), true);
+
+        /**
+         * If shipping method is delivery else shipping method is pickup
+         */
+        if ($data['time'][0]['price_comment'] !== null) {
+            $priceComment = $data['time'][0]['price_comment'];
+            if ($priceComment == 'morning') {
+                $price += (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
+            } elseif ($priceComment == 'avond') {
+                $price += (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
+            }
+            if ($data['home_address_only'] === true)
+                $price += (float)$this->getConfig('only_recipient_fee', 'delivery');
+
+            if ($data['signed'] === true)
+                $price += (float)$this->getConfig('signature_fee', 'delivery');
+
+        } else {
+            if($data['price_comment'] == 'retail') {
+                $price += (float)$this->getConfig('pickup_fee', 'pickup');
+            } elseif ($data['price_comment'] == 'retailexpress') {
+                $price += (float)$this->getConfig('pickup_express_fee', 'pickup_express');
+            }
+        }
+        return $price;
+    }
 }

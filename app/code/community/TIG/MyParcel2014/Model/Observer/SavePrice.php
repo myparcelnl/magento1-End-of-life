@@ -1,4 +1,5 @@
 <?php
+
 /**
  * NOTICE OF LICENSE
  *
@@ -14,39 +15,36 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
 {
 
     /**
+     * Update rate price in the checkout
+     *
+     * TIG_MyParcel2014_Helper_Data::updateRatePrice() also ensures that the price will be adjusted at checkout
+     *
      * @param Varien_Event_Observer $observer
      *
      * @return $this
      */
     public function salesQuoteCollectTotalsBefore(Varien_Event_Observer $observer)
     {
-        /** @var Mage_Sales_Model_Quote $quote */
+
+        $helper = Mage::helper('tig_myparcel');
+        /**
+         * @var Mage_Sales_Model_Quote $quote
+         */
         $quote = $observer->getQuote();
+        if ($quote->getMyparcelData() !== null) {
+            $store = Mage::app()->getStore($quote->getStoreId());
+            $carriers = Mage::getStoreConfig('carriers', $store);
+            $newHandlingFee = $helper->calculatePrice($quote);
 
+            foreach ($carriers as $carrierCode => $carrierConfig) {
+                if ($carrierCode == 'myparcel') {
+                    $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
+                    $store->setConfig("carriers/{$carrierCode}/handling_fee", $newHandlingFee);
 
-
-
-        $newHandlingFee = 15;
-        $store    = Mage::app()->getStore($quote->getStoreId());
-        $carriers = Mage::getStoreConfig('carriers', $store);
-        foreach ($carriers as $carrierCode => $carrierConfig) {
-            if($carrierCode == 'myparcel'){
-                $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
-                $store->setConfig("carriers/{$carrierCode}/handling_fee", $newHandlingFee);
-
-                ###If you want to set the price instead of handling fee you can simply use as:
-                #$store->setConfig("carriers/{$carrierCode}/price", $newPrice);
+                    ###If you want to set the price instead of handling fee you can simply use as:
+                    #$store->setConfig("carriers/{$carrierCode}/price", $newPrice);
+                }
             }
         }
-    }
-
-    private function calculatePrice($quote)
-    {
-        $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
-        $rates = $rates->getAllRates();
-        $rate = $rates[0];
-        $price = (float)$rate->getData('price');
-
-
     }
 }

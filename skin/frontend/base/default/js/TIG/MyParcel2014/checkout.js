@@ -206,7 +206,6 @@
 
     updateCountry = function () {
         var country = $(observer.country).val();
-        console.log(country);
         if (country == 'NL') {
             $('#mypa-delivery-options-container').show();
             $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');

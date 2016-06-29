@@ -44,10 +44,9 @@ class TIG_MyParcel2014_Model_Checkout_Service
      */
     public function saveMyParcelShippingMethod()
     {
-
-        $helper = Mage::helper('tig_myparcel');
         $request = Mage::app()->getRequest();
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        $helper = Mage::helper('tig_myparcel');
+        $quote = Mage::getModel('checkout/cart')->getQuote();
 
         /**
          * If shipping method is myparcel
@@ -59,22 +58,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
             $delivery = json_decode($request->getPost('mypa-delivery-time', ''), true);
 
-            $quote = Mage::getModel('checkout/cart')->getQuote();
-            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
-            $rates = $rates->getAllRates();
-            $rate = $rates[0];
-            $basePrice = (float)$rate->getData('price');
-
-            $price = $basePrice;
-
             if ($delivery !== null) {
-
-                $priceComment = $delivery['time'][0]['price_comment'];
-                if ($priceComment == 'morning') {
-                    $price += (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
-                } elseif ($priceComment == 'avond') {
-                    $price += (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
-                }
 
                 /**
                  * not pickup
@@ -82,13 +66,11 @@ class TIG_MyParcel2014_Model_Checkout_Service
                 $return = $request->getPost('mypa-only-recipient', '') === 'on' ? 1 : false;
                 if ($return) {
                     $delivery['home_address_only'] = true;
-                    $price += (float)$helper->getConfig('only_recipient_fee', 'delivery');
                 }
 
                 $signed = $request->getPost('mypa-signed', '') === 'on' ? 1 : false;
                 if ($signed) {
                     $delivery['signed'] = true;
-                    $price += (float)$helper->getConfig('signature_fee', 'delivery');
                 }
 
                 $data = $delivery;
@@ -102,13 +84,11 @@ class TIG_MyParcel2014_Model_Checkout_Service
                  * is pickup
                  */
                 $data = json_decode($request->getPost('mypa-pickup-option', ''), true);
-                var_dump($data['price_comment']);
-                exit;
-
                 $this->savePgAddress($data, $quote);
             }
 
             $quote->setMyparcelData(json_encode($data))->save();
+            $helper->updateRatePrice($quote);
 
         } else {
             $quote->setMyparcelData(null)->save();
