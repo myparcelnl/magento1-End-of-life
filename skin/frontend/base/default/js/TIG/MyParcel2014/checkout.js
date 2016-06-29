@@ -80,69 +80,74 @@
 
     actionObservers = function () {
 
-        updateCountry();
-        getData();
-
-        window.mypa.settings = $.extend(window.mypa.settings, {
-            postal_code: $(observer.postalCode).val(),
-            street: streetParts[1],
-            number: streetParts[2],
-            cutoff_time: data.general.cutoffTime,
-            dropoff_days: data.general.dropOffDays,
-            dropoff_delay: data.general.dropOffDelay,
-            deliverydays_window: data.general.deliverydaysWindow,
-            exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
-            price: price,
-            hvo_title: data.delivery.signature_title,
-            only_recipient_title: data.delivery.only_recipient_title
+        /**
+         * If address is change
+         */
+        $([
+            observer.postalCode,
+            observer.street1,
+            observer.street2,
+            observer.country
+        ].join()).off('change').on('change', function () {
+            actionObservers();
         });
 
-            $.when(
-                window.mypa.fn.updatePage()
-            ).done(function () {
+        updateCountry();
+        if($(observer.country).val() == 'NL') {
+            getData();
 
-                $('#mypa-slider').show();
-                $('#mypa-load').hide();
+            if(streetParts !== null) {
 
-                /**
-                 * If address is change
-                 */
-                $([
-                    observer.postalCode,
-                    observer.street1,
-                    observer.street2,
-                    observer.country
-                ].join()).off('change').on('change', function () {
-                    actionObservers();
+                window.mypa.settings = $.extend(window.mypa.settings, {
+                    postal_code: $(observer.postalCode).val(),
+                    street: streetParts[1],
+                    number: streetParts[2],
+                    cutoff_time: data.general.cutoffTime,
+                    dropoff_days: data.general.dropOffDays,
+                    dropoff_delay: data.general.dropOffDelay,
+                    deliverydays_window: data.general.deliverydaysWindow,
+                    exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
+                    price: price,
+                    hvo_title: data.delivery.signature_title,
+                    only_recipient_title: data.delivery.only_recipient_title
                 });
 
-                /**
-                 * Update when shipping method shown
-                 */
-                $(observer.magentoMethodMyParcel).closest('form').off('move').mouseover(function () {
-                    updateCountry();
-                });
+                $.when(
+                    window.mypa.fn.updatePage()
+                ).done(function () {
 
-                /**
-                 * If method is MyParcel
-                 */
-                $([
-                    observer.subItem
-                ].join()).off('change').on('click', function () {
-                    $(observer.magentoMethodMyParcel)[0].checked = true;
-                });
+                    $('#mypa-slider').show();
+                    $('#mypa-load').hide();
 
-                /**
-                 * If method not is MyParcel
-                 */
-                $(observer.magentoMethods).off('change').on('change', function () {
-                    if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
-                        $(observer.deliveryType + ':checked')[0].checked = false;
-                        $(observer.deliveryTime + ':checked')[0].checked = false;
-                    }
-                });
+                    /**
+                     * Update when shipping method shown
+                     */
+                    $(observer.magentoMethodMyParcel).closest('form').off('move').mouseover(function () {
+                        updateCountry();
+                    });
 
-            });
+                    /**
+                     * If method is MyParcel
+                     */
+                    $([
+                        observer.subItem
+                    ].join()).off('change').on('click', function () {
+                        $(observer.magentoMethodMyParcel)[0].checked = true;
+                    });
+
+                    /**
+                     * If method not is MyParcel
+                     */
+                    $(observer.magentoMethods).off('change').on('change', function () {
+                        if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
+                            $(observer.deliveryType + ':checked')[0].checked = false;
+                            $(observer.deliveryTime + ':checked')[0].checked = false;
+                        }
+                    });
+
+                });
+            }
+        }
     };
 
 
@@ -154,6 +159,10 @@
             fullStreet += ' ' + $(observer.street2).val()
         }
         streetParts = fullStreet.match(objRegExp);
+
+        if(streetParts === null) {
+            alert('Huisnummer is niet aanwezig. Controleer uw gegevens en probeer het opnieuw.')
+        }
 
         data = info.data;
 
