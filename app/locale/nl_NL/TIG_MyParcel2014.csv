@@ -14,7 +14,7 @@ TIG_MyParcel2014::Ship to Specific Countries,Verzend naar specifieke landen
 TIG_MyParcel2014::Sort Order,Sorteer bestelling
 TIG_MyParcel2014::Default Shipment Settings,Standaard verzend instellingen
 TIG_MyParcel2014::Home address only,Alleen huisadres
-TIG_MyParcel2014::Signature on receipt,Handtekening bij ontvangst
+TIG_MyParcel2014::Signature on receipt,Handtekening voor ontvangst
 TIG_MyParcel2014::Return if no answer,Retour bij niet aanwezig
 TIG_MyParcel2014::Large package,Groot pakket
 TIG_MyParcel2014::Insured up to &euro; 50,Verzekerd tot &euro; 50
@@ -40,7 +40,43 @@ TIG_MyParcel2014::Enable or disable the MyParcel module.,Activeer of deactiveer 
 TIG_MyParcel2014::Selecting 'No' will overrule all individual settings.,"Wanneer ""nee"" is geselecteerd worden alle individuele instellingen overruled."
 TIG_MyParcel2014::General settings,Algemene instellingen
 TIG_MyParcel2014::Checkout settings,Checkout instellingen
-TIG_MyParcel2014::API Key,API Key
+TIG_MyParcel2014::Cut-off time,Het laatste bestelmoment
+"TIG_MyParcel2014::If a request is made for the delivery options between Friday after, and Monday before, cut-off time then Tuesday will be shown as the next possible delivery date.","Indien een verzoek is gemaakt voor de levering opties tussen vrijdag na, en maandag voor, het aflevermoment dan zal dinsdag worden getoond als de volgende mogelijke leverdatum."
+TIG_MyParcel2014::Numbers of days,Aantal dagen
+TIG_MyParcel2014::day,dag
+TIG_MyParcel2014::days,dagen
+TIG_MyParcel2014::Drop-off days,Afleverdagen
+"TIG_MyParcel2014::Saturday, Sunday, Monday","Zaterdag, zondag, maandag"
+TIG_MyParcel2014::Tuesday,Dinsdag
+TIG_MyParcel2014::Wednesday,Woensdag
+TIG_MyParcel2014::Thursday,Donderdag
+TIG_MyParcel2014::Friday,Vrijdag
+TIG_MyParcel2014::Dropoff-delay,Vertraging
+"TIG_MyParcel2014::This options allows you to set the number of days it takes you to pick, pack and hand in your parcels at PostNL when ordered before the cutoff time.","Hiermee kan je het aantal dagen dat het duurt voordat je het product ontvangt, verpakt en aanbied bij PostNL wanneer de bestelling is gemaakt voor het laatste bestelmoment."
+TIG_MyParcel2014::No delay,Geen vertraging
+TIG_MyParcel2014::Base color,Basis kleur
+TIG_MyParcel2014::Color for selected items,Kleur voor geselecteerde items
+TIG_MyParcel2014::Delivery,Bezorging
+TIG_MyParcel2014::To determine the base price you have to navigate in the menu to Shipping Methods.,Om de basisprijs te bepalen moet je navigeren naar Verzendmethodes
+TIG_MyParcel2014::Deliver the package only at address of the intended recipient,Lever het pakket alleen aan het adres van de beoogde ontvanger.
+TIG_MyParcel2014::Home address only title,Alleen huisadres titel
+TIG_MyParcel2014::Home address only fee,Alleen huisadres prijs
+TIG_MyParcel2014::Signature on receipt title,Handtekening voor ontvangst titel
+TIG_MyParcel2014::Signature on receipt fee,Handtekening voor ontvangst prijs
+TIG_MyParcel2014::Morning delivery,Ochtendlevering
+TIG_MyParcel2014::Morning delivery active,Ochtendlevering actief
+TIG_MyParcel2014::Morning delivery fee,Ochtendlevering prijs
+TIG_MyParcel2014::Evening delivery,Avondlevering
+TIG_MyParcel2014::Evening delivery active,Avondlevering actief
+TIG_MyParcel2014::Evening delivery fee,Avondlevering prijs
+TIG_MyParcel2014::Pickup,Ophalen
+TIG_MyParcel2014::Pickup active,Ophalen actief
+TIG_MyParcel2014::Pickup title,Ophalen titel
+TIG_MyParcel2014::Pickup fee,Ophalen prijs
+TIG_MyParcel2014::Pickup Express,Extra vroeg ophalen
+TIG_MyParcel2014::Pickup Express active,Extra vroeg ophalen actief
+TIG_MyParcel2014::Pickup Express fee,Extra vroeg ophalen prijs
+TIG_MyParcel2014::API Key,API Key,
 TIG_MyParcel2014::The API Key given by MyParcel.,Stel hier de API key in die is ontvangen vanuit MyParcel
 TIG_MyParcel2014::API Username,API Gebruikersnaam
 TIG_MyParcel2014::Your MyParcel username.,Vul hier de gebruikersnaam in voor het MyParcel platform

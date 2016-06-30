@@ -170,24 +170,25 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <cutoff_time translate="label">
-                            <label>Cut-off time</label>
-                            <frontend_type>time</frontend_type>
+                        <deliverydays_window translate="label" module="tig_myparcel">
+                            <label>Numbers of days</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_windowDays</source_model>
                             <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </deliverydays_window>
+                        <cutoff_time translate="label comment">
+                            <label>Cut-off time</label>
+                            <comment>If a request is made for the delivery options between Friday after, and Monday before, cut-off time then Tuesday will be shown as the next possible delivery date.</comment>
+                            <frontend_type>time</frontend_type>
+                            <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <validate>validate-select</validate>
                         </cutoff_time>
-                        <deliverydays_window translate="label" module="tig_myparcel">
-                            <label>Numbers of days</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_windowDays</source_model>
-                            <sort_order>120</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </deliverydays_window>
                         <dropoff_days translate="label">
                             <label>Drop-off days</label>
                             <comment><![CDATA[<style>#tig_myparcel_checkout_dropoff_days {height: 109px}</style>]]></comment>
@@ -199,11 +200,11 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </dropoff_days>
-                        <dropoff_delay translate="label" module="tig_myparcel">
+                        <dropoff_delay translate="label comment" module="tig_myparcel">
                             <label>Dropoff-delay</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_delayDays</source_model>
-                            <comment>This options allows the Merchant to set the number of days it takes her to pick, pack and hand in her parcels at PostNL when ordered before the cutoff time.</comment>
+                            <comment>This options allows you to set the number of days it takes you to pick, pack and hand in your parcels at PostNL when ordered before the cutoff time.</comment>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -219,7 +220,7 @@
                             <show_in_store>1</show_in_store>
                         </base_color>
                         <select_color translate="label" module="tig_myparcel">
-                            <label>Select color</label>
+                            <label>Color for selected items</label>
                             <frontend_type>text</frontend_type>
                             <validate>color</validate>
                             <sort_order>175</sort_order>
@@ -231,6 +232,7 @@
                 </checkout>
                 <delivery translate="label comment" module="tig_myparcel">
                     <label>Delivery</label>
+                    <comment>To determine the base price you have to navigate in the menu to Shipping Methods.</comment>
                     <sort_order>25</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -281,7 +283,6 @@
                         </only_recipient_fee>
                         <signature_active translate="label" module="tig_myparcel">
                             <label>Signature on receipt</label>
-                            <comment>Signature on receipt for the package.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
                             <sort_order>190</sort_order>
@@ -451,7 +452,7 @@
                             <show_in_store>1</show_in_store>
                         </pickup_active>
                         <pickup_title translate="label" module="tig_myparcel">
-                            <label>Title</label>
+                            <label>Pickup title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>105</sort_order>
                             <show_in_default>1</show_in_default>
