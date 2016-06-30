@@ -809,3 +809,4 @@ skin/frontend/base/default/css/iwd/*
 app/design/frontend/base/default/layout/iwd_opc.xml
 
 app/design/adminhtml/default/default/layout/iwd_opc.xml
+/app/design/frontend/base/default/template/iwd/
