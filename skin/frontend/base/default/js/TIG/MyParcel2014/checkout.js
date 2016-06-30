@@ -12,9 +12,13 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
+var observer = observer != null ? observer : [];
 (function () {
-    var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData,
-    observer = {
+    var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData;
+
+    $ = jQuery.noConflict();
+
+    observer = $.extend({
         subItem: "label.mypa-row-subitem",
         deliveryDate: "input:radio[name='mypa-date']",
         deliveryType: "input:radio[name='mypa-delivery-type']",
@@ -27,7 +31,7 @@
         street1: "input[id='shipping:street1']",
         street2: "input[id='shipping:street2']",
         country: "select[id='shipping:country_id']"
-    };
+    }, observer);
 
     $ = jQuery.noConflict();
 
