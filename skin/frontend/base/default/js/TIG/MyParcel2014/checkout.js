@@ -168,7 +168,8 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                      */
                     $([
                         observer.deliveryDate,
-                        observer.deliveryType
+                        observer.deliveryType,
+                        observer.deliveryTime
                     ].join()).off('change').on('change', function () {
                         if(typeof  window.mypa.fn.fnCheckout != 'undefined') {
                             setTimeout(

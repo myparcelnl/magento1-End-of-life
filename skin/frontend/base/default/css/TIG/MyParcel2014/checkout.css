@@ -429,7 +429,7 @@ input:checked ~ span span.mypa-price{
     color: #ffffff !important;
 }
 
-.opc-wrapper-opc .mypa-row-title {
+.opc-wrapper-opc #mypa-delivery-body .mypa-row-title {
     padding-left: 0 !important;
 }
 
