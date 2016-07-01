@@ -12,8 +12,8 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
-window.mypa.observer = window.mypa.observer != null ? window.mypa.observer : [];
-window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
+window.mypa.observer = window.mypa.observer != null ? window.mypa.observer : {};
+window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 (function () {
     var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
 
