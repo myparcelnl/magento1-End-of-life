@@ -12,9 +12,10 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
-var observer = observer != null ? observer : [];
+window.mypa.observer = window.mypa.observer != null ? window.mypa.observer : [];
+window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
 (function () {
-    var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData;
+    var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
 
     $ = jQuery.noConflict();
 
@@ -23,7 +24,8 @@ var observer = observer != null ? observer : [];
         deliveryDate: "input:radio[name='mypa-date']",
         deliveryType: "input:radio[name='mypa-delivery-type']",
         deliveryTime: "input:radio[name='mypa-delivery-time']",
-        directReturn: "input:checkbox[name='mypa-onoffswitch']",
+        onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
+        signed: "input:checkbox[name='mypa-signed']",
         pickupType: "input:radio[name='mypa-pickup-option']",
         magentoMethods: "input:radio[id^='s_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
@@ -31,7 +33,7 @@ var observer = observer != null ? observer : [];
         street1: "input[id='shipping:street1']",
         street2: "input[id='shipping:street2']",
         country: "select[id='shipping:country_id']"
-    }, observer);
+    }, window.mypa.observer);
 
     $ = jQuery.noConflict();
 
@@ -124,7 +126,19 @@ var observer = observer != null ? observer : [];
                     $('#mypa-load').hide();
 
                     /**
-                     * Update when shipping method shown
+                     * If the options changed
+                     */
+                    $([
+                        observer.onlyRecipient,
+                        observer.signed
+                    ].join()).off('change').on('change', function () {
+                        if(typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                            window.mypa.fn.fnCheckout.saveShippingMethod();
+                        }
+                    });
+
+                    /**
+                     * Update country when shipping method shown
                      */
                     $(observer.magentoMethodMyParcel).closest('form').off('move').mouseover(function () {
                         updateCountry();
