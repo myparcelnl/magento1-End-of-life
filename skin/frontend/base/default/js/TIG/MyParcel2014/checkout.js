@@ -21,7 +21,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
 
     observer = $.extend({
         subItem: "label.mypa-row-subitem",
-        deliveryDate: "input:radio[name='mypa-date']",
+        deliveryDate: "input:radio[class='mypa-date']",
         deliveryType: "input:radio[name='mypa-delivery-type']",
         deliveryTime: "input:radio[name='mypa-delivery-time']",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
@@ -126,25 +126,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                     $('#mypa-load').hide();
 
                     /**
-                     * If the options changed
-                     */
-                    $([
-                        observer.onlyRecipient,
-                        observer.signed
-                    ].join()).off('change').on('change', function () {
-                        if(typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                            window.mypa.fn.fnCheckout.saveShippingMethod();
-                        }
-                    });
-
-                    /**
-                     * Update country when shipping method shown
-                     */
-                    $(observer.magentoMethodMyParcel).closest('form').off('move').mouseover(function () {
-                        updateCountry();
-                    });
-
-                    /**
                      * If method is MyParcel
                      */
                     $([
@@ -160,6 +141,49 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                         if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
                             $(observer.deliveryType + ':checked')[0].checked = false;
                             $(observer.deliveryTime + ':checked')[0].checked = false;
+                        }
+                    });
+
+                    /**
+                     * Update country when shipping method shown
+                     */
+                    $(observer.magentoMethodMyParcel).closest('form').off('move').mouseover(function () {
+                        updateCountry();
+                    });
+
+                    /**
+                     * If the options changed, reload for IWD checkout
+                     */
+                    $([
+                        observer.onlyRecipient,
+                        observer.signed
+                    ].join()).off('change').on('change', function () {
+                        if(typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                            window.mypa.fn.fnCheckout.saveShippingMethod();
+                        }
+                    });
+
+                    /**
+                     * If deliveryType change, do not use ajax. Reload only after an option is chosen
+                     */
+                    $([
+                        observer.deliveryDate,
+                        observer.deliveryType
+                    ].join()).off('change').on('change', function () {
+                        if(typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                            setTimeout(
+                                window.mypa.fn.fnCheckout.abortAjax
+                                , 200);
+                            setTimeout(
+                                window.mypa.fn.fnCheckout.abortAjax
+                                , 400);
+                            setTimeout(
+                                window.mypa.fn.fnCheckout.abortAjax
+                                , 600);
+                            setTimeout(
+                                window.mypa.fn.fnCheckout.abortAjax
+                                , 1000);
+
                         }
                     });
 
