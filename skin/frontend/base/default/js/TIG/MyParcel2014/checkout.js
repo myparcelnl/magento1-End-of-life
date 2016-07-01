@@ -78,7 +78,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
         }
     );
 
-    load = function () {
+    window.mypa.fn.load = load = function () {
         $('#checkout-shipping-method-load').before(info.container);
         $('#mypa-slider').hide();
         actionObservers();
@@ -173,16 +173,16 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                     ].join()).off('change').on('change', function () {
                         if(typeof  window.mypa.fn.fnCheckout != 'undefined') {
                             setTimeout(
-                                window.mypa.fn.fnCheckout.abortAjax
+                                window.mypa.fn.fnCheckout.hideLoader
                                 , 200);
                             setTimeout(
-                                window.mypa.fn.fnCheckout.abortAjax
+                                window.mypa.fn.fnCheckout.hideLoader
                                 , 400);
                             setTimeout(
-                                window.mypa.fn.fnCheckout.abortAjax
+                                window.mypa.fn.fnCheckout.hideLoader
                                 , 600);
                             setTimeout(
-                                window.mypa.fn.fnCheckout.abortAjax
+                                window.mypa.fn.fnCheckout.hideLoader
                                 , 1000);
 
                         }
@@ -204,7 +204,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
         streetParts = fullStreet.match(objRegExp);
 
         if(streetParts === null) {
-            alert('Huisnummer is niet aanwezig. Controleer uw gegevens en probeer het opnieuw.')
+            $('#mypa-load').html('Vul uw adresgegevens in.')
         }
 
         data = info.data;
