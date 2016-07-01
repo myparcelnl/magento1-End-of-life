@@ -115,8 +115,12 @@
      */
 
     renderPage = function(response) {
-        renderDays(response.data.delivery);
-        return preparePickup(response.data.pickup);
+        if(response.data.message == 'No results'){
+            return $('#mypa-load').html('Adres niet gevonden');
+        } else {
+            renderDays(response.data.delivery);
+            return preparePickup(response.data.pickup);
+        }
     };
 
     preparePickup = function(pickupOptions) {

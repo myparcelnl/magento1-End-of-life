@@ -15,7 +15,7 @@
 window.mypa.observer = window.mypa.observer != null ? window.mypa.observer : [];
 window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
 (function () {
-    var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
+    var $, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
 
     $ = jQuery.noConflict();
 
@@ -29,6 +29,10 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
         pickupType: "input:radio[name='mypa-pickup-option']",
         magentoMethods: "input:radio[id^='s_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
+        billingPostalCode: "input[id='billing:postcode']",
+        billingStreet1: "input[id='billing:street1']",
+        billingStreet2: "input[id='billing:street2']",
+        billingCountry: "select[id='billing:country_id']",
         postalCode: "input[id='shipping:postcode']",
         street1: "input[id='shipping:street1']",
         street2: "input[id='shipping:street2']",
@@ -44,20 +48,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
         //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
-    /**
-     *  Set up the mutation observer
-     */
-    myParcelObserver = new MutationObserver(function (mutations, me) {
-        var canvasFlat = document.getElementById('s_method_myparcel_flatrate');
-        var canvasTable = document.getElementById('s_method_myparcel_tablerate');
-        if (canvasFlat || canvasTable) {
-            $(document).ready(
-                load,
-                me.disconnect() /* stop observing */
-            )
-        }
-    });
-
     $(document).ready(
         function () {
             var ajaxOptions = {
@@ -65,13 +55,9 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                 success: function (response) {
                     info = response;
 
-                    /**
-                     * start observing
-                     */
-                    myParcelObserver.observe(document, {
-                        childList: true,
-                        subtree: true
-                    });
+                    $('#shipping-block-methods').before(info.container);
+                    $('#mypa-slider').hide();
+                    actionObservers();
                 }
             };
             $.ajax(ajaxOptions);
@@ -79,27 +65,34 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
     );
 
     window.mypa.fn.load = load = function () {
-        $('#checkout-shipping-method-load').before(info.container);
-        $('#mypa-slider').hide();
+        console.log('load');
+        updateCountry();
         actionObservers();
     };
 
     actionObservers = function () {
 
+        console.log('actionObservers');
+
         /**
          * If address is change
          */
         $([
+            observer.billingPostalCode,
+            observer.billingStreet1,
+            observer.billingStreet2,
+            observer.billingCountry,
             observer.postalCode,
             observer.street1,
             observer.street2,
             observer.country
         ].join()).off('change').on('change', function () {
+            console.log('form change');
             actionObservers();
         });
 
         updateCountry();
-        if($(observer.country).val() == 'NL') {
+        if($(observer.billingCountry).val() == 'NL') {
             getData();
 
             if(streetParts !== null) {
@@ -147,7 +140,8 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                     /**
                      * Update country when shipping method shown
                      */
-                    $(observer.magentoMethodMyParcel).closest('form').off('move').mouseover(function () {
+                    $(observer.magentoMethodMyParcel).closest('body').off('move').mouseover(function () {
+
                         updateCountry();
                     });
 
@@ -189,7 +183,10 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                     });
 
                 });
+            } else {
+                console.log('Adres niet gevonden.')
             }
+
         }
     };
 
@@ -257,11 +254,14 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
     };
 
     updateCountry = function () {
-        var country = $(observer.country).val();
+        var country = $(observer.billingCountry).val();
         if (country == 'NL') {
+            console.log(country);
             $('#mypa-delivery-options-container').show();
             $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
         } else {
+
+            console.log('!not nl');
             $('#mypa-delivery-options-container').hide();
             $(observer.magentoMethodMyParcel).closest( "dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
         }

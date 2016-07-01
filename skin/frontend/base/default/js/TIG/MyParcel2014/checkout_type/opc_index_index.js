@@ -1,4 +1,4 @@
-
+/*
 mypaObserver ={
     postalCode: "input[id='shipping:postcode']",
     street1: "input[id='shipping:street1']",
@@ -6,7 +6,7 @@ mypaObserver ={
     country: "select[id='shipping:country_id']"
 };
 window.mypa.observer = window.mypa.observer !== null ? window.mypa.observer : [];
-window.mypa.fn.fnCheckout  = mypaObserver;
+window.mypa.fn.fnCheckout  = mypaObserver;*/
 
 var fnCheckout =
 {
@@ -14,7 +14,6 @@ var fnCheckout =
         IWD.OPC.Shipping.saveShippingMethod();
     },
     'hideLoader': function(){
-        console.log('test');
         IWD.OPC.Checkout.hideLoader();
     }
 };

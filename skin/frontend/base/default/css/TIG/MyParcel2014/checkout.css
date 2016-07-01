@@ -5,7 +5,7 @@ body{
 input[name=mypa-delivery-type],
 input[name=mypa-delivery-time],
 input[name=mypa-pickup-option]{
-    display: none !important;
+    display: none;
 }
 
 #mypa-slider{
@@ -26,7 +26,7 @@ input[name=mypa-pickup-option]{
     transition: left 0.5s ease-out !important;
     width: 49% !important;
     height: 100% !important;
-    display: inline-block !important;
+    display: inline-block;
     position:relative !important;
     overflow:hidden !important;
 }
@@ -34,7 +34,7 @@ input[name=mypa-pickup-option]{
 #mypa-delivery-options-container{
     word-wrap: initial !important;
     font-size: 14px !important;
-    display: inline-block !important;
+    display: inline-block;
     overflow: hidden !important;
     font-weight: 400 !important;
     width: 100% !important;
@@ -97,7 +97,7 @@ input[name=mypa-pickup-option]{
     cursor: pointer !important;
     position: relative !important;
     top: 6px !important;
-    display:inline-block !important;
+    display:inline-block;
     margin-right: 5px !important;
     width: 22px !important;
     height:22px !important;
@@ -172,7 +172,7 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
 
 .mypa-row-subitem{
     margin: 2px 0 10px 40px !important;
-    display: block !important;
+    display: block;
 }
 
 
@@ -186,7 +186,7 @@ input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
 }
 
 .mypa-onoffswitch-checkbox {
-    display: none !important;
+    display: none;
 }
 
 .mypa-onoffswitch-label {
@@ -392,7 +392,7 @@ input:checked ~ span span.mypa-price{
 }
 
 .mypa-opening-hours{
-    display: none !important;
+    display: none;
     position: absolute !important;
     top: 77px !important;
     right: 190px !important;
