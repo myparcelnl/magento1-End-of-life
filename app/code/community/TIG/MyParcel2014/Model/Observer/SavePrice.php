@@ -34,10 +34,10 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
         if ($quote->getMyparcelData() !== null) {
             $store = Mage::app()->getStore($quote->getStoreId());
             $carriers = Mage::getStoreConfig('carriers', $store);
-            $newHandlingFee = $helper->calculatePrice($quote);
 
             foreach ($carriers as $carrierCode => $carrierConfig) {
                 if ($carrierCode == 'myparcel') {
+                    $newHandlingFee = $helper->calculatePrice($quote);
                     $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
                     $store->setConfig("carriers/{$carrierCode}/handling_fee", $newHandlingFee);
 

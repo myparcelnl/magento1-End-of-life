@@ -445,7 +445,7 @@ input:checked ~ span span.mypa-price{
     max-height: 210px !important;
 }
 
-.opc-wrapper-opc label {
+.opc-wrapper-opc .mypa-slider label {
     margin-bottom: 0;
 }
 /* END opc_index_index (IWD) */
