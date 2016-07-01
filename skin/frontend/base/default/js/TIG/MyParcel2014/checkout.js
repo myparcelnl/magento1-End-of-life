@@ -15,7 +15,7 @@
 window.mypa.observer = window.mypa.observer != null ? window.mypa.observer : [];
 window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
 (function () {
-    var $, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
+    var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
 
     $ = jQuery.noConflict();
 
@@ -27,6 +27,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
         pickupType: "input:radio[name='mypa-pickup-option']",
+        magentoMethodsContainer: "holder",
         magentoMethods: "input:radio[id^='s_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
         billingPostalCode: "input[id='billing:postcode']",
@@ -42,10 +43,24 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
     $ = jQuery.noConflict();
 
     $.extend(window.mypa.settings, {
-        postal_code: 'holder',
-        number: 0,
+        postal_code: '2231JE',
+        number:55,
         base_url: 'https://api.myparcel.nl/delivery_options'
         //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
+    });
+
+    /**
+     *  Set up the mutation observer
+     */
+    myParcelObserver = new MutationObserver(function (mutations, me) {
+        var canvasFlat = document.getElementById('s_method_myparcel_flatrate');
+        var canvasTable = document.getElementById('s_method_myparcel_tablerate');
+        if (canvasFlat || canvasTable) {
+            $(document).ready(
+                load(),
+                me.disconnect()
+            )
+        }
     });
 
     $(document).ready(
@@ -55,9 +70,13 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                 success: function (response) {
                     info = response;
 
-                    $('#shipping-block-methods').before(info.container);
-                    $('#mypa-slider').hide();
-                    actionObservers();
+                    /**
+                     * start observing
+                     */
+                    myParcelObserver.observe(document, {
+                        childList: true,
+                        subtree: true
+                    });
                 }
             };
             $.ajax(ajaxOptions);
@@ -66,7 +85,8 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
 
     window.mypa.fn.load = load = function () {
         console.log('load');
-        updateCountry();
+        $(observer.magentoMethodsContainer).before(info.container);
+        $('#mypa-slider').hide();
         actionObservers();
     };
 
@@ -141,7 +161,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
                      * Update country when shipping method shown
                      */
                     $(observer.magentoMethodMyParcel).closest('body').off('move').mouseover(function () {
-
                         updateCountry();
                     });
 
@@ -257,10 +276,16 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
         var country = $(observer.billingCountry).val();
         if (country == 'NL') {
             console.log(country);
-            $('#mypa-delivery-options-container').show();
-            $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
+            /**
+             * start observing
+             */
+            if(document.getElementById("mypa-delivery-options-container") === null) {
+                console.log('update');
+                load();
+                $('#mypa-delivery-options-container').show();
+                $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
+            }
         } else {
-
             console.log('!not nl');
             $('#mypa-delivery-options-container').hide();
             $(observer.magentoMethodMyParcel).closest( "dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');

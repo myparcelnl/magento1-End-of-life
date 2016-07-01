@@ -1,12 +1,8 @@
-/*
 mypaObserver ={
-    postalCode: "input[id='shipping:postcode']",
-    street1: "input[id='shipping:street1']",
-    street2: "input[id='shipping:street2']",
-    country: "select[id='shipping:country_id']"
+    magentoMethodsContainer: "#checkout-shipping-method-load"
 };
 window.mypa.observer = window.mypa.observer !== null ? window.mypa.observer : [];
-window.mypa.fn.fnCheckout  = mypaObserver;*/
+window.mypa.observer  = mypaObserver;
 
 var fnCheckout =
 {

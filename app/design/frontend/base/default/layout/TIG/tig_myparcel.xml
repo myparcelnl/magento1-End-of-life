@@ -50,6 +50,10 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/moment.js</file>
             </action>
             <action method="addItem">
@@ -69,6 +73,10 @@
 
     <opc_index_index>
         <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/moment.js</file>
@@ -94,6 +102,10 @@
 
     <onestepcheckout_index_index>
         <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/moment.js</file>
