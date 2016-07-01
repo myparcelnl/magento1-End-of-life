@@ -27,7 +27,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
         pickupType: "input:radio[name='mypa-pickup-option']",
-        magentoMethodsContainer: "holder",
+        magentoMethodsContainer: "#checkout-shipping-method-load",
         magentoMethods: "input:radio[id^='s_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
         billingPostalCode: "input[id='billing:postcode']",
@@ -84,16 +84,12 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
     );
 
     window.mypa.fn.load = load = function () {
-        console.log('load');
         $(observer.magentoMethodsContainer).before(info.container);
         $('#mypa-slider').hide();
         actionObservers();
     };
 
     actionObservers = function () {
-
-        console.log('actionObservers');
-
         /**
          * If address is change
          */
@@ -107,7 +103,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
             observer.street2,
             observer.country
         ].join()).off('change').on('change', function () {
-            console.log('form change');
             actionObservers();
         });
 
@@ -275,18 +270,15 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : [];
     updateCountry = function () {
         var country = $(observer.billingCountry).val();
         if (country == 'NL') {
-            console.log(country);
+            $('#mypa-delivery-options-container').show();
+            $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
             /**
              * start observing
              */
             if(document.getElementById("mypa-delivery-options-container") === null) {
-                console.log('update');
                 load();
-                $('#mypa-delivery-options-container').show();
-                $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
             }
         } else {
-            console.log('!not nl');
             $('#mypa-delivery-options-container').hide();
             $(observer.magentoMethodMyParcel).closest( "dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
         }
