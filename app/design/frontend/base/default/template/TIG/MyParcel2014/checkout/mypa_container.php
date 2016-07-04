@@ -4,20 +4,20 @@
     <?php if($baseColor != ''):?>
 
         .mypa-tab{
-            background-color: #<?=$baseColor;?> !important;
+            background-color: #<?=$baseColor;?>;
         }
 
         .mypa-delivery-header,
         .mypa-date:checked+label, .mypa-tab:hover
         {
-            background: #<?=$baseColor;?> !important;
-            opacity: 1 !important;
+            background: #<?=$baseColor;?>;
+            opacity: 1;
         }
 
 
         /* START opc_index_index (IWD) */
         .opc-wrapper-opc label.mypa-tab, .opc-wrapper-opc label.mypa-tab span {
-            background-color: #<?=$baseColor;?> !important;
+            background-color: #<?=$baseColor;?>;
         }
         /* END opc_index_index (IWD) */
 
@@ -30,19 +30,19 @@
         input:checked ~ .mypa-highlight, input:checked ~ label.mypa-row-title span.mypa-highlight,
         .mypa-arrow-clickable:hover
         {
-            color: #<?=$selectColor; ?> !important;
+            color: #<?=$selectColor; ?>;
         }
 
         input:checked + label.mypa-checkmark div.mypa-circle, input[name=mypa-delivery-type]:checked + label div.mypa-main div.mypa-circle, input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle,
         .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle,
         input:checked ~ .mypa-price, input:checked ~ span span.mypa-price
         {
-            background-color: #<?=$selectColor; ?> !important;
+            background-color: #<?=$selectColor; ?>;
         }
 
         .mypa-arrow-clickable:hover::before{
-            border-left: 0.2em solid #<?=$selectColor;?> !important;
-            border-bottom: 0.2em solid #<?=$selectColor;?> !important;
+            border-left: 0.2em solid #<?=$selectColor;?>;
+            border-bottom: 0.2em solid #<?=$selectColor;?>;
         }
 
     <?php endif;?>
