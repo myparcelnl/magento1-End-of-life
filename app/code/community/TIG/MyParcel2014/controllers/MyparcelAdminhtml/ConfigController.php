@@ -72,36 +72,29 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml
         $myparcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
         $shipment         = Mage::getModel('sales/order_shipment')->load($shipmentId);
 
-
         $consignmentId = $myparcelShipment->getConsignmentId();
 
         /**
          * @var TIG_MyParcel2014_Model_Api_MyParcel $api
          */
         $api      = $myparcelShipment->getApi();
-        $response = $api->createRetourlinkRequest($consignmentId)
+        $response = $api->createRetourlinkRequest($shipment, $consignmentId)
                         ->setStoreId($shipment->getOrder()->getStoreId())
                         ->sendRequest()
                         ->getRequestResponse();
+        $aResponse = json_decode($response, true);
 
-        var_dump($response);
-        exit;
         /**
          * Validate the response.
          */
-        if(!is_array($response) || empty($response['retourlink'])){
+        if(!is_array($aResponse) || $aResponse['data']['ids'][0]['id'] === null){
             $message = $helper->__('Retourlink is not created, check the log files for details.');
             $helper->addSessionMessage('adminhtml/session','MYPA-0020', 'warning');
             $helper->logException($message);
         }
 
-        //save retourlink by myparcel shipment
-        $myparcelShipment->setRetourlink($response['retourlink']);
-        $myparcelShipment->save();
-
         //set shipment comment
-        $aLink = '<a target="_blank" href="'.$response['retourlink'].'">'.$response['retourlink'].'</a>';
-        $comment = $helper->__('Retourlink generated: %s',$aLink);
+        $comment = $helper->__('Retour label mailed');
         $shipment->addComment($comment,0,1);
         $shipment->save();
 

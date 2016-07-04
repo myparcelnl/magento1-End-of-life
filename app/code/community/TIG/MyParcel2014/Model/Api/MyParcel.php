@@ -301,15 +301,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $helper->log($url);
             $helper->log(json_decode($body));
 
-//            header('Content-Type: application/json');
-//            echo($body);
-//            exit;
-            var_dump($config);
-            var_dump($url);
-            var_dump($header);
-            var_dump($body);
-            exit();
-
             $request->setConfig($config)
                 ->write(Zend_Http_Client::POST, $url, '1.1', $header, $body);
         } else {
@@ -508,19 +499,20 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param $consignmentId
      * @return $this
+     * @var Mage_Sales_Model_Order_Shipment $shipment
      */
-    public function createRetourlinkRequest($consignmentId)
+    public function createRetourlinkRequest($shipment, $consignmentId)
     {
         $data = array(
-            'parent' => 17171385,
+            'parent' => (int)$consignmentId,
             'carrier' => 1,
-            'email' => 'reindert@myparcel.nl',
-            'name' => 'Reinder test',
+            'email' => $shipment->getOrder()->getCustomerEmail(),
+            'name' => $shipment->getOrder()->getCustomerName()
         );
 
         $requestString = $this->_createRequestString($data, 'return_shipments');
 
-        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT);
+        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_RETURN);
 
         return $this;
     }

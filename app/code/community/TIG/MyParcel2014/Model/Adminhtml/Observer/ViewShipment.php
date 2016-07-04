@@ -91,7 +91,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
                 $creditUrl = $block->getUrl(self::CREDIT_CONSIGNMENT_ROUTE, array('shipment_id' => $shipmentId,));
 
                 $block->addButton('myparcel_create_return_url', array(
-                    'label'     => $helper->__('Generate Retourlink'),
+                    'label'     => $helper->__('Mail retour label'),
                     'class'     => 'go',
                     'onclick'   => "setLocation('".$retourUrl."')",
                 ));
