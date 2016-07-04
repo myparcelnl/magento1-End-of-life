@@ -84,6 +84,8 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml
                         ->sendRequest()
                         ->getRequestResponse();
 
+        var_dump($response);
+        exit;
         /**
          * Validate the response.
          */
