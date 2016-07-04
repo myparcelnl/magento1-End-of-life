@@ -45,8 +45,8 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
     $.extend(window.mypa.settings, {
         postal_code: '2231JE',
         number:55,
-        base_url: 'https://api.myparcel.nl/delivery_options'
-        //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
+        //base_url: 'https://api.myparcel.nl/delivery_options'
+        base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
     /**
@@ -125,6 +125,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                     hvo_title: data.delivery.signature_title,
                     only_recipient_title: data.delivery.only_recipient_title
                 });
+                console.log(window.mypa.settings);
 
                 $.when(
                     window.mypa.fn.updatePage()
@@ -208,9 +209,9 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
     getData = function () {
 
         objRegExp = /(.*?)\s?(([\d]+)-?([a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$/;
-        fullStreet = $(observer.street1).val();
-        if (typeof $(observer.street2).val() != 'undefined' && $(observer.street2).val() != '') {
-            fullStreet += ' ' + $(observer.street2).val()
+        fullStreet = $(observer.billingStreet1).val();
+        if (typeof $(observer.billingStreet2).val() != 'undefined' && $(observer.billingStreet2).val() != '') {
+            fullStreet += ' ' + $(observer.billingStreet2).val()
         }
         streetParts = fullStreet.match(objRegExp);
 
