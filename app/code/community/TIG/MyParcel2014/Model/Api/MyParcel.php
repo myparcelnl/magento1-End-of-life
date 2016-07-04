@@ -457,44 +457,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     }
 
     /**
-     * create a request string for checking the status of a consignment
-     *
-     * @param $consignmentId
-     * @return $this
-     */
-    public function createRetrieveStatusRequest($consignmentId)
-    {
-        $data = array(
-            'consignment_id' => $consignmentId,
-        );
-
-        $requestString = $this->_createRequestString($data);
-
-        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_RETRIEVE_STATUS);
-
-        return $this;
-    }
-
-    /**
-     * create a request string for crediting a consignment
-     *
-     * @param $consignmentId
-     * @return $this
-     */
-    public function createConsignmentCreditRequest($consignmentId)
-    {
-        $data = array(
-            'consignment_id' => $consignmentId,
-        );
-
-        $requestString = $this->_createRequestString($data);
-
-        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CONSIGNMENT_CREDIT);
-
-        return $this;
-    }
-
-    /**
      * create a request string for generating a retour-url
      *
      * @param $consignmentId
@@ -513,29 +475,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $requestString = $this->_createRequestString($data, 'return_shipments');
 
         $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_RETURN);
-
-        return $this;
-    }
-
-    /**
-     * create a request string for getting the locations
-     *
-     * @param array $data
-     *
-     * @return $this
-     */
-    public function createGetLocationsRequest($data)
-    {
-        if (empty($data['courier'])) {
-            $data['courier'] = 'postnl';
-        }
-        if (empty($data['courier'])) {
-            $data['country'] = 'nl';
-        }
-
-        $requestString = $this->_createRequestString($data);
-
-        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_GET_LOCATIONS);
 
         return $this;
     }
