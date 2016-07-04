@@ -17,7 +17,7 @@
 
         /* START opc_index_index (IWD) */
         .opc-wrapper-opc label.mypa-tab, .opc-wrapper-opc label.mypa-tab span {
-            background-color: #<?=$baseColor;?>;
+            background-color: #<?=$baseColor;?> !important;
         }
         /* END opc_index_index (IWD) */
 

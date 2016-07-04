@@ -59,7 +59,7 @@ input[name=mypa-pickup-option]{
 
 .mypa-tab{
     transition: background-color 0.4s;
-    font-size: 12px;
+    font-size: 12px !important;
     background: #75D3D8;
     padding: 5px 10px 5px 10px;
     display: inline-block;
