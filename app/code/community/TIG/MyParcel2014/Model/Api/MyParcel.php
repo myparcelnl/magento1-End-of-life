@@ -47,23 +47,24 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * Supported request types.
      */
     const REQUEST_TYPE_CREATE_CONSIGNMENT   = 'shipments';
-    const REQUEST_TYPE_CREATE_CONSIGNMENTS  = 'create-consignments';
     const REQUEST_TYPE_REGISTER_CONFIG      = 'register-config';
     const REQUEST_TYPE_RETRIEVE_LABEL       = 'shipment_labels';
-    const REQUEST_TYPE_RETRIEVE_STATUS      = 'retrieve-status';
-    const REQUEST_TYPE_CONSIGNMENT_CREDIT   = 'consignment-credit';
-    const REQUEST_TYPE_CREATE_RETOURLINK    = 'create-retourlink';
     const REQUEST_TYPE_GET_LOCATIONS        = 'pickup';
 
+    /**
+     * Consignment types
+     */
     const TYPE_MORNING             = 1;
     const TYPE_STANDARD            = 2;
     const TYPE_NIGHT               = 3;
     const TYPE_RETAIL              = 4;
     const TYPE_RETAIL_EXPRESS      = 5;
 
+    /**
+     * API headers
+     */
     const REQUEST_HEADER_SHIPMENT           = 'Content-Type: application/vnd.shipment+json; ';
     const REQUEST_HEADER_RETURN             = 'Content-Type: application/vnd.return_shipment+json; ';
-    const REQUEST_HEADER_UNRALED_RETURN     = 'Content-Type: application/vnd.unrelated_return_shipment+json; ';
 
     /**
      * @var string
