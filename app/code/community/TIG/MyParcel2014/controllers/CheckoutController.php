@@ -56,7 +56,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $general['base_price'] =                    $basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));
         $general['deliverydays_window'] =           $helper->getConfig('deliverydays_window', 'checkout');
-        $general['dropoff_days'] =                  $helper->getConfig('dropoff_days', 'checkout');
+        $general['dropoff_days'] =                  str_replace(',', ';', $helper->getConfig('dropoff_days', 'checkout'));
         $general['dropoff_delay'] =                 $helper->getConfig('dropoff_delay', 'checkout');
         $general['base_color'] =                    $helper->getConfig('base_color', 'checkout');
         $general['select_color'] =                  $helper->getConfig('select_color', 'checkout');
