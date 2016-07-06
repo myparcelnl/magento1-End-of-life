@@ -279,7 +279,7 @@
             html += "<label for=\"mypa-signed\" class='mypa-row-subitem'>\n  <input type=\"checkbox\" name=\"mypa-signed\" class=\"mypa-onoffswitch-checkbox\" id=\"mypa-signed\">\n  <div class=\"mypa-switch-container\">\n    <div class=\"mypa-onoffswitch\">\n      <label class=\"mypa-onoffswitch-label\" for=\"mypa-signed\">\n        <span class=\"mypa-onoffswitch-inner\"></span>\n      <span class=\"mypa-onoffswitch-switch\"></span>\n      </label>\n    </div>\n  </div>\n  <span>" + hvoTitle + "<span class='mypa-price'>" + hvoPrice + "</span></span>\n</label>";
         }
         $('#mypa-delivery-options').html(html);
-        return $('#mypa-delivery-options .mypa-row-subitem input').on('change', function(e) {
+        return $('#mypa-delivery-options .mypa-row-subitem input').on('click', function(e) {
             var deliveryType;
             deliveryType = JSON.parse($(e.currentTarget).val())['time'][0]['price_comment'];
             if (deliveryType === 'morning' || deliveryType === 'avond') {
