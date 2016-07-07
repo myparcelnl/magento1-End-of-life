@@ -417,7 +417,7 @@ input:checked ~ span span.mypa-price{
 }
 
 /* Magento css */
-#mypa-delivery-options-container{
+#mypa-slider{
     height: 435px;
 }
 

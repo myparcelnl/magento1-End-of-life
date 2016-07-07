@@ -52,6 +52,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
     window.mypa.fn.load = load = function () {
         $(document).ready(
             function () {
+                updateCountry();
                 var ajaxOptions = {
                     url: BASE_URL + 'myparcel2014/checkout/info/',
                     success: function (response) {
@@ -109,7 +110,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                 ).done(function () {
 
                     $('#mypa-slider').show();
-                    $('#mypa-load').hide();
+                    $('#mypa-note').hide();
 
                     /**
                      * If method is MyParcel
@@ -186,7 +187,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         streetParts = fullStreet.match(objRegExp);
 
         if(streetParts === null) {
-            $('#mypa-load').html('Vul uw adresgegevens in.')
+            $('#mypa-note').html('Vul uw adresgegevens in.')
         }
 
         data = info.data;
@@ -243,12 +244,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         if (country == 'NL') {
             $('#mypa-delivery-options-container').show();
             $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
-            /**
-             * start observing
-             */
-            if(document.getElementById("mypa-delivery-options-container") === null) {
-                load();
-            }
         } else {
             $('#mypa-delivery-options-container').hide();
             $(observer.magentoMethodMyParcel).closest( "dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');

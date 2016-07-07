@@ -48,7 +48,7 @@
     <?php endif;?>
 </style>
 <div id='mypa-delivery-options-container'>
-    <div id="mypa-load">Uw bezorgopties worden geladen...</div>
+    <div id="mypa-note">Uw bezorgopties worden geladen...</div>
     <div id="mypa-slider">
         <!-- First frame -->
         <div id="mypa-delivery-type-selection" class="mypa-tab-container mypa-slider-pos-0">

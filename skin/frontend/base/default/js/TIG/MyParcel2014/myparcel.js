@@ -116,7 +116,7 @@
 
     renderPage = function(response) {
         if(response.data.message == 'No results'){
-            return $('#mypa-load').html('Adres niet gevonden');
+            return $('#mypa-note').html('Adres niet gevonden');
         } else {
             renderDays(response.data.delivery);
             return preparePickup(response.data.pickup);
@@ -237,12 +237,14 @@
     };
 
     updateDelivery = function(e) {
+        var date, deliveryTimes, html, hvoPrice, i, index, json, len, onlyRecipientPrice, price, time, onlyRecipientTitle, hvoTitle;
+
         $('#mypa-back-arrow').off('click').bind('click', function() {
             $('#mypa-location-container').html('');
             displayOtherTab();
             $("input:radio[name='mypa-delivery-time']:checked")[0].checked = false;
         });
-        var date, deliveryTimes, html, hvoPrice, i, index, json, len, onlyRecipientPrice, price, time, onlyRecipientTitle, hvoTitle;
+
         date = $("#" + ($(e.currentTarget).prop('for')))[0].value;
         $('#mypa-delivery-options').html('');
         html = '';
