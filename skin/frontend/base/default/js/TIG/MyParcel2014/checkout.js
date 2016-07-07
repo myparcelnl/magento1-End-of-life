@@ -103,7 +103,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                     hvo_title: data.delivery.signature_title,
                     only_recipient_title: data.delivery.only_recipient_title
                 });
-                console.log(window.mypa.settings);
 
                 $.when(
                     window.mypa.fn.updatePage()
