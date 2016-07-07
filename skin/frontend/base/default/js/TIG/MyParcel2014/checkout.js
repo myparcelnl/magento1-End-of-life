@@ -49,44 +49,22 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
-    /**
-     *  Set up the mutation observer
-     */
-    myParcelObserver = new MutationObserver(function (mutations, me) {
-        var canvasFlat = document.getElementById('s_method_myparcel_flatrate');
-        var canvasTable = document.getElementById('s_method_myparcel_tablerate');
-        if (canvasFlat || canvasTable) {
-            $(document).ready(
-                load(),
-                me.disconnect()
-            )
-        }
-    });
-
-    $(document).ready(
-        function () {
-            var ajaxOptions = {
-                url: BASE_URL + 'myparcel2014/checkout/info/',
-                success: function (response) {
-                    info = response;
-
-                    /**
-                     * start observing
-                     */
-                    myParcelObserver.observe(document, {
-                        childList: true,
-                        subtree: true
-                    });
-                }
-            };
-            $.ajax(ajaxOptions);
-        }
-    );
-
     window.mypa.fn.load = load = function () {
-        $(observer.magentoMethodsContainer).before(info.container);
-        $('#mypa-slider').hide();
-        actionObservers();
+        $(document).ready(
+            function () {
+                var ajaxOptions = {
+                    url: BASE_URL + 'myparcel2014/checkout/info/',
+                    success: function (response) {
+                        info = response;
+                        $('#mypa-load').before(info.container);
+                        $('#mypa-slider').hide();
+                        actionObservers();
+                    }
+                };
+                $.ajax(ajaxOptions);
+            }
+        );
+
     };
 
     actionObservers = function () {
@@ -151,13 +129,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                             $(observer.deliveryType + ':checked')[0].checked = false;
                             $(observer.deliveryTime + ':checked')[0].checked = false;
                         }
-                    });
-
-                    /**
-                     * Update country when shipping method shown
-                     */
-                    $(observer.magentoMethodMyParcel).closest('body').off('move').mouseover(function () {
-                        updateCountry();
                     });
 
                     /**

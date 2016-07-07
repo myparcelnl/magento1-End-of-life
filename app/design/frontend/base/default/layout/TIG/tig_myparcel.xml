@@ -69,7 +69,19 @@
                 <file>css/TIG/MyParcel2014/checkout.css</file>
             </action>
         </reference>
+        <reference name="checkout.onepage.shipping_method.available">
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+            </action>
+        </reference>
     </checkout_onepage_index>
+    <checkout_onepage_shippingmethod>
+        <reference name="root">
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+            </action>
+        </reference>
+    </checkout_onepage_shippingmethod>
 
     <opc_index_index>
         <reference name="head">
@@ -96,6 +108,12 @@
             <action method="addItem">
                 <type>skin_css</type>
                 <file>css/TIG/MyParcel2014/checkout.css</file>
+            </action>
+        </reference>
+
+        <reference name="checkout.onepage.shipping_method.available">
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
             </action>
         </reference>
     </opc_index_index>

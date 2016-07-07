@@ -207,12 +207,14 @@ class TIG_MyParcel2014_Model_Checkout_Service
     public function removePgAddress(Mage_Sales_Model_Quote $quote)
     {
         if($quote){
-            $addresses = $quote->getAllAddresses();
+            if($quote != '{}'){
+                $addresses = $quote->getAllAddresses();
 
-            /** @var Mage_Sales_Model_Quote_Address $address */
-            foreach ($addresses as $address) {
-                if ($address->getAddressType() == TIG_MyParcel2014_Helper_Data::PG_ADDRESS_TYPE) {
-                    $address->delete();
+                /** @var Mage_Sales_Model_Quote_Address $address */
+                foreach ($addresses as $address) {
+                    if ($address->getAddressType() == TIG_MyParcel2014_Helper_Data::PG_ADDRESS_TYPE) {
+                        $address->delete();
+                    }
                 }
             }
         }
