@@ -402,7 +402,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @return $this
      */
-    public function createConsignmentsInfoRequest($consignmentIds = array()){
+    public function  createConsignmentsInfoRequest($consignmentIds = array()){
 
 
         $requestString = '/' . implode(';',$consignmentIds);

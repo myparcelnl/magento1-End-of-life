@@ -40,15 +40,29 @@
 class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * generate data in json format for checkout
+     * Generate data in json format for checkout
      */
     public function infoAction()
     {
+        /**
+         * @var Mage_Sales_Model_Quote $item
+         */
         $quote = Mage::getModel('checkout/cart')->getQuote();
-        $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
-        $rates = $rates->getAllRates();
-        $rate = $rates[0];
-        $basePrice = (float)$rate->getData('price');
+
+        $free = false;
+        foreach ($quote->getItemsCollection() as $item) {
+            $free = $item->getData('free_shipping') == '1' ? true : false;
+            break;
+        }
+
+        if($free) {
+            $basePrice = 0;
+        } else {
+            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
+            $rates = $rates->getAllRates();
+            $rate = $rates[0];
+            $basePrice = (float)$rate->getData('price');
+        }
 
         $helper = Mage::helper('tig_myparcel');
         $data = array();

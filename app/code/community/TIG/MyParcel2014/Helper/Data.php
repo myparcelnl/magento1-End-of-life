@@ -1,4 +1,5 @@
 <?php
+
 /**
  *                  ___________       __            __
  *                  \__    ___/____ _/  |_ _____   |  |
@@ -36,8 +37,8 @@
  * @copyright   Copyright (c) 2013 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-
-class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
+class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
+{
 
     const XPATH_MYPARCEL_CONFIG_ACTIVE = 'tig_myparcel/general/active';
 
@@ -100,13 +101,13 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     const MYPARCEL_DEBUG_LOG_FILE = 'TIG_MyParcel2014_Debug.log';
 
     /**
-         * email address of the shop owner
+     * email address of the shop owner
      */
     const XML_PATH_EMAIL_IDENTITY = 'sales_email/order/identity';
     /**
      * Localised track and trace base URL's
      */
-    const POSTNL_TRACK_AND_TRACE_NL_BASE_URL  = 'https://mijnpakket.postnl.nl/Inbox/Search?';
+    const POSTNL_TRACK_AND_TRACE_NL_BASE_URL = 'https://mijnpakket.postnl.nl/Inbox/Search?';
     const POSTNL_TRACK_AND_TRACE_INT_BASE_URL = 'https://www.internationalparceltracking.com/Main.aspx#/track';
 
     /**
@@ -121,8 +122,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      *
      * @param string $value
      * @param string $group
-     * @param int $storeId to use in the backend, e.g. $order->getStoreId()
-     * @param bool $decrypt
+     * @param int    $storeId to use in the backend, e.g. $order->getStoreId()
+     * @param bool   $decrypt
      *
      * @return string
      */
@@ -216,8 +217,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     {
         $myParcelShippingMethods = $this->getMyParcelShippingMethods();
 
-            $method = 'bolcom_bolcom' === $method ? 'bolcom_flatrate' : $method;
-            $method = strpos($method, 'matrixrate_matrixrate') !== false ? 'matrixrate_matrixrate' : $method;
+        $method = 'bolcom_bolcom' === $method ? 'bolcom_flatrate' : $method;
+        $method = strpos($method, 'matrixrate_matrixrate') !== false ? 'matrixrate_matrixrate' : $method;
         if (in_array($method, $myParcelShippingMethods)) {
             return true;
         }
@@ -229,14 +230,15 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      * Checks if the given shipping method is Pakjegemak
      *
      * @param $method
+     *
      * @return bool
      */
     public function shippingMethodIsPakjegemak($method)
     {
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
-        $myParcelCode    = $myParcelCarrier->getCarrierCode();
+        $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if($method == $myParcelCode.'_pakjegemak'){
+        if ($method == $myParcelCode . '_pakjegemak') {
             return true;
         }
 
@@ -247,12 +249,13 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      * Get html for the MyParcel options
      *
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     *
      * @return string
      */
     public function getCurrentOptionsHtml($myParcelShipment)
     {
         $options = array(
-            $this->__(ucfirst(str_replace('_',' ',$myParcelShipment->getShipmentType()))),
+            $this->__(ucfirst(str_replace('_', ' ', $myParcelShipment->getShipmentType()))),
         );
 
         if ($myParcelShipment->getShipmentType() == 'normal') {
@@ -267,7 +270,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
                 $options[] = strtolower($this->__('Return if no answer'));
 
             if ($myParcelShipment->getInsuredAmount() > 0)
-                $options[] = strtolower($this->__('Insured up to &euro;%s',$myParcelShipment->getInsuredAmount()));
+                $options[] = strtolower($this->__('Insured up to &euro;%s', $myParcelShipment->getInsuredAmount()));
 
             if ($myParcelShipment->getIsXL() == '1')
                 $options[] = strtolower($this->__('Large package'));
@@ -286,9 +289,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     public function whiteListCodes()
     {
         return array(
-            'NL','BE','BG','DK','DE','EE','FI','FR','HU','IE',
-            'IT','LV','LT','LU','MC','AT','PL','PT','RO','SI',
-            'SK','ES','CZ','GB','SE'
+            'NL', 'BE', 'BG', 'DK', 'DE', 'EE', 'FI', 'FR', 'HU', 'IE',
+            'IT', 'LV', 'LT', 'LU', 'MC', 'AT', 'PL', 'PT', 'RO', 'SI',
+            'SK', 'ES', 'CZ', 'GB', 'SE'
         );
     }
 
@@ -296,6 +299,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      * Checks if country needs to have customs
      *
      * @param $countryCode
+     *
      * @return bool
      */
     public function countryNeedsCustoms($countryCode)
@@ -311,31 +315,31 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     /**
      * Constructs a track & trace url based on a barcode and the destination of the package (country and zipcode)
      *
-     * @param string $barcode
-     * @param mixed $destination An array or object containing the shipment's destination data
+     * @param string           $barcode
+     * @param mixed            $destination An array or object containing the shipment's destination data
      * @param boolean | string $lang
-     * @param boolean $forceNl
+     * @param boolean          $forceNl
      *
      * @return string
      */
     public function getBarcodeUrl($barcode, $destination = false, $lang = false, $forceNl = false)
     {
         $countryCode = null;
-        $postcode    = null;
+        $postcode = null;
         if (is_array($destination)) {
             if (!isset($destination['countryCode'])) {
                 throw new InvalidArgumentException("Destination must contain a country code.");
             }
 
             $countryCode = $destination['countryCode'];
-            $postcode    = $destination['postcode'];
+            $postcode = $destination['postcode'];
         } elseif (is_object($destination) && $destination instanceof Varien_Object) {
             if (!$destination->getCountry()) {
                 throw new InvalidArgumentException('Destination must contain a country code.');
             }
 
             $countryCode = $destination->getCountry();
-            $postcode    = str_replace(' ', '', $destination->getPostcode());
+            $postcode = str_replace(' ', '', $destination->getPostcode());
         } else {
             throw new InvalidArgumentException('Destination must be an array or an instance of Varien_Object.');
         }
@@ -391,22 +395,22 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      * address attributes.
      *
      * @param Mage_Customer_Model_Address_Abstract $address
-     * @param null|int $storeId
+     * @param null|int                             $storeId
      *
      * @return array
      */
-    public function getStreetData($address,$storeId = null)
+    public function getStreetData($address, $storeId = null)
     {
 
         $fullStreet = $address->getStreetFull();
 
-        if ($address->getCountry() != 'NL'){
-            $fullStreet = preg_replace("/[\n\r]/"," ",$fullStreet);
+        if ($address->getCountry() != 'NL') {
+            $fullStreet = preg_replace("/[\n\r]/", " ", $fullStreet);
             $streetData = array(
-                'streetname'           => $fullStreet,
-                'housenumber'          => '',
+                'streetname' => $fullStreet,
+                'housenumber' => '',
                 'housenumberExtension' => '',
-                'fullStreet'           => '',
+                'fullStreet' => '',
             );
             return $streetData;
         }
@@ -454,7 +458,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     {
         $addressHelper = Mage::helper('tig_myparcel/addressValidation');
 
-        $streetnameField  = $addressHelper->getStreetnameField();
+        $streetnameField = $addressHelper->getStreetnameField();
         $housenumberField = $addressHelper->getHousenumberField();
 
         $streetname = $address->getStreet($streetnameField);
@@ -474,19 +478,19 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         $splitHouseNumber = $addressHelper->useSplitHousenumber();
         if ($splitHouseNumber) {
             $housenumberExtensionField = $addressHelper->getHousenumberExtensionField();
-            $housenumberExtension      = $address->getStreet($housenumberExtensionField);
+            $housenumberExtension = $address->getStreet($housenumberExtensionField);
 
             /**
              * Make sure the house number is actually split.
              */
             if (!$housenumberExtension && !is_numeric($housenumber)) {
-                $housenumberParts     = $this->_splitHousenumber($housenumber);
-                $housenumber          = $housenumberParts['number'];
+                $housenumberParts = $this->_splitHousenumber($housenumber);
+                $housenumber = $housenumberParts['number'];
                 $housenumberExtension = $housenumberParts['extension'];
             }
         } else {
-            $housenumberParts     = $this->_splitHousenumber($housenumber);
-            $housenumber          = $housenumberParts['number'];
+            $housenumberParts = $this->_splitHousenumber($housenumber);
+            $housenumber = $housenumberParts['number'];
             $housenumberExtension = $housenumberParts['extension'];
         }
 
@@ -495,17 +499,17 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         }
 
         $streetData = array(
-            'streetname'           => $streetname,
-            'housenumber'          => $housenumber,
+            'streetname' => $streetname,
+            'housenumber' => $housenumber,
             'housenumberExtension' => $housenumberExtension,
-            'fullStreet'           => '',
+            'fullStreet' => '',
         );
 
         return $streetData;
     }
 
     /**
-         * Splits street data into separate parts for street name, housenumber and extension.
+     * Splits street data into separate parts for street name, housenumber and extension.
      *
      * @param string $fullStreet The full street name including all parts
      *
@@ -515,12 +519,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     protected function _getSplitStreetData($fullStreet)
     {
-        $fullStreet = preg_replace("/[\n\r]/","",$fullStreet);
+        $fullStreet = preg_replace("/[\n\r]/", "", $fullStreet);
 
         $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
         if (!$result || !is_array($matches) || $fullStreet != $matches[0]) {
-            if($fullStreet != $matches[0]){
+            if ($fullStreet != $matches[0]) {
                 // Characters are gone by preg_match
                 throw new TIG_MyParcel2014_Exception(
                     $this->__('Something went wrong with splitting up address %s.', $fullStreet),
@@ -549,10 +553,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         $housenumber = $housenumberParts['number'];
         $housenumberExtension = $housenumberParts['extension'];
         $streetData = array(
-            'streetname'           => $streetname,
-            'housenumber'          => $housenumber,
+            'streetname' => $streetname,
+            'housenumber' => $housenumber,
             'housenumberExtension' => $housenumberExtension,
-            'fullStreet'           => '',
+            'fullStreet' => '',
         );
 
         return $streetData;
@@ -573,7 +577,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         $result = preg_match(self::SPLIT_HOUSENUMBER_REGEX, $housenumber, $matches);
 
         if (!$result || !is_array($matches) || $housenumber != $matches[0]) {
-            if($housenumber != $matches[0]){
+            if ($housenumber != $matches[0]) {
                 // Characters are gone by preg_match
                 throw new TIG_MyParcel2014_Exception(
                     $this->__('Something went wrong with splitting up housenumber %s.', $housenumber),
@@ -591,7 +595,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         $extension = '';
         $number = '';
         if (isset($matches[1])) {
-                $number = trim($matches[1]);
+            $number = trim($matches[1]);
         }
 
         if (isset($matches[2])) {
@@ -659,16 +663,18 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
 
     /**
      * various checks if the extension is enabled
+     *
      * @param bool $storeId
+     *
      * @return bool
      */
     public function isEnabled($storeId = false)
     {
-        if(!$storeId){
+        if (!$storeId) {
             $storeId = Mage::app()->getStore()->getId();
         }
 
-        return Mage::getStoreConfigFlag(self::XPATH_MYPARCEL_CONFIG_ACTIVE,$storeId);
+        return Mage::getStoreConfigFlag(self::XPATH_MYPARCEL_CONFIG_ACTIVE, $storeId);
     }
 
     /**
@@ -731,9 +737,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      * If no $code is specified, $messageType and $message will be required
      *
      * @param string|Mage_Core_Model_Session_Abstract $session The session to which the messages will be added.
-     * @param string|null $code
-     * @param string|null $messageType
-     * @param string|null $message
+     * @param string|null                             $code
+     * @param string|null                             $messageType
+     * @param string|null                             $message
      *
      * @return $this
      *
@@ -850,7 +856,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
              */
             $error = Mage::getConfig()->getNode('tig/errors/' . $code);
             if ($error !== false) {
-                $link = (string) $error->url;
+                $link = (string)$error->url;
             }
         }
 
@@ -863,7 +869,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
          * If the specified error was found and no message was supplied, get the error's default message.
          */
         if ($error && !$message) {
-            $message = (string) $error->message;
+            $message = (string)$error->message;
         }
 
         /**
@@ -880,7 +886,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
          * If the specified error was found and no message type was supplied, get the error's default type.
          */
         if ($error && !$messageType) {
-            $messageType = (string) $error->type;
+            $messageType = (string)$error->type;
         }
 
 
@@ -943,10 +949,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
         /**
          * Get the error code, message type (hardcoded as 'error') and the message of the exception
          */
-        $messageType      = 'error';
+        $messageType = 'error';
         $exceptionMessage = trim($exception->getMessage());
-        $message          = $this->__('An error occurred while processing your request: ') . $exceptionMessage;
-        $code             = $exception->getCode();
+        $message = $this->__('An error occurred while processing your request: ') . $exceptionMessage;
+        $code = $exception->getCode();
         if (empty($code)) {
             $code = $this->getErrorCodeByMessage($exceptionMessage);
         }
@@ -973,7 +979,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
          * Loop through each error and compare it's message
          */
         foreach ($errors as $code => $error) {
-            $errorMessage = (string) $error['message'];
+            $errorMessage = (string)$error['message'];
 
             /**
              * If a the error's message and the specified message match, return the error code
@@ -987,27 +993,28 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
     }
 
     /**
-     * @param string $barcode
+     * @param string                          $barcode
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     *
      * @return bool
      * @throws TIG_MyParcel2014_Exception
      */
-    public function sendBarcodeEmail($barcode='', $myParcelShipment)
+    public function sendBarcodeEmail($barcode = '', $myParcelShipment)
     {
-        if(empty($barcode)){
+        if (empty($barcode)) {
             return false;
         }
 
-        if(!$myParcelShipment instanceof TIG_MyParcel2014_Model_Shipment){
+        if (!$myParcelShipment instanceof TIG_MyParcel2014_Model_Shipment) {
             return false;
         }
 
-        $order      = $myParcelShipment->getOrder();
-        $storeId    = $order->getStoreId();
-        $templateId = $this->getConfig('tracktrace_template','general',$storeId);
+        $order = $myParcelShipment->getOrder();
+        $storeId = $order->getStoreId();
+        $templateId = $this->getConfig('tracktrace_template', 'general', $storeId);
 
         //if no template is set, return false: tracktrace should be send by MyParcel
-        if($templateId === null || $templateId == 'tig_myparcel_general_tracktrace_template'){
+        if ($templateId === null || $templateId == 'tig_myparcel_general_tracktrace_template') {
             return false;
         }
 
@@ -1021,18 +1028,18 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
             $paymentBlockHtml = '';
         }
 
-        $shippingAddress   = $myParcelShipment->getShippingAddress();
-        $barcodeUrl        = $this->getBarcodeUrl($barcode,$shippingAddress);
+        $shippingAddress = $myParcelShipment->getShippingAddress();
+        $barcodeUrl = $this->getBarcodeUrl($barcode, $shippingAddress);
         $templateVariables = array(
             'tracktrace_url' => $barcodeUrl,
-            'order'          => $order,
-            'shipment' 		 => $myParcelShipment->getShipment(),
-            'billing' 		 => $order->getBillingAddress(),
-            'payment_html'   => $paymentBlockHtml,
+            'order' => $order,
+            'shipment' => $myParcelShipment->getShipment(),
+            'billing' => $order->getBillingAddress(),
+            'payment_html' => $paymentBlockHtml,
         );
 
         try {
-            $mailer    = Mage::getModel('core/email_template_mailer');
+            $mailer = Mage::getModel('core/email_template_mailer');
             $emailInfo = Mage::getModel('core/email_info');
             $emailInfo->addTo($order->getCustomerEmail(), $shippingAddress->getName());
 
@@ -1045,7 +1052,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
             $mailer->setTemplateParams($templateVariables);
 
             $mailer->send();
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             $this->logException($e);
             return false;
         }
@@ -1055,18 +1062,19 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
 
     public function hasMyParcelShipment($shipmentId)
     {
-        $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId,'shipment_id');
+        $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
 
-        if($myParcelShipment->getId() != 0){
+        if ($myParcelShipment->getId() != 0) {
             return true;
         }
         return false;
     }
 
-    public function getShippingMethodConfig($shippingMethod, $setting){
-        $aConfig = Mage::getStoreConfig('tig_myparcel/' . $shippingMethod,Mage::app()->getStore());
+    public function getShippingMethodConfig($shippingMethod, $setting)
+    {
+        $aConfig = Mage::getStoreConfig('tig_myparcel/' . $shippingMethod, Mage::app()->getStore());
 
-        if($aConfig[$shippingMethod . '_' . $setting] != false) {
+        if ($aConfig[$shippingMethod . '_' . $setting] != false) {
             return $aConfig[$shippingMethod . '_' . $setting];
         } else {
             return false;
@@ -1111,11 +1119,15 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
      */
     public function calculatePrice(Mage_Sales_Model_Quote $quote)
     {
-        $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
-        $rates = $rates->getAllRates();
-        $rate = $rates[0];
-        $price = (float)$rate->getData('price');
 
+        if ($this->_isFree()) {
+            $price = 0;
+        } else {
+            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
+            $rates = $rates->getAllRates();
+            $rate = $rates[0];
+            $price = (float)$rate->getData('price');
+        }
         $data = json_decode($quote->getMyparcelData(), true);
 
         /**
@@ -1135,12 +1147,23 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract {
                 $price += (float)$this->getConfig('signature_fee', 'delivery');
 
         } else {
-            if($data['price_comment'] == 'retail') {
+            if ($data['price_comment'] == 'retail') {
                 $price += (float)$this->getConfig('pickup_fee', 'pickup');
             } elseif ($data['price_comment'] == 'retailexpress') {
                 $price += (float)$this->getConfig('pickup_express_fee', 'pickup_express');
             }
         }
         return $price;
+    }
+
+    private function _isFree()
+    {
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+        foreach ($quote->getItemsCollection() as $item) {
+            if ($item->getData('free_shipping') == '1') {
+                return true;
+            }
+        }
+        return false;
     }
 }

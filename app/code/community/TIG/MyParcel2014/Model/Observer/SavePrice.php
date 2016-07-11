@@ -33,18 +33,29 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
         $quote = $observer->getQuote();
         if ($quote->getMyparcelData() !== null) {
             $store = Mage::app()->getStore($quote->getStoreId());
-            $carriers = Mage::getStoreConfig('carriers', $store);
+                $carriers = Mage::getStoreConfig('carriers', $store);
 
-            foreach ($carriers as $carrierCode => $carrierConfig) {
-                if ($carrierCode == 'myparcel') {
-                    $newHandlingFee = $helper->calculatePrice($quote);
-                    $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
-                    $store->setConfig("carriers/{$carrierCode}/handling_fee", $newHandlingFee);
+                foreach ($carriers as $carrierCode => $carrierConfig) {
+                    if ($carrierCode == 'myparcel') {
+                        $fee = $this->_isFree() ? 0 : $helper->calculatePrice($quote);
+                        $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
+                        $store->setConfig("carriers/{$carrierCode}/handling_fee", $fee);
 
-                    ###If you want to set the price instead of handling fee you can simply use as:
-                    #$store->setConfig("carriers/{$carrierCode}/price", $newPrice);
+                        ###If you want to set the price instead of handling fee you can simply use as:
+                        #$store->setConfig("carriers/{$carrierCode}/price", $newPrice);
+                    }
                 }
+        }
+    }
+
+    private function _isFree()
+    {
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+        foreach ($quote->getItemsCollection() as $item) {
+            if ($item->getData('free_shipping') == '1') {
+                return true;
             }
         }
+        return false;
     }
 }

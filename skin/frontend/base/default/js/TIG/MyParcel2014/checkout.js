@@ -94,7 +94,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                 window.mypa.settings = $.extend(window.mypa.settings, {
                     postal_code: $(observer.postalCode).val(),
                     street: streetParts[1],
-                    number: streetParts[2],
+                    number: streetParts[3],
                     cutoff_time: data.general['cutoff_time'],
                     dropoff_days: data.general['dropoff_days'],
                     dropoff_delay: data.general['dropoff_delay'],
