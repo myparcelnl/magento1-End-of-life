@@ -215,6 +215,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function shippingMethodIsMyParcel($method)
     {
+        if($this->getConfig('always_myparcel') === '1') {
+            return true;
+        }
+
         $myParcelShippingMethods = $this->getMyParcelShippingMethods();
 
         $method = 'bolcom_bolcom' === $method ? 'bolcom_flatrate' : $method;
