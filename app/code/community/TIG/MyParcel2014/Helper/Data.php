@@ -393,11 +393,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      * multi-line, each part of the street data will be in a separate field. In the single line configuration, each part
      * will be in the same field and will have to be split using PREG.
      *
-     * PREG cannot be relied on as it is impossible to create a regex that can filter all possible street syntaxes.
-     * Therefore we strongly recommend to use multiple street lines. This can be enabled in Magento community in
-     * system > config > customer configuration. Or if you use Enterprise, in customers > attributes > manage customer
-     * address attributes.
-     *
      * @param Mage_Customer_Model_Address_Abstract $address
      * @param null|int                             $storeId
      *
@@ -409,7 +404,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $fullStreet = $address->getStreetFull();
 
         if ($address->getCountry() != 'NL') {
-            $fullStreet = preg_replace("/[\n\r]/", " ", $fullStreet);
+
+            $fullStreet = $this->_getInternationalFullStreet($address);
             $streetData = array(
                 'streetname' => $fullStreet,
                 'housenumber' => '',
@@ -612,6 +608,27 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         );
 
         return $housenumberParts;
+    }
+
+    /**
+     * Generate the entire global address at two address fields
+     *
+     * @param Mage_Sales_Model_Order_Address $address
+     *
+     * @return string
+     */
+    protected function _getInternationalFullStreet($address)
+    {
+        if (empty($address->getStreet2())) {
+            return preg_replace("/[\n\r]/", " ", $address->getStreetFull());
+        }
+
+        $numberStreet = ['CN', 'FR', 'GR', 'IE', 'IL', 'JP', 'LU', 'MY', 'MA', 'NZ', 'SG', 'GB',];
+        if(in_array($address->getCountry(), $numberStreet)){
+            return $address->getStreet2() . ' ' . $address->getStreet1();
+        } else {
+            return preg_replace("/[\n\r]/", " ", $address->getStreetFull());
+        }
     }
 
     /**

@@ -231,7 +231,8 @@ TIG_MyParcel2014::Post Office Address,Gekozen afhaallocatie
 "TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","De geselecteerde zending type kan niet gebruikt worden. 'PostNL locatie' zendingen kunnen enkel aangemaakt worden middels de normale verzendtype. <br/>De Magento zending is aangemaakt zonder een MyParcel zending, selecteer een ander verzend type of ga naar de Magento zending pagina en maak daar een MyParcel zending aan. <a target=""_blank"" href=""%s"">Bekijk zending</a>"
 TIG_MyParcel2014::Only for dutch shipments,Alleen voor Nederlandse verzendingen
 "TIG_MyParcel2014::Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200","Alleen voor Nederlandse verzendingen, zendingen naar landen buiten de EU zijn standaard verzekerd tot &euro; 200"
-"TIG_MyParcel2014::Please select the shipping methods that will be considered to be 'MyParcel' by this extension. Orders placed using one of these shipping methods may be processed using the MyParcel extension.","Selecteer de verzendmethodes die deze extensie als 'MyParcel' moet beschouwen. Orders die worden geplaatst via deze verzendmethodes, kunnen worden verwerkt door de MyParcel extensie."
+TIG_MyParcel2014::Always use MyParcel,Gebruik MyParcel voor alle verzendmethodes
+"TIG_MyParcel2014::Select 'No' in order to set the shipping methods that must be regarded as MyParcel.","Selecteer 'Nee' om de verzendmethodes in te stellen die als MyParcel beschouwd moet worden."
 
 TIG_MyParcel2014::status_1,Concept
 TIG_MyParcel2014::status_2,Voorgemeld
