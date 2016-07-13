@@ -34,7 +34,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         billingStreet1: "input[id='billing:street1']",
         billingStreet2: "input[id='billing:street2']",
         billingCountry: "select[id='billing:country_id']",
-        postalCode: "input[id='shipping:postcode']",
+        postalCode: "input[id='billing:postcode']",
         street1: "input[id='shipping:street1']",
         street2: "input[id='shipping:street2']",
         country: "select[id='shipping:country_id']"
@@ -45,8 +45,8 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
     $.extend(window.mypa.settings, {
         postal_code: '2231JE',
         number:55,
-        //base_url: 'https://api.myparcel.nl/delivery_options'
-        base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
+        base_url: 'https://api.myparcel.nl/delivery_options'
+        //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
     window.mypa.fn.load = load = function () {
@@ -60,6 +60,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                         $('#mypa-load').before(info.container);
                         $('#mypa-slider').hide();
                         actionObservers();
+                        $(observer.magentoMethodMyParcel)[0].checked = false;
                     }
                 };
                 $.ajax(ajaxOptions);
@@ -91,6 +92,8 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 
             if(streetParts !== null) {
 
+                console.log($(observer.postalCode));
+                console.log($(observer.postalCode).val());
                 window.mypa.settings = $.extend(window.mypa.settings, {
                     postal_code: $(observer.postalCode).val(),
                     street: streetParts[1],
@@ -116,16 +119,16 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                      * If method is MyParcel
                      */
                     $([
-                        observer.subItem
-                    ].join()).off('change').on('click', function () {
-                        $(observer.magentoMethodMyParcel)[0].checked = true;
+                        observer.magentoMethodsContainer
+                    ].join()).off('click').on('click', function () {
+                        $(observer.magentoMethodMyParcel)[0].checked = typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined';
                     });
 
                     /**
                      * If method not is MyParcel
                      */
                     $(observer.magentoMethods).off('change').on('change', function () {
-                        if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
+                        if (typeof $(observer.deliveryTime + ':checked')[0] === 'undefined') {
                             $(observer.deliveryType + ':checked')[0].checked = false;
                             $(observer.deliveryTime + ':checked')[0].checked = false;
                         }
@@ -241,13 +244,13 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 
     updateCountry = function () {
         var country = $(observer.billingCountry).val();
-        if (country == 'NL') {
+        /*if (country == 'NL') {
             $('#mypa-delivery-options-container').show();
             $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
         } else {
             $('#mypa-delivery-options-container').hide();
             $(observer.magentoMethodMyParcel).closest( "dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
-        }
+        }*/
     }
 
 
