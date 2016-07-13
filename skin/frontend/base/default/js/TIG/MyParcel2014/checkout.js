@@ -244,13 +244,13 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 
     updateCountry = function () {
         var country = $(observer.billingCountry).val();
-        /*if (country == 'NL') {
+        if (country == 'NL') {
             $('#mypa-delivery-options-container').show();
             $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
         } else {
             $('#mypa-delivery-options-container').hide();
             $(observer.magentoMethodMyParcel).closest( "dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
-        }*/
+        }
     }
 
 

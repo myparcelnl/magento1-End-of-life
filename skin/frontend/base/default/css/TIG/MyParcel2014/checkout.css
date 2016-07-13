@@ -418,7 +418,7 @@ input:checked ~ span span.mypa-price{
 
 /* Magento css */
 #mypa-slider{
-    height: 435px;
+    max-height: 435px;
 }
 
 
