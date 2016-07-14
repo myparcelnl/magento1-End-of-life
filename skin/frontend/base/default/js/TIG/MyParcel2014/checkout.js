@@ -45,8 +45,8 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
     $.extend(window.mypa.settings, {
         postal_code: '2231JE',
         number:55,
-        base_url: 'https://api.myparcel.nl/delivery_options'
-        //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
+        //base_url: 'https://api.myparcel.nl/delivery_options'
+        base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
 
     window.mypa.fn.load = load = function () {
@@ -92,8 +92,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 
             if (streetParts !== null) {
 
-                console.log($(observer.postalCode));
-                console.log($(observer.postalCode).val());
                 window.mypa.settings = $.extend(window.mypa.settings, {
                     postal_code: $(observer.postalCode).val(),
                     street: streetParts[1],
@@ -119,7 +117,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                      * If method is MyParcel
                      */
                     $('#mypa-delivery-options-container').off('click').on('click', function () {
-                        console.log($(observer.deliveryTime + ':checked'));
                         if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
                             $(observer.magentoMethodMyParcel)[0].checked = true;
                         }
@@ -172,7 +169,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 
                 });
             } else {
-                console.log('Adres niet gevonden.')
+                console.log('Adres niet gevonden (API request mislukt).')
             }
 
         }
