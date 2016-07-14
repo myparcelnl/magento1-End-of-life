@@ -28,7 +28,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         signed: "input:checkbox[name='mypa-signed']",
         pickupType: "input:radio[name='mypa-pickup-option']",
         magentoMethodsContainer: "#checkout-shipping-method-load",
-        magentoMethods: "input:radio[id^='s_method']",
+        magentoMethods: ".sp-methods",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
         billingPostalCode: "input[id='billing:postcode']",
         billingStreet1: "input[id='billing:street1']",
@@ -90,7 +90,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         if($(observer.billingCountry).val() == 'NL') {
             getData();
 
-            if(streetParts !== null) {
+            if (streetParts !== null) {
 
                 console.log($(observer.postalCode));
                 console.log($(observer.postalCode).val());
@@ -118,20 +118,19 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                     /**
                      * If method is MyParcel
                      */
-                    $([
-                        observer.magentoMethodsContainer
-                    ].join()).off('click').on('click', function () {
-                        $(observer.magentoMethodMyParcel)[0].checked = typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined';
+                    $('#mypa-delivery-options-container').off('click').on('click', function () {
+                        console.log($(observer.deliveryTime + ':checked'));
+                        if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
+                            $(observer.magentoMethodMyParcel)[0].checked = true;
+                        }
                     });
 
                     /**
                      * If method not is MyParcel
                      */
-                    $(observer.magentoMethods).off('change').on('change', function () {
-                        if (typeof $(observer.deliveryTime + ':checked')[0] === 'undefined') {
-                            $(observer.deliveryType + ':checked')[0].checked = false;
-                            $(observer.deliveryTime + ':checked')[0].checked = false;
-                        }
+                    $(observer.magentoMethods).off('click').on('click', function () {
+                        $(observer.deliveryType + ':checked')[0].checked = false;
+                        $(observer.deliveryTime + ':checked')[0].checked = false;
                     });
 
                     /**
@@ -141,7 +140,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                         observer.onlyRecipient,
                         observer.signed
                     ].join()).off('change').on('change', function () {
-                        if(typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                        if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
                             window.mypa.fn.fnCheckout.saveShippingMethod();
                         }
                     });
@@ -154,7 +153,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                         observer.deliveryType,
                         observer.deliveryTime
                     ].join()).off('change').on('change', function () {
-                        if(typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                        if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
                             setTimeout(
                                 window.mypa.fn.fnCheckout.hideLoader
                                 , 200);
