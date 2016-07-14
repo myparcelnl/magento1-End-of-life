@@ -98,7 +98,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                 } else if (date('Ymd') > date('Ymd', $dropOffDate)) {
                     $dropOff = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
                 } else {
-                    $dropOff = $sDropOff .' <span style="color:red;font-size: 115%;">&#9200;</span>';
+                    $dropOff = $sDropOff .' <span style="font-size: 115%;">&#8987;</span>';
                 }
 
                 return $countryCode . ' - ' . $dropOff;
