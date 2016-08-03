@@ -135,10 +135,6 @@ if(true == $_isPakjegemak){
                     </select>
                 </p>
                 <p>
-                    <label for="tig_myparcel_xl" class="normal"><?php echo $this->__('Large package');?></label>
-                    <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
-                </p>
-                <p>
                     <label for="tig_myparcel_customs_content_code" class="normal"><?php echo $this->__('Customs Content HS Code');?></label>
                     <input id="tig_myparcel_customs_content_code" type="text" value="<?php echo $_defaultCustomsContentCode;?>" name="tig_myparcel[customs_content_type]" />
                 </p>
@@ -149,6 +145,10 @@ if(true == $_isPakjegemak){
                     <small><?php echo $this->__('Shipment insured up to &euro; %s purchase value', 200);?></small>
                 </p>
             <?php else: ?>
+                <p>
+                    <label for="tig_myparcel_xl" class="normal"><?php echo $this->__('Large package');?></label>
+                    <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
+                </p>
                 <p>
                     <small><?php echo $this->__('Shipment insured up to &euro; %s purchase value', 500);?></small>
                 </p>
