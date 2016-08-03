@@ -23,15 +23,8 @@
             $helper = Mage::helper('tig_myparcel');
             $usePgAddress = $helper->getConfig('pakjegemak_use_shipment_address') === '1';
 
-            $usePgAddressIn = array(
-                'renderView',               // Detail page customer & Detail page order
-                'printAction',              // print invoice
-                'printPackingSlipAction',   // print packing slip
-            );
             $parentFunctions = debug_backtrace();
-            $parentFunction = $parentFunctions[3]['function'];
-
-            if (!in_array($parentFunction, $usePgAddressIn)) {
+            if($parentFunctions[3]['function'] == '_getConsignmentData') {
                 $usePgAddress = false;
             }
 
