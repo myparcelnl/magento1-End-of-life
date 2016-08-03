@@ -1,4 +1,5 @@
 <?php
+
 /**
  *                  ___________       __            __
  *                  \__    ___/____ _/  |_ _____   |  |
@@ -46,6 +47,15 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $request = Mage::app()->getRequest();
         $helper = Mage::helper('tig_myparcel');
         $quote = Mage::getModel('checkout/cart')->getQuote();
+
+        if ($quote->getBillingAddress()->getData('country_id') == $quote->getShippingAddress()->getData('country_id')) {
+            $country = $quote->getShippingAddress()->getCountry();
+        } else {
+            $country = $quote->getBillingAddress()->getCountry();
+        }
+
+        if ($country !== 'NL')
+            return true;
 
         /**
          * If shipping method is myparcel
@@ -205,8 +215,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
      */
     public function removePgAddress(Mage_Sales_Model_Quote $quote)
     {
-        if($quote){
-            if($quote != '{}'){
+        if ($quote) {
+            if ($quote != '{}') {
                 $addresses = $quote->getAllAddresses();
 
                 /** @var Mage_Sales_Model_Quote_Address $address */

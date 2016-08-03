@@ -49,6 +49,12 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
 
+        if ($quote->getBillingAddress()->getData('country_id') == $quote->getShippingAddress()->getData('country_id')) {
+            $addressType = 'billing';
+        } else {
+            $addressType = 'shipping';
+        }
+
         $free = false;
         foreach ($quote->getItemsCollection() as $item) {
             $free = $item->getData('free_shipping') == '1' ? true : false;
@@ -66,6 +72,8 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
         $helper = Mage::helper('tig_myparcel');
         $data = array();
+
+        $data['address_type'] = $addressType;
 
         $general['base_price'] =                    $basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));

@@ -44,7 +44,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 
     $.extend(window.mypa.settings, {
         postal_code: '2231JE',
-        number:55,
+        number: 55,
         //base_url: 'https://api.myparcel.nl/delivery_options'
         base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
     });
@@ -52,7 +52,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
     window.mypa.fn.load = load = function () {
         $(document).ready(
             function () {
-                updateCountry();
                 var ajaxOptions = {
                     url: BASE_URL + 'myparcel2014/checkout/info/',
                     success: function (response) {
@@ -86,93 +85,111 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
             actionObservers();
         });
 
-        updateCountry();
-        if($(observer.billingCountry).val() == 'NL') {
-            getData();
+        var country;
+        var ajaxOptions = {
+            url: BASE_URL + 'myparcel2014/checkout/info/',
+            success: function (response) {
 
-            if (streetParts !== null) {
+                info = response;
+                if (response.data['address_type'] == 'shipping') {
+                    country = $(observer.country).val();
+                } else {
+                    country = $(observer.billingCountry).val();
+                }
+                if (country == 'NL') {
+                    getData();
 
-                window.mypa.settings = $.extend(window.mypa.settings, {
-                    postal_code: $(observer.postalCode).val(),
-                    street: streetParts[1],
-                    number: streetParts[3],
-                    cutoff_time: data.general['cutoff_time'],
-                    dropoff_days: data.general['dropoff_days'],
-                    dropoff_delay: data.general['dropoff_delay'],
-                    deliverydays_window: data.general['deliverydays_window'],
-                    exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
-                    price: price,
-                    hvo_title: data.delivery.signature_title,
-                    only_recipient_title: data.delivery.only_recipient_title
-                });
+                    if (streetParts !== null) {
 
-                $.when(
-                    window.mypa.fn.updatePage()
-                ).done(function () {
+                        window.mypa.settings = $.extend(window.mypa.settings, {
+                            postal_code: $(observer.postalCode).val(),
+                            street: streetParts[1],
+                            number: streetParts[3],
+                            cutoff_time: data.general['cutoff_time'],
+                            dropoff_days: data.general['dropoff_days'],
+                            dropoff_delay: data.general['dropoff_delay'],
+                            deliverydays_window: data.general['deliverydays_window'],
+                            exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
+                            price: price,
+                            hvo_title: data.delivery.signature_title,
+                            only_recipient_title: data.delivery.only_recipient_title
+                        });
 
-                    $('#mypa-slider').show();
-                    $('#mypa-note').hide();
+                        $.when(
+                            window.mypa.fn.updatePage()
+                        ).done(function () {
 
-                    /**
-                     * If method is MyParcel
-                     */
-                    $('#mypa-delivery-options-container').off('click').on('click', function () {
-                        if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
-                            $(observer.magentoMethodMyParcel)[0].checked = true;
-                        }
-                    });
+                            $('#mypa-slider').show();
+                            $('#mypa-note').hide();
 
-                    /**
-                     * If method not is MyParcel
-                     */
-                    $(observer.magentoMethods).off('click').on('click', function () {
-                        $(observer.deliveryType + ':checked')[0].checked = false;
-                        $(observer.deliveryTime + ':checked')[0].checked = false;
-                    });
+                            /**
+                             * If method is MyParcel
+                             */
+                            $('#mypa-delivery-options-container').off('click').on('click', function () {
+                                if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
+                                    $(observer.magentoMethodMyParcel)[0].checked = true;
+                                }
+                            });
 
-                    /**
-                     * If the options changed, reload for IWD checkout
-                     */
-                    $([
-                        observer.onlyRecipient,
-                        observer.signed
-                    ].join()).off('change').on('change', function () {
-                        if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                            window.mypa.fn.fnCheckout.saveShippingMethod();
-                        }
-                    });
+                            /**
+                             * If method not is MyParcel
+                             */
+                            $(observer.magentoMethods).off('click').on('click', function () {
+                                $(observer.deliveryType + ':checked')[0].checked = false;
+                                $(observer.deliveryTime + ':checked')[0].checked = false;
+                            });
 
-                    /**
-                     * If deliveryType change, do not use ajax. Reload only after an option is chosen
-                     */
-                    $([
-                        observer.deliveryDate,
-                        observer.deliveryType,
-                        observer.deliveryTime
-                    ].join()).off('change').on('change', function () {
-                        if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                            setTimeout(
-                                window.mypa.fn.fnCheckout.hideLoader
-                                , 200);
-                            setTimeout(
-                                window.mypa.fn.fnCheckout.hideLoader
-                                , 400);
-                            setTimeout(
-                                window.mypa.fn.fnCheckout.hideLoader
-                                , 600);
-                            setTimeout(
-                                window.mypa.fn.fnCheckout.hideLoader
-                                , 1000);
+                            /**
+                             * If the options changed, reload for IWD checkout
+                             */
+                            $([
+                                observer.onlyRecipient,
+                                observer.signed
+                            ].join()).off('change').on('change', function () {
+                                if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                                    window.mypa.fn.fnCheckout.saveShippingMethod();
+                                }
+                            });
 
-                        }
-                    });
+                            /**
+                             * If deliveryType change, do not use ajax. Reload only after an option is chosen
+                             */
+                            $([
+                                observer.deliveryDate,
+                                observer.deliveryType,
+                                observer.deliveryTime
+                            ].join()).off('change').on('change', function () {
+                                if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                                    setTimeout(
+                                        window.mypa.fn.fnCheckout.hideLoader
+                                        , 200);
+                                    setTimeout(
+                                        window.mypa.fn.fnCheckout.hideLoader
+                                        , 400);
+                                    setTimeout(
+                                        window.mypa.fn.fnCheckout.hideLoader
+                                        , 600);
+                                    setTimeout(
+                                        window.mypa.fn.fnCheckout.hideLoader
+                                        , 1000);
 
-                });
-            } else {
-                console.log('Adres niet gevonden (API request mislukt).')
+                                }
+                            });
+
+                        });
+                    } else {
+                        console.log('Adres niet gevonden (API request mislukt).')
+                    }
+                    $('#mypa-delivery-options-container').show();
+                    $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
+                } else {
+                    $('#mypa-delivery-options-container').hide();
+                    $(observer.magentoMethodMyParcel).closest("dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
+                }
             }
+        };
+        $.ajax(ajaxOptions);
 
-        }
     };
 
 
@@ -185,7 +202,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         }
         streetParts = fullStreet.match(objRegExp);
 
-        if(streetParts === null) {
+        if (streetParts === null) {
             $('#mypa-note').html('Vul uw adresgegevens in.')
         }
 
@@ -224,30 +241,19 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
          */
         excludeDeliveryTypes = [];
 
-        if(data.morningDelivery['active'] == false) {
+        if (data.morningDelivery['active'] == false) {
             excludeDeliveryTypes.push('1');
         }
-        if(data.eveningDelivery['active'] == false) {
+        if (data.eveningDelivery['active'] == false) {
             excludeDeliveryTypes.push('3');
         }
-        if(data.pickup['active'] == false) {
+        if (data.pickup['active'] == false) {
             excludeDeliveryTypes.push('4');
         }
-        if(data.pickupExpress['active'] == false) {
+        if (data.pickupExpress['active'] == false) {
             excludeDeliveryTypes.push('5');
         }
     };
-
-    updateCountry = function () {
-        var country = $(observer.billingCountry).val();
-        if (country == 'NL') {
-            $('#mypa-delivery-options-container').show();
-            $(observer.magentoMethodMyParcel).closest( "dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
-        } else {
-            $('#mypa-delivery-options-container').hide();
-            $(observer.magentoMethodMyParcel).closest( "dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
-        }
-    }
 
 
 }).call(this);
