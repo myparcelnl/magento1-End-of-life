@@ -23,6 +23,11 @@
             $helper = Mage::helper('tig_myparcel');
             $usePgAddress = $helper->getConfig('pakjegemak_use_shipment_address') === '1';
 
+            $parentFunctions = debug_backtrace();
+            if($parentFunctions[3]['function'] == '_getConsignmentData') {
+                $usePgAddress = false;
+            }
+
             $pgAddress = false;
             $shippingAddress = false;
 
