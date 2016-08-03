@@ -39,6 +39,11 @@
  * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo $this
  */
 ?>
+    <script>
+        /* Select MyParcel option */
+        document.getElementById('sales_order_grid_massaction-select').value='myparcel_print_labels';
+        $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><label for="type_consignment">Type Consignment</label><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="normal">Pakket</option><option value="letter_box">Brievenbuspakje</option><option value="unstamped">Ongefrankeerd</option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
+    </script>
 <?php if(Mage::helper('tig_myparcel')->getConfig('print_orientation') == 'A4'): ?>
 <div id="print_container" style="display:none;">
     <div id="print_pages">
@@ -67,115 +72,115 @@
     inputstart.value = 1;
     $('html-body').appendChild(inputstart);
 
-    Object.extend(sales_order_grid_massactionJsObject, {
-        apply : function (skipMyParcelCheck) {
+            Object.extend(sales_order_grid_massactionJsObject, {
+                apply : function (skipMyParcelCheck) {
 
-            if (varienStringArray.count(this.checkedString) == 0) {
-                alert(this.errorText);
-                return;
-            }
-
-            /**
-             * Additional MyParcel functionality
-             */
-            if (!skipMyParcelCheck) {
-                massActionSelect = $('sales_order_grid_massaction-select');
-                selectedMassAction = massActionSelect[massActionSelect.selectedIndex];
-                if (selectedMassAction.value == 'myparcel_print_labels') {
-                    Dialog.info(null, {
-                        closable:true,
-                        resizable:false,
-                        draggable:true,
-                        className:'magento',
-                        windowClassName:'myparcel-popup-window',
-                        title:'<?php echo $this->__('Select A4 print start position'); ?>',
-                        top:100,
-                        width:200,
-                        height:290,
-                        zIndex:5000,
-                        recenterAuto:true,
-                        hideEffect:Element.hide,
-                        showEffect:Element.show,
-                        id:'myparcel_popup_window'
-                    });
-                    Dialog.setInfoMessage($('print_container').innerHTML);
-
-                    var printPages = $('print_pages');
-                    printPages.show();
-
-                    var printChildren = printPages.childElements();
-                    for(var i = 0, j = printChildren.length; i < j; i++)
-                    {
-                        printChildren[i].observe('mouseover', function(){
-                            $(this).toggleClassName('hover');
-                        });
-                        printChildren[i].observe('mouseout', function(){
-                            $(this).toggleClassName('hover');
-                        });
-                        printChildren[i].observe('click', function(event){
-                            $('myparcel_print_labels_start').value = Event.element(event).innerHTML;
-                            Windows.close('myparcel_popup_window');
-                            this.apply(true);
-                        }.bindAsEventListener(this));
+                    if (varienStringArray.count(this.checkedString) == 0) {
+                        alert(this.errorText);
+                        return;
                     }
 
-                    $('myparcel_popup_window_close').observe('click', function(){
-                        Windows.close('myparcel_popup_window');
-                    });
+                    /**
+                     * Additional MyParcel functionality
+                     */
+                    if (!skipMyParcelCheck) {
+                        massActionSelect = $('sales_order_grid_massaction-select');
+                        selectedMassAction = massActionSelect[massActionSelect.selectedIndex];
+                        if (selectedMassAction.value == 'myparcel_print_labels') {
+                            Dialog.info(null, {
+                                closable:true,
+                                resizable:false,
+                                draggable:true,
+                                className:'magento',
+                                windowClassName:'myparcel-popup-window',
+                                title:'<?php echo $this->__('Select A4 print start position'); ?>',
+                                top:100,
+                                width:200,
+                                height:290,
+                                zIndex:5000,
+                                recenterAuto:true,
+                                hideEffect:Element.hide,
+                                showEffect:Element.show,
+                                id:'myparcel_popup_window'
+                            });
+                            Dialog.setInfoMessage($('print_container').innerHTML);
 
-                    // close popup when clicked outside
-                    setTimeout(function(){
-                        $('overlay_modal').observe('click', function(){
-                            $('myparcel_popup_window_close').click();
+                            var printPages = $('print_pages');
+                            printPages.show();
+
+                            var printChildren = printPages.childElements();
+                            for(var i = 0, j = printChildren.length; i < j; i++)
+                            {
+                                printChildren[i].observe('mouseover', function(){
+                                    $(this).toggleClassName('hover');
+                                });
+                                printChildren[i].observe('mouseout', function(){
+                                    $(this).toggleClassName('hover');
+                                });
+                                printChildren[i].observe('click', function(event){
+                                    $('myparcel_print_labels_start').value = Event.element(event).innerHTML;
+                                    Windows.close('myparcel_popup_window');
+                                    this.apply(true);
+                                }.bindAsEventListener(this));
+                            }
+
+                            $('myparcel_popup_window_close').observe('click', function(){
+                                Windows.close('myparcel_popup_window');
+                            });
+
+                            // close popup when clicked outside
+                            setTimeout(function(){
+                                $('overlay_modal').observe('click', function(){
+                                    $('myparcel_popup_window_close').click();
+                                });
+                            }, 300);
+
+                            return;
+                        }
+                    }
+
+                    /**
+                     * original apply method
+                     */
+                    var item = this.getSelectedItem();
+                    if (!item) {
+                        this.validator.validate();
+                        return;
+                    }
+                    this.currentItem = item;
+                    var fieldName = (item.field ? item.field : this.formFieldName);
+
+                    if (this.currentItem.confirm && !window.confirm(this.currentItem.confirm)) {
+                        return;
+                    }
+
+                    this.formHiddens.update('');
+                    new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({
+                        name  : fieldName,
+                        value : this.checkedString
+                    }));
+                    new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({
+                        name  : 'massaction_prepare_key',
+                        value : fieldName
+                    }));
+
+                    if (!this.validator.validate()) {
+                        return;
+                    }
+
+                    if (this.useAjax && item.url) {
+                        new Ajax.Request(item.url, {
+                            'method'     : 'post',
+                            'parameters' : this.form.serialize(true),
+                            'onComplete' : this.onMassactionComplete.bind(this)
                         });
-                    }, 300);
-
-                    return;
+                    } else if (item.url) {
+                        this.form.action = item.url;
+                        this.form.submit();
+                    }
                 }
-            }
-
-            /**
-             * original apply method
-             */
-            var item = this.getSelectedItem();
-            if (!item) {
-                this.validator.validate();
-                return;
-            }
-            this.currentItem = item;
-            var fieldName = (item.field ? item.field : this.formFieldName);
-
-            if (this.currentItem.confirm && !window.confirm(this.currentItem.confirm)) {
-                return;
-            }
-
-            this.formHiddens.update('');
-            new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({
-                name  : fieldName,
-                value : this.checkedString
-            }));
-            new Insertion.Bottom(this.formHiddens, this.fieldTemplate.evaluate({
-                name  : 'massaction_prepare_key',
-                value : fieldName
-            }));
-
-            if (!this.validator.validate()) {
-                return;
-            }
-
-            if (this.useAjax && item.url) {
-                new Ajax.Request(item.url, {
-                    'method'     : 'post',
-                    'parameters' : this.form.serialize(true),
-                    'onComplete' : this.onMassactionComplete.bind(this)
-                });
-            } else if (item.url) {
-                this.form.action = item.url;
-                this.form.submit();
-            }
-        }
-    });
-})();
-//]]>
-</script>
+            });
+        })();
+        /*]]>*/
+    </script>
 <?php endif; ?>

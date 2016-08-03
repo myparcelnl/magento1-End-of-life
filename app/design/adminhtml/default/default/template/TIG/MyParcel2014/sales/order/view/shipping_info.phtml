@@ -40,8 +40,9 @@
  */
 $this->getCheckoutOptionsHtml();
 ?>
+
     <script type ="text/javascript">
-        //<![CDATA[
+        /*<![CDATA[*/
         document.observe('dom:loaded', function(){
             var checkoutOptions = '<?= $this->getCheckoutOptionsHtml(); ?>';
             var currentOptions = '<?= $this->getCurrentOrderOptionsHtml(); ?>';
@@ -49,13 +50,11 @@ $this->getCheckoutOptionsHtml();
 
             target.innerHTML = target.innerHTML.replace('</fieldset>', checkoutOptions + currentOptions + '</fieldset>');
         });
-
-        //]]>
+        /*]]>*/
     </script>
 
 
-
-<?php if (count($this->_myParcelShipments) > 0):?>
+<?php if ($this->_order->getTracksCollection()->count() != 0):?>
 
     <form action="" id="sales_order_grid_massaction-form" method="post">
         <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey();  ?>">
@@ -81,7 +80,7 @@ $this->getCheckoutOptionsHtml();
 
     </style>
     <script type="text/javascript">
-        //<![CDATA[
+        /*<![CDATA[*/
 
 
 
@@ -200,7 +199,7 @@ $this->getCheckoutOptionsHtml();
         })();
 
 
-        //]]>
+        /*]]>*/
     </script>
 
 <?php endif; ?>

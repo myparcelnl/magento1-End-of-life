@@ -171,7 +171,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function getRequestResponse()
     {
-
         if(!empty($this->requestError)){
             return $this->requestError;
         }
@@ -507,13 +506,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * Gets the shipping address and product code data for this shipment.
      *
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     *
      * @return array
+     *
      * @throws TIG_MyParcel2014_Exception
      */
     protected function _getConsignmentData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
         $helper = Mage::helper('tig_myparcel');
-
         $order = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
 
@@ -764,7 +764,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         return json_encode($requestData);
 
     }
-
 
     /**
      * Generating positions for A4 paper

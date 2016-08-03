@@ -79,7 +79,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $order = Mage::getModel('sales/order')->load($row->getId());
 
         if (!$value) {
-            if ($order->canShip()) {
+            if($order->canShip()) {
 
                 $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
 
@@ -116,7 +116,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $postcode = $row->getData(self::POSTCODE_COLUMN);
         $destinationData = array(
             'countryCode' => $countryCode,
-            'postcode' => $postcode,
+            'postcode'    => $postcode,
         );
 
         $barcodeData = array();
@@ -124,7 +124,6 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $statusses = explode(',', $value);
 
         foreach ($statusses as $key => $status) {
-
             if (!empty($barcodes[$key])) {
                 $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
                 $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>" . $this->__('status_' . $status) . "</small>";

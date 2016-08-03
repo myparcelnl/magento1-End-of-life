@@ -54,7 +54,6 @@
                 </setup>
             </tig_myparcel_setup>
         </resources>
-        <!-- use <fieldsets></fieldsets>  for udpate from chechout -->
         <events>
             <sales_quote_collect_totals_before>
                 <observers>
@@ -450,7 +449,7 @@
                 <message>Order %s cannot be shipped, because it is cancelled.</message>
             </MYPA-0024>
             <MYPA-0025>
-                <message>Street name is to long.</message>
+                <message>Street name is too long.</message>
                 <url/>
                 <type>error</type>
             </MYPA-0025>
