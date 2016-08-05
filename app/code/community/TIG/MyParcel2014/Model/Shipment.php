@@ -688,6 +688,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                     $comment = $this->helper->__('Track&amp;Trace link: %s', $barcodeUrl);
                 }
 
+                if ($barcode) {
+                    $this->addTrackingCodeToShipment($barcode);
+                }
+
                 $this->helper->log($comment);
 
                 /** @var Mage_Sales_Model_Order $order */
