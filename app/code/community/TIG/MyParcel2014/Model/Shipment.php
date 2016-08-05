@@ -310,6 +310,34 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         return $this->getSignatureOnReceipt();
     }
 
+    public function isXL()
+    {
+        $consignmentOption = 'is_xl';
+        $orderIsXl = $this->getIsXL();
+
+        if($orderIsXl === null) {
+            $storeId = $this->getOrder()->getStoreId();
+            $orderTotalShipped = $this->getOrderTotal();
+
+            $configValue = $this->helper->getConfig($consignmentOption, 'shipment', $storeId);
+            if (!empty($configValue) && $configValue > 0) {
+                if ($orderTotalShipped >= $configValue) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        } else {
+            if($orderIsXl == '1') {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
 
     /**
      * @return array
@@ -359,6 +387,31 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         return array(
             'option' => $consignmentOption,
             'selected' => 0,
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function getXlOption()
+    {
+        $consignmentOption = 'is_xl';
+
+        $storeId = $this->getOrder()->getStoreId();
+        $orderTotalShipped = $this->getOrderTotal();
+
+        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
+        if(!empty($configValue) && $configValue > 0){
+            if($orderTotalShipped >= $configValue){
+                return array(
+                    'option' => $consignmentOption,
+                    'selected' => 1,
+                );
+            }
+        }
+        return array(
+            'option' => $consignmentOption,
+            'selected' => null,
         );
     }
 
@@ -445,11 +498,13 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $homeAddressOnly     = $this->getHomeAddressOnlyOption();
         $signtatureOnReceipt = $this->getSignatureOnReceiptOption();
         $returnIfNoAnswer    = $this->getReturnIfNoAnswerOption();
+        $xl                  = $this->getXlOption();
         $insured             = $this->getInsuredOption();
 
         $this->setDataUsingMethod($homeAddressOnly['option'], $homeAddressOnly['selected']);
         $this->setDataUsingMethod($signtatureOnReceipt['option'], $signtatureOnReceipt['selected']);
         $this->setDataUsingMethod($returnIfNoAnswer['option'], $returnIfNoAnswer['selected']);
+        $this->setDataUsingMethod($xl['option'], $xl['selected']);
         $this->setDataUsingMethod($insured['option'], $insured['selected']);
         $this->setDataUsingMethod('insured_amount', $insured['insured_amount']);
 

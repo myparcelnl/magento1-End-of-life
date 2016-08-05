@@ -678,7 +678,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         $data = array(
             'package_type'          => $packageType,
-            'large_format'          => (int)$myParcelShipment->getIsXL(),
+            'large_format'          => (int)$myParcelShipment->isXL(),
             'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
