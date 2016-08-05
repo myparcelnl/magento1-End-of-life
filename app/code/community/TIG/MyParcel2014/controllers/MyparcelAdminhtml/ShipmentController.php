@@ -645,9 +645,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      * @return boolean
      */
     public function printShipmentLabelAction(){
-
         return $this->massPrintLabelsAction();
-
     }
 
     public function printPackingSlipAction(){

@@ -201,6 +201,8 @@ $this->getCheckoutOptionsHtml();
         };
         $$('.form-buttons').first().appendChild(printLabelButton).insert('<span>Print Label</span>');
 
+
+        <?php if ($this->_myParcelShipments->getAllIds()):?>
         // Create the button in de action bar to print the packing slip
         var printPackingUrl = '<?=$shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/printPackingSlip', array('order_id' => $this->_order->getId()));?>';
 
@@ -214,6 +216,7 @@ $this->getCheckoutOptionsHtml();
 
         $$('.form-buttons').first().appendChild(printPackingButton).insert('<span><?= $this->__('Print packing slip');?></span>');
 
+        <?php endif; ?>
     })();
 
 

@@ -268,23 +268,23 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         if ($myParcelShipment->getShipmentType() == 'normal') {
 
             if ($myParcelShipment->getHomeAddressOnly() == '1')
-                $options[] = strtolower($this->__('Home address only'));
+                $options[] = $this->__('Home address only');
 
             if ($myParcelShipment->getHomeAddressOnly() == '1')
-                $options[] = strtolower($this->__('Signature on receipt'));
+                $options[] = $this->__('Signature on receipt');
 
             if ($myParcelShipment->getReturnIfNoAnswer() == '1')
-                $options[] = strtolower($this->__('Return if no answer'));
+                $options[] = $this->__('Return if no answer');
 
             if ($myParcelShipment->getInsuredAmount() > 0)
-                $options[] = strtolower($this->__('Insured up to &euro;%s', $myParcelShipment->getInsuredAmount()));
+                $options[] = $this->__('Insured up to &euro;%s', $myParcelShipment->getInsuredAmount());
 
             if ($myParcelShipment->getIsXL() == '1')
-                $options[] = strtolower($this->__('Large package'));
+                $options[] = $this->__('Large package');
 
         }
 
-        $htmlOptions = implode(', ', $options);
+        $htmlOptions = $this->__('status_' . $myParcelShipment->getStatus()) . ', ' . strtolower(implode(', ', $options));
 
         return $htmlOptions;
     }
