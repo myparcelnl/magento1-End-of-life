@@ -5,6 +5,7 @@
             <version>1.5.8</version>
         </TIG_MyParcel2014>
     </modules>
+
     <global>
         <models>
             <tig_myparcel>
