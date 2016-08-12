@@ -75,10 +75,13 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
          * Check if any data is available.
          * If not available, show send link and country code
          */
-        $value = $row->getData($this->getColumn()->getIndex());
         $order = Mage::getModel('sales/order')->load($row->getId());
+        $value = $row->getData($this->getColumn()->getIndex());
+        $barcodes = explode(',', $row->getData(self::BARCODE_COLUMN));
+        $barcodeData = array();
+        $statusses = explode(',', $value);
 
-        if (!$value) {
+        if (empty($barcodes[0])) {
             if($order->canShip()) {
 
                 $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
@@ -100,16 +103,16 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             'postcode'    => $postcode,
         );
 
-        $barcodeData = array();
-        $barcodes = explode(',', $row->getData(self::BARCODE_COLUMN));
-        $statusses = explode(',', $value);
-        foreach ($statusses as $key => $status) {
-            if (!empty($barcodes[$key])) {
-                $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
-                $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>{$status}</small>";
-                if(!in_array($oneBarcodeData, $barcodeData)) {
-                    $barcodeData[] = $oneBarcodeData;
-                }
+        foreach ($barcodes as $key => $barcode) {
+            if (!empty($statusses[$key])) {
+                $status = " - <small>{$statusses[$key]}</small>";
+            } else {
+                $status = '';
+            }
+            $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcode, $destinationData, false, true);
+            $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcode}</a>$status";
+            if(!in_array($oneBarcodeData, $barcodeData)) {
+                $barcodeData[] = $oneBarcodeData;
             }
         }
 
