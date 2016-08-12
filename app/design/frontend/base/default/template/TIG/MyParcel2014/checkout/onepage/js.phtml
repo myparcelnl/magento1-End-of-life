@@ -205,7 +205,9 @@
                             if(null != $('shipping-progress-opcheckout')){
                                 $('shipping-progress-opcheckout').show();
                             }
-                            $('myparcel_checkout-progress-opcheckout').hide();
+                            if(null != $('myparcel_checkout-progress-opcheckout')){
+                                $('myparcel_checkout-progress-opcheckout').hide();
+                            }
                         }
 
                         checkout.setLoadWaiting('shipping-method');
