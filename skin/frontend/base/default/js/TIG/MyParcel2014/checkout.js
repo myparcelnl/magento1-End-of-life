@@ -44,9 +44,9 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 
     $.extend(window.mypa.settings, {
         postal_code: '2231JE',
-        number: 55,
+        number: 53,
         base_url: 'https://api.myparcel.nl/delivery_options'
-        //base_url: 'https://ui.staging.myparcel.nl/api/delivery_options'
+        //base_url: ' https://bugfix-705-delivery-options.api.test.myparcel.nl/delivery_options'
     });
 
     window.mypa.fn.load = load = function () {
