@@ -538,7 +538,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         /**
          * is only empty when the myparcel shipment is created in a mass-action
          */
-
         if(empty($consignmentOptions) && empty($filteredOptions)){
             $this->calculateConsignmentOptions();
             $this->setDataUsingMethod('shipment_type', $registryOptions['type_consignment']);
@@ -772,11 +771,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         $isValid = false;
         switch ($type) {
-            case self::TYPE_NORMAL:
+            case self::TYPE_NORMAL: //no break
+            case self::TYPE_UNPAID:
                 $isValid = true;
                 break;
-            case self::TYPE_LETTER_BOX: //no break
-            case self::TYPE_UNPAID:
+            case self::TYPE_LETTER_BOX:
                 if ($this->isDutchShipment()) {
                     $isValid = true;
                 }

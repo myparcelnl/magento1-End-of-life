@@ -75,16 +75,16 @@ if(true == $_isPakjegemak){
         <input id="tig_myparcel_create_consignment" type="checkbox" value="1" name="tig_myparcel[create_consignment]" checked="true" />
     </p>
     <div id="tig_myparcel_form_container">
-        <?php if ($this->getDestinationCountry() == 'NL'): ?>
             <p>
                 <label for="tig_myparcel_shipment_type" class="normal"><?php echo $this->__('Shipment type');?></label>
                 <select id="tig_myparcel_shipment_type" name="tig_myparcel[shipment_type]">
                     <option value="normal" selected="selected"><?php echo $this->__('Normal'); ?></option>
+                    <?php if ($this->getDestinationCountry() == 'NL'): ?>
                     <option value="letter_box" <?php echo $_disabled;?> ><?php echo $this->__('Letter box'); ?></option>
+                    <?php endif; ?>
                     <option value="unstamped" <?php echo $_disabled;?> ><?php echo $this->__('Unpaid'); ?></option>
                 </select>
             </p>
-        <?php endif; ?>
         <div id="myparcel_consignment_options">
             <?php if ($this->getDestinationCountry() == 'NL'): ?>
                 <p>
