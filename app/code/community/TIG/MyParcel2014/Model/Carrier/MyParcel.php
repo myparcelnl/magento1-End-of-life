@@ -177,6 +177,7 @@
                 && 'NL' === $request->getDestCountryId()
                 && $this->getConfigFlag('pakjegemak_active')
                 && $this->_pakjeGemakValidOrderAmount()
+                && ($request->getPackageWeight() > 2 || $this->getConfigData('mailbox_title') == '')
             ) {
                 $currentRate = current($result->getRatesByCarrier($this->_code));
 
@@ -413,7 +414,12 @@
             $method->setCarrierTitle($this->getConfigData('title'));
 
             $method->setMethod('tablerate');
-            $method->setMethodTitle($this->getConfigData('name'));
+
+            if($oldWeight < 2 && $this->getConfigData('mailbox_title') !== '') {
+                $method->setMethodTitle($this->getConfigData('mailbox_title'));
+            } else {
+                $method->setMethodTitle($this->getConfigData('name'));
+            }
 
             $method->setPrice($price);
             $method->setCost($cost);
