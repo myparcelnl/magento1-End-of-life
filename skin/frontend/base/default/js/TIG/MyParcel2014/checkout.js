@@ -201,7 +201,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         streetParts = fullStreet.match(objRegExp);
 
         if (streetParts === null) {
-            $('#mypa-note').html('Vul uw adresgegevens in.')
+            $('#mypa-note').html('Huisnummer ontbreekt.')
         }
 
         data = info.data;
