@@ -10,7 +10,16 @@
      *
      *  Class TIG_MyParcel2014_Model_Sales_Order
      */
-    class TIG_MyParcel2014_Model_Sales_Order extends Mage_Sales_Model_Order
+    if (@class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
+        class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends MDN_AdvancedStock_Model_Sales_Order { }
+    }
+    else
+    {
+        class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Mage_Catalog_Model_Product { }
+    }
+
+
+    class TIG_MyParcel2014_Model_Sales_Order extends TIG_MyParcel2014_Model_Sales_Order_OverrideCheck
     {
 
         /**
