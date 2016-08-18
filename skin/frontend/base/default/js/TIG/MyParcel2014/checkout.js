@@ -102,7 +102,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                     if (streetParts !== null) {
 
                         window.mypa.settings = $.extend(window.mypa.settings, {
-                            postal_code: $(observer.postalCode).val(),
+                            postal_code: $(observer.postalCode).val().replace(' ', ''),
                             street: streetParts[1],
                             number: streetParts[3],
                             cutoff_time: data.general['cutoff_time'],
