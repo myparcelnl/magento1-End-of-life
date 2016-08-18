@@ -1,23 +1,21 @@
 <?php
-    /**
-     *  Rewrite getShippingAddress to retrieve pakjegemak address if possible
-     *
-     *
-     *  @author     Reindert Vetter <info@myparcel.nl>
-     *  @copyright  2016 MyParcelNL
-     *  @since      File available since Release 1.5.0
-     *  @license    http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
-     *
-     *  Class TIG_MyParcel2014_Model_Sales_Order
-     */
-    if (@class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
+/**
+ *  Rewrite getShippingAddress to retrieve pakjegemak address if possible.
+ *  MDN_AdvancedStock_Model_Sales_Order is a fix for a MDN plugin
+ *
+ *
+ *  @author     Reindert Vetter <info@myparcel.nl>
+ *  @copyright  2016 MyParcelNL
+ *  @since      File available since Release 1.5.0
+ *  @license    http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ *
+ *  Class TIG_MyParcel2014_Model_Sales_Order
+ */
+    if (class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends MDN_AdvancedStock_Model_Sales_Order { }
+    } else {
+        class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Mage_Sales_Model_Order { }
     }
-    else
-    {
-        class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Mage_Catalog_Model_Product { }
-    }
-
 
     class TIG_MyParcel2014_Model_Sales_Order extends TIG_MyParcel2014_Model_Sales_Order_OverrideCheck
     {
