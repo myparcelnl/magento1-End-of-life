@@ -83,7 +83,7 @@
                 <name>css/TIG/MyParcel2014/prototype_windows_themes_magento.css</name>
             </action>
         </reference>
-        <reference name="before_body_end">
+        <reference name="content">
             <block type="tig_myparcel/adminhtml_sales_order_view_shippingInfo"
                    name="tig_myparcel_order_view_shipping_info"
                    template="TIG/MyParcel2014/sales/order/view/shipping_info.phtml"/>
