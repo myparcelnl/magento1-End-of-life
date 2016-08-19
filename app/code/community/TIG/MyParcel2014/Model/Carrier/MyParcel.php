@@ -310,6 +310,9 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
      */
     protected function _getTableRate(Mage_Shipping_Model_Rate_Request $request)
     {
+
+        $helper = Mage::helper('tig_myparcel');
+
         // exclude Virtual products price from Package value if pre-configured
         if (!$this->getConfigFlag('include_virtual_price') && $request->getAllItems()) {
             foreach ($request->getAllItems() as $item) {
@@ -415,7 +418,12 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
 
         $method->setMethod('tablerate');
 
-        if($oldWeight < 2 && $this->getConfigData('mailbox_title') != null && $this->getConfigData('mailbox_title') !== '') {
+        if(
+            $oldWeight < 2
+            && $this->getConfigData('mailbox_title') != null
+            && $this->getConfigData('mailbox_title') !== ''
+            && !$helper->isAdmin())
+        {
             $method->setMethodTitle($this->getConfigData('mailbox_title'));
         } else {
             $method->setMethodTitle($this->getConfigData('name'));
