@@ -50,17 +50,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
     window.mypa.fn.load = load = function () {
         $(document).ready(
             function () {
-                var ajaxOptions = {
-                    url: BASE_URL + 'myparcel2014/checkout/info/',
-                    success: function (response) {
-                        info = response;
-                        $('#mypa-load').before(info.container);
-                        $('#mypa-slider').hide();
-                        actionObservers();
-                        $(observer.magentoMethodMyParcel)[0].checked = false;
-                    }
-                };
-                $.ajax(ajaxOptions);
+                actionObservers();
             }
         );
 
@@ -89,6 +79,9 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
             success: function (response) {
 
                 info = response;
+                $('#mypa-load').before(info.container);
+                $('#mypa-slider').hide();
+
                 if (response.data['address_type'] == 'shipping') {
                     country = $(observer.country).val();
                 } else {
@@ -96,6 +89,10 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                 }
                 if (country == 'NL') {
                     getData();
+
+                    $(observer.magentoMethodMyParcel)[0].checked = false;
+                    $('#mypa-delivery-options-container').show();
+                    $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
 
                     if (streetParts !== null) {
 
@@ -178,9 +175,8 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                     } else {
                         console.log('Adres niet gevonden (API request mislukt).')
                     }
-                    $('#mypa-delivery-options-container').show();
-                    $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
                 } else {
+                    $(observer.magentoMethodMyParcel)[0].checked = true;
                     $('#mypa-delivery-options-container').hide();
                     $(observer.magentoMethodMyParcel).closest("dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
                 }
