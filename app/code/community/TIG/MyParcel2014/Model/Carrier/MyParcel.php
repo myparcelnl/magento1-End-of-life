@@ -177,7 +177,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             && 'NL' === $request->getDestCountryId()
             && $this->getConfigFlag('pakjegemak_active')
             && $this->_pakjeGemakValidOrderAmount()
-            && ($request->getPackageWeight() > 2 || $this->getConfigData('mailbox_title') == '')
+            && ($request->getPackageWeight() > 2000 || $this->getConfigData('mailbox_title') == '')
         ) {
             $currentRate = current($result->getRatesByCarrier($this->_code));
 
