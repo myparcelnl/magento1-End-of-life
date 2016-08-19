@@ -419,7 +419,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         $method->setMethod('tablerate');
 
         if(
-            $oldWeight < 2
+            $oldWeight < 2000
             && $this->getConfigData('mailbox_title') != null
             && $this->getConfigData('mailbox_title') !== ''
             && !$helper->isAdmin())
