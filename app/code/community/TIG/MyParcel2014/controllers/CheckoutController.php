@@ -44,6 +44,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
      */
     public function infoAction()
     {
+        $helper = Mage::helper('tig_myparcel');
         /**
          * @var Mage_Sales_Model_Quote $item
          */
@@ -70,7 +71,6 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
             $basePrice = (float)$rate->getData('price');
         }
 
-        $helper = Mage::helper('tig_myparcel');
         $data = array();
 
         $data['address_type'] = $addressType;
@@ -125,6 +125,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
 
         $info = array(
+            'version' => (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version,
             'data' => (object)$data,
             'container' => $container
         );
