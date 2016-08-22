@@ -95,7 +95,6 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                     $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
 
                     if (streetParts !== null) {
-
                         window.mypa.settings = $.extend(window.mypa.settings, {
                             postal_code: $(observer.postalCode).val().replace(' ', ''),
                             street: streetParts[1],
@@ -106,6 +105,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
                             deliverydays_window: data.general['deliverydays_window'],
                             exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
                             price: price,
+                            text: {signed: 'test', only_recipient: 'test2'},
                             hvo_title: data.delivery.signature_title,
                             only_recipient_title: data.delivery.only_recipient_title
                         });
@@ -222,11 +222,15 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
             price['pickup_express'] = '&#8364; ' + data.pickupExpress['fee'].toFixed(2).replace(".", ",");
         }
 
-        if (data.delivery['only_recipient_fee'] != 0) {
+        if (data.delivery['only_recipient_active'] == false) {
+            price['only_recipient'] = 'disabled';
+        } else if (data.delivery['only_recipient_fee'] !== 0) {
             price['only_recipient'] = '+ &#8364; ' + data.delivery['only_recipient_fee'].toFixed(2).replace(".", ",");
         }
 
-        if (data.delivery['signature_fee'] != 0) {
+        if (data.delivery['signature_active'] == false) {
+            price['signed'] = 'disabled';
+        } else if (data.delivery['signature_fee'] !== 0) {
             price['signed'] = '+ &#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
         }
 

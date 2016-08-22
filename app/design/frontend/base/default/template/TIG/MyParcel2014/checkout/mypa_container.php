@@ -47,8 +47,11 @@
 
     <?php endif;?>
 </style>
+
 <div id='mypa-delivery-options-container'>
-    <div id="mypa-note">Uw bezorgopties worden geladen...</div>
+    <div class="mypa-overlay">
+        <span id="mypa-no-options">Geen adres opgegeven</span>
+    </div>
     <div id="mypa-slider">
         <!-- First frame -->
         <div id="mypa-delivery-type-selection" class="mypa-tab-container mypa-slider-pos-0">
@@ -71,7 +74,7 @@
                                 <div class="mypa-checkmark-stem"></div>
                                 <div class="mypa-checkmark-kick"></div>
                             </div>
-                            <span class="mypa-highlight"><?=$delivery['delivery_title'];?></span>
+                            <span class="mypa-highlight">Thuis of op het werk bezorgd</span>
                         </label>
                         <div id='mypa-delivery-options' class='mypa-content-lg'>
                         </div>
@@ -84,7 +87,7 @@
                                 <div class="mypa-checkmark-stem"></div>
                                 <div class="mypa-checkmark-kick"></div>
                             </div>
-                            <span class="mypa-highlight"><?=$pickup['title'];?></span>
+                            <span class="mypa-highlight">Ophalen bij een PostNL locatie</span>
                         </label>
                         <div id='mypa-pickup-options-content' class='mypa-content-lg'>
                             <div>
@@ -95,7 +98,7 @@
                                         <div class="mypa-checkmark-stem"></div>
                                         <div class="mypa-checkmark-kick"></div>
                                     </label>
-                                    <span class="mypa-highlight">Vanaf 16.00 uur</span>
+                                    <span class="mypa-highlight">Vanaf 16.00 uur</span><span class='mypa-address' id="mypa-pickup-address"></span>
                                     <span class='mypa-price mypa-pickup-price'></span>
                                 </label>
                                 <label for='mypa-pickup-express' class='mypa-row-subitem mypa-pickup-selector'>
@@ -105,7 +108,7 @@
                                         <div class="mypa-checkmark-stem"></div>
                                         <div class="mypa-checkmark-kick"></div>
                                     </label>
-                                    <span class="mypa-highlight">Vanaf 8.30 uur</span>
+                                    <span class="mypa-highlight">Vanaf 8.30 uur</span><span class='mypa-address' id="mypa-pickup-express-address"></span>
                                     <span class='mypa-price mypa-pickup-express-price'></span>
                                 </label>
                             </div>
