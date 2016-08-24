@@ -234,6 +234,10 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
             price['signed'] = '+ &#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
         }
 
+        if (data.delivery['signature_and_only_recipient'] > 0) {
+            price['combi_options'] = '+ &#8364; ' + data.delivery['signature_and_only_recipient'].toFixed(2).replace(".", ",");
+        }
+
         /**
          * Exclude delivery types
          */

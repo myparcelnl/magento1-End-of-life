@@ -314,6 +314,20 @@
                                 <signature_active>1</signature_active>
                             </depends>
                         </signature_fee>
+                        <signature_and_only_recipient translate="label,comment" module="tig_myparcel">
+                            <label>Home address only and signature on receipt together fee</label>
+                            <comment>If both have been selected this price will be added to the regular shipping price. Leave empty for not using it.</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <signature_active>1</signature_active>
+                                <only_recipient_active>1</only_recipient_active>
+                            </depends>
+                        </signature_and_only_recipient>
                     </fields>
                 </delivery>
                 <morningdelivery translate="label comment" module="tig_myparcel">

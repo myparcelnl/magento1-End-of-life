@@ -64,6 +64,8 @@ TIG_MyParcel2014::Home address only title,Alleen huisadres titel
 TIG_MyParcel2014::Home address only fee,Alleen huisadres prijs
 TIG_MyParcel2014::Signature on receipt title,Handtekening voor ontvangst titel
 TIG_MyParcel2014::Signature on receipt fee,Handtekening voor ontvangst prijs
+TIG_MyParcel2014::Home address only and signature on receipt together fee,De prijs van handtekening voor ontvangst en alleen huisadres samen
+TIG_MyParcel2014::If both have been selected this price will be added to the regular shipping price. Leave empty for not using it.,Als beide geselecteerd zijn zal deze prijs bij de normale verzendkosten worden opgeteld. Laat leeg om dit niet te gebruiken.
 TIG_MyParcel2014::Morning delivery,Ochtendlevering
 TIG_MyParcel2014::Morning delivery active,Ochtendlevering actief
 TIG_MyParcel2014::Morning delivery fee,Ochtendlevering prijs
