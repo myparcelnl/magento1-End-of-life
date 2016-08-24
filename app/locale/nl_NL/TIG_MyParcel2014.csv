@@ -130,6 +130,8 @@ TIG_MyParcel2014::Housenr. field,Huisnummer veld
 TIG_MyParcel2014::Split house number parts,Deel huisnummervelden op
 TIG_MyParcel2014::Housenr. extension field,Huisnr. extensie veld
 TIG_MyParcel2014::Street line #%s,Adresregel #%s
+TIG_MyParcel2014::The weight in Magento is specified in gram instead of kg,Het gewicht in Magento is opgegeven in gram i.p.v. aantal kg
+TIG_MyParcel2014::Select 'Yes' if the weight is not properly picked up by the MyParcel plugin,Selecteer 'Ja' als het gewicht niet goed wordt opgepakt door de MyParcel plugin
 TIG_MyParcel2014::This will be added to the regular shipping price,Dit zal bij de normale verzendkosten worden opgeteld
 TIG_MyParcel2014::Default shipment type for Cross Domestic shipments,Standaard verzend inhoud voor Cross Domestic verzendingen
 "TIG_MyParcel2014::When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.","Wanneer het adres gewijzigd wordt, bent u genoodzaakt om de gekoppelde MyParcel verzendingen te crediteren en nieuwe MyParcel verzendingen aan te maken."
