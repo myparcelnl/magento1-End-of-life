@@ -12,10 +12,17 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
-window.mypa.observer = window.mypa.observer != null ? window.mypa.observer : {};
-window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
+if(typeof window.mypa == 'undefined') {
+    window.mypa = {};
+    window.mypa.observer = {};
+    window.mypa.fn = {};
+} else {
+    window.mypa.observer = typeof window.mypa.observer != 'undefined' ? window.mypa.observer : {};
+    window.mypa.fn = typeof window.mypa.fn != 'undefined' ? window.mypa.fn : {};
+}
+window.mypa.settings = {};
 (function () {
-    var $, myParcelObserver, load, actionObservers, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
+    var $, myParcelObserver, load, info, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
 
     $ = jQuery.noConflict();
 
@@ -42,21 +49,9 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
 
     $ = jQuery.noConflict();
 
-    $.extend(window.mypa.settings, {
-        base_url: 'https://api.myparcel.nl/delivery_options'
-        //base_url: ' https://bugfix-705-delivery-options.api.test.myparcel.nl/delivery_options'
-    });
+    window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
 
     window.mypa.fn.load = load = function () {
-        $(document).ready(
-            function () {
-                actionObservers();
-            }
-        );
-
-    };
-
-    actionObservers = function () {
         /**
          * If address is change
          */
@@ -70,7 +65,7 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
             observer.street2,
             observer.country
         ].join()).off('change').on('change', function () {
-            actionObservers();
+            load();
         });
 
         var country;
@@ -257,5 +252,4 @@ window.mypa.fn = window.mypa.fn != null ? window.mypa.fn : {};
         }
     };
 
-
-}).call(this);
+})();
