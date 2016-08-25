@@ -12,6 +12,7 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
+
 if(typeof window.mypa == 'undefined') {
     window.mypa = {};
     window.mypa.observer = {};
@@ -22,7 +23,7 @@ if(typeof window.mypa == 'undefined') {
 }
 window.mypa.settings = {};
 (function () {
-    var $, myParcelObserver, load, info, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
+    var $, myParcelObserver, load, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
 
     $ = jQuery.noConflict();
 
@@ -74,7 +75,7 @@ window.mypa.settings = {};
             success: function (response) {
 
                 info = response;
-                $('#mypa-load').before(info.container);
+                //$('#mypa-load').before(info.container);
                 $('#mypa-slider').hide();
 
                 if (response.data['address_type'] == 'shipping') {
@@ -251,5 +252,6 @@ window.mypa.settings = {};
             excludeDeliveryTypes.push('5');
         }
     };
+
 
 })();

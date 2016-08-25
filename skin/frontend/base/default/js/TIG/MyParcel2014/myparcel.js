@@ -8,7 +8,7 @@
     jquery(document).ready(function() {
         var $, AO_DEFAULT_TEXT, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, base, base1, base2, base3, base4, checkCombination, displayOtherTab, fetchDeliveryOptions, initialize, makeSlider, obj1, orderDays, orderOpeningHours, preparePickup, renderDays, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, slideLeft, slideRight, sortLocationsOnDistance, updateDelivery;
         $ = function(selector) {
-            return jquery(document.getElementById('myparcel').shadowRoot).find(selector);
+            return jQuery(document.getElementById('myparcel').shadowRoot).find(selector);
         };
         if (window.mypa == null) {
             window.mypa = {};
