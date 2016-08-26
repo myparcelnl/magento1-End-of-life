@@ -31,6 +31,7 @@
 <?php else: ?>
     <div id="mypa-load">
         <myparcel id="myparcel"></myparcel>
+        <input style="display-none" id="mypa-input">
     </div>
     <dl class="sp-methods">
         <?php $shippingCodePrice = array(); ?>
@@ -106,6 +107,9 @@
 
 
 <template id="myparcel-template">
+    <script>
+        window.mypa = {}
+    </script>
     <style>
         body{
             word-wrap: break-word;

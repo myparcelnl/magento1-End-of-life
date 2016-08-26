@@ -12,7 +12,6 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
-
 if(typeof window.mypa == 'undefined') {
     window.mypa = {};
     window.mypa.observer = {};
