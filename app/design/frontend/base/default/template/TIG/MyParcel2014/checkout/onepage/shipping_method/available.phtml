@@ -31,7 +31,9 @@
 <?php else: ?>
     <div id="mypa-load">
         <myparcel id="myparcel"></myparcel>
-        <input style="display-none" id="mypa-input">
+        <input style="display: none;" id="mypa-input" name="mypa-input">
+        <input type="checkbox" name='mypa-signed' style="display: none;" id="mypa-signed">
+        <input type="checkbox" name='mypa-recipient-only' style="display: none;" id="mypa-recipient-only">
     </div>
     <dl class="sp-methods">
         <?php $shippingCodePrice = array(); ?>
@@ -104,11 +106,9 @@
     </script>
 <?php endif; ?>
 
-
-
 <template id="myparcel-template">
     <script>
-        window.mypa = {}
+        //window.mypa = {}
     </script>
     <style>
         body{
@@ -577,6 +577,17 @@
 
         .mypa-inline-block{
             display: inline-block;
+        }
+
+
+
+        /* Magento css */
+        #mypa-slider{
+            max-height: 435px;
+        }
+        #mypa-location-container {
+            overflow-x: auto;
+            max-height: 217px;
         }
     </style>
     <div id='mypa-delivery-options-container'>

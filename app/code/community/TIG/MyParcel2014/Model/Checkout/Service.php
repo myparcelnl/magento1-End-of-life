@@ -62,38 +62,34 @@ class TIG_MyParcel2014_Model_Checkout_Service
          */
         if ($request->isPost() && strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
-            if ($request->getPost('mypa-delivery-time') == null)
+
+            if ($request->getPost('mypa-input') == null)
                 return false;
 
-            $delivery = json_decode($request->getPost('mypa-delivery-time', ''), true);
+            $data = json_decode($request->getPost('mypa-input', ''), true);
 
-            if ($delivery !== null) {
-
-                /**
-                 * not pickup
-                 */
-                $return = $request->getPost('mypa-only-recipient', '') === 'on' ? 1 : false;
-                if ($return) {
-                    $delivery['home_address_only'] = true;
-                }
-
-                $signed = $request->getPost('mypa-signed', '') === 'on' ? 1 : false;
-                if ($signed) {
-                    $delivery['signed'] = true;
-                }
-
-                $data = $delivery;
-                $this->removePgAddress($quote);
-
-            } else {
-                if ($request->getPost('mypa-pickup-option') == null)
-                    return false;
+            if ($data['location'] !== null) {
 
                 /**
                  * is pickup
                  */
-                $data = json_decode($request->getPost('mypa-pickup-option', ''), true);
                 $this->savePgAddress($data, $quote);
+            } else {
+                /**
+                 * not pickup
+                 */
+                $return = $request->getPost('mypa-recipient-only', '') === 'on' ? 1 : false;
+                if ($return) {
+                    $data['home_address_only'] = true;
+                }
+
+                $signed = $request->getPost('mypa-signed', '') === 'on' ? 1 : false;
+                if ($signed) {
+                    $data['signed'] = true;
+                }
+
+
+                $this->removePgAddress($quote);
             }
 
             $quote->setMyparcelData(json_encode($data))->save();

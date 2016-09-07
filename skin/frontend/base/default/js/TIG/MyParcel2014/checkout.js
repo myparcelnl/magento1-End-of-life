@@ -74,8 +74,8 @@ window.mypa.settings = {};
             success: function (response) {
 
                 info = response;
-                //$('#mypa-load').before(info.container);
                 $('#mypa-slider').hide();
+                $(observer.magentoMethodMyParcel)[0].checked = true;
 
                 if (response.data['address_type'] == 'shipping') {
                     country = $(observer.country).val();
@@ -85,7 +85,6 @@ window.mypa.settings = {};
                 if (country == 'NL') {
                     getData();
 
-                    $(observer.magentoMethodMyParcel)[0].checked = false;
                     $('#mypa-delivery-options-container').show();
                     $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
 
@@ -100,7 +99,7 @@ window.mypa.settings = {};
                             deliverydays_window: data.general['deliverydays_window'],
                             exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
                             price: price,
-                            text: {signed: 'test', only_recipient: 'test2'},
+                            text: {signed: data.delivery.signature_title, only_recipient: data.delivery.only_recipient_title},
                             hvo_title: data.delivery.signature_title,
                             only_recipient_title: data.delivery.only_recipient_title
                         });
@@ -117,7 +116,7 @@ window.mypa.settings = {};
                              */
                             $('#mypa-delivery-options-container').off('click').on('click', function () {
                                 if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
-                                    $(observer.magentoMethodMyParcel)[0].checked = true;
+                                    $(observer.magentoMethodMyParcel)[0].prop('checked', true);
                                 }
                             });
 
@@ -125,8 +124,10 @@ window.mypa.settings = {};
                              * If method not is MyParcel
                              */
                             $(observer.magentoMethods).off('click').on('click', function () {
-                                $(observer.deliveryType + ':checked')[0].checked = false;
-                                $(observer.deliveryTime + ':checked')[0].checked = false;
+                                console.log($("input:radio[name='mypa-delivery-type']:checked"));
+                                /* @todo; uncheck MyParcel radios */
+                                /*$(observer.deliveryType + ':checked')[0].checked = false;
+                                $(observer.deliveryTime + ':checked')[0].checked = false;*/
                             });
 
                             /**
@@ -171,7 +172,6 @@ window.mypa.settings = {};
                         console.log('Adres niet gevonden (API request mislukt).')
                     }
                 } else {
-                    $(observer.magentoMethodMyParcel)[0].checked = true;
                     $('#mypa-delivery-options-container').hide();
                     $(observer.magentoMethodMyParcel).closest("dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
                 }
