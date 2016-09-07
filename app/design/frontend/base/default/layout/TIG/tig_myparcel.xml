@@ -46,6 +46,7 @@
         </reference>
     </default>
 
+    <!-- default checkout -->
     <checkout_onepage_index>
         <reference name="head">
             <action method="addItem">
@@ -87,8 +88,13 @@
         </reference>
     </checkout_onepage_shippingmethod>
 
+    <!-- IWD checkout -->
     <opc_index_index>
         <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/MutationObserver.js</file>

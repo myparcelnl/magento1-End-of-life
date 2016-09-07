@@ -75,14 +75,14 @@ window.mypa.settings = {};
 
                 info = response;
                 $('#mypa-slider').hide();
-                $(observer.magentoMethodMyParcel)[0].checked = true;
 
                 if (response.data['address_type'] == 'shipping') {
                     country = $(observer.country).val();
                 } else {
                     country = $(observer.billingCountry).val();
                 }
-                if (country == 'NL') {
+                if (country == 'NL' && typeof $(observer.magentoMethodMyParcel)[0] != '') {
+                    $(observer.magentoMethodMyParcel)[0].checked = true;
                     getData();
 
                     $('#mypa-delivery-options-container').show();
@@ -172,7 +172,7 @@ window.mypa.settings = {};
                         console.log('Adres niet gevonden (API request mislukt).')
                     }
                 } else {
-                    $('#mypa-delivery-options-container').hide();
+                    $('#myparcel').hide();
                     $(observer.magentoMethodMyParcel).closest("dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
                 }
             }

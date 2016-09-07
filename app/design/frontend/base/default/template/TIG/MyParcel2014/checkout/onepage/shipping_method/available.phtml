@@ -26,15 +26,18 @@
 ?>
 <?php /** @var $this Mage_Checkout_Block_Onepage_Shipping_Method_Available */ ?>
 <?php $_shippingRateGroups = $this->getShippingRates(); ?>
+<?php $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($this->getQuote()); ?>
 <?php if (!$_shippingRateGroups): ?>
     <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
 <?php else: ?>
+<?php if($rates): ?>
     <div id="mypa-load">
         <myparcel id="myparcel"></myparcel>
         <input style="display: none;" id="mypa-input" name="mypa-input">
         <input type="checkbox" name='mypa-signed' style="display: none;" id="mypa-signed">
         <input type="checkbox" name='mypa-recipient-only' style="display: none;" id="mypa-recipient-only">
     </div>
+    <?php endif;?>
     <dl class="sp-methods">
         <?php $shippingCodePrice = array(); ?>
         <?php $_sole = count($_shippingRateGroups) == 1; foreach ($_shippingRateGroups as $code => $_rates): ?>
@@ -106,6 +109,7 @@
     </script>
 <?php endif; ?>
 
+<?php if($rates): ?>
 <template id="myparcel-template">
     <script>
         //window.mypa = {}
@@ -680,3 +684,4 @@
     window.mypa.fn.load();
     window.mypa.fn.updatePage();
 </script>
+<?php endif;?>
