@@ -775,7 +775,6 @@
 /app/code/community/IWD/
 app/design/adminhtml/default/default/layout/iwdall.xml
 app/design/frontend/base/default/layout/iwd_all.xml
-app/design/frontend/base/default/template/iwd/all/info.phtml
 app/etc/modules/IWD_All.xml
 app/locale/en_US/IWD_All.csv
 package.xml
@@ -792,3 +791,11 @@ skin/frontend/base/default/css/iwd/*
 app/design/frontend/base/default/layout/iwd_opc.xml
 app/design/adminhtml/default/default/layout/iwd_opc.xml
 /app/design/frontend/base/default/template/iwd/
+/app/code/local/
+/app/design/adminhtml/default/default/template/onestepcheckout/
+/app/design/frontend/base/default/layout/onestepcheckout.xml
+/app/design/frontend/base/default/template/onestepcheckout/
+*Idev_OneStepCheckout.csv
+*Idev_OneStepCheckout_Admin.csv
+/skin/adminhtml/base/default/onestepcheckout/
+/skin/frontend/base/default/onestepcheckout/
