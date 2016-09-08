@@ -1,6 +1,7 @@
+<?php $helper = Mage::helper('tig_myparcel'); ?>
 <style>
     /* Set base color */
-    <?php $baseColor = $general['base_color'];?>
+    <?php $baseColor = $helper->getConfig('base_color', 'checkout');?>
     <?php if($baseColor != ''):?>
 
         .mypa-tab{
@@ -14,6 +15,10 @@
             opacity: 1;
         }
 
+        .mypa-address {
+            color: #<?=$baseColor;?>;
+        }
+
 
         /* START opc_index_index (IWD) */
         .opc-wrapper-opc label.mypa-tab, .opc-wrapper-opc label.mypa-tab span {
@@ -24,7 +29,7 @@
     <?php endif;?>
 
     /* Set select color */
-    <?php $selectColor = $general['select_color'];?>
+    <?php $selectColor = $helper->getConfig('select_color', 'checkout');?>
     <?php if($selectColor != ''):?>
 
         input:checked ~ .mypa-highlight, input:checked ~ label.mypa-row-title span.mypa-highlight,

@@ -73,7 +73,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
             }
         }
 
-        $data = array();
+        $data = [];
 
         $data['address_type'] = $addressType;
 
@@ -121,16 +121,10 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $pickupExpress['min_order_total'] =         (float)$helper->getConfig('pickup_express_min_order_total', 'pickup_express');
         $data['pickupExpress'] = (object)$pickupExpress;
 
-        ob_start();
-        include_once('app/design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_container.php');
-        $container = ob_get_contents();
-        ob_clean();
-
 
         $info = array(
             'version' => (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version,
-            'data' => (object)$data,
-            'container' => $container
+            'data' => (object)$data
         );
 
         header('Content-Type: application/json');
