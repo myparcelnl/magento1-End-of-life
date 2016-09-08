@@ -25,15 +25,15 @@ h1 {
 }
 
 h2,h3 {
-    padding-left: 15px;
+    padding-left: 0px;
 }
 
-h4, p {
-    padding-left: 60px;
+h4 {
+    padding-left: 0px;
 }
 
 ol, ul {
-    padding-left: 80px;
+    padding-left: 40px;
 }
 
 ol > li, ul > li {
