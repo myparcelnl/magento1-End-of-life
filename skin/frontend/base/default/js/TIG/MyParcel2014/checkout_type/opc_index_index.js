@@ -1,7 +1,8 @@
-mypaObserver ={
-    magentoMethodsContainer: "#checkout-shipping-method-load"
-};
-window.mypa.observer  = mypaObserver;
+if(typeof window.mypa == 'undefined') {
+    window.mypa = {};
+    window.mypa.observer = {};
+    window.mypa.fn = {};
+}
 
 var fnCheckout =
 {

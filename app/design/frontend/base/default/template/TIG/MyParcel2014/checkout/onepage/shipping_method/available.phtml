@@ -680,8 +680,10 @@
     </div>
 </template>
 <script>
-    window.mypa.initialize();
-    window.mypa.fn.load();
-    window.mypa.fn.updatePage();
+    mypajQuery( document ).ready(function() {
+        window.mypa.initialize();
+        window.mypa.fn.load();
+        window.mypa.fn.updatePage();
+    });
 </script>
 <?php endif;?>

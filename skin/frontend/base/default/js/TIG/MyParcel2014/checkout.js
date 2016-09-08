@@ -85,7 +85,7 @@ window.mypa.settings = {};
                     $(observer.magentoMethodMyParcel)[0].checked = true;
                     getData();
 
-                    $('#mypa-delivery-options-container').show();
+                    $('#myparcel').show();
                     $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
 
                     if (streetParts !== null) {
