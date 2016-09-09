@@ -532,6 +532,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $helper = Mage::helper('tig_myparcel');
         $order = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
+        $useGram = $helper->getConfig('gram_is_set', 'shipment', $storeId) === '1' ? true : false;
 
         if($storeId != $this->getStoreId()){
             $this->apiUsername = $helper->getConfig('username', 'api', $storeId);
@@ -608,7 +609,9 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                     $weight *= $qty;
                     $weight = max(array(1, $weight));
+                    $weight = $useGram == true ? $weight / 1000 : $weight;
                     $totalWeight += $weight;
+
 
                     $price *= $qty;
 
@@ -626,7 +629,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     }
                 }
             }
-            $data['weight'] = $totalWeight;
+            $data['weight'] = ceil($totalWeight);
         }
 
         /**
