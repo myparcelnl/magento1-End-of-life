@@ -623,9 +623,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     }
                 }
             }
-
-            $data['customs_declaration']['weight'] = $totalWeight * 1000;
-            $data['physical_properties'] = array('weight' => $totalWeight * 1000);
+            $data['weight'] = $totalWeight;
         }
 
         /**

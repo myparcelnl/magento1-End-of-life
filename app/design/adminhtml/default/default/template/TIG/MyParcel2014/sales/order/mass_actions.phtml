@@ -93,7 +93,6 @@
             inputstart.type = 'hidden';
             inputstart.name = 'myparcel_print_labels_start';
             inputstart.value = 1;
-            $('sales_order_grid_massaction-form').appendChild(inputstart);
 
             Object.extend(sales_order_grid_massactionJsObject, {
                 apply: function (skipMyParcelCheck) {
@@ -130,6 +129,7 @@
 
                             var printPages = $('print_pages');
                             printPages.show();
+                            $('sales_order_grid_massaction-form').appendChild(inputstart);
 
                             var printChildren = printPages.childElements();
                             for (var i = 0, j = printChildren.length; i < j; i++) {
