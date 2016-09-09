@@ -171,6 +171,8 @@ TIG_MyParcel2014::Housenr. field,Huisnummer veld
 TIG_MyParcel2014::Split house number parts,Deel huisnummervelden op
 TIG_MyParcel2014::Housenr. extension field,Huisnr. extensie veld
 TIG_MyParcel2014::Street line #%s,Adresregel #%s
+TIG_MyParcel2014::The weight in Magento is specified in gram instead of kg,Het gewicht in Magento is opgegeven in gram i.p.v. aantal kg
+TIG_MyParcel2014::Select 'Yes' if the weight is not properly picked up by the MyParcel plugin,Selecteer 'Ja' als het gewicht niet goed wordt opgepakt door de MyParcel plugin
 TIG_MyParcel2014::This will be added to the regular shipping price,Dit zal bij de normale verzendkosten worden opgeteld
 TIG_MyParcel2014::Default shipment type for Cross Domestic shipments,Standaard verzend inhoud voor Cross Domestic verzendingen
 "TIG_MyParcel2014::When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.","Wanneer het adres gewijzigd wordt, bent u genoodzaakt om de gekoppelde MyParcel verzendingen te crediteren en nieuwe MyParcel verzendingen aan te maken."
@@ -269,6 +271,8 @@ TIG_MyParcel2014::status_99,Inactief - Onbekende status
 "TIG_MyParcel2014::There are no log files to be downloaded.","Er zijn geen log files om te downloaden."
 TIG_MyParcel2014::PostNL location minimum order total enabled,PostNL locatie minimum totaal bedrag actief
 "TIG_MyParcel2014::PostNL location minimum order total, incl. BTW","PostNL locatie minimum totaal bedrag, incl. BTW"
+TIG_MyParcel2014::Mailbox title,Brievenbuspakje titel
+TIG_MyParcel2014::Mailbox title under 2 kg. Leave empty to don't use it.,Brievenbuspakje titel als het totaal gewicht onder 2 kg is. Laat leeg om dit niet toe te passen.
 "TIG_MyParcel2014::PostNL location will not be visible if the subtotal of an order is below this value","'Ophalen op een PostNL locatie' zal niet zichtbaar zijn als het bedrag van een bestelling onder deze waarde valt"
 TIG_MyParcel2014::Use shipment address for PostNL location,Voeg PostNL locatie toe aan het afleveradres
 TIG_MyParcel2014::Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.,Gebruik het afleveradres voor 'Ophalen op een PostNL locatie'. De klant zal het adres op het factuur zien. Stel in op 'Nee' als je AfterPay gebruikt.
