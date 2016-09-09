@@ -1,164 +1,42 @@
-/**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Creative Commons License.
- * It is available through the world-wide-web at this URL:
- * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
- *
- * @copyright   Copyright (c) 2015 Total Internet Group B.V. (http://www.tig.nl)
- * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- */
 
-/** Onepage checkout location-address */
-.checkout-onepage-index #myparcel_checkout_selected_location.complete label.head { font-weight: lighter; }
-.checkout-onepage-index #myparcel_checkout_selected_location.complete address {
-    background: none repeat scroll 0 0 #f4f4f4;
-    display: block;
-    padding-bottom: 15px;
-    padding-left: 40px;
-    width: 250px;
-    font-size: 0.85em;
+/* Magento css */
+#mypa-slider{
+    max-height: 435px;
 }
 
-/** Onestepcheckout location-address*/
-.onestepcheckout-index-index #myparcel_checkout_selected_location.complete label.head { margin-left: 17px; }
-.onestepcheckout-index-index #myparcel_checkout_selected_location.complete address {
-    font-size: 0.8em;
-    font-weight: normal;
+#mypa-location-selector {
+    height: 278px;
+}
+
+
+/* START opc_index_index (IWD) */
+.opc-wrapper-opc label.mypa-tab span,
+.opc-wrapper-opc .mypa-delivery-header b,
+.opc-wrapper-opc .mypa-delivery-header span {
+    color: #ffffff;
+}
+
+.opc-wrapper-opc #mypa-delivery-body .mypa-row-title {
+    padding-left: 0;
+}
+
+.opc-wrapper-opc .mypa-row-subitem {
     margin-left: 15px;
-    margin-top: 5px;
 }
 
-.myparcel_checkout_edit_link { float:right; margin-right:15px; }
-.location-error-msg { color:#f00; }
-
-/** TIG MyParcel Basic overlay CSS */
-
-#myparcel_checkout_overlay .overlay {  position: fixed;  top: 0; left:0; width: 100%;  height: 100%;  background-color: #000;  opacity: 0.4;  z-index: 4000;  }
-#myparcel_checkout_overlay #overlay_window .powered-by { font-size:.75em; }
-#myparcel_checkout_overlay #overlay_window .myparcel-loader {  display:inline-block;  width:14px;  height:16px;  text-indent:-999em;  background:url(../../../images/TIG/MyParcel/checkout/loader_mini.gif) 0 2px no-repeat;  margin-left:4px;  }
-#myparcel_checkout_overlay #overlay_window {  background-color: #fff;  border: 1px solid #01bbc5;  overflow: auto;  z-index: 5000;  padding: 5px;  border-radius: 4px;  }
-#myparcel_checkout_overlay #overlay_window .close {
-    display:inline-block;
-    position:absolute;
-    top: 1%;
-    right: 1%;
-    line-height:1.7em;
-    background:#01bbc5;
-    padding: 0 1em;
-    color: #fff;
-    cursor:pointer;
-    border-radius: 4px;
-    font-size:1em;
-    margin: 1%;
-
-    z-index: 10;
-    opacity: 1;
-    text-shadow: none;
-    font-weight: normal;
-}
-#myparcel_checkout_overlay #overlay_window h3 { background: none repeat scroll 0 0 #01bbc5;
-    border-radius: 3px;
-    color: white;
-    float: left;
-    font-size: 1em;
-    line-height: 2em;
-    margin: 1% 0;
-    text-align: center;
-    text-transform: none;
-    width: 100%;
-}
-#myparcel_checkout_overlay #overlay_window .logo { width: 100%; text-align:center; max-width:none;}
-#myparcel_checkout_overlay #overlay_window .logo img { width:45px; display:inline-table; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-search { float:left; width: 100%; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-search .search-form { width: 85%; margin: 0 auto; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-search .search-form label {font-size:0.8em;}
-#myparcel_checkout_overlay #overlay_window .responsive-location-search .search-form input { margin: 1% 0; border-radius: 4px; border: 1px solid #58585a; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-search .actions { text-align:center;}
-#myparcel_checkout_overlay #overlay_window .responsive-location-search .actions .myparcel-button {  background: none repeat scroll 0 0 #01bbc5;  border: medium none;  border-radius: 4px;  color: #fff;  line-height: 32px;  margin: 4% 0;  padding: 0 15px;  }
-#myparcel_checkout_overlay #overlay_window .responsive-location-results { float: left; width: 100%; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list { float: left; width: 100%; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location {float:left; width:100%;}
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .content {margin:1%; float:left; width:99%; background:#e9e9e9; padding:1%; border-radius: 3px; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .location-info,
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .address { font-size: 0.9em;  float:left; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .location-info { width: 65%; }
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .distance,
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .myparcel-button,
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .info-link {  float:right;  text-align:right;  font-style: italic;  font-size:0.8em;  width:20%;  }
-
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .myparcel-button {
-    width: auto;
-    display:inline-block;
-    line-height:1.7em;
-    background:#01bbc5;
-    padding: 0 1em;
-    color: #fff;
-    cursor:pointer;
-    border-radius: 4px;
-    font-size:1em;
-    margin: 1%;
-    border: none;
-    font-style:normal;
+.opc-wrapper-opc .mypa-price {
+    margin-right: 0;
 }
 
-#myparcel_checkout_overlay #overlay_window .close:hover,
-#myparcel_checkout_overlay #overlay_window .responsive-location-results .list li.location .myparcel-button:hover,
-#myparcel_checkout_overlay #overlay_window .responsive-location-search .actions .myparcel-button:hover { background: #58585a; }
-
-
-
-/**
- * 	Magento 1.6 styles
- */
-#myparcel_checkout_overlay.style_16 #overlay_window .responsive-location-search .search-form label {font-size: 1em; display:inline-block;width:100%;text-align:left;}
-#myparcel_checkout_overlay.style_16 #overlay_window .responsive-location-search .search-form input {width:365px; max-width:100%;height:25px;max-height:100%;}
-#myparcel_checkout_overlay.style_16 #overlay_window .responsive-location-results .list li.location .content {width:96%; }
-#myparcel_checkout_overlay.style_16 #overlay_window .responsive-location-results .list li.location .location-info,
-#myparcel_checkout_overlay.style_16 #overlay_window .responsive-location-results .list li.location .address { text-align:left; }
-/**
-Media queries for responsive theme's
-*/
-
-@media only screen and (min-width: 0px) and (max-width: 679px) {
-    #myparcel_checkout_overlay #overlay_window {  height: 80%;  left: 10%;  position: fixed;  top: 10%;  width: 80%;  }
+.opc-wrapper-opc input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg {
+    max-height: 210px;
 }
 
-@media only screen and (min-width: 680px) and (max-width: 1024px){
-    #myparcel_checkout_overlay #overlay_window {  height: 80%;  left: 50%;  position: fixed;  top: 10%;  width: 500px;  margin-left:-250px;  }
+.opc-wrapper-opc .mypa-slider label {
+    margin-bottom: 0;
 }
 
-@media only screen and (min-width : 1024px) {
-    #myparcel_checkout_overlay #overlay_window {  height: 80%;  left: 50%;  position: fixed;  top: 10%;  width: 500px;  margin-left:-250px;  }
+.opc-wrapper-opc #mypa-location-selector {
+    height: 302px;
 }
-
-body.overlay_open{
-    overflow:hidden;
-}
+/* END opc_index_index (IWD) */

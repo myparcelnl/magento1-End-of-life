@@ -1,4 +1,5 @@
 <?php
+
 /**
  *                  ___________       __            __
  *                  \__    ___/____ _/  |_ _____   |  |
@@ -36,10 +37,9 @@
  * @copyright   Copyright (c) 2015 TIG (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-
 class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Object
 {
-    const RETOURLINK_ROUTE         = 'adminhtml/myparcelAdminhtml_config/generateRetourlink';
+    const RETOURLINK_ROUTE = 'adminhtml/myparcelAdminhtml_config/generateRetourlink';
     const CREDIT_CONSIGNMENT_ROUTE = 'adminhtml/myparcelAdminhtml_config/creditConsignment';
 
     /**
@@ -50,13 +50,13 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
      *
      * @return $this
      *
-     * @event adminhtml_widget_container_html_before
+     * @event    adminhtml_widget_container_html_before
      *
      * @observer tig_myparcel_adminhtml_view_shipment
      */
     public function adminhtmlWidgetContainerHtmlBefore(Varien_Event_Observer $observer)
     {
-        /** @var Mage_Adminhtml_Block_Widget_Container $block; */
+        /** @var Mage_Adminhtml_Block_Widget_Container $block ; */
         $block = $observer->getBlock();
 
         /** @var TIG_MyParcel2014_Helper_Data $helper */
@@ -65,14 +65,14 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
 
         if ($block instanceof Mage_Adminhtml_Block_Sales_Order_Shipment_View) {
 
-            $shipmentId       = $block->getRequest()->getParam('shipment_id');
+            $shipmentId = $block->getRequest()->getParam('shipment_id');
 
             $shippingMethod = Mage::getModel('sales/order_shipment')
-                                ->load($shipmentId)
-                                ->getOrder()
-                                ->getShippingMethod();
+                ->load($shipmentId)
+                ->getOrder()
+                ->getShippingMethod();
 
-            if(!$helper->shippingMethodIsMyParcel($shippingMethod)){
+            if (!$helper->shippingMethodIsMyParcel($shippingMethod)) {
                 return;
             }
 
@@ -80,20 +80,19 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
 
             if (!$myParcelShipment->hasConsignmentId()) {
                 $block->addButton('myparcel_create_consignment', array(
-                    'label'     => $helper->__('Create MyParcel Consignment'),
-                    'id'        => 'createMyParcelConsignment',
-                    'class'     => 'go',
+                    'label' => $helper->__('Create MyParcel Consignment'),
+                    'id' => 'createMyParcelConsignment',
+                    'class' => 'go',
                 ));
                 // remove Send Tracking Information button
                 $block->removeButton('save');
-            } else {
-                $retourUrl = $block->getUrl(self::RETOURLINK_ROUTE,         array('shipment_id' => $shipmentId,));
-                $creditUrl = $block->getUrl(self::CREDIT_CONSIGNMENT_ROUTE, array('shipment_id' => $shipmentId,));
+            } else if ($myParcelShipment->getShipment()->getShippingAddress()->getCountry() == 'NL') {
+                $retourUrl = $block->getUrl(self::RETOURLINK_ROUTE, array('shipment_id' => $shipmentId,));
 
                 $block->addButton('myparcel_create_return_url', array(
-                    'label'     => $helper->__('Generate Retourlink'),
-                    'class'     => 'go',
-                    'onclick'   => "setLocation('".$retourUrl."')",
+                    'label' => $helper->__('Mail retour label'),
+                    'class' => 'go',
+                    'onclick' => "setLocation('" . $retourUrl . "')",
                 ));
             }
         }

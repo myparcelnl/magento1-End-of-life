@@ -33,25 +33,43 @@
  * versions in the future. If you wish to customize this module for your
  * needs please contact servicedesk@tig.nl for more information.
  *
- * @copyright   Copyright (c) 2015 Total Internet Group B.V. (http://www.tig.nl)
+ * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- *
- * @var TIG_MyParcel2014_Block_Checkout_Progress $this
  */
-?>
-<div id="myparcel_checkout-progress-opcheckout">
-</div>
-<script type="text/javascript">
-    //<![CDATA[
-    var shippingAddressProgress = $('shipping-progress-opcheckout');
-    if (shippingAddressProgress) {
-        shippingAddressProgress.insert({
-            after : $('myparcel_checkout-progress-opcheckout')
-        });
-    }
 
-    if (checkout) {
-        checkout.steps = ['login', 'billing', 'shipping', 'shipping_method', 'myparcel_checkout', 'payment', 'review'];
+class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
+{
+    /**
+     * Source model for customs setting.
+     *
+     * @return array
+     */
+    public function toOptionArray($isMultiSelect = false, $isActiveOnlyFlag = false)
+    {
+        $helper = Mage::helper('tig_myparcel');
+
+        $array = array(
+            array(
+                'value' => 1,
+                'label' => $helper->__('Saturday, Sunday, Monday'),
+            ),
+            array(
+                'value' => 2,
+                'label' => $helper->__('Tuesday'),
+            ),
+            array(
+                'value' => 3,
+                'label' => $helper->__('Wednesday'),
+            ),
+            array(
+                'value' => 4,
+                'label' => $helper->__('Thursday'),
+            ),
+            array(
+                'value' => 5,
+                'label' => $helper->__('Friday'),
+            ),
+        );
+        return $array;
     }
-    //]]>
-</script>
+}

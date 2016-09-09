@@ -1,4 +1,5 @@
 <?php
+
 /**
  *                  ___________       __            __
  *                  \__    ___/____ _/  |_ _____   |  |
@@ -39,126 +40,108 @@
 class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Action
 {
     /**
-     * Get available locations for the supplied postcode and housenr from MyParcel.
-     *
-     * @return $this
+     * Generate data in json format for checkout
      */
-    public function getLocationsAction()
+    public function infoAction()
     {
+        $helper = Mage::helper('tig_myparcel');
+        $addressHelper = Mage::helper('tig_myparcel/addressValidation');
         /**
-         * This action may only be called using AJAX requests
+         * @var Mage_Sales_Model_Quote $item
          */
-        if (!$this->getRequest()->isAjax()) {
-            $this->getResponse()
-                 ->setBody('not_allowed');
+        $quote = Mage::getModel('checkout/cart')->getQuote();
 
-            return $this;
+        $free = false;
+        foreach ($quote->getItemsCollection() as $item) {
+            $free = $item->getData('free_shipping') == '1' ? true : false;
+            break;
         }
 
-        /**
-         * Get the submitted post data and validate it.
-         */
-        $postData = $this->getRequest()->getPost();
-        $validData = Mage::getSingleton('tig_myparcel/checkout_validate')->validateGetLocationsData($postData);
-
-        /**
-         * Check if the data is valid.
-         */
-        if (!$validData) {
-            $this->getResponse()
-                 ->setBody('invalid_data');
-
-            return $this;
+        if($free) {
+            $basePrice = 0;
+        } else {
+            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
+            if($rates) {
+                $rates = $rates->getAllRates();
+                $rate = $rates[0];
+                $basePrice = (float)$rate->getData('price');
+            }
         }
 
-        /**
-         * Form the data array required for the MyParcel API.
-         */
-        $requestData = array(
-            'country'      => 'NL',
-            'postalcode'   => $validData['postcode'],
-            'streetnumber' => $validData['housenr'],
-            'courier'      => 'postnl',
+        $data = [];
+
+        $data['address'] = $addressHelper->getQuoteAddress($quote);
+
+        $general['base_price'] =                    $basePrice;
+        $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));
+        $general['deliverydays_window'] =           $helper->getConfig('deliverydays_window', 'checkout');
+        $general['dropoff_days'] =                  str_replace(',', ';', $helper->getConfig('dropoff_days', 'checkout'));
+        $general['dropoff_delay'] =                 $helper->getConfig('dropoff_delay', 'checkout');
+        $general['base_color'] =                    $helper->getConfig('base_color', 'checkout');
+        $general['select_color'] =                  $helper->getConfig('select_color', 'checkout');
+        $data['general'] = (object)$general;
+
+        $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
+        $delivery['only_recipient_active'] =        $helper->getConfig('only_recipient_active', 'delivery') == "1" ? true : false;
+        $delivery['only_recipient_title'] =         $helper->getConfig('only_recipient_title', 'delivery');
+        $delivery['only_recipient_fee'] =           (float)$helper->getConfig('only_recipient_fee', 'delivery');
+        $delivery['signature_active'] =             $helper->getConfig('signature_active', 'delivery') == "1" ? true : false;
+        $delivery['signature_title'] =              $helper->getConfig('signature_title', 'delivery');
+        $delivery['signature_fee'] =                (float)$helper->getConfig('signature_fee', 'delivery');
+        $delivery['signature_and_only_recipient'] =                (float)$helper->getConfig('signature_and_only_recipient', 'delivery');
+        $data['delivery'] = (object)$delivery;
+
+        $morningDelivery['active'] =                $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" ? true : false;
+        $morningDelivery['fee'] =                   $basePrice + (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
+        $morningDelivery['min_order_enabled'] =     $helper->getConfig('morningdelivery_min_order_enabled', 'morningdelivery') == "1";
+        $morningDelivery['min_order_total'] =       (float)$helper->getConfig('morningdelivery_min_order_total', 'morningdelivery');
+        $data['morningDelivery'] = (object)$morningDelivery;
+
+        $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" ? true : false;
+        $eveningDelivery['fee'] =                   $basePrice + (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
+        $eveningDelivery['min_order_enabled'] =     $helper->getConfig('eveningdelivery_min_order_enabled', 'eveningdelivery') == "1";
+        $eveningDelivery['min_order_total'] =       (float)$helper->getConfig('eveningdelivery_min_order_total', 'eveningdelivery');
+        $data['eveningDelivery'] = (object)$eveningDelivery;
+
+        $pickup['active'] =                         $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
+        $pickup['title'] =                          $helper->getConfig('pickup_title', 'pickup');
+        $pickup['fee'] =                            $basePrice + (float)$helper->getConfig('pickup_fee', 'pickup');
+        $pickup['min_order_enabled'] =              $helper->getConfig('pickup_min_order_enabled', 'pickup') == "1";
+        $pickup['min_order_total'] =                (float)$helper->getConfig('pickup_min_order_total', 'pickup');
+        $data['pickup'] = (object)$pickup;
+
+        $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" ? true : false;
+        $pickupExpress['fee'] =                     $basePrice + (float)$helper->getConfig('pickup_express_fee', 'pickup_express');
+        $pickupExpress['min_order_enabled'] =       $helper->getConfig('pickup_express_min_order_enabled', 'pickup_express') == "1";
+        $pickupExpress['min_order_total'] =         (float)$helper->getConfig('pickup_express_min_order_total', 'pickup_express');
+        $data['pickupExpress'] = (object)$pickupExpress;
+
+
+        $info = array(
+            'version' => (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version,
+            'data' => (object)$data
         );
 
-        /**
-         * Request all available locations from the MYParcel API.
-         */
-        $api = Mage::getModel('tig_myparcel/api_myParcel');
-        $api->createGetLocationsRequest($requestData)->sendRequest();
-
-        /**
-         * Get the result and make sure it's valid.
-         */
-        $result = $api->getRequestResponse();
-        if (!isset($result['data'])) {
-            $this->getResponse()
-                 ->setBody('invalid_response');
-
-            return $this;
-        }
-
-        /**
-         * Print the response in JSON format.
-         */
-        $json = Mage::helper('core')->jsonEncode($result);
-        $this->getResponse()
-             ->setBody($json);
-
-        return $this;
+        header('Content-Type: application/json');
+        echo(json_encode($info));
+        exit;
     }
 
     /**
-     * Save the selected PakjeGemak location.
-     *
-     * @return $this
+     * Save the MyParcel data in quote
      */
-    public function saveLocationAction()
+    public function save_shipping_methodAction()
     {
-        /**
-         * This action may only be called using AJAX requests
-         */
-        if (!$this->getRequest()->isAjax()) {
-            $this->getResponse()
-                 ->setBody('not_allowed');
-
-            return $this;
-        }
-
-        /**
-         * Get the submitted post data and validate it.
-         */
-        $postData = $this->getRequest()->getPost();
-        $validData = Mage::getSingleton('tig_myparcel/checkout_validate')->validateSaveLocationData($postData);
-
-        /**
-         * Check if the data is valid.
-         */
-        if (!$validData) {
-            $this->getResponse()
-                 ->setBody('invalid_data');
-
-            return $this;
-        }
-
-        $quote = Mage::getSingleton('checkout/session')->getQuote();
-        try {
-            /**
-             * Save the address of the selected PakjeGemak location in the quote.
-             */
-            Mage::getModel('tig_myparcel/checkout_service')->savePgAddress($validData, $quote);
-        } catch (Exception $e) {
-            Mage::helper('tig_myparcel')->logException($e);
-
-            $this->getResponse()
-                 ->setBody('error');
-
-            return $this;
-        }
-
-        $this->getResponse()
-             ->setBody('ok');
-
-        return $this;
+        Mage::getModel('tig_myparcel/checkout_service')->saveMyParcelShippingMethod();
     }
+
+    /**
+     * For testing the cron
+     */
+    public function cronAction()
+    {
+        $cronController = new TIG_MyParcel2014_Model_Observer_Cron;
+        $cronController->checkStatus();
+    }
+
 }

@@ -149,4 +149,57 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
 
         return '';
     }
+
+    /**
+     * Get current quote address. This is used in the checkout.
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     *
+     * @return array
+     */
+    public function getQuoteAddress(Mage_Sales_Model_Quote $quote)
+    {
+        $helper = Mage::helper('tig_myparcel');
+
+        $address = [];
+        if (
+            $quote->getBillingAddress()->getData('country_id') == $quote->getShippingAddress()->getData('country_id') &&
+            $quote->getBillingAddress()->getStreetFull() == $quote->getShippingAddress()->getStreetFull()
+        ) {
+            $address['full_street'] = $quote->getBillingAddress()->getStreetFull();
+            if($address['full_street']){
+                $address['type'] = 'billing';
+                $address['country'] = $quote->getBillingAddress()->getCountry();
+                $address['postal_code'] = $quote->getBillingAddress()->getPostcode();
+                $streetData = $helper->getStreetData($quote->getBillingAddress());
+                $address['street'] = $streetData['streetname'];
+                $address['number'] = $streetData['housenumber'];
+            }
+        } else {
+            $address['full_street'] = $quote->getShippingAddress()->getStreetFull();
+            if($address['full_street']){
+                $address['type'] = 'shipping';
+                $address['country'] = $quote->getShippingAddress()->getCountry();
+                $address['postal_code'] = $quote->getShippingAddress()->getPostcode();
+                $streetData = $helper->getStreetData($quote->getShippingAddress());
+                $address['street'] = $streetData['streetname'];
+                $address['number'] = $streetData['housenumber'];
+            }
+        }
+        if (Mage::getSingleton('customer/session')->isLoggedIn() && !$address['full_street']) {
+            $customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+            if ($customerAddressId) {
+                $address['type'] = 'login';
+                $tmpAddress = Mage::getModel('customer/address')->load($customerAddressId);
+                $address['country'] = $tmpAddress->getCountry();
+                $address['postal_code'] = $tmpAddress->getPostcode();
+                $address['full_street'] = $tmpAddress->getStreetFull();
+                $streetData = $helper->getStreetData($tmpAddress);
+                $address['street'] = $streetData['streetname'];
+                $address['number'] = $streetData['housenumber'];
+            }
+        }
+
+        return $address;
+    }
 }

@@ -1,51 +1,51 @@
 <?php
-/**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Creative Commons License.
- * It is available through the world-wide-web at this URL:
- * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
- *
- * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
- * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- *
- *
- */
-
-class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_Abstract
-    implements Mage_Shipping_Model_Carrier_Interface
-{
     /**
-     * Rate type (tablerate or flatrate).
+     *                  ___________       __            __
+     *                  \__    ___/____ _/  |_ _____   |  |
+     *                    |    |  /  _ \\   __\\__  \  |  |
+     *                    |    | |  |_| ||  |   / __ \_|  |__
+     *                    |____|  \____/ |__|  (____  /|____/
+     *                                              \/
+     *          ___          __                                   __
+     *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
+     *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
+     *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
+     *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
+     *                  \/                           \/
+     *                  ________
+     *                 /  _____/_______   ____   __ __ ______
+     *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
+     *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
+     *                 \______  /|__|    \____/ |____/ |   __/
+     *                        \/                       |__|
+     *
+     * NOTICE OF LICENSE
+     *
+     * This source file is subject to the Creative Commons License.
+     * It is available through the world-wide-web at this URL:
+     * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+     * If you are unable to obtain it through the world-wide-web, please send an email
+     * to servicedesk@tig.nl so we can send you a copy immediately.
+     *
+     * DISCLAIMER
+     *
+     * Do not edit or add to this file if you wish to upgrade this module to newer
+     * versions in the future. If you wish to customize this module for your
+     * needs please contact servicedesk@tig.nl for more information.
+     *
+     * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
+     * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+     *
+     *
      */
-    const XML_PATH_RATE_TYPE = 'carriers/myparcel/rate_type';
+
+    class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_Abstract
+        implements Mage_Shipping_Model_Carrier_Interface
+    {
+        /**
+         * Rate type (tablerate or flatrate).
+         */
+        const XML_PATH_RATE_TYPE = 'carriers/myparcel/rate_type';
 
     /**
      * MyParcel Carrier code
@@ -94,11 +94,11 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
     public function getTrackingInfo($tracking)
     {
         $statusModel = Mage::getModel('shipping/tracking_result_status');
-        $track       = $this->_getTrackByNumber($tracking);
-        $shipment    = $track->getShipment();
+        $track = $this->_getTrackByNumber($tracking);
+        $shipment = $track->getShipment();
 
         $shippingAddress = $shipment->getShippingAddress();
-        $barcodeUrl      = Mage::helper('tig_myparcel')->getBarcodeUrl(
+        $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl(
             $track->getTrackNumber(),
             $shippingAddress
         );
@@ -139,6 +139,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
      * Collect and get rates
      *
      * @param Mage_Shipping_Model_Rate_Request $request
+     *
      * @return bool|Mage_Shipping_Model_Rate_Result|mixed|null
      * @throws TIG_MyParcel2014_Exception
      */
@@ -175,21 +176,20 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         // add PakjeGemak if country is NL and not in admin
         if (!$helper->isAdmin()
             && 'NL' === $request->getDestCountryId()
-            && $this->getConfigFlag('pakjegemak_active')
-            && $this->_pakjeGemakValidOrderAmount()
-            && ($request->getPackageWeight() > 2000 || $this->getConfigData('mailbox_title') == '')
+            && $helper->getShippingMethodConfig('pakjegemak', 'active')
+            && $this->_shippingMethodValidOrderAmount('pakjegemak')
         ) {
             $currentRate = current($result->getRatesByCarrier($this->_code));
 
             if ($currentRate) {
                 $currentPrice = $currentRate->getPrice();
-                $pakjegemakPrice = floatval($this->getConfigData('pakjegemak_fee'));
+                $pakjegemakPrice = floatval($helper->getShippingMethodConfig('pakjegemak', 'fee'));
 
                 // use a modified clone of the configured shipping rate
                 $pakjegemakRate = clone $currentRate;
 
                 $pakjegemakRate->setMethod('pakjegemak');
-                $pakjegemakRate->setMethodTitle($this->getConfigData('pakjegemak_title'));
+                $pakjegemakRate->setMethodTitle($helper->getShippingMethodConfig('pakjegemak', 'title'));
                 $pakjegemakRate->setPrice($currentPrice + $pakjegemakPrice);
 
                 $result->append($pakjegemakRate);
@@ -204,13 +204,16 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
      *
      * @return bool
      */
-    protected function _pakjeGemakValidOrderAmount()
+    protected function _shippingMethodValidOrderAmount($method)
     {
-        if (!$this->getConfigFlag('pakjegemak_min_order_enabled')) {
+
+        $helper = Mage::helper('tig_myparcel');
+
+        if (!$helper->getShippingMethodConfig($method, 'min_order_enabled')) {
             return true;
         }
 
-        $minOrderTotal = $this->getConfigData('pakjegemak_min_order_total');
+        $minOrderTotal = $helper->getShippingMethodConfig($method, 'min_order_total');
 
         if (!$minOrderTotal) {
             return true;
@@ -238,14 +241,15 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
     public function getAllowedMethods()
     {
         return array(
-            'flatrate'   => $this->getConfigData('name') . ' flat',
-            'tablerate'  => $this->getConfigData('name') . ' table',
+            'flatrate' => $this->getConfigData('name') . ' flat',
+            'tablerate' => $this->getConfigData('name') . ' table',
             'pakjegemak' => $this->getConfigData('name') . ' pakjegemak',
         );
     }
 
     /**
      * @param Mage_Shipping_Model_Rate_Request $request
+     *
      * @return Mage_Shipping_Model_Rate_Result
      */
     protected function _getFlatRate(Mage_Shipping_Model_Rate_Request $request)
@@ -291,7 +295,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             $method->setMethod('flatrate');
             $method->setMethodTitle($this->getConfigData('name'));
 
-            if ($request->getFreeShipping() === true || $request->getPackageQty() == $this->getFreeBoxes()) {
+            if ($request->getFreeShipping() === true || $request->getPackageQty() !== null && $request->getPackageQty() == $this->getFreeBoxes()) {
                 $shippingPrice = '0.00';
             }
 
@@ -306,13 +310,11 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
 
     /**
      * @param Mage_Shipping_Model_Rate_Request $request
+     *
      * @return mixed
      */
     protected function _getTableRate(Mage_Shipping_Model_Rate_Request $request)
     {
-
-        $helper = Mage::helper('tig_myparcel');
-
         // exclude Virtual products price from Package value if pre-configured
         if (!$this->getConfigFlag('include_virtual_price') && $request->getAllItems()) {
             foreach ($request->getAllItems() as $item) {
@@ -417,17 +419,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         $method->setCarrierTitle($this->getConfigData('title'));
 
         $method->setMethod('tablerate');
-
-        if(
-            $oldWeight < 2000
-            && $this->getConfigData('mailbox_title') != null
-            && $this->getConfigData('mailbox_title') !== ''
-            && !$helper->isAdmin())
-        {
-            $method->setMethodTitle($this->getConfigData('mailbox_title'));
-        } else {
-            $method->setMethodTitle($this->getConfigData('name'));
-        }
+        $method->setMethodTitle($this->getConfigData('name'));
 
         $method->setPrice($price);
         $method->setCost($cost);

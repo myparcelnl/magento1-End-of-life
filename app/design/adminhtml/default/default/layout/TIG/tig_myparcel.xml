@@ -46,6 +46,12 @@
                 <name>css/TIG/MyParcel2014/system_config_edit.css</name>
             </action>
         </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/TIG/MyParcel2014/jscolor/jscolor.js</name>
+            </action>
+        </reference>
     </adminhtml_system_config_edit>
 
     <adminhtml_sales_order_address>

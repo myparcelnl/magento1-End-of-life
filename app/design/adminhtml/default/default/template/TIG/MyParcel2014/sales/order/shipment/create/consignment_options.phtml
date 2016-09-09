@@ -48,6 +48,7 @@ $_defaultCustomsContentCode = $_helper->getConfig('customs_hstariffnr', 'shipmen
 $_homeSelected              = $this->getIsHomeSelected();
 $_signatureSelected         = $this->getIsSignatureOnReceipt();
 $_returnNoAnswerSelected    = $this->getIsReturnOnNoAnswer();
+$_isXlSelected              = $this->getIsXl();
 $_insured                   = $this->getIsInsured();
 $_isPakjegemak              = $this->getIsPakjeGemak();
 $_insuredSelected           = '';
@@ -74,16 +75,16 @@ if(true == $_isPakjegemak){
         <input id="tig_myparcel_create_consignment" type="checkbox" value="1" name="tig_myparcel[create_consignment]" checked="true" />
     </p>
     <div id="tig_myparcel_form_container">
-        <?php if ($this->getDestinationCountry() == 'NL'): ?>
             <p>
                 <label for="tig_myparcel_shipment_type" class="normal"><?php echo $this->__('Shipment type');?></label>
                 <select id="tig_myparcel_shipment_type" name="tig_myparcel[shipment_type]">
                     <option value="normal" selected="selected"><?php echo $this->__('Normal'); ?></option>
+                    <?php if ($this->getDestinationCountry() == 'NL'): ?>
                     <option value="letter_box" <?php echo $_disabled;?> ><?php echo $this->__('Letter box'); ?></option>
+                    <?php endif; ?>
                     <option value="unstamped" <?php echo $_disabled;?> ><?php echo $this->__('Unpaid'); ?></option>
                 </select>
             </p>
-        <?php endif; ?>
         <div id="myparcel_consignment_options">
             <?php if ($this->getDestinationCountry() == 'NL'): ?>
                 <p>
@@ -97,6 +98,10 @@ if(true == $_isPakjegemak){
                 <p>
                     <label for="tig_myparcel_return_if_no_answer" class="normal"><?php echo $this->__('Return if no answer');?></label>
                     <input id="tig_myparcel_return_if_no_answer" type="checkbox" value="1" name="tig_myparcel[return_if_no_answer]" <?php echo $_returnNoAnswerSelected;?> />
+                </p>
+                <p>
+                    <label for="tig_myparcel_xl" class="normal"><?php echo $this->__('Large package');?></label>
+                    <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
                 </p>
                 <p>
                     <label for="tig_myparcel_insured" class="normal">(<?= $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?= $this->__('Insured up to:');?> </label>
@@ -140,6 +145,10 @@ if(true == $_isPakjegemak){
                     <small><?php echo $this->__('Shipment insured up to &euro; %s purchase value', 200);?></small>
                 </p>
             <?php else: ?>
+                <p>
+                    <label for="tig_myparcel_xl" class="normal"><?php echo $this->__('Large package');?></label>
+                    <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
+                </p>
                 <p>
                     <small><?php echo $this->__('Shipment insured up to &euro; %s purchase value', 500);?></small>
                 </p>

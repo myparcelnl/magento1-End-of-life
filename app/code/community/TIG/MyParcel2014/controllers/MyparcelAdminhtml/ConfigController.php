@@ -72,93 +72,34 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml
         $myparcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
         $shipment         = Mage::getModel('sales/order_shipment')->load($shipmentId);
 
-
         $consignmentId = $myparcelShipment->getConsignmentId();
 
         /**
          * @var TIG_MyParcel2014_Model_Api_MyParcel $api
          */
         $api      = $myparcelShipment->getApi();
-        $response = $api->createRetourlinkRequest($consignmentId)
+        $response = $api->createRetourlinkRequest($shipment, $consignmentId)
                         ->setStoreId($shipment->getOrder()->getStoreId())
                         ->sendRequest()
                         ->getRequestResponse();
+        $aResponse = json_decode($response, true);
 
         /**
          * Validate the response.
          */
-        if(!is_array($response) || empty($response['retourlink'])){
+        if(!is_array($aResponse) || $aResponse['data']['ids'][0]['id'] === null){
             $message = $helper->__('Retourlink is not created, check the log files for details.');
             $helper->addSessionMessage('adminhtml/session','MYPA-0020', 'warning');
             $helper->logException($message);
         }
 
-        //save retourlink by myparcel shipment
-        $myparcelShipment->setRetourlink($response['retourlink']);
-        $myparcelShipment->save();
-
         //set shipment comment
-        $aLink = '<a target="_blank" href="'.$response['retourlink'].'">'.$response['retourlink'].'</a>';
-        $comment = $helper->__('Retourlink generated: %s',$aLink);
+        $comment = $helper->__('Retour label mailed');
         $shipment->addComment($comment,0,1);
         $shipment->save();
 
         //add success message
         $helper->addSessionMessage('adminhtml/session', null , 'success', $comment);
-
-        //redirect to previous screen
-        $this->_redirectReferer();
-    }
-
-    public function creditConsignmentAction()
-    {
-        $helper = Mage::helper('tig_myparcel');
-        //get Params
-        $shipmentId = $this->getRequest()->getParam('shipment_id');
-
-        /**
-         * @var TIG_MyParcel2014_Model_Shipment $myparcelShipment
-         * @var Mage_Sales_Model_Order_Shipment $shipment
-         */
-        $myparcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
-        $shipment         = Mage::getModel('sales/order_shipment')->load($shipmentId);
-
-
-        $consignmentId = $myparcelShipment->getConsignmentId();
-
-        /**
-         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
-         */
-        $api      = $myparcelShipment->getApi();
-        $response = $api->createConsignmentCreditRequest($consignmentId)
-                        ->setStoreId($shipment->getOrder()->getStoreId())
-                        ->sendRequest()
-                        ->getRequestResponse();
-
-        /**
-         * Validate the response.
-         */
-        if(!is_array($response) || $response['success'] == false){
-
-            if($response['success'] == false){
-                $message = $helper->__('The consignment is already credited.');
-            }else{
-                $message = $helper->__('Credit has not been created, check MyParcel backend for details');
-            }
-
-            $helper->addSessionMessage('adminhtml/session','MYPA-0021', 'warning');
-            $helper->logException($message);
-        }
-
-        //save retourlink by myparcel shipment
-        $myparcelShipment->setIsCredit(true);
-        $myparcelShipment->setStatus($response['status']);
-        $myparcelShipment->save();
-
-        //set shipment comment
-        $comment = $helper->__('Consignment %s is credited at MyParcel',$consignmentId);
-        $shipment->addComment($comment);
-        $shipment->save();
 
         //redirect to previous screen
         $this->_redirectReferer();

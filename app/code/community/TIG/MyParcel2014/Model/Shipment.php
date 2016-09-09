@@ -51,8 +51,10 @@
  * @method boolean hasShipmentIncrementId()
  * @method boolean hasBarcodeSend()
  * @method boolean hasShipmentType()
+ * @method boolean hasIsXl()
  *
  * @method string getShipmentId()
+ * @method string getTrackId()
  * @method string getConsignmentId()
  * @method string getCreatedAt()
  * @method string getUpdatedAt()
@@ -67,9 +69,11 @@
  * @method int    getBarcodeSend()
  * @method int    getCustomsContentType()
  * @method string getShipmentType()
+ * @method int    getIsXL()
  *
  * @method TIG_MyParcel2014_Model_Shipment setShipmentId(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setOrderId(int $value)
+ * @method TIG_MyParcel2014_Model_Shipment setTrackId(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setConsignmentId(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setCreatedAt(string $value)
  * @method TIG_MyParcel2014_Model_Shipment setUpdatedAt(string $value)
@@ -86,6 +90,7 @@
  * @method TIG_MyParcel2014_Model_Shipment setIsCredit(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setCustomsContentType(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setShipmentType(string $value)
+ * @method TIG_MyParcel2014_Model_Shipment setIsXl(int $value)
  *
  */
 class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
@@ -98,15 +103,17 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     /**
      * Statusses used by MyParcel shipments.
      */
-    const STATUS_NEW       = 'new';
-    const STATUS_CONFIRMED = 'Aangemeld';
+    const STATUS_NEW        = 1;
 
     /**
      * Supported shipment types.
      */
-    const TYPE_LETTER_BOX = 'letter_box';
-    const TYPE_NORMAL     = 'normal';
-    const TYPE_UNPAID  = 'unstamped';
+    const TYPE_LETTER_BOX   = 'letter_box';
+    const TYPE_NORMAL       = 'normal';
+    const TYPE_UNPAID       = 'unstamped';
+
+    /** @var TIG_MyParcel2014_Helper_Data $helper */
+    public $helper;
 
     /**
      * Initialize the shipment
@@ -114,6 +121,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     public function _construct()
     {
         $this->_init('tig_myparcel/shipment');
+        $this->helper = Mage::helper('tig_myparcel');
     }
 
     /**
@@ -274,6 +282,63 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         return $api;
     }
 
+    public function isHomeAddressOnly()
+    {
+
+        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
+        if($checkoutData !== null) {
+            $aData = json_decode($checkoutData, true);
+            if($aData['home_address_only']){
+                return 1;
+            }
+        }
+
+        return $this->getHomeAddressOnly();
+    }
+
+    public function isSignatureOnReceipt()
+    {
+
+        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
+        if($checkoutData !== null) {
+            $aData = json_decode($checkoutData, true);
+            if($aData['signed']){
+                return 1;
+            }
+        }
+
+        return $this->getSignatureOnReceipt();
+    }
+
+    public function isXL()
+    {
+        $consignmentOption = 'is_xl';
+        $orderIsXl = $this->getIsXL();
+
+        if($orderIsXl === null) {
+            $storeId = $this->getOrder()->getStoreId();
+            $orderTotalShipped = $this->getOrderTotal();
+
+            $configValue = $this->helper->getConfig($consignmentOption, 'shipment', $storeId);
+            if (!empty($configValue) && $configValue > 0) {
+                if ($orderTotalShipped >= $configValue) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        } else {
+            if($orderIsXl == '1') {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+
     /**
      * @return array
      */
@@ -281,11 +346,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         $consignmentOption = 'home_address_only';
 
-        $helper = Mage::helper('tig_myparcel');
         $storeId = $this->getOrder()->getStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
-        $configValue = $helper->getConfig($consignmentOption,'shipment',$storeId);
+        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
         if(!empty($configValue) && $configValue > 0){
             if($orderTotalShipped >= $configValue){
                 return array(
@@ -308,11 +372,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         $consignmentOption = 'signature_on_receipt';
 
-        $helper = Mage::helper('tig_myparcel');
         $storeId = $this->getOrder()->getStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
-        $configValue = $helper->getConfig($consignmentOption,'shipment',$storeId);
+        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
         if(!empty($configValue) && $configValue > 0){
             if($orderTotalShipped >= $configValue){
                 return array(
@@ -330,15 +393,39 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     /**
      * @return array
      */
+    public function getXlOption()
+    {
+        $consignmentOption = 'is_xl';
+
+        $storeId = $this->getOrder()->getStoreId();
+        $orderTotalShipped = $this->getOrderTotal();
+
+        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
+        if(!empty($configValue) && $configValue > 0){
+            if($orderTotalShipped >= $configValue){
+                return array(
+                    'option' => $consignmentOption,
+                    'selected' => 1,
+                );
+            }
+        }
+        return array(
+            'option' => $consignmentOption,
+            'selected' => null,
+        );
+    }
+
+    /**
+     * @return array
+     */
     public function getReturnIfNoAnswerOption()
     {
         $consignmentOption = 'return_if_no_answer';
 
-        $helper = Mage::helper('tig_myparcel');
         $storeId = $this->getOrder()->getStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
-        $configValue = $helper->getConfig($consignmentOption,'shipment',$storeId);
+        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
         if(!empty($configValue) && $configValue > 0){
             if($orderTotalShipped >= $configValue){
                 return array(
@@ -361,7 +448,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     public function getInsuredOption()
     {
         //load helper, store id and orderTotal
-        $helper            = Mage::helper('tig_myparcel');
+        $helper            = $this->helper;
         $storeId           = $this->getOrderStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
@@ -411,11 +498,13 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $homeAddressOnly     = $this->getHomeAddressOnlyOption();
         $signtatureOnReceipt = $this->getSignatureOnReceiptOption();
         $returnIfNoAnswer    = $this->getReturnIfNoAnswerOption();
+        $xl                  = $this->getXlOption();
         $insured             = $this->getInsuredOption();
 
         $this->setDataUsingMethod($homeAddressOnly['option'], $homeAddressOnly['selected']);
         $this->setDataUsingMethod($signtatureOnReceipt['option'], $signtatureOnReceipt['selected']);
         $this->setDataUsingMethod($returnIfNoAnswer['option'], $returnIfNoAnswer['selected']);
+        $this->setDataUsingMethod($xl['option'], $xl['selected']);
         $this->setDataUsingMethod($insured['option'], $insured['selected']);
         $this->setDataUsingMethod('insured_amount', $insured['insured_amount']);
 
@@ -449,7 +538,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         /**
          * is only empty when the myparcel shipment is created in a mass-action
          */
-
         if(empty($consignmentOptions) && empty($filteredOptions)){
             $this->calculateConsignmentOptions();
             $this->setDataUsingMethod('shipment_type', $registryOptions['type_consignment']);
@@ -495,10 +583,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             return false;
         }
 
-        if ($this->hasStatus() && $this->getStatus() != self::STATUS_NEW) {
-            return false;
-        }
-
         return true;
     }
 
@@ -511,11 +595,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function createConsignment()
     {
-        $helper = Mage::helper('tig_myparcel');
-
+        $storeId = $this->getOrder()->getStoreId();
         if (!$this->canCreateConsignment()) {
             throw new TIG_MyParcel2014_Exception(
-                $helper->__('The createConsignment action is currently unavailable.'),
+                $this->helper->__('The createConsignment action is currently unavailable.'),
                 'MYPA-0011'
             );
         }
@@ -531,62 +614,101 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                         ->sendRequest()
                         ->getRequestResponse();
 
+        $aResponse = json_decode($response);
+
         /**
          * Validate the response.
          */
-        if (!is_array($response)
-            || !isset($response['consignment_id'])
-            || !is_numeric($response['consignment_id'])
+        if (!is_object($aResponse)
+            || !isset($aResponse->data)
+            || !is_numeric($aResponse->data->ids[0]->id)
         ) {
             throw new TIG_MyParcel2014_Exception(
-                $helper->__('Invalid createConsignment response: %s', $api->getRequestErrorDetail()),
+                $this->helper->__('Invalid createConsignment response: %s', $api->getRequestErrorDetail()),
                 'MYPA-0012'
             );
         }
 
-        $status = self::STATUS_NEW;
-
-        /**
-         * check if barcode is available
-         */
-        if(isset($response['tracktrace']) && !empty($response['tracktrace'])){
-            $barcode  = $response['tracktrace'];
-            $shipment = $this;
-            $isSend   = $helper->sendBarcodeEmail($barcode,$shipment);
-            $this->setBarcode($barcode);
-            $status = self::STATUS_CONFIRMED;
-
-            //add comment to order-comment history
-            $shippingAddress = $this->getShippingAddress();
-            $barcodeUrl      = $helper->getBarcodeUrl($barcode, $shippingAddress);
-            if($isSend){
-                //add comment to order-comment history
-                $comment = $helper->__('Track&amp;Trace e-mail is send: %s', $barcodeUrl);
-
-                //flag the myparcel shipment that barcode
-                $this->setBarcodeSend(true);
-            } else {
-                $comment = $helper->__('Track&amp;Trace link: %s', $barcodeUrl);
-            }
-            $helper->log($comment);
-            $order = $shipment->getOrder();
-            $order->addStatusHistoryComment($comment);
-            $order->setEmailSent(false);
-            $order->save();
-        }
-
-        /**
-         * set status (new or confirmed)
-         */
-        $this->setStatus($status);
-
         /**
          * Get the consignment ID and set it.
          */
-        $consignmentId = (int) $response['consignment_id'];
+        $consignmentId = (int) $aResponse->data->ids[0]->id;
+
+        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $responseShipments = $apiInfo->getConsignmentsInfoData(array($consignmentId));
+
+        $responseShipment = $responseShipments[0];
+        if($responseShipment){
+            $this->updateStatus($responseShipment);
+        }
+
 
         $this->setConsignmentId($consignmentId);
+
         return $this;
+    }
+
+    /**
+     * Send barcode mail and set status history comment
+     *
+     * @param $responseShipment
+     *
+     * @return bool
+     */
+    public function updateStatus($responseShipment)
+    {
+        if (is_object($responseShipment)) {
+
+            $this->setStatus($responseShipment->status);
+
+            if($responseShipment->status > 6){
+                $this->setIsFinal('1');
+            }
+            /**
+             * check if barcode is available
+             */
+            if ($this->getBarcode() === null && $responseShipment->barcode != $this->getBarcode() && (int)$this->getBarcodeSend() == false && !empty($responseShipment->barcode)) {
+
+                $barcode = $responseShipment->barcode;
+                $this->setBarcode($barcode);
+                $isSend = $this->helper->sendBarcodeEmail($barcode, $this);
+
+                //add comment to order-comment history
+                $shippingAddress = $this->getShippingAddress();
+                $barcodeUrl = $this->helper->getBarcodeUrl($barcode, $shippingAddress);
+                if ($isSend) {
+                    //add comment to order-comment history
+                    $comment = $this->helper->__('Track&amp;Trace e-mail is send: %s', $barcodeUrl);
+
+                    // flag the myparcel shipment that barcode is send
+                    $this->setBarcodeSend(true);
+
+                } else {
+                    $comment = $this->helper->__('Track&amp;Trace link: %s', $barcodeUrl);
+                }
+
+                if ($barcode) {
+                    $this->addTrackingCodeToShipment($barcode);
+                }
+
+                $this->helper->log($comment);
+
+                /** @var Mage_Sales_Model_Order $order */
+                $order = $this->getOrder();
+                $order->addStatusHistoryComment($comment);
+                $order->setEmailSent((int)$isSend);
+                $this->setOrder($order);
+            }
+
+            if($this->hasDataChanges()){
+                $this->save();
+            }
+
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -600,12 +722,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function addTrackingCodeToShipment($trackAndTraceCode)
     {
-        $helper = Mage::helper('tig_myparcel');
         $shipment = $this->getShipment();
 
         if (!$shipment || !$trackAndTraceCode) {
             throw new TIG_MyParcel2014_Exception(
-                $helper->__(
+                $this->helper->__(
                     'Unable to add tracking info: no track&amp;trace code or shipment available.'
                 ),
                 'MYPA-0013'
@@ -650,11 +771,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         $isValid = false;
         switch ($type) {
-            case self::TYPE_NORMAL:
+            case self::TYPE_NORMAL: //no break
+            case self::TYPE_UNPAID:
                 $isValid = true;
                 break;
-            case self::TYPE_LETTER_BOX: //no break
-            case self::TYPE_UNPAID:
+            case self::TYPE_LETTER_BOX:
                 if ($this->isDutchShipment()) {
                     $isValid = true;
                 }
