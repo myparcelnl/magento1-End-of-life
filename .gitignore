@@ -799,3 +799,5 @@ app/design/adminhtml/default/default/layout/iwd_opc.xml
 *Idev_OneStepCheckout_Admin.csv
 /skin/adminhtml/base/default/onestepcheckout/
 /skin/frontend/base/default/onestepcheckout/
+
+app/etc/modules/Idev_OneStepCheckout.xml
