@@ -22,7 +22,7 @@ if(typeof window.mypa == 'undefined') {
 }
 window.mypa.settings = {};
 (function () {
-    var $, myParcelObserver, load, info, updateCountry, fullStreet, objRegExp, streetParts, price, data, excludeDeliveryTypes, getData, observer;
+    var $, load, info, objRegExp, price, data, excludeDeliveryTypes, getData, observer;
 
     $ = jQuery.noConflict();
 
@@ -47,8 +47,6 @@ window.mypa.settings = {};
         country: "select[id='shipping:country_id']"
     }, window.mypa.observer);
 
-    $ = jQuery.noConflict();
-
     window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
 
     window.mypa.fn.load = load = function () {
@@ -68,7 +66,6 @@ window.mypa.settings = {};
             load();
         });
 
-        var country;
         var ajaxOptions = {
             url: BASE_URL + 'myparcel2014/checkout/info/',
             success: function (response) {
@@ -76,23 +73,19 @@ window.mypa.settings = {};
                 info = response;
                 $('#mypa-slider').hide();
 
-                if (response.data['address_type'] == 'shipping') {
-                    country = $(observer.country).val();
-                } else {
-                    country = $(observer.billingCountry).val();
-                }
-                if (country == 'NL' && typeof $(observer.magentoMethodMyParcel)[0] != '') {
+                var address = info.data['address'];
+                if (address && address['country'] == 'NL' && typeof $(observer.magentoMethodMyParcel)[0] != '') {
                     $(observer.magentoMethodMyParcel)[0].checked = true;
                     getData();
 
                     $('#myparcel').show();
                     $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
 
-                    if (streetParts !== null) {
+                    if (address['street']) {
                         window.mypa.settings = $.extend(window.mypa.settings, {
-                            postal_code: $(observer.postalCode).val().replace(' ', ''),
-                            street: streetParts[1],
-                            number: streetParts[3],
+                            postal_code: address['postal_code'],
+                            street: address['street'],
+                            number: address['number'],
                             cutoff_time: data.general['cutoff_time'],
                             dropoff_days: data.general['dropoff_days'],
                             dropoff_delay: data.general['dropoff_delay'],
@@ -183,17 +176,6 @@ window.mypa.settings = {};
 
 
     getData = function () {
-
-        objRegExp = /(.*?)\s?(([\d]+)-?([a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$))$/;
-        fullStreet = $(observer.billingStreet1).val();
-        if (typeof $(observer.billingStreet2).val() != 'undefined' && $(observer.billingStreet2).val() != '') {
-            fullStreet += ' ' + $(observer.billingStreet2).val()
-        }
-        streetParts = fullStreet.match(objRegExp);
-
-        if (streetParts === null) {
-            $('#mypa-note').html('Huisnummer ontbreekt.')
-        }
 
         data = info.data;
 
