@@ -6,6 +6,7 @@
 
         .mypa-tab{
             background-color: #<?=$baseColor;?>;
+            opacity: .5;
         }
 
         .mypa-delivery-header,

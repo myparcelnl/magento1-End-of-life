@@ -682,8 +682,10 @@
     </div>
 </template>
 <script>
-    window.mypa.initialize();
-    window.mypa.fn.load();
-    window.mypa.fn.updatePage();
+    setTimeout(function() {
+        window.mypa.initialize();
+        window.mypa.fn.load();
+        window.mypa.fn.updatePage();
+    }, 1000);
 </script>
 <?php endif;?>

@@ -117,14 +117,20 @@
                 <file>js/TIG/MyParcel2014/checkout.js</file>
             </action>
         </reference>
-
-        <reference name="checkout.onepage.shipping_method.available">
+        <reference name="choose-shipping-method">
             <action method="setTemplate">
                 <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
             </action>
         </reference>
-        </reference>
     </onestepcheckout_index_index>
+    <onestepcheckout_ajax_save_billing>
+        <reference name="choose-shipping-method">
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+            </action>
+        </reference>
+    </onestepcheckout_ajax_save_billing>
+
 
     <!-- for threesixty_checkout -->
     <checkout_index_index>
@@ -143,7 +149,8 @@
             </action>
         </reference>
         <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/threesixty_checkout/js.phtml"/>
+            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js"
+                   template="TIG/MyParcel2014/checkout/threesixty_checkout/js.phtml"/>
         </reference>
     </checkout_index_index>
 </layout>
