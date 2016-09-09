@@ -33,7 +33,6 @@ window.mypa.settings = {};
         deliveryTime: "input:radio[name='mypa-delivery-time']",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
-        pickupType: "input:radio[name='mypa-pickup-option']",
         magentoMethodsContainer: "#checkout-shipping-method-load",
         magentoMethods: ".sp-methods",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",

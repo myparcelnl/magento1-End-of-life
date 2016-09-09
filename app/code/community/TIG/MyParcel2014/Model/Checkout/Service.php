@@ -45,59 +45,59 @@ class TIG_MyParcel2014_Model_Checkout_Service
     public function saveMyParcelShippingMethod()
     {
         $request = Mage::app()->getRequest();
-        $helper = Mage::helper('tig_myparcel');
-        $quote = Mage::getModel('checkout/cart')->getQuote();
+        if($request->isPost()){
 
-        if ($quote->getBillingAddress()->getData('country_id') == $quote->getShippingAddress()->getData('country_id')) {
-            $country = $quote->getShippingAddress()->getCountry();
-        } else {
-            $country = $quote->getBillingAddress()->getCountry();
-        }
+            $helper = Mage::helper('tig_myparcel');
+            $addressHelper = Mage::helper('tig_myparcel/addressValidation');
+            $quote = Mage::getModel('checkout/cart')->getQuote();
 
-        if ($country !== 'NL')
-            return true;
+            $address = $addressHelper->getQuoteAddress($quote);
 
-        /**
-         * If shipping method is myparcel
-         */
-        if ($request->isPost() && strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
+            if ($address['country'] !== 'NL')
+                return true;
+
+            /**
+             * If shipping method is myparcel
+             */
+            if (strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
 
-            if ($request->getPost('mypa-input') == null)
-                return false;
+                if ($request->getPost('mypa-input') == null)
+                    return false;
 
-            $data = json_decode($request->getPost('mypa-input', ''), true);
+                $data = json_decode($request->getPost('mypa-input', ''), true);
 
-            if ($data['location'] !== null) {
+                if ($data['location'] !== null) {
 
-                /**
-                 * is pickup
-                 */
-                $this->savePgAddress($data, $quote);
+                    /**
+                     * is pickup
+                     */
+                    $this->savePgAddress($data, $quote);
+                } else {
+                    /**
+                     * not pickup
+                     */
+                    $return = $request->getPost('mypa-recipient-only', '') === 'on' ? 1 : false;
+                    if ($return) {
+                        $data['home_address_only'] = true;
+                    }
+
+                    $signed = $request->getPost('mypa-signed', '') === 'on' ? 1 : false;
+                    if ($signed) {
+                        $data['signed'] = true;
+                    }
+
+
+                    $this->removePgAddress($quote);
+                }
+
+                $quote->setMyparcelData(json_encode($data))->save();
+                $helper->updateRatePrice($quote);
+
             } else {
-                /**
-                 * not pickup
-                 */
-                $return = $request->getPost('mypa-recipient-only', '') === 'on' ? 1 : false;
-                if ($return) {
-                    $data['home_address_only'] = true;
-                }
-
-                $signed = $request->getPost('mypa-signed', '') === 'on' ? 1 : false;
-                if ($signed) {
-                    $data['signed'] = true;
-                }
-
-
-                $this->removePgAddress($quote);
+                $quote->setMyparcelData(null)->save();
+                $this->removePgAddress(json_encode($quote));
             }
-
-            $quote->setMyparcelData(json_encode($data))->save();
-            $helper->updateRatePrice($quote);
-
-        } else {
-            $quote->setMyparcelData(null)->save();
-            $this->removePgAddress(json_encode($quote));
         }
         return true;
     }

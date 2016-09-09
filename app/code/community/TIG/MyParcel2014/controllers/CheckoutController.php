@@ -128,6 +128,14 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
     }
 
     /**
+     * Save the MyParcel data in quote
+     */
+    public function save_shipping_methodAction()
+    {
+        Mage::getModel('tig_myparcel/checkout_service')->saveMyParcelShippingMethod();
+    }
+
+    /**
      * For testing the cron
      */
     public function cronAction()

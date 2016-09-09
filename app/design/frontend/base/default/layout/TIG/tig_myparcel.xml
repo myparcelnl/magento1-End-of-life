@@ -114,6 +114,10 @@
             </action>
             <action method="addItem">
                 <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/checkout_type/onestepcheckout_index_index.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/checkout.js</file>
             </action>
         </reference>
