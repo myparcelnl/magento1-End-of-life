@@ -116,9 +116,9 @@
                         <h3><?php echo $_helper->__('Documents');?></h3>
                         <ul>
                             <li>
-                                <a class="link" target="_blank" href="https://github.com/myparcelnl/magento1/releases/latest" title="<?php echo $_helper->__('Latest release');?>">
-                                    <?php echo $_helper->__('Latest release');?> <span id="current_version"></span>
-                                </a>
+                                <a class="link" target="_blank" href="https://github.com/myparcelnl/magento1/releases/latest" title="<?php echo $_helper->__('Latest stable release');?>">
+                                    <?php echo $_helper->__('Latest stable release');?>
+                                </a>  <span id="current_version"></span>
                                 <script>
                                     mypajQuery.get('https://api.github.com/repos/myparcelnl/magento1/releases/latest', function (data) {
                                         mypajQuery('#current_version').html('(' + data.name + ')');
