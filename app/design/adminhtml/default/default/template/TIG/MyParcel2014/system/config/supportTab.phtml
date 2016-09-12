@@ -46,7 +46,7 @@
             <tr>
                 <td colspan="3">
                     <div class="text-box">
-                        <?php $url = 'http://kb.tig.nl/topic/99829566';?>
+                        <?php $url = 'https://myparcelnl.github.io/magento1/';?>
                         <h4><?php echo $_helper->__('To download the instructions for the MyParcel  Magento extension, click <a target="_blank" href="%s">here</a>.',$url); ?></h4>
                     </div>
                 </td>
@@ -116,18 +116,33 @@
                         <h3><?php echo $_helper->__('Documents');?></h3>
                         <ul>
                             <li>
-                                <a class="link" target="_blank" href="http://kb.tig.nl/topic/99829566" title="<?php echo $_helper->__('Installation and configuration instructions');?>">
+                                <a class="link" target="_blank" href="https://github.com/myparcelnl/magento1/releases/latest" title="<?php echo $_helper->__('Latest release');?>">
+                                    <?php echo $_helper->__('Latest release');?> <span id="current_version"></span>
+                                </a>
+                                <script>
+                                    mypajQuery.get('https://api.github.com/repos/myparcelnl/magento1/releases/latest', function (data) {
+                                        mypajQuery('#current_version').html('(' + data.name + ')');
+                                    });
+                                </script>
+                            </li>
+                            <li>
+                                <a class="link" target="_blank" href="https://myparcelnl.github.io/magento1/" title="<?php echo $_helper->__('Installation and configuration instructions');?>">
                                     <?php echo $_helper->__('Installation and configuration instructions');?>
                                 </a>
                             </li>
                             <li>
-                                <a class="link" target="_blank" href="http://kb.tig.nl/topic/99831236" title="<?php echo $_helper->__('Full changelog');?>">
+                                <a class="link" target="_blank" href="https://github.com/myparcelnl/magento1/releases" title="<?php echo $_helper->__('Full changelog');?>">
                                     <?php echo $_helper->__('Full changelog');?>
                                 </a>
                             </li>
                             <li>
-                                <a class="link" target="_blank" href="http://kb.tig.nl/forum/23053573" title="<?php echo $_helper->__('Overview articles in knowledge base');?>">
+                                <a class="link" target="_blank" href="https://myparcelnl.github.io/magento1/#6" title="<?php echo $_helper->__('Overview articles in knowledge base');?>">
                                     <?php echo $_helper->__('Overview articles in knowledge base');?>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link" target="_blank" href="https://backoffice.myparcel.nl/settings" title="<?php echo $_helper->__('MyParcel backoffice');?>">
+                                    <?php echo $_helper->__('MyParcel backoffice');?>
                                 </a>
                             </li>
                         </ul>
