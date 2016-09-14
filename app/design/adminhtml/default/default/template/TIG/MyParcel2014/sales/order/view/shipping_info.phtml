@@ -44,8 +44,8 @@
     <script type ="text/javascript">
         /*<![CDATA[*/
         document.observe('dom:loaded', function(){
-            var pgaddress = '<?= $this->getPgAddressHtml(); ?>';
-            var currentOptions = '<?= $this->getCurrentOrderOptionsHtml(); ?>';
+            var pgaddress = '<?php echo $this->getPgAddressHtml(); ?>';
+            var currentOptions = '<?php echo $this->getCurrentOrderOptionsHtml(); ?>';
             var target = document.getElementsByClassName('head-shipping-method')[0].parentNode.parentNode;
 
             target.innerHTML = target.innerHTML.replace('</fieldset>', pgaddress + currentOptions + '</fieldset>');
