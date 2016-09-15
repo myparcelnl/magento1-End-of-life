@@ -11,7 +11,7 @@
  *
  *  Class TIG_MyParcel2014_Model_Sales_Order
  */
-    if (class_exists('MDN_AdvancedStock_Model_Sales_Order') && file_exists('MDN/AdvancedStock/Model/Sales/Order.php')) {
+    if (file_exists('MDN/AdvancedStock/Model/Sales/Order.php') && class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends MDN_AdvancedStock_Model_Sales_Order { }
     } else {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Mage_Sales_Model_Order { }
