@@ -325,9 +325,6 @@
                     time.price_comment = EVENING_DELIVERY;
                 }
                 price = window.mypa.settings.price[POST_NL_TRANSLATION[time.price_comment]];
-                console.log(window.mypa.settings.price);
-                console.log(time.price_comment);
-                console.log(POST_NL_TRANSLATION[time.price_comment]);
                 json = {
                     date: date,
                     time: [time]
