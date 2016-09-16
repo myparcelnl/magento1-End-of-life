@@ -14,7 +14,7 @@
     }
 
     jquery(document).ready(function() {
-        var $, AO_DEFAULT_TEXT, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, base, base1, base2, base3, base4, checkCombination, displayOtherTab, fetchDeliveryOptions, initialize, makeSlider, obj1, orderDays, orderOpeningHours, preparePickup, renderDays, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, slideLeft, slideRight, sortLocationsOnDistance, updateDelivery, updateInputField;
+        var $, AO_DEFAULT_TEXT, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, base, base1, base2, base3, base4, bindInputListeners, checkCombination, displayOtherTab, fetchDeliveryOptions, initialize, makeSlider, obj1, orderDays, orderOpeningHours, preparePickup, renderDays, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, slideLeft, slideRight, sortLocationsOnDistance, updateDelivery, updateInputField;
         $ = function(selector) {
             return jquery(document.getElementById('myparcel').shadowRoot).find(selector);
         };
@@ -24,6 +24,9 @@
         window.mypa.initialize = function() {
             var el, ref, shadow;
             el = document.getElementById('myparcel');
+            /*if (!el.shadowRoot) {
+                bindInputListeners();
+            }*/
             if (el == null) {
                 return;
             }
@@ -33,6 +36,37 @@
             shadow.innerHTML = document.getElementById('myparcel-template').innerHTML;
             return;
             //return (ref = WebComponents.ShadowCSS) != null ? ref.shimStyling(shadow, 'myparcel') : void 0;
+        };
+        bindInputListeners = function() {
+            jquery('#mypa-signed').on('change', (function(_this) {
+                return function(e) {
+                    return $('#mypa-signed').prop('checked', jquery('#mypa-signed').prop('checked'));
+                };
+            })(this));
+            jquery('#mypa-recipient-only').on('change', (function(_this) {
+                return function(e) {
+                    return $('#mypa-only-recipient').prop('checked', jquery('#mypa-recipient-only').prop('checked'));
+                };
+            })(this));
+            return jquery('#mypa-input').on('change', (function(_this) {
+                return function(e) {
+                    var el, i, json, len, ref;
+                    json = jquery('#mypa-input').val();
+                    if (json === '') {
+                        $('input[name=mypa-delivery-time]:checked').prop('checked', false);
+                        $('input[name=mypa-delivery-type]:checked').prop('checked', false);
+                        return;
+                    }
+                    ref = $('input[name=mypa-delivery-time]');
+                    for (i = 0, len = ref.length; i < len; i++) {
+                        el = ref[i];
+                        if ($(el).val() === json) {
+                            $(el).prop('checked', true);
+                            return;
+                        }
+                    }
+                };
+            })(this));
         };
         window.mypa.initialize();
         if ((base = window.mypa).fn == null) {
@@ -187,7 +221,8 @@
             showDefaultPickupLocation('#mypa-pickup-address', filter[PICKUP_TIMES[NORMAL_PICKUP]][0]);
             showDefaultPickupLocation('#mypa-pickup-express-address', filter[PICKUP_TIMES[MORNING_PICKUP]][0]);
             $('#mypa-pickup-address').off().bind('click', renderPickup);
-            return $('#mypa-pickup-express-address').off().bind('click', renderExpressPickup);
+            $('#mypa-pickup-express-address').off().bind('click', renderExpressPickup);
+            return $('.mypa-pickup-selector').on('click', updateInputField);
         };
 
         /*
@@ -206,7 +241,8 @@
             var html;
             html = " - " + item.location + ", " + item.street + " " + item.number;
             $(selector).html(html);
-            return $(selector).parent().find('input').val(JSON.stringify(item));
+            $(selector).parent().find('input').val(JSON.stringify(item));
+            return updateInputField();
         };
 
         /*
