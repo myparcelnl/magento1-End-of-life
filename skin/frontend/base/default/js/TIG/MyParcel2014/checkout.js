@@ -70,15 +70,12 @@ window.mypa.settings = {};
             success: function (response) {
 
                 info = response;
-                $('#mypa-slider').hide();
 
                 var address = info.data['address'];
                 if (address && address['country'] == 'NL' && typeof $(observer.magentoMethodMyParcel)[0] != '') {
                     $(observer.magentoMethodMyParcel)[0].checked = true;
                     getData();
 
-                    $('#myparcel').show();
-                    //$(observer.magentoMethodMyParcel).closest("dd").hide().prev().hide();
 
                     if (address['street']) {
                         window.mypa.settings = $.extend(window.mypa.settings, {
@@ -160,9 +157,6 @@ window.mypa.settings = {};
                     } else {
                         console.log('Adres niet gevonden (API request mislukt).')
                     }
-                } else {
-                    $('#myparcel').hide();
-                    //$(observer.magentoMethodMyParcel).closest("dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
                 }
             }
         };
