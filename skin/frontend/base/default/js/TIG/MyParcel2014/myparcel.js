@@ -32,7 +32,7 @@
             }
             shadow.innerHTML = document.getElementById('myparcel-template').innerHTML;
             return;
-            return (ref = WebComponents.ShadowCSS) != null ? ref.shimStyling(shadow, 'myparcel') : void 0;
+            //return (ref = WebComponents.ShadowCSS) != null ? ref.shimStyling(shadow, 'myparcel') : void 0;
         };
         window.mypa.initialize();
         if ((base = window.mypa).fn == null) {

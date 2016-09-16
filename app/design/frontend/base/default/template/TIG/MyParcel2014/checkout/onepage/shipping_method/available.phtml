@@ -129,44 +129,41 @@
 
 <?php if ($useMyParcel): ?>
     <template id="myparcel-template">
-        <script>
-            //            window.mypa = {}
-        </script>
         <style>
-            body {
+            body{
                 word-wrap: break-word;
             }
 
             input[name=mypa-delivery-type],
             input[name=mypa-delivery-time],
-            input[name=mypa-pickup-option] {
+            input[name=mypa-pickup-option]{
                 display: none;
             }
 
-            #mypa-slider {
+            #mypa-slider{
                 width: 204%;
                 height: 100%;
             }
 
-            .mypa-slider-pos-0 {
-                left: 0;
+            .mypa-slider-pos-0{
+                left:0;
             }
 
-            .mypa-slider-pos-1 {
+            .mypa-slider-pos-1{
                 left: -49%;
             }
 
-            .mypa-tab-container {
+            .mypa-tab-container{
                 vertical-align: top;
                 transition: left 0.5s ease-out;
                 width: 49%;
                 height: 100%;
                 display: inline-block;
-                position: relative;
-                overflow: hidden;
+                position:relative;
+                overflow:hidden;
             }
 
-            #mypa-delivery-options-container {
+            #mypa-delivery-options-container{
                 position: relative;
                 word-wrap: initial;
                 font-size: 14px;
@@ -177,18 +174,18 @@
                 height: 100%;
             }
 
-            .mypa-delivery-header, .mypa-tab {
+            .mypa-delivery-header, .mypa-tab{
                 color: #fff;
             }
 
-            #mypa-tabs {
+            #mypa-tabs{
                 position: relative;
                 display: block;
                 width: 100%;
                 transition: left 0.3s ease-out 0.1s;
             }
 
-            .mypa-tab {
+            .mypa-tab{
                 transition: background-color 0.4s;
                 font-size: 12px;
                 background: #75D3D8;
@@ -196,31 +193,31 @@
                 display: inline-block;
                 text-align: center;
                 width: 80px;
-                min-height: 34px;
+                min-height:34px;
             }
 
-            .mypa-date {
-                display: none;
+            .mypa-date{
+                display:none;
             }
 
-            .mypa-date:checked + label, .mypa-tab:hover {
+            .mypa-date:checked+label , .mypa-tab:hover{
                 background: #01bbc5;
             }
 
             .mypa-content-lg {
                 transition: max-height 0.4s ease-out 0s;
-                overflow: hidden;
+                overflow:hidden;
             }
 
-            .mypa-content-lg > div:first-child {
+            .mypa-content-lg > div:first-child{
                 border-top: solid 1px #D2D2D2;
             }
 
-            .mypa-tab + .mypa-tab {
+            .mypa-tab + .mypa-tab{
                 margin-left: 4px;
             }
 
-            .mypa-delivery-header {
+            .mypa-delivery-header{
                 padding: 17px;
                 font-size: 20px;
                 background: #01bbc5;
@@ -230,10 +227,10 @@
                 cursor: pointer;
                 position: relative;
                 top: 6px;
-                display: inline-block;
+                display:inline-block;
                 margin-right: 5px;
                 width: 22px;
-                height: 22px;
+                height:22px;
                 -ms-transform: rotate(45deg); /* IE 9 */
                 -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
                 transform: rotate(45deg);
@@ -246,77 +243,76 @@
                 height: 100%;
                 border-radius: 50%;
                 background-color: #C7C7C7;
-                left: 0;
-                top: 0;
-                z-index: 1;
+                left:0;
+                top:0;
+                z-index:1;
             }
 
-            .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle {
+            .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle{
                 background-color: #ff8c00;
             }
 
             input:checked + label.mypa-checkmark div.mypa-circle,
             input[name=mypa-delivery-type]:checked + label div.mypa-main div.mypa-circle,
-            input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle {
+            input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle
+            {
                 background-color: #ff8c00;
-                z-index: 0;
+                z-index:0;
             }
 
-            input[name=mypa-delivery-type] ~ div.mypa-content-lg {
+            input[name=mypa-delivery-type] ~ div.mypa-content-lg{
                 max-height: 0px;
             }
 
-            input:disabled ~ div.mypa-switch-container label.mypa-onoffswitch-label span.mypa-onoffswitch-switch {
+            input:disabled ~ div.mypa-switch-container label.mypa-onoffswitch-label span.mypa-onoffswitch-switch{
                 background: #c7c7c7;
             }
 
-            input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg {
+            input[name=mypa-delivery-type]:checked ~ div.mypa-content-lg{
                 max-height: 240px;
             }
 
             .mypa-checkmark-stem {
-                position: fixed;
+                position: absolute;
                 width: 10%;
                 height: 55%;
-                background-color: #fff;
+                background-color:#fff;
                 left: 55%;
                 top: 18%;
             }
 
             .mypa-checkmark-kick {
-                position: fixed;
+                position: absolute;
                 width: 32%;
                 height: 9%;
-                background-color: #fff;
+                background-color:#fff;
                 left: 32%;
                 top: 64%;
             }
 
-            .mypa-row-lg {
+            .mypa-row-lg{
                 border-bottom: 1px solid #D2D2D2;
             }
 
-            .mypa-row-title {
+            .mypa-row-title{
                 display: inline-block;
                 padding: 9px 15px 16px 15px;
                 width: 80%
             }
 
-            .mypa-row-subitem {
+            .mypa-row-subitem{
                 margin: 2px 0 10px 40px;
                 display: block;
             }
 
-            #mypa-delivery-options {
+
+            #mypa-delivery-options{
             }
 
             .mypa-onoffswitch {
                 top: 7px;
-                position: relative;
-                width: 45px;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
+                position: relative; width: 45px;
+                -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
             }
 
             .mypa-onoffswitch-checkbox {
@@ -324,60 +320,41 @@
             }
 
             .mypa-onoffswitch-label {
-                display: block;
-                overflow: hidden;
-                cursor: pointer;
-                border: 2px solid #C7C7C7;
-                border-radius: 20px;
+                display: block; overflow: hidden; cursor: pointer;
+                border: 2px solid #C7C7C7; border-radius: 20px;
             }
 
             .mypa-onoffswitch-inner {
-                display: block;
-                width: 200%;
-                margin-left: -100%;
+                display: block; width: 200%; margin-left: -100%;
                 transition: margin 0.3s ease-in 0s;
                 margin-left: 0;
             }
 
             .mypa-onoffswitch-inner:before, .mypa-onoffswitch-inner:after {
-                display: block;
-                float: left;
-                width: 50%;
-                height: 20px;
-                padding: 0;
-                line-height: 20px;
-                font-size: 14px;
-                color: white;
-                font-weight: bold;
+                display: block; float: left; width: 50%; height: 20px; padding: 0; line-height: 20px;
+                font-size: 14px; color: white; font-weight: bold;
                 box-sizing: border-box;
             }
 
             .mypa-onoffswitch-inner:before {
                 content: "N";
                 padding-left: 7px;
-                background-color: #DE0D0D;
-                color: #FFFFFF;
+                background-color: #DE0D0D; color: #FFFFFF;
             }
 
             .mypa-onoffswitch-inner:after {
                 content: "J";
                 padding-right: 7px;
-                background-color: #39D12E;
-                color: #FFFFFF;
+                background-color: #39D12E; color: #FFFFFF;
                 text-align: right;
             }
 
             .mypa-onoffswitch-switch {
-                display: block;
-                width: 20px;
-                margin: 0px;
+                display: block; width: 20px; margin: 0px;
                 background: #FFFFFF;
-                position: absolute;
-                top: 0;
-                bottom: 0;
+                position: absolute; top: 0; bottom: 0;
                 right: 0px;
-                border: 2px solid #C7C7C7;
-                border-radius: 20px;
+                border: 2px solid #C7C7C7; border-radius: 20px;
                 transition: all 0.3s ease-in 0s;
             }
 
@@ -389,16 +366,16 @@
                 right: 21px;
             }
 
-            .mypa-switch-container {
+            .mypa-switch-container{
                 display: inline-block
             }
 
             input:checked ~ .mypa-highlight,
-            input:checked ~ label.mypa-row-title span.mypa-highlight {
+            input:checked ~ label.mypa-row-title span.mypa-highlight{
                 color: #FF8C00
             }
 
-            #mypa-back-arrow {
+            #mypa-back-arrow{
                 cursor: pointer;
             }
 
@@ -426,25 +403,25 @@
                 margin-right: 0.5em;
             }
 
-            .mypa-arrow-clickable:hover::before {
+            .mypa-arrow-clickable:hover::before{
                 border-left: 0.2em solid #ff8c00;
                 border-bottom: 0.2em solid #ff8c00;
             }
 
-            .mypa-arrow-clickable:hover {
+            .mypa-arrow-clickable:hover{
                 color: #ff8c00;
             }
 
-            #mypa-date-slider-left::before, #mypa-date-slider-right::before {
+            #mypa-date-slider-left::before, #mypa-date-slider-right::before{
                 border-color: #A0A0A0;
             }
 
-            #mypa-date-slider-left:hover::before, #mypa-date-slider-right:hover::before {
+            #mypa-date-slider-left:hover::before, #mypa-date-slider-right:hover::before{
                 border-color: #FF8C00;
             }
 
             .mypa-slider-disabled#mypa-date-slider-left::before,
-            .mypa-slider-disabled#mypa-date-slider-right::before {
+            .mypa-slider-disabled#mypa-date-slider-right::before{
                 border-color: #EAEAEA;
                 cursor: not-allowed;
             }
@@ -456,22 +433,22 @@
                 font-size: 22px;
             }
 
-            #mypa-date-slider-left {
+            #mypa-date-slider-left{
                 left: 19px;
             }
 
-            #mypa-date-slider-right {
+            #mypa-date-slider-right{
                 right: 5px;
             }
 
-            #mypa-tabs-container {
+            #mypa-tabs-container{
                 height: 44px;
                 margin-left: 45px;
                 margin-right: 41px;
                 overflow: hidden;
             }
 
-            #mypa-location-container {
+            #mypa-location-container{
                 overflow: scroll;
                 max-height: 100%
             }
@@ -489,24 +466,24 @@
                 font-size: 17px;
             }
 
-            .mypa-combination-price {
+            .mypa-combination-price{
                 padding: 2px 0 2px 0;
             }
 
-            .mypa-combination-price.mypa-combination-price-active {
+            .mypa-combination-price.mypa-combination-price-active{
             }
 
-            .mypa-combination-price > .mypa-price {
+            .mypa-combination-price > .mypa-price{
                 margin: 21px 30px 0 0;
             }
 
             input:checked ~ .mypa-price,
             input:checked ~ span span.mypa-price,
-            .mypa-price-active {
+            .mypa-price-active{
                 background: #ff8c00
             }
 
-            .mypa-info {
+            .mypa-info{
                 display: inline-block;
                 box-sizing: border-box;
                 vertical-align: middle;
@@ -523,12 +500,12 @@
                 border: 2px solid;
             }
 
-            .mypa-info::before {
+            .mypa-info::before{
                 position: absolute;
                 left: 50%;
-                -webkit-transform: translate(-50%, -50%);
-                -ms-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
+                -webkit-transform: translate(-50%,-50%);
+                -ms-transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%);
                 pointer-events: none;
                 content: '';
                 width: 2px;
@@ -538,7 +515,7 @@
                 border-radius: 2px;
             }
 
-            .mypa-info::after {
+            .mypa-info::after{
                 pointer-events: none;
                 content: '';
                 width: 6px;
@@ -546,9 +523,9 @@
                 -webkit-transform-origin: left center;
                 -ms-transform-origin: left center;
                 transform-origin: left center;
-                -webkit-transform: rotate(45deg) translate(1px, 2px);
-                -ms-transform: rotate(45deg) translate(1px, 2px);
-                transform: rotate(45deg) translate(1px, 2px);
+                -webkit-transform: rotate(45deg) translate(1px,2px);
+                -ms-transform: rotate(45deg) translate(1px,2px);
+                transform: rotate(45deg) translate(1px,2px);
                 top: 35%;
                 box-shadow: inset 0 0 0 32px;
                 border-radius: 2px;
@@ -556,44 +533,44 @@
                 left: 50%;
             }
 
-            .mypa-opening-hours {
+            .mypa-opening-hours{
                 display: none;
                 position: absolute;
                 top: 77px;
                 right: 115px;
                 padding: 10px;
                 background-color: white;
-                -webkit-box-shadow: 1px 1px 10px #B9B9B9;
-                -moz-box-shadow: 1px 1px 10px #B9B9B9;
-                box-shadow: 1px 1px 10px #B9B9B9;
+                -webkit-box-shadow:  1px 1px 10px #B9B9B9;
+                -moz-box-shadow:  1px 1px 10px #B9B9B9;
+                box-shadow:  1px 1px 10px #B9B9B9;
             }
 
-            .mypa-info:hover + .mypa-opening-hours {
+            .mypa-info:hover + .mypa-opening-hours{
                 display: initial;
             }
 
-            .mypa-day-of-the-week {
+            .mypa-day-of-the-week{
                 display: inline-block;
                 width: 30px;
             }
 
-            .mypa-opening-hours-list {
+            .mypa-opening-hours-list{
                 display: inline-block;
             }
 
-            .mypa-hidden {
+            .mypa-hidden{
                 display: none;
             }
 
-            .mypa-overlay {
-                position: absolute;
-                height: 100%;
-                width: 100%;
-                z-index: 100;
+            .mypa-overlay{
+                position:absolute;
+                height:100%;
+                width:100%;
+                z-index:100;
                 background: rgba(226, 226, 226, 0.75);
             }
 
-            #mypa-no-options {
+            #mypa-no-options{
                 color: white;
                 position: relative;
                 z-index: 12;
@@ -606,18 +583,18 @@
                 font-size: 20px;
             }
 
-            .mypa-address {
+            .mypa-address{
                 font-style: italic;
                 color: darkorange;
                 cursor: pointer;
             }
 
-            .mypa-address:hover {
-                color: #b36200;
-                text-decoration: underline;
+            .mypa-address:hover{
+                color:#b36200;
+                text-decoration:underline;
             }
 
-            .mypa-inline-block {
+            .mypa-inline-block{
                 display: inline-block;
             }
 
@@ -641,10 +618,8 @@
             <div id="mypa-slider">
                 <!-- First frame -->
                 <div id="mypa-delivery-type-selection" class="mypa-tab-container mypa-slider-pos-0">
-                    <div id="mypa-date-slider-left"
-                         class="mypa-arrow-left mypa-back-arrow mypa-date-slider-button mypa-slider-disabled"></div>
-                    <div id="mypa-date-slider-right"
-                         class="mypa-arrow-right myapa-next-arrow mypa-date-slider-button mypa-slider-disabled"></div>
+                    <div id="mypa-date-slider-left" class="mypa-arrow-left mypa-back-arrow mypa-date-slider-button mypa-slider-disabled"></div>
+                    <div id="mypa-date-slider-right" class="mypa-arrow-right myapa-next-arrow mypa-date-slider-button mypa-slider-disabled"></div>
                     <div id="mypa-tabs-container">
                         <div id='mypa-tabs'>
                         </div>
@@ -656,8 +631,7 @@
                         <div id='mypa-delivery-body'>
                             <div id='mypa-delivery-row' class='mypa-row-lg'>
                                 <input id='mypa-delivery-option-check' type="radio" name="mypa-delivery-type" checked>
-                                <label id='mypa-delivery-options-title' class='mypa-row-title'
-                                       for="mypa-delivery-option-check">
+                                <label id='mypa-delivery-options-title' class='mypa-row-title' for="mypa-delivery-option-check">
                                     <div class="mypa-checkmark mypa-main">
                                         <div class="mypa-circle mypa-circle-checked"></div>
                                         <div class="mypa-checkmark-stem"></div>
@@ -687,8 +661,7 @@
                                                 <div class="mypa-checkmark-stem"></div>
                                                 <div class="mypa-checkmark-kick"></div>
                                             </label>
-                                            <span class="mypa-highlight">Vanaf 16.00 uur</span><span
-                                                class='mypa-address' id="mypa-pickup-address"></span>
+                                            <span class="mypa-highlight">Vanaf 16.00 uur</span><span class='mypa-address' id="mypa-pickup-address"></span>
                                             <span class='mypa-price mypa-pickup-price'></span>
                                         </label>
                                         <label for='mypa-pickup-express' class='mypa-row-subitem mypa-pickup-selector'>
@@ -698,8 +671,7 @@
                                                 <div class="mypa-checkmark-stem"></div>
                                                 <div class="mypa-checkmark-kick"></div>
                                             </label>
-                                            <span class="mypa-highlight">Vanaf 8.30 uur</span><span class='mypa-address'
-                                                                                                    id="mypa-pickup-express-address"></span>
+                                            <span class="mypa-highlight">Vanaf 8.30 uur</span><span class='mypa-address' id="mypa-pickup-express-address"></span>
                                             <span class='mypa-price mypa-pickup-express-price'></span>
                                         </label>
                                     </div>
