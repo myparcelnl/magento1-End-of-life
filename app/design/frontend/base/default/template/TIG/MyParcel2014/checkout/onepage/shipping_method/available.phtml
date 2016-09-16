@@ -36,7 +36,7 @@
     <?php $useMyParcel = $rates && $country == 'NL';?>
     <?php if ($useMyParcel): ?>
         <div id="mypa-load">
-            <myparcel id="myparcel"></myparcel>
+            <myparcel id="myparcel">Bezig met laden...</myparcel>
             <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
             <input type="checkbox" name='mypa-signed' style="display: none;" id="mypa-signed">
             <input type="checkbox" name='mypa-recipient-only' style="display: none;" id="mypa-recipient-only">
@@ -46,8 +46,8 @@
         <?php $shippingCodePrice = array(); ?>
         <?php $_sole = count($_shippingRateGroups) == 1;
         foreach ($_shippingRateGroups as $code => $_rates): ?>
-            <dt><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
-            <dd style="<?php echo strpos($code, 'myparce') ? 'display:none;' : '';?>">
+            <dt style="<?php echo $code == 'myparcel' && $useMyParcel ? 'display:none;' : '';?>"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
+            <dd style="<?php echo $code == 'myparcel' && $useMyParcel ? 'display:none;' : '';?>">
                 <ul>
                     <?php $_sole = $_sole && count($_rates) == 1;
                     foreach ($_rates as $_rate): ?>

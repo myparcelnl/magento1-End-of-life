@@ -115,11 +115,8 @@ window.mypa.settings = {};
                             /**
                              * If method not is MyParcel
                              */
-                            $('#mypa-input').off('click').on('click', function () {
-                                console.log($("input:radio[name='mypa-delivery-type']:checked"));
-                                /* @todo; uncheck MyParcel radios */
-                                /*$(observer.deliveryType + ':checked')[0].checked = false;
-                                $(observer.deliveryTime + ':checked')[0].checked = false;*/
+                            $('.sp-methods').off('click').on('click', function () {
+                                $('#mypa-input').val(null).trigger('change');
                             });
 
                             /**
