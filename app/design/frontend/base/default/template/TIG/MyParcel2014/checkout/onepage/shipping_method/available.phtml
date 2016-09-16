@@ -33,7 +33,8 @@
 
     <?php $addressHelper = Mage::helper('tig_myparcel/addressValidation')->getQuoteAddress($this->getQuote()); ?>
     <?php $country = $addressHelper['country']; ?>
-    <?php if ($rates && $country == 'NL'): ?>
+    <?php $useMyParcel = $rates && $country == 'NL';?>
+    <?php if ($useMyParcel): ?>
         <div id="mypa-load">
             <myparcel id="myparcel"></myparcel>
             <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
@@ -46,7 +47,7 @@
         <?php $_sole = count($_shippingRateGroups) == 1;
         foreach ($_shippingRateGroups as $code => $_rates): ?>
             <dt><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
-            <dd>
+            <dd style="<?php echo strpos($code, 'myparce') ? 'display:none;' : '';?>">
                 <ul>
                     <?php $_sole = $_sole && count($_rates) == 1;
                     foreach ($_rates as $_rate): ?>
@@ -126,7 +127,7 @@
     </script>
 <?php endif; ?>
 
-<?php if ($rates && $country == 'NL'): ?>
+<?php if ($useMyParcel): ?>
     <template id="myparcel-template">
         <script>
             //            window.mypa = {}

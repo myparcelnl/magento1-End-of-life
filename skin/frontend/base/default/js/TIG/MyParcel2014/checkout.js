@@ -78,7 +78,7 @@ window.mypa.settings = {};
                     getData();
 
                     $('#myparcel').show();
-                    $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
+                    //$(observer.magentoMethodMyParcel).closest("dd").hide().prev().hide();
 
                     if (address['street']) {
                         window.mypa.settings = $.extend(window.mypa.settings, {
@@ -165,7 +165,7 @@ window.mypa.settings = {};
                     }
                 } else {
                     $('#myparcel').hide();
-                    $(observer.magentoMethodMyParcel).closest("dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
+                    //$(observer.magentoMethodMyParcel).closest("dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
                 }
             }
         };

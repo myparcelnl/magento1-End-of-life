@@ -31,6 +31,7 @@
                 shadow = el.createShadowRoot();
             }
             shadow.innerHTML = document.getElementById('myparcel-template').innerHTML;
+            return;
             return (ref = WebComponents.ShadowCSS) != null ? ref.shimStyling(shadow, 'myparcel') : void 0;
         };
         window.mypa.initialize();
