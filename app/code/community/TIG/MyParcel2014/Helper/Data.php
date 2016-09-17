@@ -478,6 +478,27 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param int $weight
+     *
+     * @return int package = 1, mailbox = 2, letter = 3
+     */
+    public function getPackageType($weight)
+    {
+        $weight = $this->getCorrectWeight((float)$weight);
+        return $weight <= 2 && $weight != 0 ? 2 : 1;
+    }
+
+    /**
+     * @param $weight
+     *
+     * @return float
+     */
+    private function getCorrectWeight($weight)
+    {
+        return $this->getConfig('gram_is_set', 'general') == '1' ? $weight / 1000 : $weight;
+    }
+
+    /**
      * Generate the entire global address at two address fields
      *
      * @param Mage_Sales_Model_Order_Address $address

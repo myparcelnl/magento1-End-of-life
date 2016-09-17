@@ -44,8 +44,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
      */
     public function infoAction()
     {
-        $helper = Mage::helper('tig_myparcel');
-        $addressHelper = Mage::helper('tig_myparcel/addressValidation');
+        $helper = Mage::helper('tig_myparcel/addressValidation');
         /**
          * @var Mage_Sales_Model_Quote $item
          */
@@ -65,12 +64,14 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
                 $rates = $rates->getAllRates();
                 $rate = $rates[0];
                 $basePrice = (float)$rate->getData('price');
+            } else {
+                $basePrice = 0;
             }
         }
 
         $data = [];
 
-        $data['address'] = $addressHelper->getQuoteAddress($quote);
+        $data['address'] = $helper->getQuoteAddress($quote);
 
         $general['base_price'] =                    $basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));

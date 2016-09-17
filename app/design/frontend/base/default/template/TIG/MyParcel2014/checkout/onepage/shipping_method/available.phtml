@@ -24,16 +24,25 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php /** @var $this Mage_Checkout_Block_Onepage_Shipping_Method_Available */ ?>
-<?php $_shippingRateGroups = $this->getShippingRates(); ?>
-<?php $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($this->getQuote()); ?>
+<?php
+/** @var $this Mage_Checkout_Block_Onepage_Shipping_Method_Available */
+$_shippingRateGroups = $this->getShippingRates();
+$helper = Mage::helper('tig_myparcel/addressValidation');
+$rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($this->getQuote());
+
+/** Check if shipment is mailbox  */
+$weight = $this->getQuote()->getShippingAddress()->getWeight();
+$shipmentType = $helper->getPackageType((float)$weight);
+$mailboxTitle = $helper->getConfig('mailbox_title', 'delivery') != '' && $shipmentType == 2 ? $helper->getConfig('mailbox_title', 'delivery') : false;
+
+/** Check if the checkout must use the MyParcel checkout */
+$address = $helper->getQuoteAddress($this->getQuote());
+$country = $address['country'];
+$useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitle == '');
+?>
 <?php if (!$_shippingRateGroups): ?>
     <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
 <?php else: ?>
-
-    <?php $addressHelper = Mage::helper('tig_myparcel/addressValidation')->getQuoteAddress($this->getQuote()); ?>
-    <?php $country = $addressHelper['country']; ?>
-    <?php $useMyParcel = $rates && $country == 'NL';?>
     <?php if ($useMyParcel): ?>
         <div id="mypa-load">
             <myparcel id="myparcel">Bezig met laden...</myparcel>
@@ -82,7 +91,12 @@
 
                             <?php endif; ?>
                                 <label
-                                    for="s_method_<?php echo $_rate->getCode() ?>"><?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                                    for="s_method_<?php echo $_rate->getCode() ?>">
+                                    <?php if ($code == 'myparcel' && $mailboxTitle) : ?>
+                                        <?php echo $mailboxTitle; ?>
+                                    <?php else: ?>
+                                        <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
+                                    <?php endif; ?>
                                     <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
                                     <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
                                     <?php echo $_excl; ?>
@@ -700,6 +714,6 @@
             window.mypa.initialize();
             window.mypa.fn.load();
             window.mypa.fn.updatePage();
-        }, 1000);
+        }, 3000);
     </script>
 <?php endif; ?>
