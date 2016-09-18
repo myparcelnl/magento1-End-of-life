@@ -195,6 +195,7 @@ TIG_MyParcel2014::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
 TIG_MyParcel2014::Track&amp;Trace link: %s,Track&amp;Trace link: %s
 TIG_MyParcel2014::Is letter box parcel,Is brievenbuspakje
 TIG_MyParcel2014::Shipment type,Zendingtype
+TIG_MyParcel2014::Accordance with type consignment,Conform type zending
 TIG_MyParcel2014::Normal,Pakket
 TIG_MyParcel2014::Letter box,Brievenbuspakje
 TIG_MyParcel2014::Unstamped,Ongefrankeerd
@@ -213,7 +214,7 @@ TIG_MyParcel2014::Nearest myparcel pickup points,Dichtstbijzijnde afhaal locatie
 TIG_MyParcel2014::PostNL location Method name,PostNL locatie methode naam
 TIG_MyParcel2014::Unpaid,Ongefrankeerd
 TIG_MyParcel2014::The consignment is already credited.,Deze zending is al gecrediteerd.
-TIG_MyParcel2014::MyParcel - Create &amp; Print shipping labels,MyParcel - Cre&euml;er &amp; Print verzend labels
+TIG_MyParcel2014::MyParcel - Create labels,MyParcel - Cre&euml;er labels
 TIG_MyParcel2014::Print packing slip,Print pakbon
 TIG_MyParcel2014::Send,Verzenden
 TIG_MyParcel2014::Today,Vandaag

@@ -327,14 +327,14 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
               ->addItem(
                   'myparcel_print_labels',
                   array(
-                      'label' => $helper->__('MyParcel - Create &amp; Print shipping labels'),
+                      'label' => $helper->__('MyParcel - Create labels'),
                       'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massPrintLabels'),
                       'additional' => array(
                           'type_consignment' => array(
                               'name'    => 'type_consignment',
                               'type'    => 'select',
-                              'label'   => $helper->__('Type Consignment'),
                               'options' => array(
+                                  'default'     => $helper->__('Accordance with type consignment'),
                                   TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
                                   TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
                                   TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
@@ -346,18 +346,6 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                               'value'   => 1,
                           ),
                       )
-                  )
-              );
-
-        /**
-         * Add the create shipments mass action.
-         */
-        $block->getMassactionBlock()
-              ->addItem(
-                  'myparcel_create_shipments',
-                  array(
-                      'label' => $helper->__('MyParcel - Create Magento shipments (no labels)'),
-                      'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massCreateShipments'),
                   )
               );
 

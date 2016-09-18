@@ -535,12 +535,23 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             $consignmentOptions = array_merge($consignmentOptions, $registryOptions);
         }
 
+        if ($registryOptions['type_consignment'] == 'default') {
+
+            if ($this->helper->getPackageType($this->getTotalWeight()) == 1) {
+                $type = self::TYPE_NORMAL;
+            } else {
+                $type = self::TYPE_LETTER_BOX;
+            }
+        } else {
+            $type = $registryOptions['type_consignment'];
+        }
+
         /**
          * is only empty when the myparcel shipment is created in a mass-action
          */
         if(empty($consignmentOptions) && empty($filteredOptions)){
             $this->calculateConsignmentOptions();
-            $this->setDataUsingMethod('shipment_type', $registryOptions['type_consignment']);
+            $this->setDataUsingMethod('shipment_type', $type);
             return $this;
         }
 
@@ -761,6 +772,23 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Check if this shipment's destination is the Netherlands.
+     *
+     * @return bool
+     */
+    public function isDutchShipment()
+    {
+        $shippingAddress = $this->getShippingAddress();
+        $country = $shippingAddress->getCountryId();
+
+        if ($country == 'NL') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the given shipment type is supported by this extension.
      *
      * @param $type
@@ -787,23 +815,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check if this shipment's destination is the Netherlands.
-     *
-     * @return bool
-     */
-    public function isDutchShipment()
-    {
-        $shippingAddress = $this->getShippingAddress();
-        $country = $shippingAddress->getCountryId();
-
-        if ($country == 'NL') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * @return $this
      */
     protected function _beforeSave()
@@ -816,5 +827,21 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         }
 
         return parent::_beforeSave();
+    }
+
+    /**
+     * Get total weight
+     *
+     * @return float|int
+     */
+    private function getTotalWeight()
+    {
+        $totalWeight = 0;
+        /** @var Mage_Sales_Model_Resource_Order_Shipment_Item $shipmentItem */
+        $shipmentItems = $this->getShipment()->getItemsCollection();
+        foreach ($shipmentItems as $shipmentItem) {
+            $totalWeight += (float)$shipmentItem->getData('weight') * $shipmentItem->getData('qty');
+        }
+        return $totalWeight;
     }
 }

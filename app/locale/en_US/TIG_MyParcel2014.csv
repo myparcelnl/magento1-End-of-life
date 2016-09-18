@@ -164,7 +164,7 @@ TIG_MyParcel2014::Nearest myparcel pickup points,Nearest myparcel pickup points
 TIG_MyParcel2014::PostNL location Method Name,PostNL location Method Name
 TIG_MyParcel2014::Unpaid,Unpaid
 TIG_MyParcel2014::The consignment is already credited.,The consignment is already credited.
-TIG_MyParcel2014::MyParcel - Create &amp; Print shipping labels,MyParcel - Create &amp; Print shipping labels
+TIG_MyParcel2014::MyParcel - Create labels,MyParcel - Create labels
 TIG_MyParcel2014::Letterbox,Letterbox
 TIG_MyParcel2014::Select,Select
 TIG_MyParcel2014::Insured up to:,Insured up to:

@@ -80,7 +80,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
         if (!$value) {
             if ($order->canShip()) {
-
+                $actionHtml = '';
                 $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
 
                 $data = json_decode($order->getMyparcelData(), true);
@@ -88,26 +88,28 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                     $dateTime = strtotime($data['date'] . ' 00:00:00');
                     $dropOffDate = $this->_getDropOffDay($dateTime);
                     $sDropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
-                }
-                /**
-                 * Show info text plus link to send
-                 */
-                if ($data['date'] == null) {
-                    $dropOff = ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a>';
-                } else if (date('Ymd') == date('Ymd', $dropOffDate)) {
-                    $dropOff = '<a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Today') . ' ' . strtolower($this->__('Send')) . '</a> ';
-                } else if (date('Ymd') > date('Ymd', $dropOffDate)) {
-                    $dropOff = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
+
+                    /**
+                     * Show info text plus link to send
+                     */
+                    if (date('Ymd') == date('Ymd', $dropOffDate)) {
+                        $actionHtml = '<a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Today') . ' ' . strtolower($this->__('Send')) . '</a> ';
+                    } else if (date('Ymd') > date('Ymd', $dropOffDate)) {
+                        $actionHtml = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
+                    } else {
+                        $actionHtml = $sDropOff . ' <span style="font-size: 115%;">&#8987;</span>';
+                    }
                 } else {
-                    $dropOff = $sDropOff . ' <span style="font-size: 115%;">&#8987;</span>';
+                    $actionHtml = ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a>';
                 }
 
-                return $countryCode . ' - ' . $dropOff;
+                $totalWeight = $this->getTotalWeight($order->getAllVisibleItems());
+                $type = $this->helper('tig_myparcel')->getPackageType($totalWeight, true);
+
+                return '<small>' . $type . ' ' . $countryCode . ' - </small>' . $actionHtml;
 
             } else {
-
                 return $countryCode;
-
             }
         }
 
@@ -139,6 +141,26 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $barcodeHtml = implode('<br />', $barcodeData);
 
         return $barcodeHtml;
+    }
+
+    /**
+     * Get total weight
+     *
+     * @param $products
+     *
+     * @return float|int
+     */
+    private function getTotalWeight($products)
+    {
+        $totalWeight = 0;
+        /** @var Mage_Sales_Model_Order_Item $product */
+        foreach ($products as $product) {
+            if ($product->canShip()) {
+                $totalWeight = $totalWeight + (float)$product->getData('weight') * $product->getData('qty_ordered');
+            }
+        }
+
+        return $totalWeight;
     }
 
     /**

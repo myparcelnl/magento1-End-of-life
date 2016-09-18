@@ -478,14 +478,21 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param int $weight
+     * @param int  $weight
+     * @param bool $getAdminTitle
      *
-     * @return int package = 1, mailbox = 2, letter = 3
+     * @return int|string package = 1, mailbox = 2, letter = 3
      */
-    public function getPackageType($weight)
+    public function getPackageType($weight, $getAdminTitle = false)
     {
         $weight = $this->getCorrectWeight((float)$weight);
-        return $weight <= 2 && $weight != 0 ? 2 : 1;
+        $type = $weight <= 2 && $weight != 0 ? 2 : 1;
+
+        if ($getAdminTitle) {
+            return $type == 1 ? $this->__('Normal') : $this->__('Letter box');
+        } else {
+            return $type;
+        }
     }
 
     /**

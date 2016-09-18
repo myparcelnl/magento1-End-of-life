@@ -39,12 +39,13 @@
  * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo $this
  */
 ?>
+<?php $helper = Mage::helper('tig_myparcel');?>
     <script>
         /* Select MyParcel option */
         document.getElementById('sales_order_grid_massaction-select').value = 'myparcel_print_labels';
-        $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><label for="type_consignment">Type Consignment</label><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="normal">Pakket</option><option value="letter_box">Brievenbuspakje</option><option value="unstamped">Ongefrankeerd</option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
+        $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="default"><?php echo $helper->__('Accordance with type consignment');?></option><option value="normal"><?php echo $helper->__('Normal');?></option><option value="letter_box"><?php echo $helper->__('Letterbox'); ?></option><option value="unstamped"><?php echo $helper->__('Unpaid'); ?></option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
     </script>
-<?php if (Mage::helper('tig_myparcel')->getConfig('print_orientation') == 'A4'): ?>
+<?php if ($helper->getConfig('print_orientation') == 'A4'): ?>
     <div id="print_container" style="display:none;">
         <div id="print_pages">
             <div class="print_page">1</div>
