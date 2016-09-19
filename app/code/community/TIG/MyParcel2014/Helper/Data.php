@@ -1082,7 +1082,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             $priceComment = $data['time'][0]['price_comment'];
             if ($priceComment == 'morning') {
                 $price += (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
-            } elseif ($priceComment == 'avond') {
+            } elseif ($priceComment == 'night') {
                 $price += (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
             }
             if ($data['home_address_only'] === true)

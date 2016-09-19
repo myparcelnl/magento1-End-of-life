@@ -66,10 +66,8 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
         $html = false;
 
-        if ($this->_order->canShip()) {
-            $totalWeight = $this->_helper->getTotalWeight($this->_order->getAllVisibleItems());
-            $html .= $this->_helper->getPackageType($totalWeight, true) . ' ';
-        }
+        $totalWeight = $this->_helper->getTotalWeight($this->_order->getAllVisibleItems());
+        $html .= $this->_helper->getPackageType($totalWeight, true) . ' ';
 
         $pgAddress = $this->_helper->getPgAddress($this->_order);
         /** @var object $data Data from checkout */

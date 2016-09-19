@@ -24,9 +24,9 @@
         window.mypa.initialize = function() {
             var el, ref, shadow;
             el = document.getElementById('myparcel');
-            /*if (!el.shadowRoot) {
+            if (!el.shadowRoot) {
                 bindInputListeners();
-            }*/
+            }
             if (el == null) {
                 return;
             }
@@ -68,7 +68,7 @@
                 };
             })(this));
         };
-        window.mypa.initialize();
+        //window.mypa.initialize();
         if ((base = window.mypa).fn == null) {
             base.fn = {};
         }
@@ -539,7 +539,7 @@
             fetchDeliveryOptions();
             return null;
         };
-        return jQuery(document).ready(initialize);
+        //return jQuery(document).ready(initialize);
     });
 
 }).call(this);

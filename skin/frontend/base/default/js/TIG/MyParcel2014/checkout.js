@@ -12,13 +12,14 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
-if(typeof window.mypa == 'undefined') {
+if(window.mypa == null || window.mypa == undefined){
     window.mypa = {};
+}
+if(window.mypa.observer == null || window.mypa.observer == undefined){
     window.mypa.observer = {};
+}
+if(window.mypa.fn == null || window.mypa.fn == undefined){
     window.mypa.fn = {};
-} else {
-    window.mypa.observer = typeof window.mypa.observer != 'undefined' ? window.mypa.observer : {};
-    window.mypa.fn = typeof window.mypa.fn != 'undefined' ? window.mypa.fn : {};
 }
 window.mypa.settings = {};
 (function () {
