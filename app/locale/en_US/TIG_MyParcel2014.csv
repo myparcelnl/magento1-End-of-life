@@ -204,8 +204,8 @@ TIG_MyParcel2014::status_39,Inactive - Return shipment delivered
 TIG_MyParcel2014::status_40,Inactive - Return shipment pickup location
 TIG_MyParcel2014::status_99,Inactive - Unknown
 
-TIG_MyParcel2014::PostNL location:,PostNL location:
-TIG_MyParcel2014::Deliver:,Deliver:
+TIG_MyParcel2014::to PostNL location:,to PostNL location:
+TIG_MyParcel2014::deliver:,deliver:
 TIG_MyParcel2014::TYPE_morning,Morning
 TIG_MyParcel2014::TYPE_avond,Avondlevering
 TIG_MyParcel2014::TYPE_retailexpress,Extra vroeg ophalen

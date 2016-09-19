@@ -183,17 +183,16 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $weekDay = date('N', $dateTime);
 
         switch ($weekDay) {
-            case (1):
-                $dropOff = strtotime("-3 day", $dateTime);
-                break;
-            case (2):
+            case (1): // Monday
                 $dropOff = strtotime("-2 day", $dateTime);
                 break;
+            case (2):
             case (3):
             case (4):
-            case (5):
-            case (6):
-            case (7):
+            case (5): // Friday
+            case (6): // Saturday
+            case (7): // Sunday
+            default:
                 $dropOff = strtotime("-1 day", $dateTime);
                 break;
         }
