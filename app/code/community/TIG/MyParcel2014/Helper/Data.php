@@ -1085,12 +1085,22 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             } elseif ($priceComment == 'night') {
                 $price += (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
             }
-            if ($data['home_address_only'] === true)
-                $price += (float)$this->getConfig('only_recipient_fee', 'delivery');
 
-            if ($data['signed'] === true)
-                $price += (float)$this->getConfig('signature_fee', 'delivery');
+            if(
+                $data['home_address_only'] === true &&
+                $priceComment != 'night' &&
+                $priceComment != 'morning' &&
+                $data['signed'] === true &&
+                $this->getConfig('signature_and_only_recipient', 'delivery') > 0
+            ) {
+                $price += (float)$this->getConfig('signature_and_only_recipient', 'delivery');
+            } else {
+                if ($data['home_address_only'] === true && $priceComment != 'night' && $priceComment != 'morning')
+                    $price += (float)$this->getConfig('only_recipient_fee', 'delivery');
 
+                if ($data['signed'] === true)
+                    $price += (float)$this->getConfig('signature_fee', 'delivery');
+            }
         } else {
             if ($data['price_comment'] == 'retail') {
                 $price += (float)$this->getConfig('pickup_fee', 'pickup');
