@@ -29,12 +29,16 @@ ul#tabButtons li a {
 }
 
 ul#tabButtons li:hover a {
-    background-color: #6f8992;
-    color: white;
+    color: #6a6a6a;
 }
 
 ul#tabButtons li.active a {
     background-color: #6f8992;
     color: white;
     cursor: default;
+}
+ul#tabButtons li:not(.active) a {
+    background: url(../../../images/btn_go.gif) no-repeat 0 41%;
+    -webkit-filter: grayscale(100%);
+    margin-left: 10px;
 }

@@ -104,9 +104,9 @@ window.mypa.settings = {};
                             /**
                              * If method is MyParcel
                              */
-                            $('#mypa-delivery-options-container').off('click').on('click', function () {
-                                if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
-                                    $(observer.magentoMethodMyParcel)[0].prop('checked', true);
+                            mypajQuery('#mypa-load').off('click').on('click', function () {
+                                if(mypajQuery('#mypa-input').val() != '') {
+                                    mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
                                 }
                             });
 
@@ -114,7 +114,7 @@ window.mypa.settings = {};
                              * If method not is MyParcel
                              */
                             $('.sp-methods').off('click').on('click', function () {
-                                $('#mypa-input').val(null).trigger('change');
+                                mypajQuery('#mypa-input').val(null).change();
                             });
 
                             /**
