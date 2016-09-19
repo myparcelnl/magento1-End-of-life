@@ -478,6 +478,26 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Get total weight
+     *
+     * @param $products
+     *
+     * @return float|int
+     */
+    public function getTotalWeight($products)
+    {
+        $totalWeight = 0;
+        /** @var Mage_Sales_Model_Order_Item $product */
+        foreach ($products as $product) {
+            if ($product->canShip()) {
+                $totalWeight = $totalWeight + (float)$product->getData('weight') * ($product->getData('qty_ordered') - $product->getData('qty_shipped'));
+            }
+        }
+
+        return $totalWeight;
+    }
+
+    /**
      * @param int  $weight
      * @param bool $getAdminTitle
      *

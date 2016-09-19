@@ -56,10 +56,21 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
             ->addFieldToFilter('order_id', $this->_order->getId());
     }
 
+    /**
+     * Collect options selected at checkout and calculate type consignment
+     *
+     * @return string
+     */
     public function getCheckoutOptionsHtml()
     {
 
         $html = false;
+
+        if ($this->_order->canShip()) {
+            $totalWeight = $this->_helper->getTotalWeight($this->_order->getAllVisibleItems());
+            $html .= $this->__('Accordance with type consignment') . ': ' . $this->_helper->getPackageType($totalWeight, true);
+        }
+
         $pgAddress = $this->_helper->getPgAddress($this->_order);
         /** @var object $data Data from checkout */
         $data = $this->_order->getMyparcelData() !== null ? json_decode($this->_order->getMyparcelData(), true) : false;

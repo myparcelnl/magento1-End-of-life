@@ -63,7 +63,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
 
                 if ($request->getPost('mypa-post-nl-data') == null)
-                    return false;
+                    return true;
 
                 $data = json_decode($request->getPost('mypa-post-nl-data', ''), true);
 
