@@ -27,10 +27,4 @@ $( document ).ready(function() {
         }
     });
     $('.menu').html(indexHtml);
-
-    $(index).each(function() {
-        console.log(this);
-    });
-    console.log(index);
-    console.log('test');
 });
