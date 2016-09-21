@@ -59,6 +59,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
      */
     public function render(Varien_Object $row)
     {
+        $helper = $this->helper('tig_myparcel');
         $html = '';
         /**
          * The shipment was not shipped using MyParcel
@@ -101,10 +102,20 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                 $actionHtml = ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a>';
             }
 
-            $totalWeight = $this->getTotalWeight($order->getAllVisibleItems());
-            $type = $this->helper('tig_myparcel')->getPackageType($totalWeight, true);
+            $html .= '<small>';
 
-            $html = '<small>' . $type . ' ' . $countryCode . ' - </small>' . $actionHtml;
+            // Letterbox or normal package
+            $shippingMethod = $order->getShippingMethod();
+            $pgAddress = $helper->getPgAddress($order);
+            if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
+                $html .= $this->__('Normal') . ' ';
+            } else {
+                $totalWeight = $this->getTotalWeight($order->getAllVisibleItems());
+                $type = $helper->getPackageType($totalWeight, true);
+                $html .= $type . ' ';
+            }
+
+            $html .= $countryCode . ' - </small>' . $actionHtml;
 
             if ($value) {
                 $html .= '<br />';

@@ -279,7 +279,7 @@ TIG_MyParcel2014::Mailbox title under 2 kg. Leave empty to don't use it.,Brieven
 TIG_MyParcel2014::Use shipment address for PostNL location,Voeg PostNL locatie toe aan het afleveradres
 TIG_MyParcel2014::Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.,Gebruik het afleveradres voor 'Ophalen op een PostNL locatie'. De klant zal het adres op het factuur zien. Stel in op 'Nee' als je AfterPay gebruikt.
 
-TIG_MyParcel2014::PostNL location:,to PostNL locatie:
+TIG_MyParcel2014::PostNL location:,PostNL locatie:
 TIG_MyParcel2014::deliver:,bezorgen:
 TIG_MyParcel2014::TYPE_morning,Ochtendlevering
 TIG_MyParcel2014::TYPE_standard,Middaglevering
