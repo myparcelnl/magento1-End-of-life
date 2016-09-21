@@ -28,14 +28,10 @@ window.mypa.settings = {};
     $ = jQuery.noConflict();
 
     observer = $.extend({
-        subItem: "label.mypa-row-subitem",
-        deliveryDate: "input:radio[class='mypa-date']",
-        deliveryType: "input:radio[name='mypa-delivery-type']",
-        deliveryTime: "input:radio[name='mypa-delivery-time']",
+        input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
-        magentoMethodsContainer: "#checkout-shipping-method-load",
-        magentoMethods: ".sp-methods",
+        magentoMethods: "input:radio[name='shipping_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
         billingPostalCode: "input[id='billing:postcode']",
         billingStreet1: "input[id='billing:street1']",
@@ -53,7 +49,7 @@ window.mypa.settings = {};
         /**
          * If address is change
          */
-        $([
+        /*$([
             observer.billingPostalCode,
             observer.billingStreet1,
             observer.billingStreet2,
@@ -64,7 +60,7 @@ window.mypa.settings = {};
             observer.country
         ].join()).off('change').on('change', function () {
             load();
-        });
+        });*/
 
         var ajaxOptions = {
             url: BASE_URL + 'myparcel2014/checkout/info/',
@@ -97,9 +93,7 @@ window.mypa.settings = {};
                         $.when(
                             window.mypa.fn.updatePage()
                         ).done(function () {
-
-                            $('#mypa-slider').show();
-                            $('#mypa-note').hide();
+                            $(observer.magentoMethods).off('click').off('change');
 
                             /**
                              * If method is MyParcel
@@ -110,47 +104,34 @@ window.mypa.settings = {};
                                 }
                             });
 
+
                             /**
                              * If method not is MyParcel
                              */
-                            $('.sp-methods').off('click').on('click', function () {
+                            $(observer.magentoMethods).on('click', function () {
                                 mypajQuery('#mypa-input').val(null).change();
                             });
 
                             /**
                              * If the options changed, reload for IWD checkout
                              */
-                            $([
+                            mypajQuery([
+                                observer.input,
                                 observer.onlyRecipient,
                                 observer.signed
-                            ].join()).off('change').on('change', function () {
+                            ].join()).on('change', function () {
                                 if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
                                     window.mypa.fn.fnCheckout.saveShippingMethod();
-                                }
-                            });
 
-                            /**
-                             * If deliveryType change, do not use ajax. Reload only after an option is chosen
-                             */
-                            $([
-                                observer.deliveryDate,
-                                observer.deliveryType,
-                                observer.deliveryTime
-                            ].join()).off('change').on('change', function () {
-                                if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 200);
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 400);
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 600);
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 1000);
+                                    if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                                        setTimeout(
+                                            window.mypa.fn.fnCheckout.hideLoader
+                                            , 600);
+                                        setTimeout(
+                                            window.mypa.fn.fnCheckout.hideLoader
+                                            , 1000);
 
+                                    }
                                 }
                             });
 
