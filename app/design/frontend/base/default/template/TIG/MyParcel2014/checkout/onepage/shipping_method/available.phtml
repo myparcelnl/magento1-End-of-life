@@ -714,12 +714,6 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
             window.mypa.initialize();
             window.mypa.fn.load();
             window.mypa.fn.updatePage();
-
-            setTimeout(function () {
-                if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                    window.mypa.fn.fnCheckout.saveShippingMethod();
-                }
-            }, 2000);
-        }, 1000);
+        }, 500);
     </script>
 <?php endif; ?>

@@ -33,14 +33,15 @@ window.mypa.settings = {};
         signed: "input:checkbox[name='mypa-signed']",
         magentoMethods: "input:radio[name='shipping_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
-        billingPostalCode: "input[id='billing:postcode']",
-        billingStreet1: "input[id='billing:street1']",
-        billingStreet2: "input[id='billing:street2']",
-        billingCountry: "select[id='billing:country_id']",
-        postalCode: "input[id='billing:postcode']",
-        street1: "input[id='shipping:street1']",
-        street2: "input[id='shipping:street2']",
-        country: "select[id='shipping:country_id']"
+        payment: "input[name='payment[method]']",
+        billingPostalCode: "input[id='billing[postcode]']",
+        billingStreet1: "input[id='billing[street1]']",
+        billingStreet2: "input[id='billing[street2]']",
+        billingCountry: "select[id='billing[country_id]']",
+        postalCode: "input[id='billing[postcode]']",
+        street1: "input[id='shipping[street1]']",
+        street2: "input[id='shipping[street2]']",
+        country: "select[id='shipping[country_id]']"
     }, window.mypa.observer);
 
     window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
@@ -69,7 +70,7 @@ window.mypa.settings = {};
                 info = response;
 
                 var address = info.data['address'];
-                if (address && address['country'] == 'NL' && typeof $(observer.magentoMethodMyParcel)[0] != '') {
+                if (address && address['country'] == 'NL') {
                     $(observer.magentoMethodMyParcel)[0].checked = true;
                     getData();
 
@@ -95,6 +96,8 @@ window.mypa.settings = {};
                         ).done(function () {
                             $(observer.magentoMethods).off('click').off('change');
 
+                            window.mypa.fn.fnCheckout.saveShippingMethod();
+
                             /**
                              * If method is MyParcel
                              */
@@ -109,7 +112,9 @@ window.mypa.settings = {};
                              * If method not is MyParcel
                              */
                             $(observer.magentoMethods).on('click', function () {
-                                mypajQuery('#mypa-input').val(null).change();
+                                if(mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
+                                    mypajQuery('#mypa-input').val(null).change();
+                                }
                             });
 
                             /**
@@ -122,16 +127,12 @@ window.mypa.settings = {};
                             ].join()).on('change', function () {
                                 if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
                                     window.mypa.fn.fnCheckout.saveShippingMethod();
-
-                                    if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                                        setTimeout(
-                                            window.mypa.fn.fnCheckout.hideLoader
-                                            , 600);
-                                        setTimeout(
-                                            window.mypa.fn.fnCheckout.hideLoader
-                                            , 1000);
-
-                                    }
+                                    setTimeout(
+                                        window.mypa.fn.fnCheckout.hideLoader
+                                        , 600);
+                                    setTimeout(
+                                        window.mypa.fn.fnCheckout.hideLoader
+                                        , 1000);
                                 }
                             });
 
