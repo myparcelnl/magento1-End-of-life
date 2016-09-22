@@ -539,15 +539,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $hs = [];
         /** @var Mage_Sales_Model_Order_Item $item */
         foreach ($products as $item) {
-            var_dump($this->getHsCode($item, $_storeId));
             $hs[$this->getHsCode($item, $_storeId)] = $this->getHsCode($item, $_storeId);
         }
 
         if (empty($hs)) {
             return $this->getConfig('customs_type', 'shipment', $_storeId);
         } else {
-            var_dump($hs);
-            exit;
             return implode(',', $hs);
         }
     }
@@ -567,9 +564,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         /** @var Mage_Catalog_Model_Category $category */
         foreach ($item->getProduct()->getCategoryIds() as $categoryId) {
             $cat = Mage::getModel('catalog/category')->load($categoryId);
-            if ($cat->getHs() && $cat->getHs() > 0) {
-                var_dump($categoryId);
-                var_dump($cat->getHs());
+            if ($cat->getHs() && $cat->getHs() > 1000 && $cat->getHs() < 9999) {
                 $hs = $cat->getHs();
             }
         }
