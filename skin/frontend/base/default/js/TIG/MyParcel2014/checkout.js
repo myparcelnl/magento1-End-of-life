@@ -96,7 +96,9 @@ window.mypa.settings = {};
                         ).done(function () {
                             $(observer.magentoMethods).off('click').off('change');
 
-                            window.mypa.fn.fnCheckout.saveShippingMethod();
+                            if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                                window.mypa.fn.fnCheckout.saveShippingMethod();
+                            }
 
                             /**
                              * If method is MyParcel
