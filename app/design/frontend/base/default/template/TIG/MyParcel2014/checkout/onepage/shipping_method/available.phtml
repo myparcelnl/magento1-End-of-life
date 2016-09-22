@@ -32,7 +32,7 @@ $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($this->ge
 
 /** Check if shipment is mailbox  */
 $weight = $this->getQuote()->getShippingAddress()->getWeight();
-$shipmentType = $helper->getPackageType((float)$weight);
+$shipmentType = $helper->getPackageType((float)$weight, $this->getAddress()->getCountryId());
 $mailboxTitle = $helper->getConfig('mailbox_title', 'delivery') != '' && $shipmentType == 2 ? $helper->getConfig('mailbox_title', 'delivery') : false;
 
 /** Check if the checkout must use the MyParcel checkout */
@@ -92,7 +92,7 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                             <?php endif; ?>
                                 <label
                                     for="s_method_<?php echo $_rate->getCode() ?>">
-                                    <?php if ($code == 'myparcel' && $mailboxTitle) : ?>
+                                    <?php if ($code == 'myparcel' && $mailboxTitle && $country == 'NL') : ?>
                                         <?php echo $mailboxTitle; ?>
                                     <?php else: ?>
                                         <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
@@ -206,6 +206,7 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                 padding: 5px 10px 5px 10px;
                 display: inline-block;
                 text-align: center;
+                width: 80px;
                 min-height:34px;
             }
 
@@ -558,7 +559,7 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                 box-shadow:  1px 1px 10px #B9B9B9;
             }
 
-            .mypa-info:hover + .mypa-opening-hours{
+            div.afhalen-right:hover + .mypa-opening-hours{
                 display: initial;
             }
 
@@ -611,6 +612,68 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                 display: inline-block;
             }
 
+            .afhalen-right{
+                float: right;
+                margin: 9px 4px 0 0;
+            }
+
+            .afhalen-check{
+                float: left;
+            }
+
+            .afhalen-tekst{
+                margin: 0px 38px 10px 57px;
+                padding-top: 18px;
+            }
+
+            .afhalen-row{
+                min-height: 46px;
+            }
+
+            .edit-stem{
+                background-color: darkorange;
+                width:3px;
+                height:15px;
+                border-radius: 3px 3px 0 0px;
+            }
+
+            .edit-stem-top{
+                border-bottom: 1px solid darkorange;
+                height: 5px;
+                width: 100%;
+            }
+
+            .edit-tip > div{
+                width: 0;
+                height: 0;
+                border-left: 2px solid transparent;
+                border-right: 2px solid transparent;
+                border-top: 3px solid darkorange;
+            }
+
+            .edit-tip > div:before{
+                position:relative;
+                display: block;
+                content: '';
+                width: 0;
+                left: -2px;
+                bottom: 3px;
+                height: 0;
+                border-left: 2px solid transparent;
+                border-right: 2px solid transparent;
+                border-top: 2px solid white;
+            }
+
+            .edit{
+                display:inline-block;
+                position: relative;
+                top: 12px;
+                left: 6px;
+                width:20px;
+                height:20px;
+                transform: rotate(45deg);
+            }
+
             /* Magento css */
             #mypa-slider {
                 max-height: 435px;
@@ -619,6 +682,10 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
             #mypa-location-container {
                 overflow-x: auto;
                 max-height: 217px;
+            }
+
+            .afhalen-row {
+                min-height: 53px;
             }
         </style>
 
@@ -675,6 +742,14 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                                                 <div class="mypa-checkmark-kick"></div>
                                             </label>
                                             <span class="mypa-highlight">Vanaf 16.00 uur</span><span class='mypa-address' id="mypa-pickup-address"></span>
+                                            <div class="edit">
+                                                <div class="edit-stem">
+                                                </div>
+                                                <div class="edit-tip">
+                                                    <div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <span class='mypa-price mypa-pickup-price'></span>
                                         </label>
                                         <label for='mypa-pickup-express' class='mypa-row-subitem mypa-pickup-selector'>
@@ -685,6 +760,14 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                                                 <div class="mypa-checkmark-kick"></div>
                                             </label>
                                             <span class="mypa-highlight">Vanaf 8.30 uur</span><span class='mypa-address' id="mypa-pickup-express-address"></span>
+                                            <div class="edit">
+                                                <div class="edit-stem">
+                                                </div>
+                                                <div class="edit-tip">
+                                                    <div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <span class='mypa-price mypa-pickup-express-price'></span>
                                         </label>
                                     </div>
@@ -711,9 +794,8 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
     </template>
     <script>
         setTimeout(function () {
-            window.mypa.initialize();
+            new MyParcel();
             window.mypa.fn.load();
-            window.mypa.fn.updatePage();
         }, 500);
     </script>
 <?php endif; ?>
