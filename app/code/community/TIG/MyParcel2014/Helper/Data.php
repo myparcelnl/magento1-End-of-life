@@ -525,17 +525,59 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getConfig('gram_is_set', 'general') == '1' ? $weight / 1000 : $weight;
     }
 
-    public function getHsCode($products, $_storeId)
+    /**
+     * Get multiple HS codes from categories or default settings
+     *
+     * @param $products
+     * @param $_storeId
+     *
+     * @return string
+     */
+    public function getHsCodes($products, $_storeId)
     {
+        $hs = [];
         /** @var Mage_Sales_Model_Order_Item $item */
         foreach ($products as $item) {
+            var_dump($this->getHsCode($item, $_storeId));
+            $hs[$this->getHsCode($item, $_storeId)] = $this->getHsCode($item, $_storeId);
+        }
 
-            foreach ($item->getProduct()->getCategoryIds() as $categoryId) {
+        if (empty($hs)) {
+            return $this->getConfig('customs_type', 'shipment', $_storeId);
+        } else {
+            var_dump($hs);
+            exit;
+            return implode(',', $hs);
+        }
+    }
+
+    /**
+     * Get HS code from categories or default settings
+     *
+     * @param $item
+     * @param $_storeId
+     *
+     * @return string
+     */
+    public function getHsCode($item, $_storeId)
+    {
+        $hs = '';
+        /** @var Mage_Sales_Model_Order_Item $item */
+        /** @var Mage_Catalog_Model_Category $category */
+        foreach ($item->getProduct()->getCategoryIds() as $categoryId) {
+            $cat = Mage::getModel('catalog/category')->load($categoryId);
+            if ($cat->getHs() && $cat->getHs() > 0) {
                 var_dump($categoryId);
+                var_dump($cat->getHs());
+                $hs = $cat->getHs();
             }
         }
-        exit('test123');
-        $this->getConfig('customs_type', 'shipment', $_storeId);
+
+        if ($hs == '') {
+            return $this->getConfig('customs_type', 'shipment', $_storeId);
+        } else {
+            return $hs;
+        }
     }
 
     /**

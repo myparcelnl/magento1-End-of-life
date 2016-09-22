@@ -554,7 +554,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
         {
 
-            $customsContentType = $helper->getConfig('customs_hstariffnr', 'shipment', $storeId);
+            $customsContentType = null;
             if($myParcelShipment->getCustomsContentType()){
                 $customsContentType = $myParcelShipment->getCustomsContentType();
             }
@@ -563,13 +563,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 throw new TIG_MyParcel2014_Exception(
                     $helper->__('International shipments can not be sent by') . ' ' . strtolower($helper->__('Letter box')),
                     'MYPA-0027'
-                );
-            }
-
-            if(empty($customsContentType)) {
-                throw new TIG_MyParcel2014_Exception(
-                    $helper->__('No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.'),
-                    'MYPA-0026'
                 );
             }
 
@@ -607,11 +600,20 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                     $price *= $qty;
 
+                    if(!$customsContentType){
+                        $customsContentType = $helper->getHsCode($item, $storeId);
+                    }
+                    if(empty($customsContentType)) {
+                        throw new TIG_MyParcel2014_Exception(
+                            $helper->__('No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.'),
+                            'MYPA-0026'
+                        );
+                    }
 
                     $data['customs_declaration']['items'][] = array(
                         'description'       => $item->getName(),
                         'amount'            => $qty,
-                        'weight'            => $weight * 1000,
+                        'weight'            => (int)$weight * 1000,
                         'item_value'        => array('amount' => $price * 100, 'currency' => 'EUR'),
                         'classification'      => $customsContentType,
                         'country' => Mage::getStoreConfig('general/country/default', $storeId),
@@ -623,7 +625,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     }
                 }
             }
-            $data['weight'] = $totalWeight;
+            $data['customs_declaration']['weight'] = (int)$totalWeight;
+            $data['physical_properties']['weight'] = (int)$totalWeight;
         }
 
         /**

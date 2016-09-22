@@ -54,9 +54,8 @@ $_insuredAmount             = 0;
 
 /** Generate hs code */
 $_customsTypeOptions        = $this->getCustomsTypeOptions();
-$_defaultCustomsCode =      $_helper->getHsCode($this->getShipment()->getOrder()->getAllVisibleItems(), $_storeId);
-
-$_defaultCustomsContentCode = $_helper->getConfig('customs_hstariffnr', 'shipment', $_storeId);
+$_defaultCustomsCode        = $_helper->getConfig('customs_type', 'shipment', $_storeId);
+$_defaultCustomsContentCode = $_helper->getHsCodes($this->getShipment()->getOrder()->getAllVisibleItems(), $_storeId);
 
 $tmpInsured = 1000;
 
