@@ -525,6 +525,19 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getConfig('gram_is_set', 'general') == '1' ? $weight / 1000 : $weight;
     }
 
+    public function getHsCode($products, $_storeId)
+    {
+        /** @var Mage_Sales_Model_Order_Item $product */
+        foreach ($products as $item) {
+            var_dump(($item->getProduct()));
+            foreach ($product->getCategoryIds() as $categoryId) {
+                var_dump($categoryId);
+            }
+        }
+        exit('test123');
+        $this->getConfig('customs_type', 'shipment', $_storeId);
+    }
+
     /**
      * Generate the entire global address at two address fields
      *
