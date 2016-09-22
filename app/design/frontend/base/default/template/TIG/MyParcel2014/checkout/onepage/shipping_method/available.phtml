@@ -92,7 +92,7 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                             <?php endif; ?>
                                 <label
                                     for="s_method_<?php echo $_rate->getCode() ?>">
-                                    <?php if ($code == 'myparcel' && $mailboxTitle) : ?>
+                                    <?php if ($code == 'myparcel' && $mailboxTitle && $country == 'NL') : ?>
                                         <?php echo $mailboxTitle; ?>
                                     <?php else: ?>
                                         <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
