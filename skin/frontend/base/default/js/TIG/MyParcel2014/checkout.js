@@ -92,7 +92,7 @@ window.mypa.settings = {};
                         });
 
                         $.when(
-                            window.mypa.fn.updatePage()
+                            updatePageRequest()
                         ).done(function () {
                             $(observer.magentoMethods).off('click').off('change');
 
@@ -209,5 +209,13 @@ window.mypa.settings = {};
         }
     };
 
+    updatePageRequest = function () {
+        if (mypajQuery.active > 0) {
+            window.setTimeout(updatePageRequest, 100);
+        }
+        else {
+            window.mypa.fn.updatePage()
+        }
+    };
 
 })();

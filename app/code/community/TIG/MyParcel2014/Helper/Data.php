@@ -498,15 +498,16 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param int  $weight
-     * @param bool $getAdminTitle
+     * @param int    $weight
+     * @param string $country
+     * @param bool   $getAdminTitle
      *
      * @return int|string package = 1, mailbox = 2, letter = 3
      */
-    public function getPackageType($weight, $getAdminTitle = false)
+    public function getPackageType($weight, $country, $getAdminTitle = false)
     {
         $weight = $this->getCorrectWeight((float)$weight);
-        $type = $weight <= 2 && $weight != 0 ? 2 : 1;
+        $type = $weight <= 2 && $country == 'NL' && $weight != 0 ? 2 : 1;
 
         if ($getAdminTitle) {
             return $type == 1 ? $this->__('Normal') : $this->__('Letter box');
@@ -523,6 +524,61 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     private function getCorrectWeight($weight)
     {
         return $this->getConfig('gram_is_set', 'general') == '1' ? $weight / 1000 : $weight;
+    }
+
+    /**
+     * Get multiple HS codes from categories or default settings
+     *
+     * @param $products
+     * @param $_storeId
+     *
+     * @return string
+     */
+    public function getHsCodes($products, $_storeId)
+    {
+        $hs = [];
+        /** @var Mage_Sales_Model_Order_Item $item */
+        foreach ($products as $item) {
+            var_dump($this->getHsCode($item, $_storeId));
+            $hs[$this->getHsCode($item, $_storeId)] = $this->getHsCode($item, $_storeId);
+        }
+
+        if (empty($hs)) {
+            return $this->getConfig('customs_type', 'shipment', $_storeId);
+        } else {
+            var_dump($hs);
+            exit;
+            return implode(',', $hs);
+        }
+    }
+
+    /**
+     * Get HS code from categories or default settings
+     *
+     * @param $item
+     * @param $_storeId
+     *
+     * @return string
+     */
+    public function getHsCode($item, $_storeId)
+    {
+        $hs = '';
+        /** @var Mage_Sales_Model_Order_Item $item */
+        /** @var Mage_Catalog_Model_Category $category */
+        foreach ($item->getProduct()->getCategoryIds() as $categoryId) {
+            $cat = Mage::getModel('catalog/category')->load($categoryId);
+            if ($cat->getHs() && $cat->getHs() > 0) {
+                var_dump($categoryId);
+                var_dump($cat->getHs());
+                $hs = $cat->getHs();
+            }
+        }
+
+        if ($hs == '') {
+            return $this->getConfig('customs_type', 'shipment', $_storeId);
+        } else {
+            return $hs;
+        }
     }
 
     /**

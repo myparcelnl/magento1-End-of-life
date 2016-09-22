@@ -87,7 +87,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
             // Get package type
             $totalWeight = $this->_helper->getTotalWeight($this->_order->getAllVisibleItems());
-            $html .= $this->_helper->getPackageType($totalWeight, true) . ' ';
+            $html .= $this->_helper->getPackageType($totalWeight, $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
 
             if($data){
                 $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));

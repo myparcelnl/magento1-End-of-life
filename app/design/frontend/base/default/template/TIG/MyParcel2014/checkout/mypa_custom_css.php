@@ -20,13 +20,13 @@
             color: #<?=$baseColor;?>;
         }
 
-
-        /* START opc_index_index (IWD) */
-        .opc-wrapper-opc label.mypa-tab, .opc-wrapper-opc label.mypa-tab span {
-            background-color: #<?=$baseColor;?> !important;
+        .edit-tip > div {
+            border-top-color: #<?=$baseColor;?>;;
         }
-        /* END opc_index_index (IWD) */
 
+        .edit-stem {
+            background-color: #<?=$baseColor;?>;
+        }
     <?php endif;?>
 
     /* Set select color */
