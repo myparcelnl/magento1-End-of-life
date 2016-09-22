@@ -527,10 +527,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getHsCode($products, $_storeId)
     {
-        /** @var Mage_Sales_Model_Order_Item $product */
+        /** @var Mage_Sales_Model_Order_Item $item */
         foreach ($products as $item) {
-            var_dump(($item->getProduct()));
-            foreach ($product->getCategoryIds() as $categoryId) {
+
+            foreach ($item->getProduct()->getCategoryIds() as $categoryId) {
                 var_dump($categoryId);
             }
         }
