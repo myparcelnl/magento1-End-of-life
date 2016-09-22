@@ -523,7 +523,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         }
 
         $shippingAddress = $myParcelShipment->getShippingAddress();
-        $streetData      = $helper->getStreetData($shippingAddress,$storeId);
+        $streetData      = $helper->getStreetData($shippingAddress);
         $email           = $myParcelShipment->getOrder()->getCustomerEmail();
         $phone           = $order->getBillingAddress()->getTelephone();
 
@@ -633,7 +633,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $shippingMethod = $order->getShippingMethod();
 
         if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
-            $pgStreetData      = $helper->getStreetData($pgAddress,$storeId);
+            $pgStreetData      = $helper->getStreetData($pgAddress);
             $data['options']['signature'] = 1;
             $data['pickup'] = array(
                 'postal_code'       => trim($pgAddress->getPostcode()),

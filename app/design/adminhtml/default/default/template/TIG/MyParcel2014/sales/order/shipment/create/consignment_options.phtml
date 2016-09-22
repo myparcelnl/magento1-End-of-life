@@ -57,6 +57,9 @@ $_insuredAmount             = 0;
 
 $tmpInsured = 1000;
 
+$totalWeight = $_helper->getTotalWeight($this->getShipment()->getOrder()->getAllVisibleItems());
+$type = $_helper->getPackageType($totalWeight);
+
 if(is_array($_insured)){
     $_insuredAmount   = (int)$_insured['insuredAmount'];
     $_insuredSelected = $_insured['selected'];
@@ -68,6 +71,7 @@ if(true == $_isPakjegemak){
     $_disabled= 'disabled';
 }
 
+
 ?>
 <div id="tig_myparcel_consignment_options">
     <p>
@@ -76,11 +80,11 @@ if(true == $_isPakjegemak){
     </p>
     <div id="tig_myparcel_form_container">
             <p>
-                <label for="tig_myparcel_shipment_type" class="normal"><?php echo $this->__('Shipment type');?></label>
+                <label for="tig_myparcel_shipment_type" class="normal" ><?php echo $this->__('Shipment type');?></label>
                 <select id="tig_myparcel_shipment_type" name="tig_myparcel[shipment_type]">
-                    <option value="normal" selected="selected"><?php echo $this->__('Normal'); ?></option>
+                    <option value="normal" <?php echo $type == 1 ? 'selected="selected"' : '';?>><?php echo $this->__('Normal'); ?></option>
                     <?php if ($this->getDestinationCountry() == 'NL'): ?>
-                    <option value="letter_box" <?php echo $_disabled;?> ><?php echo $this->__('Letter box'); ?></option>
+                    <option value="letter_box" <?php echo $_disabled;?> <?php echo $type == 2 ? 'selected="selected"' : '';?>><?php echo $this->__('Letter box'); ?></option>
                     <?php endif; ?>
                     <option value="unstamped" <?php echo $_disabled;?> ><?php echo $this->__('Unpaid'); ?></option>
                 </select>

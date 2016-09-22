@@ -56,10 +56,16 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
             ->addFieldToFilter('order_id', $this->_order->getId());
     }
 
+    /**
+     * Collect options selected at checkout and calculate type consignment
+     *
+     * @return string
+     */
     public function getCheckoutOptionsHtml()
     {
 
         $html = false;
+
         $pgAddress = $this->_helper->getPgAddress($this->_order);
         /** @var object $data Data from checkout */
         $data = $this->_order->getMyparcelData() !== null ? json_decode($this->_order->getMyparcelData(), true) : false;
@@ -69,18 +75,23 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         {
             if($data){
                 $dateTime = date('d-m-Y H:i', strtotime($data['date'] . ' ' . $data['start_time']));
-                $html = $this->__('PostNL location:') . ' ' . $dateTime;
+                $html .= $this->__('PostNL location:') . ' ' . $dateTime;
                 if($data['price_comment'] != 'retail')
                     $html .= ', ' . $this->__('TYPE_' . $data['price_comment']);
                 $html .= ', ' . $data['location']. ', ' . $data['city']. ' (' . $data['postal_code']. ')';
             } else {
                 /** Old data from orders before version 1.6.0 */
-                $html = $this->__('PostNL location:') . ' ' . $pgAddress->getCompany() . ' ' . $pgAddress->getCity();
+                $html .= $this->__('PostNL location:') . ' ' . $pgAddress->getCompany() . ' ' . $pgAddress->getCity();
             }
         } else {
+
+            // Get package type
+            $totalWeight = $this->_helper->getTotalWeight($this->_order->getAllVisibleItems());
+            $html .= $this->_helper->getPackageType($totalWeight, true) . ' ';
+
             if($data){
                 $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
-                $html = $this->__('Deliver:') .' ' . $dateTime;
+                $html .= $this->__('deliver:') .' ' . $dateTime;
 
                 if($data['time'][0]['price_comment'] != 'standard')
                     $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);

@@ -420,7 +420,6 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
                         'type_consignment' => array(
                             'name'    => 'type_consignment',
                             'type'    => 'select',
-                            'label'   => $helper->__('Type Consignment'),
                             'options' => array(
                                 TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
                                 TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),

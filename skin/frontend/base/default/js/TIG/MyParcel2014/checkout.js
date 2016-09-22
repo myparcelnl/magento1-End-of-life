@@ -12,13 +12,14 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
-if(typeof window.mypa == 'undefined') {
+if(window.mypa == null || window.mypa == undefined){
     window.mypa = {};
+}
+if(window.mypa.observer == null || window.mypa.observer == undefined){
     window.mypa.observer = {};
+}
+if(window.mypa.fn == null || window.mypa.fn == undefined){
     window.mypa.fn = {};
-} else {
-    window.mypa.observer = typeof window.mypa.observer != 'undefined' ? window.mypa.observer : {};
-    window.mypa.fn = typeof window.mypa.fn != 'undefined' ? window.mypa.fn : {};
 }
 window.mypa.settings = {};
 (function () {
@@ -27,23 +28,20 @@ window.mypa.settings = {};
     $ = jQuery.noConflict();
 
     observer = $.extend({
-        subItem: "label.mypa-row-subitem",
-        deliveryDate: "input:radio[class='mypa-date']",
-        deliveryType: "input:radio[name='mypa-delivery-type']",
-        deliveryTime: "input:radio[name='mypa-delivery-time']",
+        input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
-        magentoMethodsContainer: "#checkout-shipping-method-load",
-        magentoMethods: ".sp-methods",
+        magentoMethods: "input:radio[name='shipping_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
-        billingPostalCode: "input[id='billing:postcode']",
-        billingStreet1: "input[id='billing:street1']",
-        billingStreet2: "input[id='billing:street2']",
-        billingCountry: "select[id='billing:country_id']",
-        postalCode: "input[id='billing:postcode']",
-        street1: "input[id='shipping:street1']",
-        street2: "input[id='shipping:street2']",
-        country: "select[id='shipping:country_id']"
+        payment: "input[name='payment[method]']",
+        billingPostalCode: "input[id='billing[postcode]']",
+        billingStreet1: "input[id='billing[street1]']",
+        billingStreet2: "input[id='billing[street2]']",
+        billingCountry: "select[id='billing[country_id]']",
+        postalCode: "input[id='billing[postcode]']",
+        street1: "input[id='shipping[street1]']",
+        street2: "input[id='shipping[street2]']",
+        country: "select[id='shipping[country_id]']"
     }, window.mypa.observer);
 
     window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
@@ -52,7 +50,7 @@ window.mypa.settings = {};
         /**
          * If address is change
          */
-        $([
+        /*$([
             observer.billingPostalCode,
             observer.billingStreet1,
             observer.billingStreet2,
@@ -63,22 +61,19 @@ window.mypa.settings = {};
             observer.country
         ].join()).off('change').on('change', function () {
             load();
-        });
+        });*/
 
         var ajaxOptions = {
             url: BASE_URL + 'myparcel2014/checkout/info/',
             success: function (response) {
 
                 info = response;
-                $('#mypa-slider').hide();
 
                 var address = info.data['address'];
-                if (address && address['country'] == 'NL' && typeof $(observer.magentoMethodMyParcel)[0] != '') {
+                if (address && address['country'] == 'NL') {
                     $(observer.magentoMethodMyParcel)[0].checked = true;
                     getData();
 
-                    $('#myparcel').show();
-                    $(observer.magentoMethodMyParcel).closest("dd").hide().addClass('mypa-hidden').prev().hide().addClass('mypa-hidden');
 
                     if (address['street']) {
                         window.mypa.settings = $.extend(window.mypa.settings, {
@@ -99,63 +94,47 @@ window.mypa.settings = {};
                         $.when(
                             window.mypa.fn.updatePage()
                         ).done(function () {
+                            $(observer.magentoMethods).off('click').off('change');
 
-                            $('#mypa-slider').show();
-                            $('#mypa-note').hide();
+                            if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                                window.mypa.fn.fnCheckout.saveShippingMethod();
+                            }
 
                             /**
                              * If method is MyParcel
                              */
-                            $('#mypa-delivery-options-container').off('click').on('click', function () {
-                                if (typeof $(observer.deliveryTime + ':checked')[0] !== 'undefined') {
-                                    $(observer.magentoMethodMyParcel)[0].prop('checked', true);
+                            mypajQuery('#mypa-load').off('click').on('click', function () {
+                                if(mypajQuery('#mypa-input').val() != '') {
+                                    mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
                                 }
                             });
+
 
                             /**
                              * If method not is MyParcel
                              */
-                            $(observer.magentoMethods).off('click').on('click', function () {
-                                console.log($("input:radio[name='mypa-delivery-type']:checked"));
-                                /* @todo; uncheck MyParcel radios */
-                                /*$(observer.deliveryType + ':checked')[0].checked = false;
-                                $(observer.deliveryTime + ':checked')[0].checked = false;*/
+                            $(observer.magentoMethods).on('click', function () {
+                                if(mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
+                                    mypajQuery('#mypa-input').val(null).change();
+                                }
                             });
 
                             /**
                              * If the options changed, reload for IWD checkout
                              */
-                            $([
+                            mypajQuery([
+                                observer.input,
                                 observer.onlyRecipient,
                                 observer.signed
-                            ].join()).off('change').on('change', function () {
+                            ].join()).on('change', function () {
                                 if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
                                     window.mypa.fn.fnCheckout.saveShippingMethod();
-                                }
-                            });
-
-                            /**
-                             * If deliveryType change, do not use ajax. Reload only after an option is chosen
-                             */
-                            $([
-                                observer.deliveryDate,
-                                observer.deliveryType,
-                                observer.deliveryTime
-                            ].join()).off('change').on('change', function () {
-                                if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 200);
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 400);
                                     setTimeout(
                                         window.mypa.fn.fnCheckout.hideLoader
                                         , 600);
                                     setTimeout(
                                         window.mypa.fn.fnCheckout.hideLoader
                                         , 1000);
-
                                 }
                             });
 
@@ -163,9 +142,6 @@ window.mypa.settings = {};
                     } else {
                         console.log('Adres niet gevonden (API request mislukt).')
                     }
-                } else {
-                    $('#myparcel').hide();
-                    $(observer.magentoMethodMyParcel).closest("dd").show().removeClass('mypa-hidden').prev().show().removeClass('mypa-hidden');
                 }
             }
         };

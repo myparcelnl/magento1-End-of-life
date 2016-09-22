@@ -42,6 +42,12 @@
     <adminhtml_system_config_edit>
         <reference name="head">
             <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
                 <type>skin_css</type>
                 <name>css/TIG/MyParcel2014/system_config_edit.css</name>
             </action>
@@ -58,7 +64,7 @@
         <reference name="content">
             <block type="core/template"
                    name="tig_myparcel_address_warning"
-                   template="TIG/MyParcel2014/sales/order/address/warning.phtml" />
+                   template="TIG/MyParcel2014/sales/order/address/warning.phtml"/>
         </reference>
     </adminhtml_sales_order_address>
 

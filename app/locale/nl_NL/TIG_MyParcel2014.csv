@@ -152,6 +152,7 @@ TIG_MyParcel2014::Installation and configuration manual,Installatie en configura
 TIG_MyParcel2014::View the user manual.,Bekijk de gebruikers handleiding
 TIG_MyParcel2014::User manual,Gebruikers handleiding
 TIG_MyParcel2014::View the complete changelog of the extension.,Bekijk de volledige release notes van de extensie
+TIG_MyParcel2014::Latest stable release,Laatste stabiele versie
 TIG_MyParcel2014::Full changelog,Volledige release notes
 TIG_MyParcel2014::MyParcel PgAddress class missing.,MyParcel PgAddress class mist
 TIG_MyParcel2014::Select a transactional e-mail template to send the retourlink,Selecteer een transactionele e-mail template om de retourlink te verzenden.
@@ -171,7 +172,7 @@ TIG_MyParcel2014::Housenr. field,Huisnummer veld
 TIG_MyParcel2014::Split house number parts,Deel huisnummervelden op
 TIG_MyParcel2014::Housenr. extension field,Huisnr. extensie veld
 TIG_MyParcel2014::Street line #%s,Adresregel #%s
-TIG_MyParcel2014::The weight in Magento is specified in gram instead of kg,Het gewicht in Magento is opgegeven in gram i.p.v. aantal kg
+TIG_MyParcel2014::The weight in Magento is specified in gram instead of kg,Het gewicht in Magento is opgegeven in gram i.p.v. kg
 TIG_MyParcel2014::Select 'Yes' if the weight is not properly picked up by the MyParcel plugin,Selecteer 'Ja' als het gewicht niet goed wordt opgepakt door de MyParcel plugin
 TIG_MyParcel2014::This will be added to the regular shipping price,Dit zal bij de normale verzendkosten worden opgeteld
 TIG_MyParcel2014::Default shipment type for Cross Domestic shipments,Standaard verzend inhoud voor Cross Domestic verzendingen
@@ -182,7 +183,7 @@ TIG_MyParcel2014::To be able to configure the extension you need to possess and 
 "TIG_MyParcel2014::During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension.",Indien u de oude MyParcel extensie gebruikt kan deze actief blijven in de overgangsfase. Wel dient u PakjeGemak in de oude MyParcel extensie uit te schakelen.
 TIG_MyParcel2014::We cannot guarantee perfect functionality of the MyParcel extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact MyParcel.,"Indien u de extensie wilt gebruiken op een niet-ondersteunde versie of editie van Magento, of als u de extensie wilt gebruiken samen met een 3rd party extensie die niet ondersteund wordt, kunnen wij niet garanderen dat de MyParcel extensie feilloos zal functioneren. Voor vragen kunt u contact opnemen met MyParcel."
 TIG_MyParcel2014::Installation and configuration instructions,Installatie en configuratie handleiding
-TIG_MyParcel2014::Overview articles in knowledge base,Bekijk alle kennisbank artikelen
+TIG_MyParcel2014::Overview articles in knowledge base,Meest gestelde vragen
 TIG_MyParcel2014::Questions and information about your MyParcel account,MyParcel account vragen en informatie
 "TIG_MyParcel2014::Shipments will not be delivered at the neighbours, only on house address.","Zendingen worden niet bij de buren aangeboden, alleen op huisadres."
 TIG_MyParcel2014::Shipments will not go the a pickup point but will be returned directly after multiple delivery attempts.,Zendingen gaan niet naar een afhaallocatie en komen direct retour na bezorgpogingen.
@@ -194,6 +195,7 @@ TIG_MyParcel2014::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
 TIG_MyParcel2014::Track&amp;Trace link: %s,Track&amp;Trace link: %s
 TIG_MyParcel2014::Is letter box parcel,Is brievenbuspakje
 TIG_MyParcel2014::Shipment type,Zendingtype
+TIG_MyParcel2014::Accordance with type consignment,Conform type zending
 TIG_MyParcel2014::Normal,Pakket
 TIG_MyParcel2014::Letter box,Brievenbuspakje
 TIG_MyParcel2014::Unstamped,Ongefrankeerd
@@ -212,7 +214,7 @@ TIG_MyParcel2014::Nearest myparcel pickup points,Dichtstbijzijnde afhaal locatie
 TIG_MyParcel2014::PostNL location Method name,PostNL locatie methode naam
 TIG_MyParcel2014::Unpaid,Ongefrankeerd
 TIG_MyParcel2014::The consignment is already credited.,Deze zending is al gecrediteerd.
-TIG_MyParcel2014::MyParcel - Create &amp; Print shipping labels,MyParcel - Cre&euml;er &amp; Print verzend labels
+TIG_MyParcel2014::MyParcel - Create labels,MyParcel - Cre&euml;er labels
 TIG_MyParcel2014::Print packing slip,Print pakbon
 TIG_MyParcel2014::Send,Verzenden
 TIG_MyParcel2014::Today,Vandaag
@@ -278,7 +280,7 @@ TIG_MyParcel2014::Use shipment address for PostNL location,Voeg PostNL locatie t
 TIG_MyParcel2014::Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.,Gebruik het afleveradres voor 'Ophalen op een PostNL locatie'. De klant zal het adres op het factuur zien. Stel in op 'Nee' als je AfterPay gebruikt.
 
 TIG_MyParcel2014::PostNL location:,PostNL locatie:
-TIG_MyParcel2014::Deliver:,Bezorgen:
+TIG_MyParcel2014::deliver:,bezorgen:
 TIG_MyParcel2014::TYPE_morning,Ochtendlevering
 TIG_MyParcel2014::TYPE_standard,Middaglevering
 TIG_MyParcel2014::TYPE_night,Avondlevering

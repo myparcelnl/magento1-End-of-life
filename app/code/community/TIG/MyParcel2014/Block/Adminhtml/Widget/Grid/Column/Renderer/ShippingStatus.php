@@ -59,7 +59,8 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
      */
     public function render(Varien_Object $row)
     {
-
+        $helper = $this->helper('tig_myparcel');
+        $html = '';
         /**
          * The shipment was not shipped using MyParcel
          */
@@ -78,67 +79,107 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $value = $row->getData($this->getColumn()->getIndex());
         $order = Mage::getModel('sales/order')->load($row->getId());
 
-        if (!$value) {
-            if ($order->canShip()) {
+        if ($order->canShip()) {
+            $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
 
-                $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
+            $data = json_decode($order->getMyparcelData(), true);
+            if ($data['date'] !== null) {
+                $dateTime = strtotime($data['date'] . ' 00:00:00');
+                $dropOffDate = $this->_getDropOffDay($dateTime);
+                $sDropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
 
-                $data = json_decode($order->getMyparcelData(), true);
-                if ($data['date'] !== null) {
-                    $dateTime = strtotime($data['date'] . ' 00:00:00');
-                    $dropOffDate = $this->_getDropOffDay($dateTime);
-                    $sDropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
-                }
                 /**
                  * Show info text plus link to send
                  */
-                if ($data['date'] == null) {
-                    $dropOff = ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a>';
-                } else if (date('Ymd') == date('Ymd', $dropOffDate)) {
-                    $dropOff = '<a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Today') . ' ' . strtolower($this->__('Send')) . '</a> ';
+                if (date('Ymd') == date('Ymd', $dropOffDate)) {
+                    $actionHtml = '<a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Today') . ' ' . strtolower($this->__('Send')) . '</a> ';
                 } else if (date('Ymd') > date('Ymd', $dropOffDate)) {
-                    $dropOff = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
+                    $actionHtml = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
                 } else {
-                    $dropOff = $sDropOff . ' <span style="font-size: 115%;">&#8987;</span>';
+                    $actionHtml = $sDropOff . ' <span style="font-size: 115%;">&#8987;</span>';
                 }
-
-                return $countryCode . ' - ' . $dropOff;
-
             } else {
+                $actionHtml = ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a>';
+            }
 
-                return $countryCode;
+            $html .= '<small>';
 
+            // Letterbox or normal package
+            $shippingMethod = $order->getShippingMethod();
+            $pgAddress = $helper->getPgAddress($order);
+            if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
+                $html .= $this->__('Normal') . ' ';
+            } else {
+                $totalWeight = $this->getTotalWeight($order->getAllVisibleItems());
+                $type = $helper->getPackageType($totalWeight, true);
+                $html .= $type . ' ';
+            }
+
+            $html .= $countryCode . ' - </small>' . $actionHtml;
+
+            if ($value) {
+                $html .= '<br />';
+            }
+
+        } else {
+
+            if (!$value) {
+                $html = $countryCode;
+            }
+
+        }
+
+        if ($value) {
+            /**
+             * Create a track & trace URL based on shipping destination
+             */
+            $postcode = $row->getData(self::POSTCODE_COLUMN);
+            $destinationData = array(
+                'countryCode' => $countryCode,
+                'postcode' => $postcode,
+            );
+
+            $barcodeData = array();
+            $barcodes = explode(',', $row->getData(self::BARCODE_COLUMN));
+            $statusses = explode(',', $value);
+
+            foreach ($statusses as $key => $status) {
+                if (!empty($barcodes[$key])) {
+                    $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
+                    $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>" . $this->__('status_' . $status) . "</small>";
+                    if (!in_array($oneBarcodeData, $barcodeData)) {
+                        $barcodeData[] = $oneBarcodeData;
+                    }
+                } else {
+                    $barcodeData[] = "<small>" . $this->__('status_' . $status) . "</small>";
+                }
+            }
+
+            $html .= implode('<br />', $barcodeData);
+        }
+
+        return $html;
+    }
+
+    /**
+     * Get total weight
+     *
+     * @param $products
+     *
+     * @return float|int
+     */
+    private function getTotalWeight($products)
+    {
+        $totalWeight = 0;
+        /** @var Mage_Sales_Model_Order_Item $product */
+
+        foreach ($products as $product) {
+            if ($product->canShip()) {
+                $totalWeight = $totalWeight + (float)$product->getData('weight') * ($product->getData('qty_ordered') - $product->getData('qty_shipped'));
             }
         }
 
-        /**
-         * Create a track & trace URL based on shipping destination
-         */
-        $postcode = $row->getData(self::POSTCODE_COLUMN);
-        $destinationData = array(
-            'countryCode' => $countryCode,
-            'postcode' => $postcode,
-        );
-
-        $barcodeData = array();
-        $barcodes = explode(',', $row->getData(self::BARCODE_COLUMN));
-        $statusses = explode(',', $value);
-
-        foreach ($statusses as $key => $status) {
-            if (!empty($barcodes[$key])) {
-                $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
-                $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>" . $this->__('status_' . $status) . "</small>";
-                if (!in_array($oneBarcodeData, $barcodeData)) {
-                    $barcodeData[] = $oneBarcodeData;
-                }
-            } else {
-                $barcodeData[] = "<small>" . $this->__('status_' . $status) . "</small>";
-            }
-        }
-
-        $barcodeHtml = implode('<br />', $barcodeData);
-
-        return $barcodeHtml;
+        return $totalWeight;
     }
 
     /**
@@ -153,17 +194,16 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         $weekDay = date('N', $dateTime);
 
         switch ($weekDay) {
-            case (1):
-                $dropOff = strtotime("-3 day", $dateTime);
-                break;
-            case (2):
+            case (1): // Monday
                 $dropOff = strtotime("-2 day", $dateTime);
                 break;
+            case (2):
             case (3):
             case (4):
-            case (5):
-            case (6):
-            case (7):
+            case (5): // Friday
+            case (6): // Saturday
+            case (7): // Sunday
+            default:
                 $dropOff = strtotime("-1 day", $dateTime);
                 break;
         }

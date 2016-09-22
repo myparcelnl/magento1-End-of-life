@@ -48,40 +48,6 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
     const XPATH_HOUSENUMBER_EXTENSION_FIELD = 'tig_myparcel/shipment/housenr_extension_field';
 
     /**
-     * Checks whether the given store uses split address lines.
-     *
-     * @param int|null $storeId
-     *
-     * @return boolean
-     */
-    public function useSplitStreet($storeId = null)
-    {
-        if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-
-        $useSplitStreet = Mage::getStoreConfigFlag(self::XPATH_SPLIT_STREET, $storeId);
-        return $useSplitStreet;
-    }
-
-    /**
-     * Checks whether the given store uses split housenumber values.
-     *
-     * @param int|null $storeId
-     *
-     * @return boolean
-     */
-    public function useSplitHousenumber($storeId = null)
-    {
-        if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-
-        $useSplitStreet = Mage::getStoreConfigFlag(self::XPATH_SPLIT_HOUSENUMBER, $storeId);
-        return $useSplitStreet;
-    }
-
-    /**
      * Gets the address field number used for the streetname field.
      *
      * @param int|null $storeId
