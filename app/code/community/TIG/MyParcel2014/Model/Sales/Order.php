@@ -27,8 +27,7 @@
          */
         public function getShippingAddress() {
 
-            $helper = Mage::helper('tig_myparcel');
-            $usePgAddress = $helper->getConfig('pakjegemak_use_shipment_address') === '1';
+            $usePgAddress = true;
 
             $parentFunctions = debug_backtrace();
             if($parentFunctions[3]['class'] != 'TIG_Afterpay_Model_PaymentFee_Observer'){
