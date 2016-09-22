@@ -299,8 +299,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             // log the request url
             $helper->log($url);
-            $helper->log(json_decode($body));
-
             $request->setConfig($config)
                 ->write(Zend_Http_Client::POST, $url, '1.1', $header, $body);
         } else {
@@ -556,7 +554,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             $customsContentType = null;
             if($myParcelShipment->getCustomsContentType()){
-                $customsContentType = $myParcelShipment->getCustomsContentType();
+                $customsContentType = explode(',', $myParcelShipment->getCustomsContentType());
             }
 
             if($data['options']['package_type'] == 2){
@@ -600,10 +598,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                     $price *= $qty;
 
-                    if(!$customsContentType){
-                        $customsContentType = $helper->getHsCode($item, $storeId);
+                    if(!empty($customsContentType)){
+                        $customsContentTypeItem = $helper->getHsCode($item, $storeId);
+                    } else {
+                        $customsContentTypeItem = key_exists($i, $customsContentType) ? $customsContentType[$i] : $customsContentType[0];
                     }
-                    if(empty($customsContentType)) {
+                    if(!$customsContentTypeItem) {
                         throw new TIG_MyParcel2014_Exception(
                             $helper->__('No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.'),
                             'MYPA-0026'
@@ -615,7 +615,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         'amount'            => $qty,
                         'weight'            => (int)$weight * 1000,
                         'item_value'        => array('amount' => $price * 100, 'currency' => 'EUR'),
-                        'classification'      => $customsContentType,
+                        'classification'      => $customsContentTypeItem,
                         'country' => Mage::getStoreConfig('general/country/default', $storeId),
 
                     );
