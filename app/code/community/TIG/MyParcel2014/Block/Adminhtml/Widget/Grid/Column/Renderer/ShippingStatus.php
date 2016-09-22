@@ -111,7 +111,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                 $html .= $this->__('Normal') . ' ';
             } else {
                 $totalWeight = $this->getTotalWeight($order->getAllVisibleItems());
-                $type = $helper->getPackageType($totalWeight, true);
+                $type = $helper->getPackageType($totalWeight, $order->getShippingAddress()->getCountryId(), true);
                 $html .= $type . ' ';
             }
 

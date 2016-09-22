@@ -58,7 +58,7 @@ $_insuredAmount             = 0;
 $tmpInsured = 1000;
 
 $totalWeight = $_helper->getTotalWeight($this->getShipment()->getOrder()->getAllVisibleItems());
-$type = $_helper->getPackageType($totalWeight);
+$type = $_helper->getPackageType($totalWeight, $this->getDestinationCountry());
 
 if(is_array($_insured)){
     $_insuredAmount   = (int)$_insured['insuredAmount'];

@@ -32,7 +32,7 @@ $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($this->ge
 
 /** Check if shipment is mailbox  */
 $weight = $this->getQuote()->getShippingAddress()->getWeight();
-$shipmentType = $helper->getPackageType((float)$weight);
+$shipmentType = $helper->getPackageType((float)$weight, $this->getAddress()->getCountryId());
 $mailboxTitle = $helper->getConfig('mailbox_title', 'delivery') != '' && $shipmentType == 2 ? $helper->getConfig('mailbox_title', 'delivery') : false;
 
 /** Check if the checkout must use the MyParcel checkout */
