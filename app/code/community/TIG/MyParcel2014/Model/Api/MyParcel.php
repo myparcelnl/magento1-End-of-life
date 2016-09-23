@@ -598,7 +598,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                     $price *= $qty;
 
-                    if(!empty($customsContentType)){
+                    if(empty($customsContentType)){
                         $customsContentTypeItem = $helper->getHsCode($item, $storeId);
                     } else {
                         $customsContentTypeItem = key_exists($i, $customsContentType) ? $customsContentType[$i] : $customsContentType[0];
