@@ -686,7 +686,7 @@
                         </customs_type>
                         <customs_hstariffnr translate="label comment">
                             <label>Customs Content HS Code</label>
-                            <comment><![CDATA[Default content type for Cross Domestic products, see <a href="http://gebruikstarief.douane.nl" target="_blank">http://gebruikstarief.douane.nl</a>]]></comment>
+                            <comment><![CDATA[Default content type for Cross Domestic products, see <a href="http://gebruikstarief.douane.nl" target="_blank">http://gebruikstarief.douane.nl</a>. HS codes can also be connected to categories. The data you enter here will be used as default.]]></comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>80</sort_order>
