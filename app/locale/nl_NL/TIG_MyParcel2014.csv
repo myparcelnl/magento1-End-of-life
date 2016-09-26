@@ -85,6 +85,7 @@ TIG_MyParcel2014::API Username,API Gebruikersnaam
 TIG_MyParcel2014::Your MyParcel username.,Vul hier de gebruikersnaam in voor het MyParcel platform
 TIG_MyParcel2014::To get your personal API credentials you should contact MyParcel.,Neem contact op met MyParcel om de API gegevens te ontvangen.
 TIG_MyParcel2014::API settings,API Instellingen
+TIG_MyParcel2014::"Wrong API key. Go to MyParcel settings to set the API key.","Verkeerde API key. Ga naar de instellingen van de MyParcel plugin om de juiste API key in te vullen."
 TIG_MyParcel2014::Version &amp; Support,Versie &amp; Support
 TIG_MyParcel2014::The log files cannot be downloaded.,De logbestanden kunnen niet gedownload worden.
 TIG_MyParcel2014::An error occurred while processing this action.,Er is een fout opgetreden tijdens het verwerken van deze actie.

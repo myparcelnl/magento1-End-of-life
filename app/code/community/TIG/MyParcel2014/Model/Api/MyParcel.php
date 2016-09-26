@@ -336,7 +336,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             //check if the response has errors codes
             if(isset($aResult['errors']) && isset($aResult['message'])) {
-                $this->requestError = $aResult['message'];
+                if($aResult['message'] == 'Access Denied. (NO_ACCOUNT:258)'){
+                    $this->requestError = $helper->__('Wrong API key. Go to MyParcel settings to set the API key.');
+                } else {
+                    $this->requestError = $aResult['message'];
+                }
                 $request->close();
 
                 return $this;
