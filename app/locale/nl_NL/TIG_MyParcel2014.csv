@@ -58,7 +58,7 @@ TIG_MyParcel2014::Base color,Basis kleur
 TIG_MyParcel2014::Color for selected items,Kleur voor geselecteerde items
 TIG_MyParcel2014::Delivery,Bezorging
 TIG_MyParcel2014::Delivery title,Bezorging titel
-TIG_MyParcel2014::To determine the base price you have to navigate in the menu to Shipping Methods.,Om de basisprijs te bepalen moet je navigeren naar Verzendmethodes
+TIG_MyParcel2014::To determine the base price you have to navigate in the menu to <![CDATA[<a id='shipping_method_link'>Shipping Methods</a>]]>.,Om de basisprijs te bepalen moet je navigeren naar <![CDATA[<a id='shipping_method_link'>Verzendmethodes</a>]]>.
 TIG_MyParcel2014::Deliver the package only at address of the intended recipient,Lever het pakket alleen aan het adres van de beoogde ontvanger.
 TIG_MyParcel2014::Home address only title,Alleen huisadres titel
 TIG_MyParcel2014::Home address only fee,Alleen huisadres prijs

@@ -242,6 +242,8 @@ var adminSystemConfig = {
             .insert(tabButtonGeneral)
             .insert(tabButtonShippingShippingMethods);
 
+        $('shipping_method_link').setAttribute('href', '<?php echo Mage::helper('adminhtml')->getUrl("*/system_config/edit/section/carriers");?>');
+
         $$('.entry-edit').last().insert(tabButtons);
 
 
