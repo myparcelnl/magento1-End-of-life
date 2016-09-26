@@ -402,7 +402,7 @@
                     </fields>
                 </eveningdelivery>
                 <pickup translate="label comment" module="tig_myparcel">
-                    <label>Pickup</label>
+                    <label>Pickup at PostNL location</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -444,7 +444,7 @@
                     </fields>
                 </pickup>
                 <pickup_express translate="label comment" module="tig_myparcel">
-                    <label>Pickup Express</label>
+                    <label>Pickup Express at PostNL location</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
