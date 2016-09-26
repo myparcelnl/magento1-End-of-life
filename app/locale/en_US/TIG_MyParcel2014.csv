@@ -133,7 +133,7 @@ TIG_MyParcel2014::Street line #%s,Street line #%s
 TIG_MyParcel2014::This will be added to the regular shipping price,This will be added to the regular shipping price
 TIG_MyParcel2014::Default shipment type for Cross Domestic shipments,Default shipment type for Cross Domestic shipments
 "TIG_MyParcel2014::When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.","When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments."
-"TIG_MyParcel2014::To download the instructions for the MyParcel  Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","To download the instructions for the MyParcel  Magento extension, click <a target=""_blank"" href=""%s"">here</a>."
+"TIG_MyParcel2014::To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>."
 TIG_MyParcel2014::When using the extension please note:,When using the extension please note:
 TIG_MyParcel2014::To be able to configure the extension you need to possess and use an active MyParcel account.,To be able to configure the extension you need to possess and use an active MyParcel account.
 "TIG_MyParcel2014::During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension.","During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension."

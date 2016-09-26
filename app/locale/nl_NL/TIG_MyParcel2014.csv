@@ -177,7 +177,7 @@ TIG_MyParcel2014::Select 'Yes' if the weight is not properly picked up by the My
 TIG_MyParcel2014::This will be added to the regular shipping price,Dit zal bij de normale verzendkosten worden opgeteld
 TIG_MyParcel2014::Default shipment type for Cross Domestic shipments,Standaard verzend inhoud voor Cross Domestic verzendingen
 "TIG_MyParcel2014::When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.","Wanneer het adres gewijzigd wordt, bent u genoodzaakt om de gekoppelde MyParcel verzendingen te crediteren en nieuwe MyParcel verzendingen aan te maken."
-"TIG_MyParcel2014::To download the instructions for the MyParcel  Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","Klik <a target=""_blank"" href=""%s"">hier</a> om de handleiding van de MyParcel Magento extensie te downloaden."
+"TIG_MyParcel2014::To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","Klik <a target=""_blank"" href=""%s"">hier</a> om de handleiding van de MyParcel Magento extensie te bekijken."
 TIG_MyParcel2014::When using the extension please note:,Aandachtspunten bij het gebruik van deze extensie:
 TIG_MyParcel2014::To be able to configure the extension you need to possess and use an active MyParcel account.,U dient een actief MyParcel account te hebben om de extensie te kunnen configureren.
 "TIG_MyParcel2014::During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension.",Indien u de oude MyParcel extensie gebruikt kan deze actief blijven in de overgangsfase. Wel dient u PakjeGemak in de oude MyParcel extensie uit te schakelen.
