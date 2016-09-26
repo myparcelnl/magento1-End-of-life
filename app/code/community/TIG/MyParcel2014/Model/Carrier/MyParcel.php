@@ -143,7 +143,7 @@
      * @return bool|Mage_Shipping_Model_Rate_Result|mixed|null
      * @throws TIG_MyParcel2014_Exception
      */
-    public function collectRates(Mage_Shipping_Model_Rate_Request $request)
+    public function collectRatesByQuote(Mage_Shipping_Model_Rate_Request $request)
     {
         if (!$this->getConfigFlag('active')) {
             return false;

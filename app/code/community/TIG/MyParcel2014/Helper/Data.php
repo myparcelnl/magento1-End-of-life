@@ -1119,7 +1119,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         if ($this->_isFree()) {
             $price = 0;
         } else {
-            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
+            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRatesByQuote($quote);
             $rates = $rates->getAllRates();
             $rate = $rates[0];
             $price = (float)$rate->getData('price');
