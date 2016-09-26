@@ -264,7 +264,7 @@
                             <sort_order>160</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </only_recipient_active>
                         <only_recipient_title translate="label" module="tig_myparcel">
                             <label>Home address only title</label>
@@ -285,7 +285,7 @@
                             <sort_order>180</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <only_recipient_active>1</only_recipient_active>
                             </depends>
@@ -318,7 +318,7 @@
                             <sort_order>210</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <signature_active>1</signature_active>
                             </depends>
@@ -331,7 +331,7 @@
                             <sort_order>220</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <signature_active>1</signature_active>
                                 <only_recipient_active>1</only_recipient_active>
@@ -345,7 +345,6 @@
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
-                    <class>delivery-method</class>
                     <fields>
                         <morningdelivery_active translate="label" module="tig_myparcel">
                             <label>Morning delivery active</label>
@@ -354,7 +353,7 @@
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </morningdelivery_active>
                         <morningdelivery_fee translate="label,comment" module="tig_myparcel">
                             <label>Morning delivery fee</label>
@@ -364,7 +363,7 @@
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <morningdelivery_active>1</morningdelivery_active>
                             </depends>
@@ -385,7 +384,7 @@
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </eveningdelivery_active>
                         <eveningdelivery_fee translate="label,comment" module="tig_myparcel">
                             <label>Evening delivery fee</label>
@@ -395,7 +394,7 @@
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <eveningdelivery_active>1</eveningdelivery_active>
                             </depends>
@@ -437,7 +436,7 @@
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <pickup_active>1</pickup_active>
                             </depends>
@@ -458,7 +457,7 @@
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </pickup_express_active>
                         <pickup_express_fee translate="label,comment" module="tig_myparcel">
                             <label>Pickup Express fee</label>
@@ -468,7 +467,7 @@
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                             <depends>
                                 <pickup_express_active>1</pickup_express_active>
                             </depends>
@@ -495,7 +494,7 @@
                         <key translate="label comment">
                             <label>API Key</label>
                             <comment>The API Key given by MyParcel.</comment>
-                            <frontend_type>obscure</frontend_type>
+                            <frontend_type>text</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
