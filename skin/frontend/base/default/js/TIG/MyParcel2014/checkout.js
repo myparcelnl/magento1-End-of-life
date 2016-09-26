@@ -86,9 +86,10 @@ window.mypa.settings = {};
                             deliverydays_window: data.general['deliverydays_window'],
                             exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
                             price: price,
-                            text: {signed: data.delivery.signature_title, only_recipient: data.delivery.only_recipient_title},
-                            hvo_title: data.delivery.signature_title,
-                            only_recipient_title: data.delivery.only_recipient_title
+                            text: {
+                                signed: data.delivery.signature_title,
+                                only_recipient: data.delivery.only_recipient_title
+                            }
                         });
 
                         $.when(

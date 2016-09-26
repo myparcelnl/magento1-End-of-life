@@ -717,7 +717,7 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                                         <div class="mypa-checkmark-stem"></div>
                                         <div class="mypa-checkmark-kick"></div>
                                     </div>
-                                    <span class="mypa-highlight">Thuis of op het werk bezorgd</span>
+                                    <span class="mypa-highlight"><?php echo $helper->getConfig('delivery_title', 'delivery');?></span>
                                 </label>
                                 <div id='mypa-delivery-options' class='mypa-content-lg'>
                                 </div>
@@ -730,7 +730,7 @@ $useMyParcel = $rates && $country == 'NL' && ($shipmentType == 1 || $mailboxTitl
                                         <div class="mypa-checkmark-stem"></div>
                                         <div class="mypa-checkmark-kick"></div>
                                     </div>
-                                    <span class="mypa-highlight">Ophalen bij een PostNL locatie</span>
+                                    <span class="mypa-highlight"><?php echo $helper->getConfig('pickup_title', 'pickup');?></span>
                                 </label>
                                 <div id='mypa-pickup-options-content' class='mypa-content-lg'>
                                     <div>
