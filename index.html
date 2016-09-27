@@ -33,14 +33,11 @@
     <h1>Inleiding</h1>
     <p>
         Deze handleiding beschrijft de functionaliteiten van de MyParcel extensie en hoe je de MyParcel extensie in jouw
-        webwinkel kunt installeren. De installatie kan op twee manieren worden uitgevoerd:
+        webwinkel kunt installeren.
     </p>
     <ol>
         <li>
             SSH/FTP
-        </li>
-        <li>
-            Magento Connect
         </li>
     </ol>
     <p>
@@ -86,16 +83,12 @@
         </p>
         <h2 id="1_2">1.2 Extensie downloaden</h2>
         <p>
-            U kunt de extensie op drie locaties downloaden:<br>
+            Je kunt de extensie op de volgende locatie downloaden:<br>
 
         </p>
         <ul>
             <li>Github MyParcel voor de meest recente versie (Om het zip bestand te downloaden klik onder <span class="nice">Downloads</span> op <span class="nice">source code</span>.)<br>
                 <a target="_blank" href="https://github.com/myparcelnl/magento1/releases/latest">https://github.com/myparcelnl/magento1/releases/latest</a>
-            </li>
-            <li>
-                Website MyParcel<br>
-                <a target="_blank" href="http://backoffice.myparcel.nl/integratie">http://backoffice.myparcel.nl/integratie</a>
             </li>
         </ul>
 
@@ -134,13 +127,13 @@
         <h2 id="1_6">1.6 Cron controleren</h2>
         <p>
 
-            De MyParcel extensie maakt gebruik van enkele cronjobs. Deze zijn nodig om de statussen van zendingen bij periodiek bij te werken in uw backend. De extensie haakt in op de cronfunctionaliteit van Magento.
+            De MyParcel extensie maakt gebruik van enkele cronjobs. Deze zijn nodig om de statussen van zendingen bij periodiek bij te werken in uw backend. De extensie haakt in op de cronfunctionaliteit van Magento.<br>
 
-			Bij een correcte Magento installatie is de cron actief. 
+			Bij een correcte Magento installatie is de cron actief.
 
-			Neem contact op met jouw ontwikkelaar als u hier vragen over heeft. 
-
-			Server cronjob
+			Neem contact op met jouw ontwikkelaar als je hier vragen over hebt.<br> 
+            <br>
+			<strong>Server cronjob</strong><br>
 			De wijze waarop je cronjobs op jouw server instelt verschilt per hostingprovider omdat er meerdere webserverbeheer systemen bestaan. Voorbeelden hiervan zijn DirectAdmin, Plesk en Cpanel.
 
 			Onderstaand een voorbeeld hoe je in DirectAdmin een cronjob insteld voor Magento.
@@ -153,7 +146,7 @@
 			<img src="media/cron2.png">
 			</li>
 			<li>Controleer met SSH of je de cronjob kunt activeren.<br>
-				Dit kan door in een terminal venster in te loggen en het command in te voeren. In ons voorbeeld is dat <span class="nice">/home/magento/public_html/cron.sh</span>. Dit dient je te doen met root rechten.
+				Dit kan door in een terminal venster in te loggen en het command in te voeren. In ons voorbeeld is dat <span class="nice">/home/magento/public_html/cron.sh</span>. Dit dien je te doen met root rechten.
 
 				Mocht dit niet werken of mocht de server geen shell mogelijkheid hebben dan kunt je uitwijken naar het cron.php bestand. 
 
@@ -202,7 +195,7 @@
 
             Vul hier jouw MyParcel gebruikersnaam en API-key in.<br>
 
-            Als je ingelogd bent in jouw myparcelaccount op backoffice.myparcel.nl dan kun je deze vinden in menu
+            Als je ingelogd bent in jouw MyParcel account op <a href="https://backoffice.myparcel.nl" target="_blank">backoffice.myparcel.nl</a> dan kun je deze vinden in menu
             <span class="nice">Instellingen → Algemeen.</span>
 
         </p>
@@ -236,6 +229,7 @@
             <li>De Track&Trace mails via MyParcel versturen, of</li>
             <li>De Track&Trace mails vanuit je Magento shop versturen.</li>
         </ol>
+            <img src="media/image0021.png" alt="De instellingen van de extensie">
 
         <h4>Via MyParcel</h4>
         <p>
@@ -335,6 +329,7 @@
             Ga naar het menu <span class="nice">Systeem → Configuratie → Verkoop → Versturings Methodes → MyParcel</span>.<br>
             Activeer de versturingsmethode. Kies vervolgens een Titel en een Methodenaam.
         </p>
+        <img src="media/image011.png">
 
         <h3 id="2_4_1">2.4.1 Tarief type</h3>
         <p>
@@ -354,7 +349,7 @@
 						Schakel de tabel tarieven verzendmethode van Magento zelf uit. Om de verzendmethode van Magento uit te schakelen, volg je <span class="nice">Verzendmethode → tarieven prijstabel</span> en zet <span class="nice">ingeschakeld</span> op <span class="nice">nee</span>.
 					</li>
 					<li>
-						Maak een CSV Table Rates bestand. Op deze pagina kun je een CSV genereren: <a href="https://www.elgentos.nl/tablerates/">www.elgentos.nl/tablerates</a>. <br>Tip: Voor gratis verzendkosten vanaf een bepaald bedrag maak je een extra regel aan bij het desbetreffende land.</li>
+						Maak een CSV Table Rates bestand. Op deze pagina kun je een CSV genereren: <a href="https://www.elgentos.nl/tablerates/" target="_blank">www.elgentos.nl/tablerates</a>. <br>Tip: Voor gratis verzendkosten vanaf een bepaald bedrag maak je een extra regel aan bij het desbetreffende land.</li>
 					<li>
 						Zorg ervoor dat je werkt op website niveau links bovenin bij <span class="nice">scope huidige configuratie</span>. Hier selecteer je de <span class="nice">main website</span>.
 					</li>
@@ -381,7 +376,7 @@
         <p>Hier kun je aangeven welke titel je in jouw webshop wilt gebruiken voor de verzendmethode <span class="nice">Ophalen bij een PostNL locatie</span>.</p>
 
         <h4>PostNL locatie afhandelingskosten</h4>
-        <p>Stel in hoeveel afhandelingskosten klanten betalen wanneer ze hun pakket willen ophalen bij een PostNL locatie.</p>
+        <p>Stel in hoeveel afhandelingskosten klanten betalen wanneer ze hun pakket willen ophalen bij een PostNL locatie. <strong>Let op: deze kosten worden bovenop de al ingestelde verzendkosten berekend.</strong></p>
 
         <h4>PostNL locatie minimaal order bedrag actief</h4>
         <p>
