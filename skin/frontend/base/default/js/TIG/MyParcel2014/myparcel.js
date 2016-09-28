@@ -81,9 +81,10 @@
                 if ((ref = WebComponents.ShadowCSS) != null) {
                     ref.shimStyling(shadow, 'myparcel');
                 }
-            } catch (error) {
-                console.log('Cannot shim CSS');
             }
+            /*catch (error) {
+                console.log('Cannot shim CSS');
+            }*/
             return this.bindInputListeners();
         };
 
