@@ -45,3 +45,33 @@ function checkPendingRequest() {
         }, 800);
     }
 };
+
+/* if address change, update shipping method */
+Element.prototype.triggerEvent = function(eventName)
+{
+    if (document.createEvent)
+    {
+        var evt = document.createEvent('HTMLEvents');
+        evt.initEvent(eventName, true, true);
+
+        return this.dispatchEvent(evt);
+    }
+
+    if (this.fireEvent)
+        return this.fireEvent('on' + eventName);
+};
+
+setTimeout(function () {
+    mypajQuery([
+        "input[name='billing[street][0]']",
+        "input[name='billing[street][1]']",
+        "input[name='billing[street][2]']",
+        "input[name='billing[postcode][2]']",
+        "input[name='shipping[street][0]']",
+        "input[name='shipping[street][1]']",
+        "input[name='shipping[street][2]']",
+        "input[name='shipping[postcode]']"
+    ].join()).on('change', function () {
+        $('billing:country_id').triggerEvent('change');
+    });
+}, 800);

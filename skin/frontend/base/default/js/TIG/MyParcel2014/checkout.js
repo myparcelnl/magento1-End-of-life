@@ -74,10 +74,9 @@ window.mypa.settings = {};
                     $(observer.magentoMethodMyParcel)[0].checked = true;
                     getData();
 
-
                     if (address['street']) {
                         window.mypa.settings = $.extend(window.mypa.settings, {
-                            postal_code: address['postal_code'],
+                            postal_code: address['postal_code'].replace(/ /g,""),
                             street: address['street'],
                             number: address['number'],
                             cutoff_time: data.general['cutoff_time'],
