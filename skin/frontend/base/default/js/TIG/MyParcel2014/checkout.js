@@ -71,7 +71,13 @@ window.mypa.settings = {};
 
                 var address = info.data['address'];
                 if (address && address['country'] == 'NL') {
-                    $(observer.magentoMethodMyParcel)[0].checked = true;
+                    if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
+                        mypajQuery('#mypa-input').val(null).change();
+                    } else {
+                        if(mypajQuery('#mypa-input').val() != '') {
+                            mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
+                        }
+                    }
                     getData();
 
                     if (address['street']) {
