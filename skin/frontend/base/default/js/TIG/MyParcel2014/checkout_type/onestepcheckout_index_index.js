@@ -9,13 +9,15 @@ var fnCheckout = {
 
         var frm = mypajQuery('form');
         clearTimeout(timeout);
+        clearTimeout(timeout2);
         timeout = setTimeout(function () {
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
 
+            mypajQuery('.mypa-details-loading').remove();
             mypajQuery('.onestepcheckout-column-right').append('<div class="onestepcheckout-place-order-loading mypa-details-loading" style="height: 20px;margin-top: -50px;position: absolute;margin-left: 17px;"></div>');
-            mypajQuery('.onestepcheckout-summary').hide();
+            mypajQuery('.onestepcheckout-summary')[0].hide();
             window.setTimeout(checkPendingRequest, 1000);
 
             xhr = mypajQuery.ajax({
@@ -37,8 +39,7 @@ window.mypa.fn.fnCheckout = fnCheckout;
 function checkPendingRequest() {
     if (mypajQuery.active > 0) {
         window.setTimeout(checkPendingRequest, 500);
-    }
-    else {
+    } else {
         setTimeout(function () {
             mypajQuery('.mypa-details-loading').remove();
             mypajQuery('.onestepcheckout-summary').show();
