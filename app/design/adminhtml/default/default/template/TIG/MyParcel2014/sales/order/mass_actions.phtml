@@ -143,6 +143,9 @@
                                 printChildren[i].observe('click', function (event) {
                                     $('myparcel_print_labels_start').value = Event.element(event).innerHTML;
                                     Windows.close('myparcel_popup_window');
+                                    setTimeout(function () {
+                                        sales_order_gridJsObject.reload();
+                                    }, 1000);
                                     this.apply(true);
                                 }.bindAsEventListener(this));
                             }
