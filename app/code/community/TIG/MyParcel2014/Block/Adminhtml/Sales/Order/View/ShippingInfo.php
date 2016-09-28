@@ -87,20 +87,22 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
             // Get package type
             $totalWeight = $this->_helper->getTotalWeight($this->_order->getAllVisibleItems());
-            $html .= $this->_helper->getPackageType($totalWeight, $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
+            if($totalWeight !== false){
+                $html .= $this->_helper->getPackageType($totalWeight, $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
 
-            if($data){
-                $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
-                $html .= $this->__('deliver:') .' ' . $dateTime;
+                if($data){
+                    $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
+                    $html .= $this->__('deliver:') .' ' . $dateTime;
 
-                if($data['time'][0]['price_comment'] != 'standard')
-                    $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
+                    if($data['time'][0]['price_comment'] != 'standard')
+                        $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
 
-                if($data['home_address_only'])
-                    $html .=  ', ' . strtolower($this->__('Home address only'));
+                    if($data['home_address_only'])
+                        $html .=  ', ' . strtolower($this->__('Home address only'));
 
-                if($data['signed'])
-                    $html .=  ', ' . strtolower($this->__('Signature on receipt'));
+                    if($data['signed'])
+                        $html .=  ', ' . strtolower($this->__('Signature on receipt'));
+                }
             }
         }
 

@@ -551,13 +551,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'options'    => $this->_getOptionsData($myParcelShipment),
         );
 
-        if($shippingAddress->getCountry() != 'NL')
-        {
-            $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
-            unset($data['recipient']['number']);
-            unset($data['recipient']['number_suffix']);
-        }
-
         // add customs data for EUR3 and World shipments
         if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
         {
@@ -741,6 +734,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             unset($data['return']);
             unset($data['delivery_type']);
             unset($data['delivery_date']);
+
+            $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
+            unset($data['recipient']['number']);
+            unset($data['recipient']['number_suffix']);
         }
 
         return $data;

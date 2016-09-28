@@ -486,7 +486,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getTotalWeight($products)
     {
-        $totalWeight = 0;
+        $totalWeight = false;
         /** @var Mage_Sales_Model_Order_Item $product */
         foreach ($products as $product) {
             if ($product->canShip()) {
