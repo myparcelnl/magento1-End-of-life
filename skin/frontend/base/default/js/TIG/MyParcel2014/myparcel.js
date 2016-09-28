@@ -393,7 +393,7 @@
             });
         }
         showDefaultPickupLocation('#mypa-pickup-address', filter[PICKUP_TIMES[NORMAL_PICKUP]][0]);
-        if(filter[PICKUP_TIMES[MORNING_PICKUP]]){
+        if(MORNING_PICKUP && PICKUP_TIMES[MORNING_PICKUP] && filter[PICKUP_TIMES[MORNING_PICKUP]]){
             showDefaultPickupLocation('#mypa-pickup-express-address', filter[PICKUP_TIMES[MORNING_PICKUP]][0]);
         }
         $('#mypa-pickup-address').off().bind('click', renderPickup);
