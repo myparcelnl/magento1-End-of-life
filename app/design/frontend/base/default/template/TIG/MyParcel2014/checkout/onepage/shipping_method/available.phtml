@@ -46,14 +46,6 @@ $useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 |
 <?php if (!$_shippingRateGroups): ?>
     <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
 <?php else: ?>
-    <?php if ($useMyParcel): ?>
-        <div id="mypa-load">
-            <myparcel id="myparcel">Bezig met laden...</myparcel>
-            <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
-            <input type="checkbox" name='mypa-signed' style="display: none;" id="mypa-signed">
-            <input type="checkbox" name='mypa-recipient-only' style="display: none;" id="mypa-recipient-only">
-        </div>
-    <?php endif; ?>
     <dl class="sp-methods">
         <?php $shippingCodePrice = array(); ?>
         <?php $_sole = count($_shippingRateGroups) == 1;
@@ -112,6 +104,16 @@ $useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 |
                     <?php endforeach; ?>
                 </ul>
             </dd>
+
+            <?php if ($code == 'myparcel' && $useMyParcel && !$mailboxTitle && $country == 'NL'): ?>
+                <div id="mypa-load">
+                    <myparcel id="myparcel">Bezig met laden...</myparcel>
+                    <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
+                    <input type="checkbox" name='mypa-signed' style="display: none;" id="mypa-signed">
+                    <input type="checkbox" name='mypa-recipient-only' style="display: none;" id="mypa-recipient-only">
+                </div>
+            <?php endif; ?>
+
         <?php endforeach; ?>
     </dl>
     <script type="text/javascript">
