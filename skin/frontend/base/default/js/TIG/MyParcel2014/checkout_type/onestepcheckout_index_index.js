@@ -9,7 +9,6 @@ var fnCheckout = {
 
         var frm = mypajQuery('form');
         clearTimeout(timeout);
-        clearTimeout(timeout2);
         timeout = setTimeout(function () {
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
