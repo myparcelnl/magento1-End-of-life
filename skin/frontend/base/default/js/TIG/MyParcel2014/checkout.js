@@ -109,7 +109,6 @@ window.mypa.settings = {};
                                 }
                             });
 
-
                             /**
                              * If method not is MyParcel
                              */
