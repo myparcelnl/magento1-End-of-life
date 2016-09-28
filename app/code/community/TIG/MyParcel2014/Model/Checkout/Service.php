@@ -53,8 +53,10 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
             $address = $addressHelper->getQuoteAddress($quote);
 
-            if ($address['country'] !== 'NL')
+            if ($address['country'] !== 'NL'){
+                $quote->setMyparcelData(null)->save();
                 return true;
+            }
 
             /**
              * If shipping method is myparcel
@@ -62,8 +64,10 @@ class TIG_MyParcel2014_Model_Checkout_Service
             if (strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
 
-                if ($request->getPost('mypa-post-nl-data') == null)
+                if ($request->getPost('mypa-post-nl-data') == null) {
+                    $quote->setMyparcelData(null)->save();
                     return true;
+                }
 
                 $data = json_decode($request->getPost('mypa-post-nl-data', ''), true);
 
