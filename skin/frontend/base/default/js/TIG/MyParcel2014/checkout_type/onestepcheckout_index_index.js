@@ -13,10 +13,8 @@ var fnCheckout = {
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
+            mypajQuery('div.onestepcheckout-summary').html('<div class="loading-ajax">&nbsp;</div>');
 
-            mypajQuery('.mypa-details-loading').remove();
-            mypajQuery('.onestepcheckout-column-right').append('<div class="onestepcheckout-place-order-loading mypa-details-loading" style="height: 20px;margin-top: -50px;position: absolute;margin-left: 17px;"></div>');
-            mypajQuery('.onestepcheckout-summary')[0].hide();
             window.setTimeout(checkPendingRequest, 1000);
 
             xhr = mypajQuery.ajax({
@@ -36,10 +34,6 @@ function checkPendingRequest() {
     } else {
         mypajQuery("input[name='payment[method]']")[0].click();
         mypajQuery("input[name='payment[method]']")[0].checked = false;
-        setTimeout(function () {
-            mypajQuery('.mypa-details-loading').remove();
-            mypajQuery('.onestepcheckout-summary').show();
-        }, 800);
     }
 };
 
@@ -63,7 +57,7 @@ setTimeout(function () {
         "input[name='billing[street][0]']",
         "input[name='billing[street][1]']",
         "input[name='billing[housenumber]']",
-        "input[name='billing[postcode][2]']",
+        "input[name='billing[postcode]']",
         "input[name='shipping[street][0]']",
         "input[name='shipping[street][1]']",
         "input[name='shipping[housenumber]']",
