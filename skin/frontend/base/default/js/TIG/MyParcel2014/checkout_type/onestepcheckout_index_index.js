@@ -25,11 +25,6 @@ var fnCheckout = {
                 data: frm.serialize()
             });
         }, 500);
-        clearTimeout(timeout2);
-        timeout2 = setTimeout(function () {
-            mypajQuery("input[name='payment[method]']")[0].click();
-            mypajQuery("input[name='payment[method]']")[0].checked = false;
-        }, 1000);
     },
     'hideLoader': function () {}
 };
@@ -39,6 +34,8 @@ function checkPendingRequest() {
     if (mypajQuery.active > 0) {
         window.setTimeout(checkPendingRequest, 500);
     } else {
+        mypajQuery("input[name='payment[method]']")[0].click();
+        mypajQuery("input[name='payment[method]']")[0].checked = false;
         setTimeout(function () {
             mypajQuery('.mypa-details-loading').remove();
             mypajQuery('.onestepcheckout-summary').show();
