@@ -59,7 +59,7 @@ $_defaultCustomsContentCode = $_helper->getHsCodes($this->getShipment()->getOrde
 $tmpInsured = 1000;
 
 $totalWeight = $_helper->getTotalWeight($this->getShipment()->getOrder()->getAllVisibleItems());
-$type = $_helper->getPackageType($totalWeight, $this->getDestinationCountry());
+$type = $_helper->getPackageType($totalWeight, $this->getDestinationCountry(), false, $this->getIsPakjeGemak());
 
 if(is_array($_insured)){
     $_insuredAmount   = (int)$_insured['insuredAmount'];

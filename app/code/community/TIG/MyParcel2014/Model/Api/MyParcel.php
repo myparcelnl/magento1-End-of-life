@@ -336,7 +336,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             //check if the response has errors codes
             if(isset($aResult['errors']) && isset($aResult['message'])) {
-                if($aResult['message'] == 'Access Denied. (NO_ACCOUNT:258)'){
+                if(strpos($aResult['message'], 'Access Denied')){
                     $this->requestError = $helper->__('Wrong API key. Go to MyParcel settings to set the API key.');
                 } else {
                     $this->requestError = $aResult['message'];
@@ -551,6 +551,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'options'    => $this->_getOptionsData($myParcelShipment),
         );
 
+        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
+            $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
+            unset($data['recipient']['number']);
+            unset($data['recipient']['number_suffix']);
+        }
+
         // add customs data for EUR3 and World shipments
         if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
         {
@@ -686,15 +692,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
-            'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
+            'label_description' => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
-        $CheckoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
+        $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
-        if($CheckoutData !== null) {
+        if ($checkoutData !== null) {
 
-            if($CheckoutData['time'][0]['price_comment'] !== null) {
-                switch ($CheckoutData['time'][0]['price_comment']) {
+            if ($checkoutData['time'][0]['price_comment'] !== null) {
+                switch ($checkoutData['time'][0]['price_comment']) {
                     case 'morning':
                         $data['delivery_type'] = self::TYPE_MORNING;
                         break;
@@ -705,8 +711,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         $data['delivery_type'] = self::TYPE_NIGHT;
                         break;
                 }
-            } elseif ($CheckoutData['price_comment']!== null) {
-                switch ($CheckoutData['price_comment']) {
+            } elseif ($checkoutData['price_comment'] !== null) {
+                switch ($checkoutData['price_comment']) {
                     case 'retail':
                         $data['delivery_type'] = self::TYPE_RETAIL;
                         break;
@@ -715,29 +721,28 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         break;
                 }
             }
-            if($CheckoutData['date']!== null) {
-                $data['delivery_date'] = $CheckoutData['date']. ' 00:00:00';
+            if ($checkoutData['date'] !== null) {
+                if ($data['delivery_type'] == self::TYPE_STANDARD) {
+                    $data['delivery_date'] = $checkoutData['date'] . ' 00:00:00';
+                    $dateTime = date_parse($checkoutData['date']);
+                    $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
+                }
             }
         }
 
-        if((int) $myParcelShipment->getInsured() === 1) {
+        if ((int)$myParcelShipment->getInsured() === 1) {
             $data['insurance']['amount'] = $this->_getInsuredAmount($myParcelShipment) * 100;
             $data['insurance']['currency'] = 'EUR';
         }
 
 
-        if($myParcelShipment->getShippingAddress()->getCountry() != 'NL')
-        {
+        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
             // strip all Dutch domestic options if shipment is not NL
             unset($data['only_recipient']);
             unset($data['signature']);
             unset($data['return']);
             unset($data['delivery_type']);
             unset($data['delivery_date']);
-
-            $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
-            unset($data['recipient']['number']);
-            unset($data['recipient']['number_suffix']);
         }
 
         return $data;
