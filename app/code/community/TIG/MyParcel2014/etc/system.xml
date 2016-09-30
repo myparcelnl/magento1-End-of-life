@@ -232,7 +232,7 @@
                 </checkout>
                 <delivery translate="label comment" module="tig_myparcel">
                     <label>Delivery</label>
-                    <comment>To determine the base price you have to navigate in the menu to <![CDATA[<a id='shipping_method_link'>Shipping Methods</a>]]>.</comment>
+                    <comment><![CDATA[To determine the base price you have to navigate in the menu to <a id="shipping_method_link">Shipping Methods</a>.]]></comment>
                     <sort_order>25</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
