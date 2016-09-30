@@ -707,10 +707,17 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     case 'standard':
                         $data['delivery_type'] = self::TYPE_STANDARD;
                         break;
-                    case 'avond':
+                    case 'night':
                         $data['delivery_type'] = self::TYPE_NIGHT;
                         break;
                 }
+
+                if ($checkoutData['date'] !== null) {
+                    $data['delivery_date'] = $checkoutData['date'] . ' 00:00:00';
+                    $dateTime = date_parse($checkoutData['date']);
+                    $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
+                }
+
             } elseif ($checkoutData['price_comment'] !== null) {
                 switch ($checkoutData['price_comment']) {
                     case 'retail':
@@ -719,13 +726,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     case 'retailexpress':
                         $data['delivery_type'] = self::TYPE_RETAIL_EXPRESS;
                         break;
-                }
-            }
-            if ($checkoutData['date'] !== null) {
-                if ($data['delivery_type'] == self::TYPE_STANDARD) {
-                    $data['delivery_date'] = $checkoutData['date'] . ' 00:00:00';
-                    $dateTime = date_parse($checkoutData['date']);
-                    $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
                 }
             }
         }
