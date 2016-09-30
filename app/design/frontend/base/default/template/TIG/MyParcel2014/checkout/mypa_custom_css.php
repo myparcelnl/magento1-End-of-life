@@ -27,6 +27,10 @@
         .edit-stem {
             background-color: #<?=$baseColor;?>;
         }
+
+        #mypa-no-options {
+            background: #<?=$baseColor;?>;
+        }
     <?php endif;?>
 
     /* Set select color */
