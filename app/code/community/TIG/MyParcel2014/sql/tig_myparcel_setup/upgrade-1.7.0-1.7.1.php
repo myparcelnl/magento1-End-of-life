@@ -12,7 +12,7 @@ if (!$conn->tableColumnExists($tableName, 'myparcel_send_date')) {
         array(
             'type'     => Varien_Db_Ddl_Table::TYPE_DATE,
             'nullable' => true,
-            'default'  => 'GETDATE()',
+            'default'  => date('Y-m-d'),
             'comment'  => 'The day to send the parcel',
         )
     );
