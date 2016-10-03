@@ -235,6 +235,8 @@ var adminSystemConfig = {
     setFieldsInTabs: function(){
 
 
+        /** Hide and toggle MyParcel options (used by parnis.nl) */
+        $('row_tig_myparcel_checkout_toggle_options').hide();
 
         var tabButtonGeneral = new Element('li', { 'id': 'js-tabButton_General', 'class': 'active' }).update("<a><?=$helper->__('General settings');?></a>");
         var tabButtonShippingShippingMethods = new Element('li', { 'id': 'js-tabButton_ShippingMethods' }).update("<a><?=$helper->__('Checkout settings');?></a>");

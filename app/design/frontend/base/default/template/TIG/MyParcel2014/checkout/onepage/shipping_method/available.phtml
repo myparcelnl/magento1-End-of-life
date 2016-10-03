@@ -42,6 +42,9 @@ if (isset($address) && key_exists('country', $address)) {
     $country = 'NL';
 }
 $useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 || $mailboxTitle == '');
+
+/** Hide and toggle MyParcel options (used by parnis.nl) */
+$toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true : false;
 ?>
 <?php if (!$_shippingRateGroups): ?>
     <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
@@ -83,7 +86,6 @@ $useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 |
                                     //]]>
                                 </script>
                             <?php endif; ?>
-
                             <?php endif; ?>
                                 <label
                                     for="s_method_<?php echo $_rate->getCode() ?>">
@@ -105,8 +107,13 @@ $useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 |
                 </ul>
             </dd>
 
+            <!-- Hide and toggle MyParcel options (used by parnis.nl) -->
+            <?php if ($code == 'myparcel' && $useMyParcel && $toggleOptions):?>
+                <td><a id="toggle_myparcel-btn" href="javascript:void(0)" onclick="toggleMyParcelCheckout()" >Andere bezorgmogelijkheden</a></td>
+            <?php endif ;?>
+
             <?php if ($code == 'myparcel' && $useMyParcel && !$mailboxTitle && $country == 'NL'): ?>
-                <div id="mypa-load">
+                <div id="mypa-load" style="<?php echo $toggleOptions ? 'display: none;' : ''; ?>">
                     <myparcel id="myparcel">Bezig met laden...</myparcel>
                     <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
                     <input type="checkbox" name='mypa-signed' style="display: none;" id="mypa-signed">
@@ -801,5 +808,14 @@ $useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 |
             new MyParcel();
             window.mypa.fn.load();
         }, 500);
+
+        function toggleMyParcelCheckout() {
+            mypajQuery("input:radio[id^='s_method_myparcel']")[0].checked = true;
+
+                new MyParcel();
+                window.mypa.fn.load();
+                mypajQuery('#mypa-load').show();
+
+        }
     </script>
 <?php endif; ?>
