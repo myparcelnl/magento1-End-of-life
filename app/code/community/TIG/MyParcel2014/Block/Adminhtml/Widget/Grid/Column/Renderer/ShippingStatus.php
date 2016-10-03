@@ -85,7 +85,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             $data = json_decode($order->getMyparcelData(), true);
             if ($data['date'] !== null) {
                 $dateTime = strtotime($data['date'] . ' 00:00:00');
-                $dropOffDate = $this->_getDropOffDay($dateTime);
+                $dropOffDate = $helper->getDropOffDay($dateTime);
                 $sDropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
 
                 /**
@@ -180,34 +180,5 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         }
 
         return $totalWeight;
-    }
-
-    /**
-     * Get drop off day
-     *
-     * @param $dateTime int
-     *
-     * @return int
-     */
-    private function _getDropOffDay($dateTime)
-    {
-        $weekDay = date('N', $dateTime);
-
-        switch ($weekDay) {
-            case (1): // Monday
-                $dropOff = strtotime("-2 day", $dateTime);
-                break;
-            case (2):
-            case (3):
-            case (4):
-            case (5): // Friday
-            case (6): // Saturday
-            case (7): // Sunday
-            default:
-                $dropOff = strtotime("-1 day", $dateTime);
-                break;
-        }
-
-        return $dropOff;
     }
 }
