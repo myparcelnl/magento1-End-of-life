@@ -22,7 +22,7 @@
         Installatie- gebruikershandleiding
     </h1>
     <h2 class="project-tagline">
-        Magento MyParcel plug-in 1.6.x
+        Magento MyParcel plug-in 1.7.x
     </h2>
     <a target="_blank" class="btn" href="https://github.com/myparcelnl/Magento1">GitHub</a>
     <a target="_blank" class="btn" href="https://github.com/myparcelnl/magento1/releases">Alle updates</a>
@@ -190,7 +190,7 @@
             Onder het kopje 'Versie & Support' kun je zien welke versie jij van de plugin gebruikt.
 
         </p>
-        <img src="media1_7/image001.png">
+        <img src="media1_7/image009.png">
         <p>Verder zie je 2 tabbladen om uit te kiezen. Een tabblad voor de Algemene instellingen en een tabblad voor de checkout instellingen.</p>
 
         <h2 id="2_1">2.1 Algemene instellingen</h2>
@@ -204,7 +204,7 @@
 
         <h2 id="2_2">2.2 Hoofd Instellingen</h2>
             <p> Bij dit kopje kun je alle instellingen voor het gebruiken van de MyParcel Extensie invullen.</p>
-                <img src="media1_7/image003.png">
+                <img src="media1_7/image011.png">
 
         <h3 id="2_2_1">2.2.1 Activeer MyParcel extensie</h3>
         <p>
@@ -308,13 +308,15 @@
 
         <h4>Douane goederen HS code</h4>
         <p>
-            Vul in het veld <span class="nice">Douane goederen HS code</span> de gewenste HS code in.<br>
+            Vul in het veld <span class="nice">Douane goederen HS code</span> de gewenste HS code in.<br><br>
 
             Je kunt de codes vinden op deze link: <a href="http://gebruikstarief.douane.nl" target="_blank">http://gebruikstarief.douane.nl</a><br>
-            Let op: de HS code moet exact vier cijfers zijn.
+            Let op: de HS code moet exact vier cijfers zijn.<br>
+            <br>
 
+            Het is ook mogelijk om per productcategorie een eigen HS code mee te geven. Deze optie kun je invullen onderaan de pagina van een gewenste categorie. Ga naar  <span class="nice">Catalogus -> Beheer categorieën </span>.
         </p>
-
+            <img src="media1_7/image010.png">
         <h2 id="2_4">2.4 Versturingsmethodes configuratie</h2>
         <p>
 
@@ -419,8 +421,7 @@
         <ol>
             <li>Selecteer de zendingen die je wilt exporteren naar MyParcel</li>
             <li>Kies in de actie balk <span class="nice">MyParcel - creëer labels</span></li>
-            <li>Klik vervolgens op de juiste pakket soort en vervolgens
-                op <span class="nice">Verstuur</span>
+            <li>Kies voor je pakkettype (indien dit standaard moet zijn, kies dan voor <span class="nice">conform type zending</span>) en vervolgens kun je klikken op <span class="nice">verstuur</span>
             </li>
             <img src="media1_7/batch1.png">
             <li>Kies voor de juiste printpositie, indien je voor A4 hebt gekozen</li>
@@ -554,44 +555,8 @@
             <li>Klik rechts bovenin op opslaan.</li>
         </ol>
 
-        <h2 id="6_4">6.4 Waarom komt mijn label niet door naar MyParcel met een andere verzendmethode?</h2>
-        <p>
-            Vanaf versie 1.3 van de MyParcel Magento extensie kun je andere verzendmethode aan de MyParcel extensie koppelen. Dit kan handig zijn als je bijvoorbeeld een verzendkosten extensie gebruikt.<br>
-            Dit kun je instellen via <span class="nice">Systeem > Configuratie > MyParcel</span>.
-
-
-        </p>
-
-        <h2 id="6_5">6.5 API-key van MyParcel plugin verandert na inloggen in Magento naar de inloggegevens.</h2>
-        <p>
-            Je gebruikt waarschijnlijk Safari. Als je bijvoorbeeld Chrome als browser zou gebruiken gaat alles goed. Dit heeft te maken met dat safari wachtwoorden verkeerd opslaat.
-        </p>
-
-        <h2 id="6_6">6.6 Mijn label kan niet aangemaakt worden.</h2>
-        <p>
-            <b>Probleem:</b><br>
-            Label kan niet worden aangemaakt
-        </p>
-        <ul>
-            <li>Er komt wel een popup waar je kan kiezen op welke plek geprint moet worden, maar verder gebeurt er
-                niks
-            </li>
-            <li>Je gebruikt meerdere verzendmethodes (inc. Flat Rate, Table Rates en Free Shipping)</li>
-        </ul>
-        <p>
-            <b>Oplossing:</b><br>
-            Bij instellingen van MyParcel moeten alle verzendmethodes aangevinkt zijn die worden gebruikt. Dit doe je bij <span class="nice">Systeem → Verzendmethodes</span>.
-
-        </p>
-
-        <h2 id="6_7">6.7 Op het label komt geen toevoeging van het huisnummer.</h2>
-        <p>
-            Toevoeging van huisnummer staat in een aparte regel. Dit komt niet mee op het label. Update naar een versie na 1.5.x<br>
-            Ga naar <span class="nice">Systeem → Instellingen → MyParcel → Standaard verzend instellingen</span>. Zet <span class="nice">Deel straatnaam velden op</span> op <span class="nice">nee</span>.
-            <br>
-            <br>
-            <img src="media1_7/image009.png" alt="Op het label komt geen toevoeging van het huisnummer.">
-        </p>
+        
+        
     </div>
 
     <footer class="site-footer">
