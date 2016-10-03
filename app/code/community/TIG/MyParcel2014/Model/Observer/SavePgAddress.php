@@ -93,7 +93,6 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
 
         $this->setQuote($quote);
 
-
         /**
          * Set myparcel json data from checkout
          */
