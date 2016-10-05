@@ -299,9 +299,9 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                 'renderer'       => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
                 'type'           => 'options',
                 'options'        => [
-                    'today' => 'Send today',
-                    'later' => 'Send later',
-                    'past' => 'Date in the past',
+                    'today' => $helper->__('Send today'),
+                    'later' => $helper->__('Send later'),
+                    'past' => $helper->__('Shipments from the past'),
                 ],
                 'filter_condition_callback' => array($this, '_filterHasUrlConditionCallback'),
             ),
