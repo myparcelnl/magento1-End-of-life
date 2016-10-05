@@ -46,8 +46,6 @@ class TIG_MyParcel2014_Model_Checkout_Service
      */
     public function savePgAddress(array $addressData, Mage_Sales_Model_Quote $quote)
     {
-        $helper = Mage::helper('tig_myparcel');
-
         /**
          * Delete old pg address
          */
@@ -57,7 +55,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
          * Create a new address and add the address data.
          */
         $pgAddress = Mage::getModel('sales/quote_address');
-        $pgAddress->setAddressType($helper::PG_ADDRESS_TYPE)
+        $pgAddress->setAddressType(TIG_MyParcel2014_Helper_Data::PG_ADDRESS_TYPE)
                   ->setCity($addressData['city'])
                   ->setCountryId('NL')
                   ->setPostcode($addressData['postcode'])
