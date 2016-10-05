@@ -33,6 +33,7 @@ $helper = Mage::helper('tig_myparcel/addressValidation');
 $weight = $this->getQuote()->getShippingAddress()->getWeight();
 $shipmentType = $helper->getPackageType((float)$weight, $this->getAddress()->getCountryId());
 $mailboxTitle = $helper->getConfig('mailbox_title', 'delivery') != '' && $shipmentType == 2 ? $helper->getConfig('mailbox_title', 'delivery') : false;
+$hideDays =     $helper->getConfig('deliverydays_window', 'checkout') == '1' ? true : false;
 
 /** Check if the checkout must use the MyParcel checkout */
 $address = $helper->getQuoteAddress($this->getQuote());
@@ -706,9 +707,9 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
             <div id="mypa-slider">
                 <!-- First frame -->
                 <div id="mypa-delivery-type-selection" class="mypa-tab-container mypa-slider-pos-0">
-                    <div id="mypa-date-slider-left" class="mypa-arrow-left mypa-back-arrow mypa-date-slider-button mypa-slider-disabled"></div>
-                    <div id="mypa-date-slider-right" class="mypa-arrow-right myapa-next-arrow mypa-date-slider-button mypa-slider-disabled"></div>
-                    <div id="mypa-tabs-container">
+                    <div id="mypa-date-slider-left" class="mypa-arrow-left mypa-back-arrow mypa-date-slider-button mypa-slider-disabled" style="<?php echo $hideDays ? 'display:none' : '';?>" ></div>
+                    <div id="mypa-date-slider-right" class="mypa-arrow-right myapa-next-arrow mypa-date-slider-button mypa-slider-disabled" style="<?php echo $hideDays ? 'display:none' : '';?>" ></div>
+                    <div id="mypa-tabs-container" style="<?php echo $hideDays ? 'display:none' : '';?>">
                         <div id='mypa-tabs'>
                         </div>
                     </div>
