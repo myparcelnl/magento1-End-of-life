@@ -828,21 +828,6 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         $shipment = Mage::getModel('sales/service_order', $order)
             ->prepareShipment($this->_getItemQtys($order));
 
-        /**
-         * Start support bundle products
-         *
-         * @var Mage_Sales_Model_Order_Item $item
-         */
-        $items = $shipment->getOrder()->getItemsCollection();
-        foreach ($items as $key => $item) {
-            if ($item->getChildrenItems() > 0) {
-                $options = $item->getProductOptions();
-                $options['shipment_type'] = '1';
-                $item->setProductOptions($options);
-            }
-        }
-        /** End support bundle products */
-
         $shipment->register();
         $this->_saveShipment($shipment);
 
