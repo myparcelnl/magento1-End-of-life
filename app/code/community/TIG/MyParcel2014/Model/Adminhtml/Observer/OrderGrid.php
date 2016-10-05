@@ -301,7 +301,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                 'options'        => [
                     'today' => $helper->__('Send today'),
                     'later' => $helper->__('Send later'),
-                    'past' => $helper->__('Shipments from the past'),
+                    'past' => $helper->__('Old orders'),
                 ],
                 'filter_condition_callback' => array($this, '_filterHasUrlConditionCallback'),
             ),

@@ -195,7 +195,7 @@ TIG_MyParcel2014::Select A4 print start position,Selecteer de A4 print start pos
 TIG_MyParcel2014::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
 TIG_MyParcel2014::Send today,Vandaag verzenden
 TIG_MyParcel2014::Send later,Later verzenden
-TIG_MyParcel2014::Shipments from the past, Zendingen uit het verleden
+TIG_MyParcel2014::Old orders, Oude bestellingen
 TIG_MyParcel2014::Track&amp;Trace link: %s,Track&amp;Trace link: %s
 TIG_MyParcel2014::Is letter box parcel,Is brievenbuspakje
 TIG_MyParcel2014::Shipment type,Zendingtype
