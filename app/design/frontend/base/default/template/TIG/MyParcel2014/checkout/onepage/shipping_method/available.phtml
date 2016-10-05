@@ -53,8 +53,8 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
         <?php $shippingCodePrice = array(); ?>
         <?php $_sole = count($_shippingRateGroups) == 1;
         foreach ($_shippingRateGroups as $code => $_rates): ?>
-            <dt style="<?php echo $code == 'myparcel' && $useMyParcel ? 'display:none;' : '';?>"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
-            <dd style="<?php echo $code == 'myparcel' && $useMyParcel ? 'display:none;' : '';?>">
+            <dt style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
+            <dd style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>" onclick="<?php echo $code == 'myparcel' && $useMyParcel && $toggleOptions ? 'toggleMyParcelCheckout()' : '';?>">
                 <ul>
                     <?php $_sole = $_sole && count($_rates) == 1;
                     foreach ($_rates as $_rate): ?>
@@ -94,12 +94,14 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                     <?php else: ?>
                                         <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
                                     <?php endif; ?>
-                                    <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
-                                    <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
-                                    <?php echo $_excl; ?>
-                                    <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                                        (<?php echo $this->__('Incl. Tax'); ?><?php echo $_incl; ?>)
-                                    <?php endif; ?>
+                                    <?php if ($code != 'myparcel' || !$toggleOptions):?>
+                                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                        <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                                        <?php echo $_excl; ?>
+                                        <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                            (<?php echo $this->__('Incl. Tax'); ?><?php echo $_incl; ?>)
+                                        <?php endif; ?>
+                                    <?php endif;?>
                                 </label>
                             <?php endif ?>
                         </li>
@@ -107,13 +109,8 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                 </ul>
             </dd>
 
-            <!-- Hide and toggle MyParcel options (used by parnis.nl) -->
-            <?php if ($code == 'myparcel' && $useMyParcel && $toggleOptions):?>
-                <td><a id="toggle_myparcel-btn" href="javascript:void(0)" onclick="toggleMyParcelCheckout()" >Andere bezorgmogelijkheden</a></td>
-            <?php endif ;?>
-
             <?php if ($code == 'myparcel' && $useMyParcel && !$mailboxTitle && $country == 'NL'): ?>
-                <div id="mypa-load" style="<?php echo $toggleOptions ? 'display: none;' : ''; ?>">
+                <div id="mypa-load" style="<?php echo $toggleOptions && $_rate->getCode() !== $this->getAddressShippingMethod() ? 'display: none;' : ''; ?>">
                     <myparcel id="myparcel">Bezig met laden...</myparcel>
                     <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
                     <input type="checkbox" name='mypa-signed' style="display: none;" id="mypa-signed">
