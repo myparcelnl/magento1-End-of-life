@@ -164,7 +164,7 @@
                     </fields>
                 </myparcel_support>
                 <checkout translate="label comment" module="tig_myparcel">
-                    <label>General settings</label>
+                    <label>Basic settings</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -515,7 +515,7 @@
                     </fields>
                 </api>
                 <general translate="label" module="tig_myparcel">
-                    <label>General Settings</label>
+                    <label>Basic settings</label>
                     <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

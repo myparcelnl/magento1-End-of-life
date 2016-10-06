@@ -39,6 +39,7 @@ TIG_MyParcel2014::Enable Myparcel Extension,Activeer MyParcel extensie
 TIG_MyParcel2014::Enable or disable the MyParcel module.,Activeer of deactiveer de MyParcel extensie
 TIG_MyParcel2014::Selecting 'No' will overrule all individual settings.,"Wanneer ""nee"" is geselecteerd worden alle individuele instellingen overruled."
 TIG_MyParcel2014::General settings,Algemene instellingen
+TIG_MyParcel2014::Basic settings,Basis instellingen
 TIG_MyParcel2014::Checkout settings,Checkout instellingen
 TIG_MyParcel2014::Cut-off time,Het laatste bestelmoment
 "TIG_MyParcel2014::If a request is made for the delivery options between Friday after, and Monday before, cut-off time then Tuesday will be shown as the next possible delivery date.","Indien een verzoek is gemaakt voor de levering opties tussen vrijdag na, en maandag voor, het aflevermoment dan zal dinsdag worden getoond als de volgende mogelijke leverdatum."
