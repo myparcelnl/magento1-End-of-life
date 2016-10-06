@@ -4,8 +4,8 @@
 #system_config_tabs .tig_myparcel-tab span { padding-left:44px; display:block; }
 #system_config_tabs .tig_myparcel-tab.active span { background:none; }
 
-div > .section-config {
-    margin-bottom: 70px;
+ul#tabButtons {
+    margin-top: 70px;
 }
 
 ul#tabButtons li {
