@@ -381,6 +381,7 @@
         $request->setPackageQty($oldQty);
 
         $method = Mage::getModel('shipping/rate_result_method');
+
         if (!empty($rate) && $rate['price'] >= 0) {
             if ($request->getFreeShipping() === true || ($request->getPackageQty() == $freeQty)) {
                 $shippingPrice = 0;
