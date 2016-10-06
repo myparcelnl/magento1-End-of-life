@@ -4,6 +4,10 @@
 #system_config_tabs .tig_myparcel-tab span { padding-left:44px; display:block; }
 #system_config_tabs .tig_myparcel-tab.active span { background:none; }
 
+div > .section-config {
+    margin-bottom: 70px;
+}
+
 ul#tabButtons li {
     display: inline-block;
     margin-bottom: -1px;
@@ -18,11 +22,9 @@ ul#tabButtons li a {
     text-decoration: none;
     cursor: pointer;
     font-size: 18px;
+    margin-left: 10px;
 
     /*border: 1px solid #6f8992;*/
-}
-li#js-tabButton_General.active>a {
-    padding-bottom: 1px;
 }
 
 ul#tabButtons li:hover a {
@@ -35,11 +37,11 @@ ul#tabButtons li.active a {
     cursor: default;
     border: 1px solid #d6d6d6;
     border-bottom: none;
+    padding-bottom: 1px;
 }
 
 ul#tabButtons li:not(.active) a {
     background-color: #e7efef;
-    margin-left: 10px;
     border: 1px solid #d6d6d6;
     /*margin-bottom: 1px;*/
 }
