@@ -39,7 +39,7 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
                     if ($carrierCode == 'myparcel') {
                         $fee = $this->_isFree() ? 0 : $helper->calculatePrice($quote);
                         $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
-                        $store->setConfig("carriers/{$carrierCode}/handling_fee", $fee);
+                        $store->setConfig("carriers/{$carrierCode}/price", $fee);
 
                         ###If you want to set the price instead of handling fee you can simply use as:
                         #$store->setConfig("carriers/{$carrierCode}/price", $newPrice);
