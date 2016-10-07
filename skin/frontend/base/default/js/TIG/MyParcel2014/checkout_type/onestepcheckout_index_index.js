@@ -15,7 +15,7 @@ var fnCheckout = {
             }
             mypajQuery('div.onestepcheckout-summary').html('<div class="loading-ajax">&nbsp;</div>');
 
-            window.setTimeout(checkPendingRequest, 1000);
+            window.setTimeout(updatePriceTable, 1500);
 
             xhr = mypajQuery.ajax({
                 type: 'post',
@@ -28,13 +28,9 @@ var fnCheckout = {
 };
 window.mypa.fn.fnCheckout = fnCheckout;
 
-function checkPendingRequest() {
-    if (mypajQuery.active > 0) {
-        window.setTimeout(checkPendingRequest, 500);
-    } else {
-        mypajQuery("input[name='payment[method]']")[0].click();
-        mypajQuery("input[name='payment[method]']")[0].checked = false;
-    }
+function updatePriceTable() {
+    mypajQuery("input[name='payment[method]']")[0].click();
+    mypajQuery("input[name='payment[method]']")[0].checked = false;
 };
 
 /* if address change, update shipping method */
