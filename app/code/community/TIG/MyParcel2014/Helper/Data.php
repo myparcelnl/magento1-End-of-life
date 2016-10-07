@@ -1103,6 +1103,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 $code = $rate->getData('code');
             }
         }
+
         if ($code) {
             $oRate = $shipAddress->getShippingRateByCode($code);
             $oRate->setPrice($this->calculatePrice($quote));
@@ -1125,8 +1126,20 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $price = 0;
         if (!$this->_isFree()) {
             $address = $quote->getShippingAddress();
-            if ($address->requestShippingRates()){
-                $price = (float)$address->getShippingAmount();
+            $address->requestShippingRates();
+
+            $code = false;
+            foreach ($address->getShippingRatesCollection() as $rate) {
+                if ($rate->getCarrier() == 'myparcel') {
+                    $code = $rate->getData('code');
+                }
+            }
+
+            if ($code) {
+                $oRate = $quote->getShippingAddress()->getShippingRateByCode($code);
+                $price = (float)$oRate->getPrice();
+            } else {
+                $price = 0;
             }
         }
 
