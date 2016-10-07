@@ -12,7 +12,7 @@ TIG_MyParcel2014::Handling Fee,Afhandelingskosten
 TIG_MyParcel2014::Ship to Applicable Countries,Verzend naar beschikbare landen
 TIG_MyParcel2014::Ship to Specific Countries,Verzend naar specifieke landen
 TIG_MyParcel2014::Sort Order,Sorteer bestelling
-TIG_MyParcel2014::Default Shipment Settings,Standaard verzend instellingen
+TIG_MyParcel2014::Default Shipment Settings,Standaard verzendinstellingen
 TIG_MyParcel2014::Home address only,Alleen huisadres
 TIG_MyParcel2014::Signature on receipt,Handtekening voor ontvangst
 TIG_MyParcel2014::Return if no answer,Retour bij niet aanwezig
@@ -43,7 +43,7 @@ TIG_MyParcel2014::Basic settings,Basis instellingen
 TIG_MyParcel2014::Checkout settings,Checkout instellingen
 TIG_MyParcel2014::Cut-off time,Het laatste bestelmoment
 "TIG_MyParcel2014::If a request is made for the delivery options between Friday after, and Monday before, cut-off time then Tuesday will be shown as the next possible delivery date.","Indien een verzoek is gemaakt voor de levering opties tussen vrijdag na, en maandag voor, het aflevermoment dan zal dinsdag worden getoond als de volgende mogelijke leverdatum."
-TIG_MyParcel2014::Numbers of days,Aantal dagen
+TIG_MyParcel2014::Numbers of days,Aantal dagen vooruit
 TIG_MyParcel2014::day,dag
 TIG_MyParcel2014::days,dagen
 TIG_MyParcel2014::Hide days,Dagen verbergen
