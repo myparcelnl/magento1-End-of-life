@@ -241,6 +241,7 @@
                 <test>0</test>
                 <print_orientation>A4</print_orientation>
                 <always_myparcel>1</always_myparcel>
+                <pakjegemak_use_shipment_address>1</pakjegemak_use_shipment_address>
                 <myparcel_shipping_methods>tig_myparcel_flatrate,myparcel_flatrate,tig_myparcel_tablerate,myparcel_tablerate,tig_myparcel_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
                 <ssl_handshake>0</ssl_handshake>
             </general>
