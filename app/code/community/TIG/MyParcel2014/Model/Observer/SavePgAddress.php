@@ -107,7 +107,11 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         $order->setShippingMethod('myparcel_pakjegemak');
         $aMyParcelData = json_decode($myParcelData, true);
         if (key_exists('date', $aMyParcelData)) {
-            $order->setMyparcelSendDate($helper->getDropOffDay($aMyParcelData['date']));
+
+            $dateTime = strtotime($aMyParcelData['date'] . ' 00:00:00');
+            $dropOffDate = $helper->getDropOffDay($dateTime);
+            $sDropOff = date("Y-m-d", $dropOffDate);
+            $order->setMyparcelSendDate($sDropOff);
         }
 
         /**
