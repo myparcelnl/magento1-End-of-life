@@ -59,8 +59,20 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $basePrice = 0;
         if(!$free) {
             $address = $quote->getShippingAddress();
-            if ($address->requestShippingRates()){
-                $basePrice = $address->getShippingAmount();
+            $address->requestShippingRates();
+
+            $code = false;
+            foreach ($address->getShippingRatesCollection() as $rate) {
+                if ($rate->getCarrier() == 'myparcel') {
+                    $code = $rate->getData('code');
+                }
+            }
+
+            if ($code) {
+                $oRate = $quote->getShippingAddress()->getShippingRateByCode($code);
+                $basePrice = (float)$oRate->getPrice();
+            } else {
+                $basePrice = 0;
             }
         }
 
