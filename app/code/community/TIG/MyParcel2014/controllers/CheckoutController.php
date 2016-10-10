@@ -61,19 +61,12 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
             $address = $quote->getShippingAddress();
             $address->requestShippingRates();
 
-            $code = false;
             foreach ($address->getShippingRatesCollection() as $rate) {
                 if ($rate->getCarrier() == 'myparcel') {
-                    $code = $rate->getData('code');
+                    $basePrice = (float)$rate->getPrice();
                 }
             }
 
-            if ($code) {
-                $oRate = $quote->getShippingAddress()->getShippingRateByCode($code);
-                $basePrice = (float)$oRate->getPrice();
-            } else {
-                $basePrice = 0;
-            }
         }
 
         $data = [];

@@ -1106,8 +1106,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($code) {
             $oRate = $shipAddress->getShippingRateByCode($code);
-            $this->calculatePrice($quote);
-            $oRate->setPrice($this->calculatePrice($quote));
+            $oRate->setPrice($this->calculatePrice());
             $oRate->save();
         }
     }
@@ -1115,33 +1114,33 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get the price of the chosen options in the checkout
      *
-     * @param Mage_Sales_Model_Quote $quote
-     *
      * @return float
      * @throws TIG_MyParcel2014_Exception
      */
-    public function calculatePrice(Mage_Sales_Model_Quote $quote)
+    public function calculatePrice()
     {
+        /**
+         * @var Mage_Sales_Model_Quote $item
+         */
+        $quote = Mage::getModel('checkout/cart')->getQuote();
 
-        /** @var Mage_Sales_Model_Quote_Address_Rate $rate */
+        $free = false;
+        foreach ($quote->getItemsCollection() as $item) {
+            $free = $item->getData('free_shipping') == '1' ? true : false;
+            break;
+        }
+
         $price = 0;
-        if (!$this->_isFree()) {
+        if(!$free) {
             $address = $quote->getShippingAddress();
             $address->requestShippingRates();
 
-            $myParcelRate = false;
             foreach ($address->getShippingRatesCollection() as $rate) {
                 if ($rate->getCarrier() == 'myparcel') {
-                    $myParcelRate = $rate;
-                    break;
+                    $price = (float)$rate->getPrice();
                 }
             }
 
-            if ($myParcelRate) {
-                $price = (float)$myParcelRate->getPrice();
-            } else {
-                $price = 0;
-            }
         }
 
         $data = json_decode($quote->getMyparcelData(), true);
