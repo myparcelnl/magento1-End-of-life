@@ -1100,14 +1100,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         foreach ($shipAddress->getShippingRatesCollection() as $rate) {
             if ($rate->getCarrier() == 'myparcel') {
-                $code = $rate->getData('code');
+                $price = $this->calculatePrice();
+                $rate->setPrice($price);
+                $rate->save();
             }
-        }
-
-        if ($code) {
-            $oRate = $shipAddress->getShippingRateByCode($code);
-            $oRate->setPrice($this->calculatePrice());
-            $oRate->save();
         }
     }
 

@@ -91,7 +91,20 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             return $this;
         }
 
+        $price = $helper->calculatePrice();
+        $address = $quote->getShippingAddress();
+        $address->setShippingAmount($price);
+        $address->setBaseShippingAmount($price);
+        $address->setBaseShippingInclTax($price);
+        $address->setShippingInclTax($price);
+        $address->setShippingTaxable($price);
+        $address->setBaseShippingTaxable($price);
+        $quote->setShippingAddress($address);
+
         $this->setQuote($quote);
+        $order->setShippingInclTax($price);
+        $order->setShippingAmount($price);
+        $order->setBaseShippingAmount($price);
 
         /**
          * Set myparcel json data from checkout
@@ -107,7 +120,6 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         $order->setShippingMethod('myparcel_pakjegemak');
         $aMyParcelData = json_decode($myParcelData, true);
         if (key_exists('date', $aMyParcelData)) {
-
             $dateTime = strtotime($aMyParcelData['date'] . ' 00:00:00');
             $dropOffDate = $helper->getDropOffDay($dateTime);
             $sDropOff = date("Y-m-d", $dropOffDate);
