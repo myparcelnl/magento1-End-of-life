@@ -102,7 +102,7 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         $quote->setShippingAddress($address);
 
 
-        $grandTotal = $order->getBaseSubtotal() + $price + $order->getBaseTaxAmount();
+        $grandTotal = $order->getSubtotalInclTax() + $price;
         $this->setQuote($quote);
         $order
             ->setShippingInclTax($price)
