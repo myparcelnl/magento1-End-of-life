@@ -50,7 +50,7 @@ window.mypa.settings = {};
         /**
          * If address is change
          */
-        /*$([
+        $([
             observer.billingPostalCode,
             observer.billingStreet1,
             observer.billingStreet2,
@@ -61,7 +61,7 @@ window.mypa.settings = {};
             observer.country
         ].join()).off('change').on('change', function () {
             load();
-        });*/
+        });
 
         var ajaxOptions = {
             url: BASE_URL + 'myparcel2014/checkout/info/',
