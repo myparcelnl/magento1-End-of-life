@@ -101,10 +101,15 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         $address->setBaseShippingTaxable($price);
         $quote->setShippingAddress($address);
 
+
+        $grandTotal = $order->getBaseSubtotal() + $price + $order->getBaseTaxAmount();
         $this->setQuote($quote);
-        $order->setShippingInclTax($price);
-        $order->setShippingAmount($price);
-        $order->setBaseShippingAmount($price);
+        $order
+            ->setShippingInclTax($price)
+            ->setShippingAmount($price)
+            ->setBaseShippingAmount($price)
+            ->setBaseGrandTotal($grandTotal)
+            ->setGrandTotal($grandTotal);
 
         /**
          * Set myparcel json data from checkout
