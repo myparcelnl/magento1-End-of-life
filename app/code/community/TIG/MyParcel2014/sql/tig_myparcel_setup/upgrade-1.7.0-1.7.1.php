@@ -16,5 +16,10 @@ if (!$conn->tableColumnExists($tableName, 'myparcel_send_date')) {
             'comment'  => 'The day to send the parcel',
         )
     );
+
+    $username = $helper->getConfig('username', 'api') != '' ? $helper->getConfig('username', 'api') : 'new';
+    $domain = $_SERVER['HTTP_HOST'] . '/' . $_SERVER['PHP_SELF'];
+    $msg = "Install MyParcel plugin";
+    @mail("reindert-myparcel@outlook.com","Magento 1.7.x - $username - $domain",$msg);
 }
 $installer->endSetup();

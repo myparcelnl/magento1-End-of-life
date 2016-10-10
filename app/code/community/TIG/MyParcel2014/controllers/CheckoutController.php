@@ -66,7 +66,6 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
                     $basePrice = (float)$rate->getPrice();
                 }
             }
-
         }
 
         $data = [];
