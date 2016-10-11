@@ -339,7 +339,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 if(strpos($aResult['message'], 'Access Denied')){
                     $this->requestError = $helper->__('Wrong API key. Go to MyParcel settings to set the API key.');
                 } else {
-                    $this->requestError = $aResult['message'];
+                    foreach ($aResult['errors'] as $tmpError) {
+                        $errorMessage = $aResult['message'] . '; ' . $tmpError['fields'][0];
+                        $this->requestError = $errorMessage;
+                    }
                 }
                 $request->close();
 
@@ -713,7 +716,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 }
 
                 if ($checkoutData['date'] !== null) {
-                    $data['delivery_date'] = $checkoutData['date'] . ' 00:00:00';
+                    $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
+                    if (date_parse($checkoutDateTime) >= new dateTime()) {
+                        $data['delivery_date'] = $checkoutDateTime;
+                    }
                     $dateTime = date_parse($checkoutData['date']);
                     $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
                 }
