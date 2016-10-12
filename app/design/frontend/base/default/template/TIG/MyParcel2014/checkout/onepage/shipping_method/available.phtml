@@ -25,7 +25,10 @@
  */
 ?>
 <?php
-/** @var $this Mage_Checkout_Block_Onepage_Shipping_Method_Available */
+/**
+ * @var $this Mage_Checkout_Block_Onepage_Shipping_Method_Available
+ * @var TIG_MyParcel2014_Helper_AddressValidation $helper
+ */
 $_shippingRateGroups = $this->getShippingRates();
 $helper = Mage::helper('tig_myparcel/addressValidation');
 
