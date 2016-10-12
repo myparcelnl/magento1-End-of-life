@@ -55,7 +55,7 @@ Element.prototype.triggerEvent = function(eventName)
 setTimeout(function () {
     mypajQuery(".onestepcheckout-summary").mouseup(function() {
         timeout = setTimeout(function () {
-            mypajQuery("input[name='shipping[postcode]']")[0].triggerEvent('change');
+            window.mypa.fn.load();
         }, 500);
     });
 }, 800);
