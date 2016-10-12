@@ -53,6 +53,19 @@ Element.prototype.triggerEvent = function(eventName)
 };
 
 setTimeout(function () {
+    mypajQuery([
+        "input[name='billing[street][0]']",
+        "input[name='billing[street][1]']",
+        "input[name='billing[housenumber]']",
+        "input[name='billing[postcode]']",
+        "input[name='shipping[street][0]']",
+        "input[name='shipping[street][1]']",
+        "input[name='shipping[housenumber]']",
+        "input[name='shipping[postcode]']"
+    ].join()).on('change', function () {
+        $('billing:country_id').triggerEvent('change');
+    });
+
     mypajQuery(".onestepcheckout-summary").mouseup(function() {
         timeout = setTimeout(function () {
             window.mypa.fn.load();

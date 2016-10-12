@@ -92,6 +92,46 @@
     <!-- Idev OneStepCheckout-->
     <onestepcheckout_index_index>
         <reference name="head">
+            <action method="removeItem"><type>js</type><name>prototype/prototype.js</name></action>
+            <action method="removeItem"><type>js</type><name>lib/jquery/jquery-1.10.2.min.js</name></action>
+            <action method="removeItem"><type>js</type><name>lib/jquery/noconflict.js</name></action>
+            <action method="removeItem"><type>js</type><name>lib/ccard.js</name></action>
+            <action method="removeItem"><type>js</type><name>prototype/validation.js</name></action>
+            <action method="removeItem"><type>js</type><name>scriptaculous/builder.js</name></action>
+            <action method="removeItem"><type>js</type><name>scriptaculous/effects.js</name></action>
+            <action method="removeItem"><type>js</type><name>scriptaculous/dragdrop.js</name></action>
+            <action method="removeItem"><type>js</type><name>scriptaculous/controls.js</name></action>
+            <action method="removeItem"><type>js</type><name>scriptaculous/slider.js</name></action>
+            <action method="removeItem"><type>js</type><name>varien/js.js</name></action>
+            <action method="removeItem"><type>js</type><name>varien/form.js</name></action>
+            <action method="removeItem"><type>js</type><name>mage/translate.js</name></action>
+            <action method="removeItem"><type>js</type><name>mage/cookies.js</name></action>
+            <action method="removeItem"><type>js</type><name>iwd/all/iwd-jquery-2.1.3.min.js</name></action>
+            <action method="removeItem"><type>js</type><name>iwd/all/modal.js</name></action>
+
+            <action method="addItem">
+                <type>js</type>
+                <name>../skin/frontend/base/default/js/TIG/MyParcel2014/webcomponents.min.js</name>
+            </action>
+
+            <action method="addJs"><script><action method="addJs"><script>prototype/window.js</script></action></script></action>
+            <action method="addJs"><script>prototype/prototype.js</script></action>
+            <action method="addJs"><script>lib/jquery/jquery-1.10.2.min.js</script></action>
+            <action method="addJs"><script>lib/jquery/noconflict.js</script></action>
+            <action method="addJs"><script>lib/ccard.js</script></action>
+            <action method="addJs"><script>prototype/validation.js</script></action>
+            <action method="addJs"><script>scriptaculous/builder.js</script></action>
+            <action method="addJs"><script>scriptaculous/effects.js</script></action>
+            <action method="addJs"><script>scriptaculous/dragdrop.js</script></action>
+            <action method="addJs"><script>scriptaculous/controls.js</script></action>
+            <action method="addJs"><script>scriptaculous/slider.js</script></action>
+            <action method="addJs"><script>varien/js.js</script></action>
+            <action method="addJs"><script>varien/form.js</script></action>
+            <action method="addJs"><script>mage/translate.js</script></action>
+            <action method="addJs"><script>mage/cookies.js</script></action>
+            <action method="addJs"><script>iwd/all/iwd-jquery-2.1.3.min.js</script></action>
+            <action method="addJs"><script>iwd/all/modal.js</script></action>
+
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
@@ -103,10 +143,6 @@
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/moment.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/webcomponents.min.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
