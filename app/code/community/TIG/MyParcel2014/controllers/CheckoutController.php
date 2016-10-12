@@ -44,6 +44,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
      */
     public function infoAction()
     {
+        /** @var TIG_MyParcel2014_Helper_AddressValidation $helper */
         $helper = Mage::helper('tig_myparcel/addressValidation');
         /**
          * @var Mage_Sales_Model_Quote $item

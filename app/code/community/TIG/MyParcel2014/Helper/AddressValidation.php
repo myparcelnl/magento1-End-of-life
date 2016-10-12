@@ -125,6 +125,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
      */
     public function getQuoteAddress(Mage_Sales_Model_Quote $quote)
     {
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = Mage::helper('tig_myparcel');
 
         $address = [];
@@ -137,6 +138,9 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['type'] = 'billing';
                 $address['country'] = $quote->getBillingAddress()->getCountry();
                 $address['postal_code'] = $quote->getBillingAddress()->getPostcode();
+                if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getStreetFull())) {
+                    return false;
+                }
                 $streetData = $helper->getStreetData($quote->getBillingAddress());
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
@@ -147,6 +151,9 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['type'] = 'shipping';
                 $address['country'] = $quote->getShippingAddress()->getCountry();
                 $address['postal_code'] = $quote->getShippingAddress()->getPostcode();
+                if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getShippingAddress())) {
+                    return false;
+                }
                 $streetData = $helper->getStreetData($quote->getShippingAddress());
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
@@ -160,6 +167,9 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['country'] = $tmpAddress->getCountry();
                 $address['postal_code'] = $tmpAddress->getPostcode();
                 $address['full_street'] = $tmpAddress->getStreetFull();
+                if (!preg_match('/[0-9]/', $tmpAddress)) {
+                    return false;
+                }
                 $streetData = $helper->getStreetData($tmpAddress);
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
