@@ -40,7 +40,7 @@ $address = $helper->getQuoteAddress($this->getQuote());
 if (isset($address) && key_exists('country', $address)) {
     $country = $address['country'];
 } else {
-    $country = 'NL';
+    $country = false;
 }
 $useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 || $mailboxTitle == '');
 
