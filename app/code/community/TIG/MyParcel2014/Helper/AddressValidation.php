@@ -175,6 +175,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['number'] = $streetData['housenumber'];
             }
         }
+        $address['full_street'] = preg_replace("/[\n\r]/", " ", $address['full_street']);
 
         return $address;
     }

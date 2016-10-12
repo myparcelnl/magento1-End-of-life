@@ -75,7 +75,9 @@ window.mypa.settings = {};
                         mypajQuery('#mypa-input').val(null).change();
                     } else {
                         if(mypajQuery('#mypa-input').val() != '') {
-                            mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
+                            if(typeof mypajQuery(observer.magentoMethodMyParcel)[0] !== 'undefined') {
+                                mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
+                            }
                         }
                     }
                     getData();
