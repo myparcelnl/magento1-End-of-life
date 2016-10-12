@@ -75,6 +75,7 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
     {
         /**
          * @var Mage_Sales_Model_Order $order
+         * @var TIG_MyParcel2014_Helper_Data $helper
          */
         $order  = $observer->getEvent()->getOrder();
         $helper = Mage::helper('tig_myparcel');
@@ -93,23 +94,24 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
 
         $price = $helper->calculatePrice();
         $address = $quote->getShippingAddress();
-        $address->setShippingAmount($price);
-        $address->setBaseShippingAmount($price);
-        $address->setBaseShippingInclTax($price);
-        $address->setShippingInclTax($price);
-        $address->setShippingTaxable($price);
-        $address->setBaseShippingTaxable($price);
+
+        $extraShippingPrice = $price - (float)$address->getShippingAmount();
+
+        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
+        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
+        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
+        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
         $quote->setShippingAddress($address);
 
-
-        $grandTotal = $order->getSubtotalInclTax() + $price;
         $this->setQuote($quote);
         $order
-            ->setShippingInclTax($price)
-            ->setShippingAmount($price)
-            ->setBaseShippingAmount($price)
-            ->setBaseGrandTotal($grandTotal)
-            ->setGrandTotal($grandTotal);
+            ->setShippingInclTax($order->getShippingInclTax() + $extraShippingPrice)
+            ->setShippingAmount($order->getShippingAmount() + $extraShippingPrice)
+            ->setBaseShippingAmount($order->getBaseShippingAmount() + $extraShippingPrice)
+            ->setBaseGrandTotal($order->getBaseGrandTotal() + $extraShippingPrice)
+            ->setGrandTotal($order->getGrandTotal() + $extraShippingPrice);
 
         /**
          * Set myparcel json data from checkout
