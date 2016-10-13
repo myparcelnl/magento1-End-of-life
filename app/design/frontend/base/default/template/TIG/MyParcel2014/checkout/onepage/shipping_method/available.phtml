@@ -808,14 +808,14 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
         setTimeout(function () {
             new MyParcel();
             window.mypa.fn.load();
-        }, 1000);
+        }, 500);
 
         function toggleMyParcelCheckout() {
             mypajQuery("input:radio[id^='s_method_myparcel']")[0].checked = true;
 
-            new MyParcel();
-            window.mypa.fn.load();
-            mypajQuery('#mypa-load').show();
+                new MyParcel();
+                window.mypa.fn.load();
+                mypajQuery('#mypa-load').show();
 
         }
     </script>
