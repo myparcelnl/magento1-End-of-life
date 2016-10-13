@@ -573,7 +573,7 @@ document.observe("dom:loaded", PCNL_START_FUNCTION = function()
                         $(prefix + street1).up('tr').insert({before: '<tr id="' + prefix + 'postcode_input:checkbox"><td class="label"><label for="' + prefix + 'postcode_input_checkbox"> '+ PCNLAPI_CONFIG.translations.manualInputLabel +' <span class="required">*</span></label></td><td class="value"><input type="checkbox" id="' + prefix + 'postcode_input_checkbox" value="" class="checkbox" /><label for="' + prefix + 'postcode_input_checkbox">'+ PCNLAPI_CONFIG.translations.manualInputText +'</label></td></tr>'});
                         $(prefix +'postcode_input_checkbox').observe('click', function () { pcnlapi.toggleCountryPostcode(prefix, postcodeFieldId, countryFieldId, street1, street2, street3, street4); });
                     }
-                    else if ($(document.body).hasClassName('onestepcheckout-index-index') && $('onestepcheckout-form'))
+                    else if ($('onestepcheckout-form'))
                     {
                         // Support for OneStepCheckout.com extension
                         this.enrichType = 'OneStepCheckout.com';
@@ -590,7 +590,7 @@ document.observe("dom:loaded", PCNL_START_FUNCTION = function()
                         }
                         $(prefix + street1).up('li').insert({before: '<li id="' + prefix + 'postcode_input:output" class="pcnl-hidden-field"><div class="input-box"><label>'+ PCNLAPI_CONFIG.translations.outputLabel +'</label><div id="' + prefix + 'postcode_output" class="pcnl-address-text"></div></div></li>'});
                     }
-                    else if ($(document.body).hasClassName('onestepcheckout-index-index') && $('co-form'))
+                    else if ($('co-form'))
                     {
                         // Support for Apptha One Step Checkout extension
                         this.enrichType = 'Apptha One Step Checkout';
