@@ -507,7 +507,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPackageType($weight, $country, $getAdminTitle = false, $pakjegemak = false)
     {
-        if ($pakjegemak){
+        $useMailboxTitle = $this->getConfig('mailbox_title', 'delivery') == '' ? false : true;
+
+        if ($pakjegemak || $useMailboxTitle == false){
             $type = 1;
         } else {
             $weight = $this->getCorrectWeight((float)$weight);
