@@ -13,7 +13,6 @@ var fnCheckout = {
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
-            mypajQuery('div.onestepcheckout-summary').html('<div class="loading-ajax">&nbsp;</div>');
 
             window.setTimeout(checkPendingRequest, 200);
 
@@ -31,6 +30,15 @@ window.mypa.fn.fnCheckout = fnCheckout;
 function checkPendingRequest() {
     if (mypajQuery.active > 0) {
         window.setTimeout(checkPendingRequest, 200);
+    } else {
+        paymentrefresh(BASE_URL + 'onestepcheckout/ajax/paymentrefresh');
+        checkPaymentRequest();
+    }
+};
+
+function checkPaymentRequest() {
+    if(mypajQuery("input[name='payment[method]']").length == 0) {
+        window.setTimeout(checkPaymentRequest, 200);
     } else {
         mypajQuery("input[name='payment[method]']")[0].click();
         mypajQuery("input[name='payment[method]']")[0].checked = false;
