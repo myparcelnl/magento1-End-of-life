@@ -1208,6 +1208,23 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return $dropOff;
     }
 
+
+    public function isIeOrEdge()
+    {
+        $user_agent = $_SERVER['HTTP_USER_AGENT'];
+        if (
+            strpos($user_agent, 'Opera') ||
+            strpos($user_agent, 'OPR/') ||
+            strpos($user_agent, 'Edge') ||
+            strpos($user_agent, 'MSIE') ||
+            strpos($user_agent, 'Trident/7')
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     private function _isFree()
     {
         $quote = Mage::getModel('checkout/cart')->getQuote();
