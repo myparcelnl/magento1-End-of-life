@@ -11,7 +11,7 @@ var fnCheckout = {
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             if (xhr && xhr.readyState != 4) {
-             xhr.abort();
+                xhr.abort();
             }
             mypajQuery('div.onestepcheckout-summary').html('<div class="loading-ajax">&nbsp;</div>');
 
@@ -71,4 +71,4 @@ setTimeout(function () {
             window.mypa.fn.load();
         }, 500);
     });
-}, 800);
+}, 1000);
