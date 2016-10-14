@@ -1,5 +1,5 @@
 var PCNL_START_FUNCTION;
-
+var RUN_MYPARCEL_OPTIONS = true;
 document.observe("dom:loaded", PCNL_START_FUNCTION = function()
 {
     // If we have no configuration, do not do anything
