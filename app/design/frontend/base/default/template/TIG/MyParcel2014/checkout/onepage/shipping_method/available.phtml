@@ -46,7 +46,7 @@ if (isset($address) && key_exists('country', $address)) {
     $country = false;
 }
 
-$useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 || $mailboxTitle == '') && !$helper->isIeOrEdge();
+$useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 || $mailboxTitle == '');
 
 /** Hide and toggle MyParcel options (used by parnis.nl) */
 $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true : false;
