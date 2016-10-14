@@ -33,16 +33,43 @@
  * versions in the future. If you wish to customize this module for your
  * needs please contact servicedesk@tig.nl for more information.
  *
- * @copyright   Copyright (c) 2015 Total Internet Group B.V. (http://www.tig.nl)
+ * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- *
- * @var TIG_MyParcel2014_Block_Checkout_Progress $this
  */
-?>
-<?php if ($this->getCheckout()->getStepData('shipping_method', 'complete')): ?>
-    <?php $_pakjeGemakAddress = $this->getPakjeGemakAddress(); ?>
-    <?php if($_pakjeGemakAddress): ?>
-        <dt class="complete"><?php echo $this->__('Post Office Address') ?> <span class="changelink"><span class="separator">|</span> <a href="#shipping_method" onclick="checkout.changeSection('opc-shipping_method'); return false;"><?php echo $this->__('Change') ?></a></span></dt>
-        <dd class="complete"><?php echo $_pakjeGemakAddress; ?></dd>
-    <?php endif; ?>
-<?php endif; ?>
+
+class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
+{
+    /**
+     * Source model for customs setting.
+     *
+     * @return array
+     */
+    public function toOptionArray($isMultiSelect = false, $isActiveOnlyFlag = false)
+    {
+        $helper = Mage::helper('tig_myparcel');
+
+        $array = array(
+            array(
+                'value' => 1,
+                'label' => $helper->__('Saturday, Sunday, Monday'),
+            ),
+            array(
+                'value' => 2,
+                'label' => $helper->__('Tuesday'),
+            ),
+            array(
+                'value' => 3,
+                'label' => $helper->__('Wednesday'),
+            ),
+            array(
+                'value' => 4,
+                'label' => $helper->__('Thursday'),
+            ),
+            array(
+                'value' => 5,
+                'label' => $helper->__('Friday'),
+            ),
+        );
+        return $array;
+    }
+}

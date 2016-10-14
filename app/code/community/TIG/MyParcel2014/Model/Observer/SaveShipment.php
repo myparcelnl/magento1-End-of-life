@@ -69,6 +69,8 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
                 }
             }
         }
+        if($selectedConsignmentOptions['is_xl'] == null)
+            $selectedConsignmentOptions['is_xl'] = 0;
 
         /**
          * Add the selected options to the registry.

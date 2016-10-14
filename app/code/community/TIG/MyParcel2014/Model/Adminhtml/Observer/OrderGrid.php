@@ -294,16 +294,55 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
             'shipping_status',
             array(
                 'header'         => $helper->__('Shipping status'),
-                'type'           => 'text',
                 'index'          => 'shipping_status',
                 'sortable'       => false,
-                'filter'         => false,
                 'renderer'       => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
+                'type'           => 'options',
+                'options'        => [
+                    'past_and_today' => $helper->__('Orders until today'),
+                    'today' => $helper->__('Send today'),
+                    'later' => $helper->__('Send later'),
+                    'past' => $helper->__('Old orders'),
+                ],
+                'filter_condition_callback' => array($this, '_filterHasUrlConditionCallback'),
             ),
             'shipping_name'
         );
 
         $block->sortColumnsByOrder();
+
+        return $this;
+    }
+
+    protected function _filterHasUrlConditionCallback($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return $this;
+        }
+
+        $date = date('Y-m-d');
+        if (isset($value)) {
+            $sqlDate = null;
+            switch ($value){
+                case ('past_and_today'):
+                    $sqlDate = "<= '" . $date . "'";
+                    break;
+                case ('today'):
+                    $sqlDate = "= '" . $date . "'";
+                    break;
+                case ('later'):
+                    $sqlDate = "> '" . $date . "'";
+                    break;
+                case ('past'):
+                    $sqlDate = "< '" . $date . "'";
+                    break;
+            }
+
+            if($date){
+                $this->getCollection()->getSelect()->where(
+                    "tig_myparcel_order.myparcel_send_date " . $sqlDate);
+            }
+        }
 
         return $this;
     }
@@ -327,14 +366,14 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
               ->addItem(
                   'myparcel_print_labels',
                   array(
-                      'label' => $helper->__('MyParcel - Create &amp; Print shipping labels'),
+                      'label' => $helper->__('MyParcel - Create labels'),
                       'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massPrintLabels'),
                       'additional' => array(
                           'type_consignment' => array(
                               'name'    => 'type_consignment',
                               'type'    => 'select',
-                              'label'   => $helper->__('Type Consignment'),
                               'options' => array(
+                                  'default'     => $helper->__('Accordance with type consignment'),
                                   TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
                                   TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
                                   TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
@@ -346,18 +385,6 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                               'value'   => 1,
                           ),
                       )
-                  )
-              );
-
-        /**
-         * Add the create shipments mass action.
-         */
-        $block->getMassactionBlock()
-              ->addItem(
-                  'myparcel_create_shipments',
-                  array(
-                      'label' => $helper->__('MyParcel - Create Magento shipments (no labels)'),
-                      'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massCreateShipments'),
                   )
               );
 

@@ -46,8 +46,8 @@
             <tr>
                 <td colspan="3">
                     <div class="text-box">
-                        <?php $url = 'http://kb.tig.nl/topic/99829566';?>
-                        <h4><?php echo $_helper->__('To download the instructions for the MyParcel  Magento extension, click <a target="_blank" href="%s">here</a>.',$url); ?></h4>
+                        <?php $url = 'https://myparcelnl.github.io/magento1/';?>
+                        <h4><?php echo $_helper->__('To read the instructions for the MyParcel Magento extension, click <a target="_blank" href="%s">here</a>.',$url); ?></h4>
                     </div>
                 </td>
             </tr>
@@ -67,17 +67,11 @@
                     </div>
                     <div class="text-box">
                         <h3><?php echo $_helper->__('Magento &amp; 3rd party version compatibility');?></h3>
+                        <p><?php echo $_helper->__('We cannot guarantee perfect functionality of the MyParcel extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact MyParcel.<br><br>Supported extensions:'); ?></p>
                         <ul>
                             <li><?php echo $_helper->__('Magento Community Edition version');?> v1.6, v1.7, v1.8 &amp; v1.9</li>
-                        </ul>
-                        <ul>
                             <li><?php echo $_helper->__("Idev's OneStepCheckout version");?> v4.0, v4.1 &amp; v4.5</li>
-                        </ul>
-                        <ul>
                             <li><?php echo $_helper->__("IWD's OnePageCheckout version");?> v4.2.2</li>
-                        </ul>
-                        <ul>
-                            <li><?php echo $_helper->__('We cannot guarantee perfect functionality of the MyParcel extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact MyParcel.'); ?></li>
                         </ul>
                     </div>
                 </td>
@@ -116,18 +110,33 @@
                         <h3><?php echo $_helper->__('Documents');?></h3>
                         <ul>
                             <li>
-                                <a class="link" target="_blank" href="http://kb.tig.nl/topic/99829566" title="<?php echo $_helper->__('Installation and configuration instructions');?>">
-                                    <?php echo $_helper->__('Installation and configuration instructions');?>
-                                </a>
+                                <a class="link" target="_blank" href="https://github.com/myparcelnl/magento1/releases/latest" title="<?php echo $_helper->__('Latest stable release');?>">
+                                    <?php echo $_helper->__('Latest stable release');?>
+                                </a>  <span id="current_version"></span>
+                                <script>
+                                    mypajQuery.get('https://api.github.com/repos/myparcelnl/magento1/releases/latest', function (data) {
+                                        mypajQuery('#current_version').html('(' + data.name + ')');
+                                    });
+                                </script>
                             </li>
                             <li>
-                                <a class="link" target="_blank" href="http://kb.tig.nl/topic/99831236" title="<?php echo $_helper->__('Full changelog');?>">
+                                <a class="link" target="_blank" href="https://github.com/myparcelnl/magento1/releases" title="<?php echo $_helper->__('Full changelog');?>">
                                     <?php echo $_helper->__('Full changelog');?>
                                 </a>
                             </li>
                             <li>
-                                <a class="link" target="_blank" href="http://kb.tig.nl/forum/23053573" title="<?php echo $_helper->__('Overview articles in knowledge base');?>">
+                                <a class="link" target="_blank" href="https://myparcelnl.github.io/magento1/" title="<?php echo $_helper->__('Installation and configuration instructions');?>">
+                                    <?php echo $_helper->__('Installation and configuration instructions');?>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link" target="_blank" href="https://myparcelnl.github.io/magento1/#6" title="<?php echo $_helper->__('Overview articles in knowledge base');?>">
                                     <?php echo $_helper->__('Overview articles in knowledge base');?>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link" target="_blank" href="https://backoffice.myparcel.nl/settings" title="<?php echo $_helper->__('MyParcel backoffice');?>">
+                                    <?php echo $_helper->__('MyParcel backoffice');?>
                                 </a>
                             </li>
                         </ul>

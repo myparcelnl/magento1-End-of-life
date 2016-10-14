@@ -1,121 +1,137 @@
 <?xml version="1.0"?>
-<!--
-/**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Creative Commons License.
- * It is available through the world-wide-web at this URL:
- * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade this module to newer
- * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
- *
- * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
- * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- */
--->
 <layout version="0.1.0">
+    <default>
+        <reference name="before_body_end">
+            <block type="core/template" name="myparcel_checkout_base_url"
+                   template="TIG/MyParcel2014/checkout/baseUrl.phtml"/>
+        </reference>
+    </default>
+
+    <!-- default checkout -->
     <checkout_onepage_index>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/moment.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/myparcel.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/checkout.js</file>
             </action>
-            <action method="addItem">
-                <type>skin_css</type>
-                <file>css/TIG/MyParcel2014/checkout.css</file>
+        </reference>
+        <reference name="checkout.onepage.shipping_method.available">
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
             </action>
-        </reference>
-        <reference name="right">
-            <block type="checkout/onepage_progress" name="myparcel_checkout.progress" template="TIG/MyParcel2014/checkout/onepage/progress.phtml"/>
-        </reference>
-        <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/onepage/js.phtml"/>
         </reference>
     </checkout_onepage_index>
-
-    <checkout_onepage_progress>
+    <checkout_onepage_shippingmethod>
         <reference name="root">
-            <block type="checkout/onepage_progress" name="myparcel.progress" template="TIG/MyParcel2014/checkout/onepage/progress.phtml"/>
-        </reference>
-    </checkout_onepage_progress>
-
-    <checkout_onepage_progress_myparcel_checkout>
-        <remove name="right"/>
-        <remove name="left"/>
-
-        <block type="tig_myparcel/checkout_progress" name="root" template="TIG/MyParcel2014/checkout/onepage/progress/pakje_gemak.phtml" output="toHtml"/>
-    </checkout_onepage_progress_myparcel_checkout>
-
-    <onestepcheckout_index_index>
-        <reference name="head">
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/checkout.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_css</type>
-                <file>css/TIG/MyParcel2014/checkout.css</file>
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
             </action>
         </reference>
-        <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/idev_onestepcheckout/js.phtml"/>
-        </reference>
-    </onestepcheckout_index_index>
+    </checkout_onepage_shippingmethod>
 
+    <!-- IWD checkout -->
     <opc_index_index>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/moment.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/myparcel.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/checkout_type/opc_index_index.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/checkout.js</file>
             </action>
-            <action method="addItem">
-                <type>skin_css</type>
-                <file>css/TIG/MyParcel2014/checkout.css</file>
-            </action>
         </reference>
-        <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/iwd_onepagecheckout/js.phtml"/>
+
+        <reference name="checkout.onepage.shipping_method.available">
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+            </action>
         </reference>
     </opc_index_index>
 
-    <checkout_index_index>
+    <!-- Idev OneStepCheckout-->
+    <onestepcheckout_index_index>
+
+        <reference name="head">
+            <action method="removeItem"><type>js</type><name>postcodenl/api/lookup.js</name></action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/postcodenl/lookup.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/moment.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/myparcel.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/checkout_type/onestepcheckout_index_index.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/TIG/MyParcel2014/checkout.js</file>
+            </action>
+        </reference>
+        <reference name="choose-shipping-method">
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+            </action>
+        </reference>
+    </onestepcheckout_index_index>
+    <onestepcheckout_ajax_save_billing>
+        <reference name="choose-shipping-method">
+            <action method="setTemplate">
+                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+            </action>
+        </reference>
+    </onestepcheckout_ajax_save_billing>
+
+
+    <!-- for threesixty_checkout -->
+    <!--<checkout_index_index>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
@@ -131,7 +147,8 @@
             </action>
         </reference>
         <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js" template="TIG/MyParcel2014/checkout/threesixty_checkout/js.phtml"/>
+            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js"
+                   template="TIG/MyParcel2014/checkout/threesixty_checkout/js.phtml"/>
         </reference>
-    </checkout_index_index>
+    </checkout_index_index>-->
 </layout>

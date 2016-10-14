@@ -75,6 +75,7 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
     {
         /**
          * @var Mage_Sales_Model_Order $order
+         * @var TIG_MyParcel2014_Helper_Data $helper
          */
         $order  = $observer->getEvent()->getOrder();
         $helper = Mage::helper('tig_myparcel');
@@ -91,15 +92,45 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             return $this;
         }
 
+        $price = $helper->calculatePrice();
+        $address = $quote->getShippingAddress();
+
+        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
+
+        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
+        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
+        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
+        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
+        $quote->setShippingAddress($address);
+
         $this->setQuote($quote);
+        $order
+            ->setShippingInclTax($order->getShippingInclTax() + $extraShippingPrice)
+            ->setShippingAmount($order->getShippingAmount() + $extraShippingPrice)
+            ->setBaseShippingAmount($order->getBaseShippingAmount() + $extraShippingPrice)
+            ->setBaseGrandTotal($order->getBaseGrandTotal() + $extraShippingPrice)
+            ->setGrandTotal($order->getGrandTotal() + $extraShippingPrice);
 
         /**
-         * Check if the order is shipped using MyParcel.
+         * Set myparcel json data from checkout
          */
-        $shippingMethod = $order->getShippingMethod();
-        if (!$helper->shippingMethodIsPakjegemak($shippingMethod)) {
+        $myParcelData = $quote->getMyparcelData();
+        $order->setMyparcelData($myParcelData);
+
+        if(json_decode($myParcelData) === null && json_decode($myParcelData)->location === null){
             Mage::getModel('tig_myparcel/checkout_service')->removePgAddress($quote);
             return $this;
+        }
+
+        $order->setShippingMethod('myparcel_pakjegemak');
+        $aMyParcelData = json_decode($myParcelData, true);
+        if (key_exists('date', $aMyParcelData)) {
+            $dateTime = strtotime($aMyParcelData['date'] . ' 00:00:00');
+            $dropOffDate = $helper->getDropOffDay($dateTime);
+            $sDropOff = date("Y-m-d", $dropOffDate);
+            $order->setMyparcelSendDate($sDropOff);
         }
 
         /**

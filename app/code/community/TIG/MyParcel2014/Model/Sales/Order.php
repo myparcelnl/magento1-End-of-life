@@ -26,11 +26,13 @@
          * @return Mage_Sales_Model_Order_Address
          */
         public function getShippingAddress() {
-
             $helper = Mage::helper('tig_myparcel');
             $usePgAddress = $helper->getConfig('pakjegemak_use_shipment_address') === '1';
 
             $parentFunctions = debug_backtrace();
+            if($parentFunctions[3]['class'] != 'TIG_Afterpay_Model_PaymentFee_Observer'){
+                $usePgAddress = false;
+            }
             if($parentFunctions[3]['function'] == '_getConsignmentData') {
                 $usePgAddress = false;
             }

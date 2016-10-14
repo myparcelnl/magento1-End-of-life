@@ -217,8 +217,17 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
      */
     public function getIsHomeSelected()
     {
-        return $this->getIsSelected('home_address_only');
-
+        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
+        if($checkoutData !== null) {
+            $aData = json_decode($checkoutData, true);
+            if($aData['home_address_only']){
+                return 'checked="checked"';
+            } else {
+                return $this->getIsSelected('home_address_only');
+            }
+        } else {
+            return $this->getIsSelected('home_address_only');
+        }
     }
 
     /**
@@ -226,7 +235,17 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
      */
     public function getIsSignatureOnReceipt()
     {
-        return $this->getIsSelected('signature_on_receipt');
+        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
+        if($checkoutData !== null) {
+            $aData = json_decode($checkoutData, true);
+            if($aData['signed']){
+                return 'checked="checked"';
+            } else {
+                return $this->getIsSelected('signature_on_receipt');
+            }
+        } else {
+            return $this->getIsSelected('signature_on_receipt');
+        }
     }
 
     /**
@@ -235,6 +254,14 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
     public function getIsReturnOnNoAnswer()
     {
         return $this->getIsSelected('return_if_no_answer');
+    }
+
+    /**
+     * @return string
+     */
+    public function getIsXl()
+    {
+        return $this->getIsSelected('is_xl');
     }
 
     /**

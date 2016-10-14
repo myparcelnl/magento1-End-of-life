@@ -294,7 +294,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             try {
                 /** @var Mage_Sales_Model_Order_Shipment $shipment */
                 $shipment = $myParcelShipment->getShipment();
-                if($helper->getPgAddress($shipment->getOrder()) && $shipmentType != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL){
+                if($helper->getPgAddress($shipment->getOrder()) && ($shipmentType != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL && $shipmentType != 'default')){
                     $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
                     throw new TIG_MyParcel2014_Exception(
                         $helper->__('The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target="_blank" href="%s">View shipment</a>',$shipment_url),
@@ -452,7 +452,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 if (!$shipment->hasConsignmentId()) {
                     $type = $this->getRequest()->getParam('type_consignment');
 
-                    if($helper->getPgAddress($shipment->getOrder()) && $type != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL){
+                    if($helper->getPgAddress($shipment->getOrder()) && $type != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL && $type != 'default'){
                         $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
                         throw new TIG_MyParcel2014_Exception(
                             $helper->__('The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target="_blank" href="%s">View shipment</a>',$shipment_url),
@@ -499,19 +499,37 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
         $perpage = $helper->getConfig('print_orientation');
         $pdfData = $api->createRetrievePdfsRequest($consignmentIds, $start, $perpage)
-                       ->sendRequest()
+                       ->sendRequest('GET')
                        ->getRequestResponse();
 
         $fileName = 'MyParcel Shipping Labels '
             . date('Ymd-His', Mage::getSingleton('core/date')->timestamp())
             . '.pdf';
 
-        $this->_preparePdfResponse($fileName, urldecode($pdfData['pdf']));
+        $this->_preparePdfResponse($fileName, $pdfData);
 
         /**
          * We need to check for warnings before the label download response.
          */
         $this->_checkForWarnings();
+
+        /**
+         * Load the shipments and check if they are valid.
+         * returns an array with shipment objects
+         *
+         * @var TIG_MyParcel2014_Model_Shipment $shipment
+         */
+        $shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
+
+
+        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $apiInfo    ->setStoreId($storeId);
+        $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
+
+        foreach($responseShipments as $responseShipment){
+            $shipment = $shipments[$responseShipment->id];
+            $shipment->updateStatus($responseShipment);
+        }
 
         return $this;
     }
@@ -557,7 +575,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 if (!$shipment->hasConsignmentId()) {
                     $type = $this->getRequest()->getParam('type_consignment');
 
-                    if($helper->getPgAddress($shipment->getOrder()) && $type != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL){
+                    if($helper->getPgAddress($shipment->getOrder()) && $type != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL && $shipmentType != 'default'){
                         $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
                         throw new TIG_MyParcel2014_Exception(
                             $helper->__('The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target="_blank" href="%s">View shipment</a>',$shipment_url),
@@ -627,9 +645,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      * @return boolean
      */
     public function printShipmentLabelAction(){
-
         return $this->massPrintLabelsAction();
-
     }
 
     public function printPackingSlipAction(){
@@ -715,7 +731,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 continue;
             }
 
-            $shipments[] = $shipment;
+            $shipments[$shipment->getData('consignment_id')] = $shipment;
         }
 
         return $shipments;

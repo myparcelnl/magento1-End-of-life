@@ -81,7 +81,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
         );
         $collection->addFieldToFilter('main_table.is_final', array('eq' => '0'));
         $collection->addFieldToFilter('main_table.created_at', array(
-                'gt' => date('Y-m-d', strtotime('-14 day')))
+                'gt' => date('Y-m-d', strtotime('-21 day')))
         );
 
         $this->_checkCollectionStatus($collection);
@@ -101,6 +101,9 @@ class TIG_MyParcel2014_Model_Observer_Cron
         $collection->addFieldToFilter('shipping_address.country_id', array(
                 'nin' => array($this->helper->whiteListCodes()))
         );
+        $collection->addFieldToFilter('main_table.created_at', array(
+                'gt' => date('Y-m-d', strtotime('-2 months')))
+        );
 
         $this->_checkCollectionStatus($collection);
     }
@@ -114,50 +117,29 @@ class TIG_MyParcel2014_Model_Observer_Cron
      */
     protected function _checkCollectionStatus($collection)
     {
-        /** @var TIG_MyParcel2014_Model_Shipment $shipment */
-        foreach ($collection as $shipment) {
-            $api           = Mage::getModel('tig_myparcel/api_myParcel');
-            $consignmentId = $shipment->getConsignmentId();
-            $barcode       = $shipment->getBarcode();
+        /**
+         * @var Mage_Sales_Model_Order_Shipment $shipment
+         * @var TIG_MyParcel2014_Model_Shipment $myParcelShipment
+         */
+        $consignmentIds = array();
+        $myParcelShipments = array();
 
-            $response = $api->createRetrieveStatusRequest($consignmentId)
-                ->sendRequest()
-                ->getRequestResponse();
+        foreach ($collection as $myParcelShipment){
+            if($myParcelShipment->hasConsignmentId()){
+                $consignmentId = $myParcelShipment->getConsignmentId();
+                $consignmentIds[] = $consignmentId;
+                $myParcelShipments[$consignmentId] = $myParcelShipment;
+            }
+        }
 
-            if (is_array($response)) {
-                // Check if there is an new barcode
-                if (!empty($response['tracktrace']) && $response['tracktrace'] != $barcode) {
-                    // Send the barcode email, but first check if the e-mail template is set.
-                    $shipmentTime = strtotime($shipment->getCreatedAt());
-                    if ($shipmentTime > strtotime('-1 hour')
-                        && $this->helper->sendBarcodeEmail($response['tracktrace'],$shipment)) {
-                        //add comment to order-comment history
-                        $comment = $this->helper->__('Track&amp;Trace e-mail is send: %s',$barcode);
-                        /** @var Mage_Sales_Model_Order $order */
-                        $order = $shipment->getOrder();
-                        $order->addStatusHistoryComment($comment);
-                        $order->setEmailSent(true);
-                        $order->save();
-                    }
 
-                    $shipment->setBarcode($response['tracktrace']);
-                    $this->helper->log('new barcode: '.$response['tracktrace']);
-                }
+        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
 
-                if($response['status'] != $shipment->getStatus()){
-                    $shipment->setStatus($response['status']);
-                }
-
-                if($response['final'] == '1'){
-                    $shipment->setIsFinal('1');
-                }
-
-                if($shipment->hasDataChanges()){
-                    $shipment->save();
-                }
-
-            } else {
-                $this->helper->log($api->getRequestErrorDetail(), Zend_Log::ERR);
+        if($responseShipments){
+            foreach($responseShipments as $responseShipment){
+                $myParcelShipment = $myParcelShipments[$responseShipment->id];
+                $myParcelShipment->updateStatus($responseShipment);
             }
         }
     }

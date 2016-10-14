@@ -48,40 +48,6 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
     const XPATH_HOUSENUMBER_EXTENSION_FIELD = 'tig_myparcel/shipment/housenr_extension_field';
 
     /**
-     * Checks whether the given store uses split address lines.
-     *
-     * @param int|null $storeId
-     *
-     * @return boolean
-     */
-    public function useSplitStreet($storeId = null)
-    {
-        if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-
-        $useSplitStreet = Mage::getStoreConfigFlag(self::XPATH_SPLIT_STREET, $storeId);
-        return $useSplitStreet;
-    }
-
-    /**
-     * Checks whether the given store uses split housenumber values.
-     *
-     * @param int|null $storeId
-     *
-     * @return boolean
-     */
-    public function useSplitHousenumber($storeId = null)
-    {
-        if (is_null($storeId)) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-
-        $useSplitStreet = Mage::getStoreConfigFlag(self::XPATH_SPLIT_HOUSENUMBER, $storeId);
-        return $useSplitStreet;
-    }
-
-    /**
      * Gets the address field number used for the streetname field.
      *
      * @param int|null $storeId
@@ -148,5 +114,69 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
         }
 
         return '';
+    }
+
+    /**
+     * Get current quote address. This is used in the checkout.
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     *
+     * @return array
+     */
+    public function getQuoteAddress(Mage_Sales_Model_Quote $quote)
+    {
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
+        $helper = Mage::helper('tig_myparcel');
+
+        $address = [];
+        if (
+            $quote->getBillingAddress()->getData('country_id') == $quote->getShippingAddress()->getData('country_id') &&
+            $quote->getBillingAddress()->getStreetFull() == $quote->getShippingAddress()->getStreetFull()
+        ) {
+            $address['full_street'] = $quote->getBillingAddress()->getStreetFull();
+            if($address['full_street']){
+                $address['type'] = 'billing';
+                $address['country'] = $quote->getBillingAddress()->getCountry();
+                $address['postal_code'] = $quote->getBillingAddress()->getPostcode();
+                if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getStreetFull())) {
+                    return false;
+                }
+                $streetData = $helper->getStreetData($quote->getBillingAddress());
+                $address['street'] = $streetData['streetname'];
+                $address['number'] = $streetData['housenumber'];
+            }
+        } else {
+            $address['full_street'] = $quote->getShippingAddress()->getStreetFull();
+            if($address['full_street']){
+                $address['type'] = 'shipping';
+                $address['country'] = $quote->getShippingAddress()->getCountry();
+                $address['postal_code'] = $quote->getShippingAddress()->getPostcode();
+                if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getShippingAddress())) {
+                    return false;
+                }
+                $streetData = $helper->getStreetData($quote->getShippingAddress());
+                $address['street'] = $streetData['streetname'];
+                $address['number'] = $streetData['housenumber'];
+            }
+        }
+        if (Mage::getSingleton('customer/session')->isLoggedIn() && !$address['full_street']) {
+            $customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+            if ($customerAddressId) {
+                $address['type'] = 'login';
+                $tmpAddress = Mage::getModel('customer/address')->load($customerAddressId);
+                $address['country'] = $tmpAddress->getCountry();
+                $address['postal_code'] = $tmpAddress->getPostcode();
+                $address['full_street'] = $tmpAddress->getStreetFull();
+                if (!preg_match('/[0-9]/', $address['full_street'])) {
+                    return false;
+                }
+                $streetData = $helper->getStreetData($tmpAddress);
+                $address['street'] = $streetData['streetname'];
+                $address['number'] = $streetData['housenumber'];
+            }
+        }
+        $address['full_street'] = preg_replace("/[\n\r]/", " ", $address['full_street']);
+
+        return $address;
     }
 }

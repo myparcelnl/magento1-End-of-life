@@ -1,0 +1,47 @@
+#system_config_tabs .tig_myparcel-tab { background:transparent url(../../../images/TIG/MyParcel2014/logo_myparcel_19.png) 18px 3px no-repeat !important; display:block; }
+#system_config_tabs .tig_myparcel-tab:hover { background-color:#d8e6e6 !important; border-right:1px solid #8aa5a6; }
+#system_config_tabs .tig_myparcel-tab.active { background-color:#fff !important; border-right:none !important; }
+#system_config_tabs .tig_myparcel-tab span { padding-left:44px; display:block; }
+#system_config_tabs .tig_myparcel-tab.active span { background:none; }
+
+ul#tabButtons {
+    margin-top: 70px;
+}
+
+ul#tabButtons li {
+    display: inline-block;
+    margin-bottom: -1px;
+}
+
+ul#tabButtons li a {
+    display: block;
+    line-height: 28px;
+    padding: 0 15px;
+    color: #2f2f2f;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: 10px;
+
+    /*border: 1px solid #6f8992;*/
+}
+
+ul#tabButtons li:hover a {
+    color: #6a6a6a;
+}
+
+ul#tabButtons li.active a {
+    background-color: #fafafa;
+    color: #2f2f2f;
+    cursor: default;
+    border: 1px solid #d6d6d6;
+    border-bottom: none;
+    padding-bottom: 1px;
+}
+
+ul#tabButtons li:not(.active) a {
+    background-color: #e7efef;
+    border: 1px solid #d6d6d6;
+    /*margin-bottom: 1px;*/
+}
