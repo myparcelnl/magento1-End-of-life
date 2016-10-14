@@ -638,7 +638,9 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
         }
 
         if($name == 'head')
-            $html = '<script type="text/javascript" src="https://raw.githubusercontent.com/myparcelnl/magento1/release-1.7.0/skin/frontend/base/default/js/TIG/MyParcel2014/webcomponents.min.js"></script>' . $html;
+            $html = '<script type="text/javascript" src="' . Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/webcomponents.min.js"></script>
+            ' . $html;
+
 
         $this->_childrenHtmlCache[$name] = $html;
         return $html;
