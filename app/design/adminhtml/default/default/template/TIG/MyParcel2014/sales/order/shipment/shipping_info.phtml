@@ -72,7 +72,7 @@ if(true == $_isPakjegemak){
         /*<![CDATA[*/
         document.observe('dom:loaded', function(){
             var target = document.getElementById('shipment_tracking_info');
-            target.innerHTML += '<?= $_helper->getCurrentOptionsHtml($this->_myParcelShipment); ?>';
+            target.innerHTML += '<?php echo $_helper->getCurrentOptionsHtml($this->_myParcelShipment); ?>';
         });
         /*]]>*/
     </script>

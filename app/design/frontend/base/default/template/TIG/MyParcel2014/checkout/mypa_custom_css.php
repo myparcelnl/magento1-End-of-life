@@ -5,31 +5,31 @@
     <?php if($baseColor != ''):?>
 
         .mypa-tab{
-            background-color: #<?=$baseColor;?>;
+            background-color: #<?php echo $baseColor;?>;
             opacity: .5;
         }
 
         .mypa-delivery-header,
         .mypa-date:checked+label, .mypa-tab:hover
         {
-            background: #<?=$baseColor;?>;
+            background: #<?php echo $baseColor;?>;
             opacity: 1;
         }
 
         .mypa-address {
-            color: #<?=$baseColor;?>;
+            color: #<?php echo $baseColor;?>;
         }
 
         .edit-tip > div {
-            border-top-color: #<?=$baseColor;?>;;
+            border-top-color: #<?php echo $baseColor;?>;;
         }
 
         .edit-stem {
-            background-color: #<?=$baseColor;?>;
+            background-color: #<?php echo $baseColor;?>;
         }
 
         #mypa-no-options {
-            background: #<?=$baseColor;?>;
+            background: #<?php echo $baseColor;?>;
         }
     <?php endif;?>
 
@@ -40,19 +40,19 @@
         input:checked ~ .mypa-highlight, input:checked ~ label.mypa-row-title span.mypa-highlight,
         .mypa-arrow-clickable:hover
         {
-            color: #<?=$selectColor; ?>;
+            color: #<?php echo $selectColor; ?>;
         }
 
         input:checked + label.mypa-checkmark div.mypa-circle, input[name=mypa-delivery-type]:checked + label div.mypa-main div.mypa-circle, input[name=mypa-pickup-option]:checked + label div.mypa-main div.mypa-circle,
         .mypa-circle:hover, label.mypa-row-subitem:hover .mypa-circle,
         input:checked ~ .mypa-price, input:checked ~ span span.mypa-price
         {
-            background-color: #<?=$selectColor; ?>;
+            background-color: #<?php echo $selectColor; ?>;
         }
 
         .mypa-arrow-clickable:hover::before{
-            border-left: 0.2em solid #<?=$selectColor;?>;
-            border-bottom: 0.2em solid #<?=$selectColor;?>;
+            border-left: 0.2em solid #<?php echo $selectColor;?>;
+            border-bottom: 0.2em solid #<?php echo $selectColor;?>;
         }
 
     <?php endif;?>
