@@ -167,7 +167,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['country'] = $tmpAddress->getCountry();
                 $address['postal_code'] = $tmpAddress->getPostcode();
                 $address['full_street'] = $tmpAddress->getStreetFull();
-                if (!preg_match('/[0-9]/', $tmpAddress)) {
+                if (!preg_match('/[0-9]/', $address['full_street'])) {
                     return false;
                 }
                 $streetData = $helper->getStreetData($tmpAddress);

@@ -819,5 +819,11 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                 mypajQuery('#mypa-load').show();
 
         }
+
+        /** Support postcodeapi/lookup.js */
+        if(typeof RUN_MYPARCEL_OPTIONS == 'undefined'){
+            RUN_MYPARCEL_OPTIONS = true;
+        }
+        RUN_MYPARCEL_OPTIONS = true;
     </script>
 <?php endif; ?>

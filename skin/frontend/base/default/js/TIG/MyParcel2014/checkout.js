@@ -21,10 +21,6 @@ if(window.mypa.observer == null || window.mypa.observer == undefined){
 if(window.mypa.fn == null || window.mypa.fn == undefined){
     window.mypa.fn = {};
 }
-/** Support postcodeapi/lookup.js */
-if(typeof RUN_MYPARCEL_OPTIONS == 'undefined'){
-    RUN_MYPARCEL_OPTIONS = true;
-}
 window.mypa.settings = {};
 (function () {
     var $, load, info, objRegExp, price, data, excludeDeliveryTypes, getData, observer;
@@ -51,21 +47,6 @@ window.mypa.settings = {};
     window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
 
     window.mypa.fn.load = load = function () {
-        /**
-         * If address is change
-         */
-        $([
-            observer.billingPostalCode,
-            observer.billingStreet1,
-            observer.billingStreet2,
-            observer.billingCountry,
-            observer.postalCode,
-            observer.street1,
-            observer.street2,
-            observer.country
-        ].join()).off('change').on('change', function () {
-            load();
-        });
 
         var ajaxOptions = {
             url: BASE_URL + 'myparcel2014/checkout/info/',
@@ -106,8 +87,6 @@ window.mypa.settings = {};
                         $.when(
                             updatePageRequest()
                         ).done(function () {
-
-                            RUN_MYPARCEL_OPTIONS = true;
 
                             $(observer.magentoMethods).off('click').off('change');
 

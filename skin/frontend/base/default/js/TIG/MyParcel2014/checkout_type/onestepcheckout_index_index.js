@@ -58,7 +58,10 @@ setTimeout(function () {
     });
 
     mypajQuery([
-        "input[id='billing:postcode_housenumber']"
+        "input[id='billing:street1']",
+        "input[id='billing:street2']",
+        "input[id='billing:postcode_housenumber']",
+        "input[id='billing:postcode']"
     ].join()).on('change', function () {
         setTimeout(function () {
             if(RUN_MYPARCEL_OPTIONS == true){
