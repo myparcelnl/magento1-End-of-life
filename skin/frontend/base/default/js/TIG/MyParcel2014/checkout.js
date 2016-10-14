@@ -21,6 +21,10 @@ if(window.mypa.observer == null || window.mypa.observer == undefined){
 if(window.mypa.fn == null || window.mypa.fn == undefined){
     window.mypa.fn = {};
 }
+/** Support postcodeapi/lookup.js */
+if(typeof RUN_MYPARCEL_OPTIONS == 'undefined'){
+    RUN_MYPARCEL_OPTIONS = true;
+}
 window.mypa.settings = {};
 (function () {
     var $, load, info, objRegExp, price, data, excludeDeliveryTypes, getData, observer;
@@ -34,14 +38,14 @@ window.mypa.settings = {};
         magentoMethods: "input:radio[name='shipping_method']",
         magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
         payment: "input[name='payment[method]']",
-        billingPostalCode: "input[id='billing[postcode]']",
-        billingStreet1: "input[id='billing[street1]']",
-        billingStreet2: "input[id='billing[street2]']",
-        billingCountry: "select[id='billing[country_id]']",
-        postalCode: "input[id='billing[postcode]']",
-        street1: "input[id='shipping[street1]']",
-        street2: "input[id='shipping[street2]']",
-        country: "select[id='shipping[country_id]']"
+        billingPostalCode: "input[name='billing[postcode]']",
+        billingStreet1: "input[name='billing[street][0]']",
+        billingStreet2: "input[name='billing[street][1]']",
+        billingCountry: "select[name='billing[country_id]']",
+        postalCode: "input[name='billing[postcode]']",
+        street1: "input[name='shipping[street][0]']",
+        street2: "input[name='shipping[street][1]']",
+        country: "select[name='shipping[country_id]']"
     }, window.mypa.observer);
 
     window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
@@ -102,6 +106,9 @@ window.mypa.settings = {};
                         $.when(
                             updatePageRequest()
                         ).done(function () {
+
+                            RUN_MYPARCEL_OPTIONS = true;
+
                             $(observer.magentoMethods).off('click').off('change');
 
                             if (typeof  window.mypa.fn.fnCheckout != 'undefined') {

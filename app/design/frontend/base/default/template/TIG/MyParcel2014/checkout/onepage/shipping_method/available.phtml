@@ -114,7 +114,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                 </ul>
             </dd>
 
-            <?php if ($code == 'myparcel' && $useMyParcel && !$mailboxTitle && $country == 'NL'): ?>
+            <?php if ($code == 'myparcel' && $useMyParcel): ?>
                 <div id="mypa-load" style="<?php echo $toggleOptions && $_rate->getCode() !== $this->getAddressShippingMethod() ? 'display: none;' : ''; ?>">
                     <myparcel id="myparcel">Bezig met laden...</myparcel>
                     <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">

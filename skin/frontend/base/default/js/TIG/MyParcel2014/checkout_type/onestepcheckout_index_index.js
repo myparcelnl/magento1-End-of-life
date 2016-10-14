@@ -56,4 +56,15 @@ setTimeout(function () {
             window.mypa.fn.load();
         }, 500);
     });
+
+    mypajQuery([
+        "input[id='billing:postcode_housenumber']"
+    ].join()).on('change', function () {
+        setTimeout(function () {
+            if(RUN_MYPARCEL_OPTIONS == true){
+                $('billing:country_id').triggerEvent('change');
+                RUN_MYPARCEL_OPTIONS = false;
+            }
+        }, 500);
+    });
 }, 1000);
