@@ -592,7 +592,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getInternationalFullStreet($address)
     {
-        if (empty($address->getStreet2())) {
+        if (!$address->getStreet2()) {
             return preg_replace("/[\n\r]/", " ", $address->getStreetFull());
         }
 
