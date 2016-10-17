@@ -121,15 +121,17 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
          * Set myparcel json data from checkout
          */
         $myParcelData = $quote->getMyparcelData();
-        $order->setMyparcelData($myParcelData);
+        $myParcelData = $myParcelData == null ? [] : json_decode($myParcelData, true);
+        $myParcelData['browser'] = $_SERVER['HTTP_USER_AGENT'];
+        $order->setMyparcelData(json_encode($myParcelData));
 
-        if(json_decode($myParcelData) === null && json_decode($myParcelData)->location === null){
+        if(key_exists('location', $myParcelData)){
             Mage::getModel('tig_myparcel/checkout_service')->removePgAddress($quote);
             return $this;
         }
 
         $order->setShippingMethod('myparcel_pakjegemak');
-        $aMyParcelData = json_decode($myParcelData, true);
+        $aMyParcelData = $myParcelData;
         if (key_exists('date', $aMyParcelData)) {
             $dateTime = strtotime($aMyParcelData['date'] . ' 00:00:00');
             $dropOffDate = $helper->getDropOffDay($dateTime);

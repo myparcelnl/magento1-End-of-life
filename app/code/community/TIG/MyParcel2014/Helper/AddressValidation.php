@@ -135,6 +135,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
         ) {
             $address['full_street'] = $quote->getBillingAddress()->getStreetFull();
             if($address['full_street']){
+                $this->removeAddressLines($address['full_street']);
                 $address['type'] = 'billing';
                 $address['country'] = $quote->getBillingAddress()->getCountry();
                 $address['postal_code'] = $quote->getBillingAddress()->getPostcode();
@@ -148,6 +149,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
         } else {
             $address['full_street'] = $quote->getShippingAddress()->getStreetFull();
             if($address['full_street']){
+                $this->removeAddressLines($address['full_street']);
                 $address['type'] = 'shipping';
                 $address['country'] = $quote->getShippingAddress()->getCountry();
                 $address['postal_code'] = $quote->getShippingAddress()->getPostcode();
@@ -167,6 +169,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['country'] = $tmpAddress->getCountry();
                 $address['postal_code'] = $tmpAddress->getPostcode();
                 $address['full_street'] = $tmpAddress->getStreetFull();
+                $this->removeAddressLines($address['full_street']);
                 if (!preg_match('/[0-9]/', $address['full_street'])) {
                     return false;
                 }
@@ -175,8 +178,17 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['number'] = $streetData['housenumber'];
             }
         }
-        $address['full_street'] = preg_replace("/[\n\r]/", " ", $address['full_street']);
 
         return $address;
+    }
+
+    /**
+     * Remove multiple rows. For example, if the house number on a different row.
+     *
+     * @param $street
+     */
+    private function removeAddressLines(&$street){
+
+        $street = preg_replace("/[\n\r]/", " ", $street);
     }
 }
