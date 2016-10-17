@@ -549,7 +549,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'number_suffix' => trim($streetData['housenumberExtension']),
                 'city'          => trim($shippingAddress->getCity()),
                 'email'         => $email,
-                'phone'         => $phone,
             ),
             'options'    => $this->_getOptionsData($myParcelShipment),
         );
