@@ -183,7 +183,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
     }
 
     /**
-     * Remove address lines when address has multiple rows
+     * Remove multiple rows. For example, if the house number on a different row.
      *
      * @param $street
      */
