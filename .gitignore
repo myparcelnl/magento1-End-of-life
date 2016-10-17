@@ -801,3 +801,15 @@ app/design/adminhtml/default/default/layout/iwd_opc.xml
 /skin/frontend/base/default/onestepcheckout/
 
 app/etc/modules/Idev_OneStepCheckout.xml
+
+app/etc/modules/Idev_OneStepCheckout.xml
+/skin/frontend/base/default/postcodenl/
+/skin/adminhtml/default/default/postcodenl/
+/app/code/community/PostcodeNl/
+/app/design/frontend/base/default/layout/postcodenl/
+/app/design/frontend/base/default/template/postcodenl/
+/app/design/adminhtml/default/default/layout/postcodenl/
+/app/design/adminhtml/default/default/template/postcodenl/
+/app/locale/nl_NL/PostcodeNl_Api.csv
+/app/locale/en_US/PostcodeNl_Api.csv
+/app/etc/modules/PostcodeNl_Api.xml
