@@ -92,10 +92,14 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             return $this;
         }
 
-        $price = $helper->calculatePrice();
         $address = $quote->getShippingAddress();
 
-        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
+        if (strpos($address->getShippingMethod(), 'myparcel') !== false) {
+            $price = $helper->calculatePrice();
+            $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
+        } else {
+            $extraShippingPrice = 0;
+        }
 
         $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
         $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
