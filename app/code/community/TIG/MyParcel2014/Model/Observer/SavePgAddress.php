@@ -125,7 +125,7 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         $myParcelData['browser'] = $_SERVER['HTTP_USER_AGENT'];
         $order->setMyparcelData(json_encode($myParcelData));
 
-        if(key_exists('location', $myParcelData)){
+        if($myParcelData === null || !key_exists('location', $myParcelData)){
             Mage::getModel('tig_myparcel/checkout_service')->removePgAddress($quote);
             return $this;
         }
@@ -138,6 +138,7 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             $sDropOff = date("Y-m-d", $dropOffDate);
             $order->setMyparcelSendDate($sDropOff);
         }
+
 
         /**
          * Get the PakjeGemak address for this quote.
