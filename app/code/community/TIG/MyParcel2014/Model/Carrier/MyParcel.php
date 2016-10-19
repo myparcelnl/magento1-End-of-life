@@ -277,7 +277,7 @@
 
         $result = Mage::getModel('shipping/rate_result');
         if ($this->getConfigData('type') == 'O') { // per order
-            $shippingPrice = $this->getConfigData('price');
+            $shippingPrice = $this->getConfigData('rate_type');
         } elseif ($this->getConfigData('type') == 'I') { // per item
             $shippingPrice = ($request->getPackageQty() * $this->getConfigData('price')) - ($this->getFreeBoxes() * $this->getConfigData('price'));
         } else {
