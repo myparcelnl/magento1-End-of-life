@@ -284,6 +284,7 @@
             $shippingPrice = 'O';
         }
 
+
         $shippingPrice = $this->getFinalPriceWithHandlingFee($shippingPrice);
 
         if ($shippingPrice !== false) {
@@ -295,7 +296,7 @@
             $method->setMethod('flatrate');
             $method->setMethodTitle($this->getConfigData('name'));
 
-            if ($request->getFreeShipping() === true || $request->getPackageQty() !== null && $request->getPackageQty() == $this->getFreeBoxes()) {
+            if (count($request->getAllItems()) > 0 && ($request->getFreeShipping() === true || $request->getPackageQty() !== null && $request->getPackageQty() == $this->getFreeBoxes())) {
                 $shippingPrice = '0.00';
             }
 
