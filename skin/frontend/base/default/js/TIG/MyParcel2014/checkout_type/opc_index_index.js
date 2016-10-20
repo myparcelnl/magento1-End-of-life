@@ -38,7 +38,6 @@ setTimeout(function () {
         "input[id='billing:postcode']"
     ].join()).on('change', function () {
         setTimeout(function () {
-            console.log(RUN_MYPARCEL_OPTIONS);
             if(RUN_MYPARCEL_OPTIONS == true){
                 $('billing:country_id').triggerEvent('change');
                 RUN_MYPARCEL_OPTIONS = false;
