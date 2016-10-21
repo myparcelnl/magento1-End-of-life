@@ -118,7 +118,11 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         if (key_exists('browser', $data))
             $html = ' <span title="'.$data['browser'].'"">'.$html.'</span>';
 
-        return $html !== false ? '<br>' . $html : '' ;
+        if ($shortDescription) {
+            return $this->_order->getShippingDescription();
+        } else {
+            return $html !== false ? '<br>' . $html : '';
+        }
     }
 
     /**
