@@ -235,8 +235,13 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
 
         /**
          * @var Mage_Adminhtml_Block_Widget_Grid_Column $statusColumn
+         * Fix status_preorder for Aitoc Aitpreorder plugin
          */
         $statusColumn = $block->getColumn('status');
+        if($statusColumn == false) {
+            $statusColumn = $block->getColumn('status_preorder');
+        }
+
         if ($statusColumn) {
             $statusColumn->setFilterIndex('main_table.status');
         }
