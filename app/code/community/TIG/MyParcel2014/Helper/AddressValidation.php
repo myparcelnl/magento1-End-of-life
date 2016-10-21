@@ -153,7 +153,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['type'] = 'shipping';
                 $address['country'] = $quote->getShippingAddress()->getCountry();
                 $address['postal_code'] = $quote->getShippingAddress()->getPostcode();
-                if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getShippingAddress())) {
+                if (!preg_match('/[0-9]/', $quote->getShippingAddress()->getStreetFull())) {
                     return false;
                 }
                 $streetData = $helper->getStreetData($quote->getShippingAddress());
