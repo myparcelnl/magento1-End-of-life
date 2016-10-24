@@ -128,6 +128,12 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         exit;
     }
 
+    public function checkout_optionsAction()
+    {
+        require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_checkout_options.phtml');
+        exit;
+    }
+
     /**
      * Save the MyParcel data in quote
      */

@@ -23,11 +23,9 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
 }
 window.mypa.settings = {};
 (function () {
-    var $, load, info, objRegExp, price, data, excludeDeliveryTypes, getData, observer;
+    var load, info, objRegExp, price, data, excludeDeliveryTypes, getData, observer;
 
-    $ = jQuery.noConflict();
-
-    observer = $.extend({
+    observer = parent.mypajQuery.extend({
         input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
@@ -56,19 +54,19 @@ window.mypa.settings = {};
 
                 var address = info.data['address'];
                 if (address && address['country'] == 'NL') {
-                    if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
-                        mypajQuery('#mypa-input').val(null).change();
+                    if (parent.mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && parent.mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
+                        parent.mypajQuery('#mypa-input').val(null).change();
                     } else {
-                        if(mypajQuery('#mypa-input').val() != '') {
-                            if(typeof mypajQuery(observer.magentoMethodMyParcel)[0] !== 'undefined') {
-                                mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
+                        if(parent.mypajQuery('#mypa-input').val() != '') {
+                            if(typeof parent.mypajQuery(observer.magentoMethodMyParcel)[0] !== 'undefined') {
+                                parent.mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
                             }
                         }
                     }
                     getData();
 
                     if (address['street']) {
-                        window.mypa.settings = $.extend(window.mypa.settings, {
+                        window.mypa.settings = parent.mypajQuery.extend(window.mypa.settings, {
                             postal_code: address['postal_code'].replace(/ /g,""),
                             street: address['street'],
                             number: address['number'],
@@ -88,7 +86,7 @@ window.mypa.settings = {};
                             updatePageRequest()
                         ).done(function () {
 
-                            $(observer.magentoMethods).off('click').off('change');
+                            parent.mypajQuery(observer.magentoMethods).off('click').off('change');
 
                             if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
                                 window.mypa.fn.fnCheckout.saveShippingMethod();
@@ -97,25 +95,27 @@ window.mypa.settings = {};
                             /**
                              * If method is MyParcel
                              */
-                            mypajQuery('#mypa-load').off('click').on('click', function () {
-                                if(mypajQuery('#mypa-input').val() != '') {
-                                    mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
+                            $('#mypa-load', parent.document).off('click').on('click', function () {
+                                console.log('test hier 1');
+                                if(parent.mypajQuery('#mypa-input').val() != '') {
+                                    parent.mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
                                 }
                             });
 
                             /**
                              * If method not is MyParcel
                              */
-                            $(observer.magentoMethods).on('click', function () {
-                                if(mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
-                                    mypajQuery('#mypa-input').val(null).change();
+                            parent.mypajQuery(observer.magentoMethods).on('click', function () {
+                                if(parent.mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
+                                    parent.mypajQuery('#mypa-input').val(null).change();
+                                    $('#mypa-input', parent.document).val(null).change();
                                 }
                             });
 
                             /**
                              * If the options changed, reload for IWD checkout
                              */
-                            mypajQuery([
+                            parent.mypajQuery([
                                 observer.input,
                                 observer.onlyRecipient,
                                 observer.signed
@@ -203,7 +203,7 @@ window.mypa.settings = {};
     };
 
     updatePageRequest = function () {
-        if (mypajQuery.active > 0) {
+        if ($.active > 0) {
             window.setTimeout(updatePageRequest, 100);
         }
         else {
