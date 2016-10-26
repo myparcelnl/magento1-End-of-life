@@ -129,9 +129,12 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
         $helper = Mage::helper('tig_myparcel');
 
         $address = [];
+        $sameAsBilling = $quote->getShippingAddress()->getData('same_as_billing') == '1' ? true : false;
+
         if (
             $quote->getBillingAddress()->getData('country_id') == $quote->getShippingAddress()->getData('country_id') &&
-            $quote->getBillingAddress()->getStreetFull() == $quote->getShippingAddress()->getStreetFull()
+            $quote->getBillingAddress()->getStreetFull() == $quote->getShippingAddress()->getStreetFull() &&
+            $sameAsBilling
         ) {
             $address['full_street'] = $quote->getBillingAddress()->getStreetFull();
             if($address['full_street']){
