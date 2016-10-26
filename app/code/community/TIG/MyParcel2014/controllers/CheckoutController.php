@@ -48,6 +48,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $helper = Mage::helper('tig_myparcel/addressValidation');
         /**
          * @var Mage_Sales_Model_Quote $item
+         * @var Mage_Sales_Model_Quote_Address $address
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
 
@@ -67,6 +68,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
                     $basePrice = (float)$rate->getPrice();
                 }
             }
+            $address->removeAllShippingRates()->save();
         }
 
         $data = [];

@@ -54,6 +54,10 @@ var iframeDataLoaded;
             }
         }
 
+        if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+            window.mypa.fn.fnCheckout.saveShippingMethod();
+        }
+
         /**
          * If method is MyParcel
          */

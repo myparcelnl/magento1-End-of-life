@@ -1099,7 +1099,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
          * @var $rate Mage_Sales_Model_Quote_Address_Rate
          */
         $shipAddress = $quote->getShippingAddress();
-
         foreach ($shipAddress->getShippingRatesCollection() as $rate) {
             if ($rate->getCarrier() == 'myparcel') {
                 $price = $this->calculatePrice();
@@ -1118,7 +1117,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     public function calculatePrice()
     {
         /**
-         * @var Mage_Sales_Model_Quote $item
+         * @var Mage_Sales_Model_Quote $quote
+         * @var Mage_Sales_Model_Quote_Address $address
+         * @var Mage_Sales_Model_Quote_Address_Rate $rate
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
 
@@ -1128,17 +1129,19 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             break;
         }
 
-        $price = 0;
-        if(!$free) {
-            $address = $quote->getShippingAddress();
-            $address->requestShippingRates();
+        /** @var Mage_Sales_Model_Quote_Item $tmpItem */
+        $address = $quote->getShippingAddress();
 
+        $price = 0;
+
+        $address->requestShippingRates();
+
+        if(!$free) {
             foreach ($address->getShippingRatesCollection() as $rate) {
                 if ($rate->getCarrier() == 'myparcel') {
                     $price = (float)$rate->getPrice();
                 }
             }
-
         }
 
         $data = json_decode($quote->getMyparcelData(), true);
@@ -1176,7 +1179,28 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 $price += (float)$this->getConfig('pickup_express_fee', 'pickup_express');
             }
         }
+
+
+        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $price));
+        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $price));
+        $quote
+            ->setBaseGrandTotal($quote->getBaseGrandTotal() + $extraShippingPrice)
+            ->setGrandTotal($quote->getGrandTotal() + $extraShippingPrice)
+            ->save();
+
         return $price;
+    }
+
+    public function calculatePriceAndGetAddress($address, $price)
+    {
+        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
+
+        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
+        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
+
+        return $address;
     }
 
     /**

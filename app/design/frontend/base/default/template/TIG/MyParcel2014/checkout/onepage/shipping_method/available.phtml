@@ -62,54 +62,58 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
             <dd style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>" onclick="<?php echo $code == 'myparcel' && $useMyParcel && $toggleOptions ? 'toggleMyParcelCheckout()' : '';?>">
                 <ul>
                     <?php $_sole = $_sole && count($_rates) == 1;
+                    $lastRate = null;
                     foreach ($_rates as $_rate): ?>
-                        <?php $shippingCodePrice[] = "'" . $_rate->getCode() . "':" . (float)$_rate->getPrice(); ?>
-                        <li>
-                            <?php if ($_rate->getErrorMessage()): ?>
-                                <ul class="messages">
-                                    <li class="error-msg">
-                                        <ul>
-                                            <li><?php echo $this->escapeHtml($_rate->getErrorMessage()) ?></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            <?php else: ?>
-                            <?php if ($_sole) : ?>
-                                <span class="no-display"><input name="shipping_method" type="radio"
-                                                                value="<?php echo $_rate->getCode() ?>"
-                                                                id="s_method_<?php echo $_rate->getCode() ?>"
-                                                                checked="checked"/></span>
-                            <?php else: ?>
-                            <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>"
-                                   id="s_method_<?php echo $_rate->getCode() ?>"<?php if ($_rate->getCode() === $this->getAddressShippingMethod()) echo ' checked="checked"' ?>
-                                   class="radio"/>
+                        <?php if ($_rate->getCode() != $lastRate): ?>
+                            <?php $lastRate = $_rate->getCode(); ?>
+                            <?php $shippingCodePrice[] = "'" . $_rate->getCode() . "':" . (float)$_rate->getPrice(); ?>
+                            <li>
+                                <?php if ($_rate->getErrorMessage()): ?>
+                                    <ul class="messages">
+                                        <li class="error-msg">
+                                            <ul>
+                                                <li><?php echo $this->escapeHtml($_rate->getErrorMessage()) ?></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                <?php else: ?>
+                                <?php if ($_sole) : ?>
+                                    <span class="no-display"><input name="shipping_method" type="radio"
+                                                                    value="<?php echo $_rate->getCode() ?>"
+                                                                    id="s_method_<?php echo $_rate->getCode() ?>"
+                                                                    checked="checked"/></span>
+                                <?php else: ?>
+                                <input name="shipping_method" type="radio" value="<?php echo $_rate->getCode() ?>"
+                                       id="s_method_<?php echo $_rate->getCode() ?>"<?php if ($_rate->getCode() === $this->getAddressShippingMethod()) echo ' checked="checked"' ?>
+                                       class="radio"/>
 
-                            <?php if ($_rate->getCode() === $this->getAddressShippingMethod()): ?>
-                                <script type="text/javascript">
-                                    //<![CDATA[
-                                    lastPrice = <?php echo (float)$_rate->getPrice(); ?>;
-                                    //]]>
-                                </script>
-                            <?php endif; ?>
-                            <?php endif; ?>
-                                <label
-                                    for="s_method_<?php echo $_rate->getCode() ?>">
-                                    <?php if ($code == 'myparcel' && $mailboxTitle && $country == 'NL') : ?>
-                                        <?php echo $mailboxTitle; ?>
-                                    <?php else: ?>
-                                        <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
-                                    <?php endif; ?>
-                                    <?php if ($code != 'myparcel' || !$toggleOptions):?>
-                                        <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
-                                        <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
-                                        <?php echo $_excl; ?>
-                                        <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
-                                            (<?php echo $this->__('Incl. Tax'); ?><?php echo $_incl; ?>)
+                                <?php if ($_rate->getCode() === $this->getAddressShippingMethod()): ?>
+                                    <script type="text/javascript">
+                                        //<![CDATA[
+                                        lastPrice = <?php echo (float)$_rate->getPrice(); ?>;
+                                        //]]>
+                                    </script>
+                                <?php endif; ?>
+                                <?php endif; ?>
+                                    <label
+                                        for="s_method_<?php echo $_rate->getCode() ?>">
+                                        <?php if ($code == 'myparcel' && $mailboxTitle && $country == 'NL') : ?>
+                                            <?php echo $mailboxTitle; ?>
+                                        <?php else: ?>
+                                            <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
                                         <?php endif; ?>
-                                    <?php endif;?>
-                                </label>
-                            <?php endif ?>
-                        </li>
+                                        <?php if ($code != 'myparcel' || !$toggleOptions):?>
+                                            <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
+                                            <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
+                                            <?php echo $_excl; ?>
+                                            <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                                (<?php echo $this->__('Incl. Tax'); ?><?php echo $_incl; ?>)
+                                            <?php endif; ?>
+                                        <?php endif;?>
+                                    </label>
+                                <?php endif ?>
+                            </li>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </ul>
             </dd>
