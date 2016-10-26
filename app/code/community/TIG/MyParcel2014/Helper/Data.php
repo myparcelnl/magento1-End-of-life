@@ -1191,7 +1191,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return $price;
     }
 
-    public function calculatePriceAndGetAddress($address, $price)
+    private function calculatePriceAndGetAddress($address, $price)
     {
         $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
 
@@ -1199,6 +1199,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
         $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
         $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
+        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
+        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
 
         return $address;
     }
