@@ -7,12 +7,7 @@ if(typeof window.mypa == 'undefined') {
 var fnCheckout =
 {
     'saveShippingMethod': function(){
-        mypajQuery.ajax({
-            type: 'post',
-            url: BASE_URL + 'myparcel2014/checkout/refresh_shipping_method/',
-            data: '',
-            success: IWD.OPC.Shipping.saveShippingMethod
-        });
+        IWD.OPC.Shipping.saveShippingMethod();
     },
     'hideLoader': function(){
         IWD.OPC.Checkout.hideLoader();

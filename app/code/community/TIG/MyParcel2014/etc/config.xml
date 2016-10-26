@@ -182,6 +182,14 @@
                     <frontName>myparcel2014</frontName>
                 </args>
             </tig_myparcel>
+            <opc>
+                <args>
+
+                    <modules>
+                        <TIG_MyParcel2014 before="IWD_Opc">TIG_MyParcel2014</TIG_MyParcel2014>
+                    </modules>
+                </args>
+            </opc>
         </routers>
         <layout>
             <updates>

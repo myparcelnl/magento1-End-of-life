@@ -152,17 +152,6 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
     }
 
     /**
-     * Refresh all shipping method in quote
-     */
-    public function refresh_shipping_methodAction()
-    {
-        $quote = Mage::getModel('checkout/cart')->getQuote();
-        $quote->getShippingAddress()
-            ->setCollectShippingRates(false)
-            ->removeAllShippingRates();
-    }
-
-    /**
      * For testing the cron
      */
     public function cronAction()

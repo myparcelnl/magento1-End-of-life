@@ -1093,8 +1093,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @throws Exception
      */
-    public function updateRatePrice(Mage_Sales_Model_Quote $quote)
+    public function updateRatePrice(Mage_Sales_Model_Quote $quote = null)
     {
+
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
+        if (!$quote)
+            $quote = Mage::getModel('checkout/cart')->getQuote();
         /**
          * @var $rate Mage_Sales_Model_Quote_Address_Rate
          */
@@ -1104,6 +1108,22 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 $price = $this->calculatePrice();
                 $rate->setPrice($price);
                 $rate->save();
+            }
+        }
+        /**
+         * @var $rate Mage_Sales_Model_Quote_Address_Rate
+         */
+
+        if ($quote->getMyparcelData() !== null) {
+            $store = Mage::app()->getStore($quote->getStoreId());
+            $carriers = Mage::getStoreConfig('carriers', $store);
+
+            foreach ($carriers as $carrierCode => $carrierConfig) {
+                if ($carrierCode == 'myparcel') {
+                    $fee = $price;
+                    $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
+                    $store->setConfig("carriers/{$carrierCode}/price", $fee);
+                }
             }
         }
     }
@@ -1123,14 +1143,19 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
 
+        /** @var Mage_Sales_Model_Quote_Item $tmpItem */
+        $address = $quote->getShippingAddress();
+        if (count($address->getShippingRatesCollection()) > 2) {
+            $quote->getShippingAddress()->setCollectShippingRates(false)
+                ->removeAllShippingRates();
+        }
+
         $free = false;
         foreach ($quote->getItemsCollection() as $item) {
             $free = $item->getData('free_shipping') == '1' ? true : false;
             break;
         }
 
-        /** @var Mage_Sales_Model_Quote_Item $tmpItem */
-        $address = $quote->getShippingAddress();
 
         $price = 0;
 
