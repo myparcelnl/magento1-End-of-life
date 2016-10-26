@@ -65,7 +65,14 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
             foreach ($address->getShippingRatesCollection() as $rate) {
                 if ($rate->getCarrier() == 'myparcel') {
-                    $basePrice = (float)$rate->getPrice();
+
+                    $_excl = $this->getShippingPrice($rate->getPrice(), Mage::helper('tax')->displayShippingPriceIncludingTax(), $quote);
+                    $_incl = $this->getShippingPrice($rate->getPrice(), true, $quote);
+                    if (Mage::helper('tax')->displayShippingBothPrices() && $_incl != $_excl) {
+                        $basePrice = (float)$_incl;
+                    } else {
+                        $basePrice = (float)$_excl;
+                    }
                 }
             }
             $address->removeAllShippingRates()->save();
@@ -151,6 +158,20 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
     {
         $cronController = new TIG_MyParcel2014_Model_Observer_Cron;
         $cronController->checkStatus();
+    }
+
+    /**
+     * Get shipping price
+     *
+     * @param $price
+     * @param $flag
+     * @param $quote
+     *
+     * @return mixed
+     */
+    private function getShippingPrice($price, $flag, $quote)
+    {
+        return Mage::helper('tax')->getShippingPrice($price, $flag, $quote->getShippingAddress());
     }
 
 }
