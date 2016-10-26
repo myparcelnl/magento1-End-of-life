@@ -94,10 +94,7 @@ var iframeDataLoaded;
 
                 setTimeout(
                     window.mypa.fn.fnCheckout.hideLoader
-                    , 600);
-                setTimeout(
-                    window.mypa.fn.fnCheckout.hideLoader
-                    , 1000);
+                    , 2000);
             }
         });
     };

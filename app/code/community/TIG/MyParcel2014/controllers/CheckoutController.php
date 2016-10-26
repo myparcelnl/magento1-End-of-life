@@ -76,7 +76,6 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
                     }
                 }
             }
-            $address->removeAllShippingRates()->save();
         }
 
         $data = [];
@@ -158,8 +157,9 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
     public function refresh_shipping_methodAction()
     {
         $quote = Mage::getModel('checkout/cart')->getQuote();
-        $address = $quote->getShippingAddress();
-        $address->removeAllShippingRates()->save();
+        $quote->getShippingAddress()
+            ->setCollectShippingRates(false)
+            ->removeAllShippingRates();
     }
 
     /**
