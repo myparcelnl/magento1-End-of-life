@@ -10,6 +10,8 @@ var fnCheckout = {
         var frm = mypajQuery('form');
         clearTimeout(timeout);
         timeout = setTimeout(function () {
+            mypajQuery('.payment-methods dl').hide();
+            mypajQuery('.payment-methods').append('<div class="loading-ajax">&nbsp;</div>');
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
@@ -25,14 +27,6 @@ var fnCheckout = {
 };
 window.mypa.fn.fnCheckout = fnCheckout;
 
-function checkPendingRequest() {
-    if (mypajQuery.active > 0) {
-        window.setTimeout(checkPendingRequest, 200);
-    } else {
-        mypajQuery("input[name='payment[method]']")[0].click();
-        mypajQuery("input[name='payment[method]']")[0].checked = false;
-    }
-};
 
 /* if address change, update shipping method */
 Element.prototype.triggerEvent = function(eventName)
@@ -47,6 +41,17 @@ Element.prototype.triggerEvent = function(eventName)
 
     if (this.fireEvent)
         return this.fireEvent('on' + eventName);
+};
+
+function checkPendingRequest() {
+    if (mypajQuery.active > 0) {
+        window.setTimeout(checkPendingRequest, 200);
+    } else {
+        mypajQuery("input[name='payment[method]']")[0].click();
+        mypajQuery("input[name='payment[method]']")[0].checked = false;
+        mypajQuery('.payment-methods dl').show();
+        mypajQuery('.payment-methods .loading-ajax').remove();
+    }
 };
 
 setTimeout(function () {

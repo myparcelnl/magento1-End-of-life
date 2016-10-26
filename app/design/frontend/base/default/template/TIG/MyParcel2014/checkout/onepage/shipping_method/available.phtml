@@ -117,9 +117,9 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
             <?php if ($code == 'myparcel' && $useMyParcel): ?>
                 <div id="mypa-load" style="<?php echo $toggleOptions && $_rate->getCode() !== $this->getAddressShippingMethod() ? 'display: none;' : ''; ?>">
                     <iframe id="myparcel-iframe" src="<?php echo Mage::getBaseUrl();?>/myparcel2014/checkout/checkout_options" frameborder="0" scrolling="auto" style="width: 100%;" onload="iframeLoaded()">Bezig met laden...</iframe>
-                    <input style="/*display: none;*/" id="mypa-input" name="mypa-post-nl-data">
-                    <input style="/*display: none;*/" type="checkbox" name='mypa-signed' id="mypa-signed">
-                    <input style="/*display: none;*/" type="checkbox" name='mypa-recipient-only' id="mypa-recipient-only">
+                    <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
+                    <input style="display: none;" type="checkbox" name='mypa-signed' id="mypa-signed">
+                    <input style="display: none;" type="checkbox" name='mypa-recipient-only' id="mypa-recipient-only">
                 </div>
             <?php endif; ?>
 

@@ -623,9 +623,11 @@
         if (jquery('#mypa-signed', parent.document).val() !== $('#mypa-signed', parent.document).prop('checked')) {
             jquery('#mypa-signed', parent.document).prop('checked', $('#mypa-signed', parent.document).prop('checked'));
             jquery('#mypa-signed', parent.document).trigger('change');
+            parent.mypajQuery('#mypa-signed').trigger('change');
         }
         if (jquery('#mypa-recipient-only', parent.document).val() !== $('#mypa-recipient-only', parent.document).prop('checked')) {
             jquery('#mypa-recipient-only', parent.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
+            parent.mypajQuery('#mypa-recipient-only').trigger('change');
             return jquery('#mypa-recipient-only', parent.document).trigger('change');
         }
     };

@@ -22,9 +22,9 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
     window.mypa.fn = {};
 }
 window.mypa.settings = {};
+var iframeDataLoaded;
 (function () {
-    var load, info, objRegExp, price, data, excludeDeliveryTypes, getData, observer;
-
+    var observer, saveShippingMethodTimeout;
     observer = parent.mypajQuery.extend({
         input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
@@ -42,173 +42,59 @@ window.mypa.settings = {};
         country: "select[name='shipping[country_id]']"
     }, window.mypa.observer);
 
-    window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
+    iframeDataLoaded = function () {
 
-    window.mypa.fn.load = load = function () {
-
-        var ajaxOptions = {
-            url: BASE_URL + 'myparcel2014/checkout/info/',
-            success: function (response) {
-
-                info = response;
-
-                var address = info.data['address'];
-                if (address && address['country'] == 'NL') {
-                    if (parent.mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && parent.mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
-                        parent.mypajQuery('#mypa-input').val(null).change();
-                    } else {
-                        if(parent.mypajQuery('#mypa-input').val() != '') {
-                            if(typeof parent.mypajQuery(observer.magentoMethodMyParcel)[0] !== 'undefined') {
-                                parent.mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
-                            }
-                        }
-                    }
-                    getData();
-
-                    if (address['street']) {
-                        window.mypa.settings = parent.mypajQuery.extend(window.mypa.settings, {
-                            postal_code: address['postal_code'].replace(/ /g,""),
-                            street: address['street'],
-                            number: address['number'],
-                            cutoff_time: data.general['cutoff_time'],
-                            dropoff_days: data.general['dropoff_days'],
-                            dropoff_delay: data.general['dropoff_delay'],
-                            deliverydays_window: data.general['deliverydays_window'],
-                            exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
-                            price: price,
-                            text: {
-                                signed: data.delivery.signature_title,
-                                only_recipient: data.delivery.only_recipient_title
-                            }
-                        });
-
-                        $.when(
-                            updatePageRequest()
-                        ).done(function () {
-
-                            parent.mypajQuery(observer.magentoMethods).off('click').off('change');
-
-                            if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                                window.mypa.fn.fnCheckout.saveShippingMethod();
-                            }
-
-                            /**
-                             * If method is MyParcel
-                             */
-                            $('#mypa-load', parent.document).off('click').on('click', function () {
-                                console.log('test hier 1');
-                                if(parent.mypajQuery('#mypa-input').val() != '') {
-                                    parent.mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
-                                }
-                            });
-
-                            /**
-                             * If method not is MyParcel
-                             */
-                            parent.mypajQuery(observer.magentoMethods).on('click', function () {
-                                if(parent.mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
-                                    parent.mypajQuery('#mypa-input').val(null).change();
-                                    $('#mypa-input', parent.document).val(null).change();
-                                }
-                            });
-
-                            /**
-                             * If the options changed, reload for IWD checkout
-                             */
-                            parent.mypajQuery([
-                                observer.input,
-                                observer.onlyRecipient,
-                                observer.signed
-                            ].join()).on('change', function () {
-                                if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                                    window.mypa.fn.fnCheckout.saveShippingMethod();
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 600);
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 1000);
-                                }
-                            });
-
-                        });
-                    } else {
-                        console.log('Adres niet gevonden (API request mislukt).')
-                    }
+        if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
+            mypajQuery('#mypa-input').val(null).change();
+        } else {
+            if(mypajQuery('#mypa-input').val() != '') {
+                if(typeof mypajQuery(observer.magentoMethodMyParcel)[0] !== 'undefined') {
+                    mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
                 }
             }
-        };
-        $.ajax(ajaxOptions);
-
-    };
-
-
-    getData = function () {
-
-        data = info.data;
-
-        price = [];
-
-        price['default'] = '&#8364; ' + data.general['base_price'].toFixed(2).replace(".", ",");
-
-        if (data.morningDelivery['fee'] != 0) {
-            price['morning'] = '&#8364; ' + data.morningDelivery['fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.eveningDelivery['fee'] != 0) {
-            price['night'] = '&#8364; ' + data.eveningDelivery['fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.pickup['fee'] != 0) {
-            price['pickup'] = '&#8364; ' + data.pickup['fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.pickupExpress['fee'] != 0) {
-            price['pickup_express'] = '&#8364; ' + data.pickupExpress['fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.delivery['only_recipient_active'] == false) {
-            price['only_recipient'] = 'disabled';
-        } else if (data.delivery['only_recipient_fee'] !== 0) {
-            price['only_recipient'] = '+ &#8364; ' + data.delivery['only_recipient_fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.delivery['signature_active'] == false) {
-            price['signed'] = 'disabled';
-        } else if (data.delivery['signature_fee'] !== 0) {
-            price['signed'] = '+ &#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.delivery['signature_and_only_recipient'] > 0) {
-            price['combi_options'] = '+ &#8364; ' + data.delivery['signature_and_only_recipient'].toFixed(2).replace(".", ",");
         }
 
         /**
-         * Exclude delivery types
+         * If method is MyParcel
          */
-        excludeDeliveryTypes = [];
+        mypajQuery('#mypa-load').on('change', function () {
+            if(mypajQuery('#mypa-input').val() != '') {
+                mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
+            }
+        });
 
-        if (data.morningDelivery['active'] == false) {
-            excludeDeliveryTypes.push('1');
-        }
-        if (data.eveningDelivery['active'] == false) {
-            excludeDeliveryTypes.push('3');
-        }
-        if (data.pickup['active'] == false) {
-            excludeDeliveryTypes.push('4');
-        }
-        if (data.pickupExpress['active'] == false) {
-            excludeDeliveryTypes.push('5');
-        }
+        /**
+         * If method not is MyParcel
+         */
+        mypajQuery(observer.magentoMethods).on('click', function () {
+            if(mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
+                mypajQuery('#mypa-input').val(null).change();
+            }
+        });
+
+        /**
+         * If the options changed, reload for IWD checkout
+         */
+        mypajQuery([
+            observer.input,
+            observer.onlyRecipient,
+            observer.signed
+        ].join()).on('change', function () {
+            if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+
+                /** saveShippingMethodTimeout because he should not execute this function eight times in 1/10 seconds */
+                clearTimeout(saveShippingMethodTimeout);
+                saveShippingMethodTimeout = setTimeout(function () {
+                    window.mypa.fn.fnCheckout.saveShippingMethod();
+                }, 100);
+
+                setTimeout(
+                    window.mypa.fn.fnCheckout.hideLoader
+                    , 600);
+                setTimeout(
+                    window.mypa.fn.fnCheckout.hideLoader
+                    , 1000);
+            }
+        });
     };
-
-    updatePageRequest = function () {
-        if ($.active > 0) {
-            window.setTimeout(updatePageRequest, 100);
-        }
-        else {
-            window.mypa.fn.updatePage()
-        }
-    };
-
 })();

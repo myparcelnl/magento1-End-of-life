@@ -6,7 +6,7 @@
     <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/jquery.min.js'; ?>"></script>
     <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/moment.min.js'; ?>"></script>
     <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/webcomponents.min.js'; ?>"></script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/checkout.js'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/iframe_checkout.js'; ?>"></script>
     <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/myparcel.js'; ?>"></script>
     <style>
         body {
@@ -176,12 +176,12 @@
 
             .mypa-row-title {
                 display: inline-block;
-                padding: 9px 15px 16px 15px;
+                padding: 9px 0;
                 width: 80%
             }
 
             .mypa-row-subitem {
-                margin: 2px 0 10px 40px;
+                margin: 2px 0 6px 30px;
                 display: block;
             }
 
@@ -695,6 +695,10 @@
         setTimeout(function () {
             new MyParcel();
             window.mypa.fn.load();
+
+            var fonts = parent.mypajQuery('label').css('font-family');
+            var fontsSize = parent.mypajQuery('label').css('font-size');
+            $('#myparcel').css("font-family", fonts).css("font-size", fontsSize);
         }, 500);
     </script>
 </head>
