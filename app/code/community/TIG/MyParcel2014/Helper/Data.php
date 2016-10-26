@@ -1180,9 +1180,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
 
+        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
 
-        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $price));
-        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $price));
+        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $extraShippingPrice));
+        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $extraShippingPrice));
         $quote
             ->setBaseGrandTotal($quote->getBaseGrandTotal() + $extraShippingPrice)
             ->setGrandTotal($quote->getGrandTotal() + $extraShippingPrice)
@@ -1191,9 +1192,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return $price;
     }
 
-    private function calculatePriceAndGetAddress($address, $price)
+    private function calculatePriceAndGetAddress($address, $extraShippingPrice)
     {
-        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
 
         $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
         $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);

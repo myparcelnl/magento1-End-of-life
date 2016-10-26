@@ -65,7 +65,6 @@ class TIG_MyParcel2014_Model_Checkout_Service
              */
             if (strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
-
                 if ($request->getPost('mypa-post-nl-data') == null) {
                     $quote->setMyparcelData(null)->save();
                     return true;
