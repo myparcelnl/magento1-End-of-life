@@ -66,10 +66,14 @@ setTimeout(function () {
         "input[id='billing:street1']",
         "input[id='billing:street2']",
         "input[id='billing:postcode_housenumber']",
-        "input[id='billing:postcode']"
+        "input[id='billing:postcode']",
+        "input[id='shipping:street1']",
+        "input[id='shipping:street2']",
+        "input[id='shipping:postcode_housenumber']",
+        "input[id='shipping:postcode']"
     ].join()).on('change', function () {
         setTimeout(function () {
             $('billing:country_id').triggerEvent('change');
         }, 500);
     });
-}, 1000);
+}, 2000);
