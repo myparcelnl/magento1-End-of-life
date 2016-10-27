@@ -75,6 +75,14 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
                     } else {
                         $basePrice = (float)$_excl;
                     }
+
+                    $resource = Mage::getSingleton('core/resource');
+                    $writeConnection = $resource->getConnection('core_write');
+
+                    $query = "UPDATE `" . $resource->getTableName('sales_flat_quote_shipping_rate') . "` SET `myparcel_base_price` = " . $rate->getPrice() ." WHERE `sales_flat_quote_shipping_rate`.`rate_id` = " . (int)$rate->getRateId();
+
+                    $writeConnection->query($query);
+
                 }
             }
         }

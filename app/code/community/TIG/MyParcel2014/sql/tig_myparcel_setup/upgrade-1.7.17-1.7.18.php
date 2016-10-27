@@ -3,7 +3,7 @@
 $installer = $this;
 $installer->startSetup();
 
-$tableName = $installer->getTable('sales/quote');
+$tableName = $installer->getTable('sales_flat_quote_shipping_rate');
 if (!$conn->tableColumnExists($tableName, 'myparcel_base_price')) {
     $conn->addColumn(
         $tableName,

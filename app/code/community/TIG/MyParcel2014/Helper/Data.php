@@ -1155,8 +1155,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $address = $quote->getShippingAddress();
 
         $price = 0;
-        if ($quote->getMyparcelBasePrice() !== null) {
-            $price = $quote->getMyparcelBasePrice();
+        if(!$free) {
+            foreach ($address->getShippingRatesCollection() as $rate) {
+                if ($rate->getCarrier() == 'myparcel') {
+                    $price = (float)$rate->getMyparcelBasePrice();
+                }
+            }
         }
 
         $data = json_decode($quote->getMyparcelData(), true);
