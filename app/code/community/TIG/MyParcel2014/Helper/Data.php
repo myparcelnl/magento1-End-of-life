@@ -1099,6 +1099,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         /** @var TIG_MyParcel2014_Helper_Data $helper */
         if (!$quote)
             $quote = Mage::getModel('checkout/cart')->getQuote();
+        $price = null;
         /**
          * @var $rate Mage_Sales_Model_Quote_Address_Rate
          */
@@ -1113,8 +1114,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         /**
          * @var $rate Mage_Sales_Model_Quote_Address_Rate
          */
-
-        if ($quote->getMyparcelData() !== null) {
+        if ($quote->getMyparcelData() !== null && $price != null) {
             $store = Mage::app()->getStore($quote->getStoreId());
             $carriers = Mage::getStoreConfig('carriers', $store);
 
@@ -1143,12 +1143,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
 
-        /** @var Mage_Sales_Model_Quote_Item $tmpItem */
-        $address = $quote->getShippingAddress();
-        if (count($address->getShippingRatesCollection()) > 2) {
-            $quote->getShippingAddress()->setCollectShippingRates(false)
-                ->removeAllShippingRates();
-        }
 
         $free = false;
         foreach ($quote->getItemsCollection() as $item) {
@@ -1157,10 +1151,15 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
 
-        $price = 0;
-
+        /** @var Mage_Sales_Model_Quote_Item $tmpItem */
+        $address = $quote->getShippingAddress();
+        if (count($address->getShippingRatesCollection()) > 4) {
+            $quote->getShippingAddress()->setCollectShippingRates(false)
+                ->removeAllShippingRates();
+        }
         $address->requestShippingRates();
 
+        $price = 0;
         if(!$free) {
             foreach ($address->getShippingRatesCollection() as $rate) {
                 if ($rate->getCarrier() == 'myparcel') {
