@@ -10,26 +10,9 @@
     <!-- default checkout -->
     <checkout_onepage_index>
         <reference name="head">
-            <action method="removeItem"><type>js</type><name>postcodenl/api/lookup.js</name></action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/postcodenl/lookup.js</file>
-            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/moment.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/myparcel.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
@@ -53,26 +36,9 @@
     <!-- IWD checkout -->
     <opc_index_index>
         <reference name="head">
-            <action method="removeItem"><type>js</type><name>postcodenl/api/lookup.js</name></action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/postcodenl/lookup.js</file>
-            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/moment.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/myparcel.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
@@ -95,26 +61,9 @@
     <onestepcheckout_index_index>
 
         <reference name="head">
-            <action method="removeItem"><type>js</type><name>postcodenl/api/lookup.js</name></action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/postcodenl/lookup.js</file>
-            </action>
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/moment.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/myparcel.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>

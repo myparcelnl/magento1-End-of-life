@@ -47,8 +47,10 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $request = Mage::app()->getRequest();
         if($request->isPost()){
 
+            /** @var TIG_MyParcel2014_Helper_Data $helper */
             $helper = Mage::helper('tig_myparcel');
             $addressHelper = Mage::helper('tig_myparcel/addressValidation');
+            /** @var $quote Mage_Sales_Model_Quote */
             $quote = Mage::getModel('checkout/cart')->getQuote();
 
             $address = $addressHelper->getQuoteAddress($quote);
@@ -62,7 +64,6 @@ class TIG_MyParcel2014_Model_Checkout_Service
              * If shipping method is myparcel
              */
             if (strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
-
 
                 if ($request->getPost('mypa-post-nl-data') == null) {
                     $quote->setMyparcelData(null)->save();

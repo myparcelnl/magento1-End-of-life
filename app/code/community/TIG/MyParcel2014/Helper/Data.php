@@ -1093,18 +1093,37 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @throws Exception
      */
-    public function updateRatePrice(Mage_Sales_Model_Quote $quote)
+    public function updateRatePrice(Mage_Sales_Model_Quote $quote = null)
     {
+
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
+        if (!$quote)
+            $quote = Mage::getModel('checkout/cart')->getQuote();
+        $price = null;
         /**
          * @var $rate Mage_Sales_Model_Quote_Address_Rate
          */
         $shipAddress = $quote->getShippingAddress();
-
         foreach ($shipAddress->getShippingRatesCollection() as $rate) {
             if ($rate->getCarrier() == 'myparcel') {
                 $price = $this->calculatePrice();
                 $rate->setPrice($price);
                 $rate->save();
+            }
+        }
+        /**
+         * @var $rate Mage_Sales_Model_Quote_Address_Rate
+         */
+        if ($quote->getMyparcelData() !== null && $price != null) {
+            $store = Mage::app()->getStore($quote->getStoreId());
+            $carriers = Mage::getStoreConfig('carriers', $store);
+
+            foreach ($carriers as $carrierCode => $carrierConfig) {
+                if ($carrierCode == 'myparcel') {
+                    $fee = $price;
+                    $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
+                    $store->setConfig("carriers/{$carrierCode}/price", $fee);
+                }
             }
         }
     }
@@ -1118,9 +1137,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     public function calculatePrice()
     {
         /**
-         * @var Mage_Sales_Model_Quote $item
+         * @var Mage_Sales_Model_Quote $quote
+         * @var Mage_Sales_Model_Quote_Address $address
+         * @var Mage_Sales_Model_Quote_Address_Rate $rate
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
+
 
         $free = false;
         foreach ($quote->getItemsCollection() as $item) {
@@ -1128,17 +1150,22 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             break;
         }
 
+
+        /** @var Mage_Sales_Model_Quote_Item $tmpItem */
+        $address = $quote->getShippingAddress();
+        if (count($address->getShippingRatesCollection()) > 4) {
+            $quote->getShippingAddress()->setCollectShippingRates(false)
+                ->removeAllShippingRates();
+        }
+        $address->requestShippingRates();
+
         $price = 0;
         if(!$free) {
-            $address = $quote->getShippingAddress();
-            $address->requestShippingRates();
-
             foreach ($address->getShippingRatesCollection() as $rate) {
                 if ($rate->getCarrier() == 'myparcel') {
                     $price = (float)$rate->getPrice();
                 }
             }
-
         }
 
         $data = json_decode($quote->getMyparcelData(), true);
@@ -1176,7 +1203,30 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 $price += (float)$this->getConfig('pickup_express_fee', 'pickup_express');
             }
         }
+
+        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
+
+        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $extraShippingPrice));
+        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $extraShippingPrice));
+        $quote
+            ->setBaseGrandTotal($quote->getBaseGrandTotal() + $extraShippingPrice)
+            ->setGrandTotal($quote->getGrandTotal() + $extraShippingPrice)
+            ->save();
+
         return $price;
+    }
+
+    private function calculatePriceAndGetAddress($address, $extraShippingPrice)
+    {
+
+        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
+        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
+        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
+        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
+
+        return $address;
     }
 
     /**

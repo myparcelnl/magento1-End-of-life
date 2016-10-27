@@ -101,13 +101,8 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             $extraShippingPrice = 0;
         }
 
-        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
-        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
-        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
-        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
-        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
-        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
-        $quote->setShippingAddress($address);
+        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $extraShippingPrice));
+        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $extraShippingPrice));
 
         $this->setQuote($quote);
         $order
@@ -154,6 +149,19 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
 
         Mage::getModel('tig_myparcel/checkout_service')->copyAddressToOrder($order, $pakjeGemakAddress);
         return $this;
+    }
+
+
+    private function calculatePriceAndGetAddress($address, $extraShippingPrice)
+    {
+        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
+        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
+        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
+        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
+
+        return $address;
     }
 }
 

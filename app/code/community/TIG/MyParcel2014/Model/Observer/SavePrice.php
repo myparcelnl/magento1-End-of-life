@@ -25,7 +25,7 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
      */
     public function salesQuoteCollectTotalsBefore(Varien_Event_Observer $observer)
     {
-
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = Mage::helper('tig_myparcel');
         /**
          * @var Mage_Sales_Model_Quote $quote
@@ -37,7 +37,7 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
 
                 foreach ($carriers as $carrierCode => $carrierConfig) {
                     if ($carrierCode == 'myparcel') {
-                        $fee = $this->_isFree() ? 0 : $helper->calculatePrice($quote);
+                        $fee = $this->_isFree() ? 0 : $helper->calculatePrice();
                         $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
                         $store->setConfig("carriers/{$carrierCode}/price", $fee);
                     }

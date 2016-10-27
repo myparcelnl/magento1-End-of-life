@@ -46,7 +46,7 @@
                 <class>TIG_MyParcel2014_Helper</class>
             </tig_myparcel>
         </helpers>
-        <resources>
+       <resources>
             <tig_myparcel_setup>
                 <setup>
                     <module>TIG_MyParcel2014</module>
@@ -75,7 +75,6 @@
             </sales_order_shipment_save_after>
             <sales_order_place_after>
                 <observers>
-                    <!-- Copy a PakjeGemak address to the order. -->
                     <tig_myparcel_copy_pg_address>
                         <type>model</type>
                         <class>tig_myparcel/observer_savePgAddress</class>
@@ -183,6 +182,14 @@
                     <frontName>myparcel2014</frontName>
                 </args>
             </tig_myparcel>
+            <opc>
+                <args>
+
+                    <modules>
+                        <TIG_MyParcel2014 before="IWD_Opc">TIG_MyParcel2014</TIG_MyParcel2014>
+                    </modules>
+                </args>
+            </opc>
         </routers>
         <layout>
             <updates>
