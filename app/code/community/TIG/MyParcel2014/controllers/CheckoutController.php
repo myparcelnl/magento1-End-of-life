@@ -60,6 +60,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         }
 
         $basePrice = 0;
+        $_incl = 0;
         if(!$free) {
             $address = $quote->getShippingAddress();
             $address->requestShippingRates();
@@ -77,6 +78,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
                 }
             }
         }
+        $quote->setMyparcelBasePrice((float)$_incl)->save();
 
         $data = [];
 

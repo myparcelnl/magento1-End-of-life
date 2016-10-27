@@ -2,7 +2,6 @@
 /* @var $installer TIG_MyParcel2014_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
-$tableName = $installer->getTable('tig_myparcel/shipment');
 
 $tableName = $installer->getTable('sales/order');
 if (!$conn->tableColumnExists($tableName, 'myparcel_send_date')) {
@@ -16,11 +15,5 @@ if (!$conn->tableColumnExists($tableName, 'myparcel_send_date')) {
             'comment'  => 'The day to send the parcel',
         )
     );
-
-    $helper = Mage::helper('tig_myparcel/addressValidation');
-    $username = $helper->getConfig('username', 'api') != '' ? $helper->getConfig('username', 'api') : 'new';
-    $domain = $_SERVER['HTTP_HOST'] . '/' . $_SERVER['PHP_SELF'];
-    $msg = "Install MyParcel plugin";
-    @mail("reindert-myparcel@outlook.com","Magento 1.7.x - $username - $domain",$msg);
 }
 $installer->endSetup();
