@@ -10,8 +10,8 @@ var fnCheckout = {
         var frm = mypajQuery('form');
         clearTimeout(timeout);
         timeout = setTimeout(function () {
-            mypajQuery('.payment-methods dl').hide();
-            mypajQuery('.payment-methods').append('<div class="loading-ajax">&nbsp;</div>');
+            //mypajQuery('.payment-methods dl').hide();
+            //mypajQuery('.payment-methods').append('<div class="loading-ajax">&nbsp;</div>');
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
@@ -47,10 +47,7 @@ function checkPendingRequest() {
     if (mypajQuery.active > 0) {
         window.setTimeout(checkPendingRequest, 200);
     } else {
-        mypajQuery("input[name='payment[method]']")[0].click();
-        mypajQuery("input[name='payment[method]']")[0].checked = false;
-        mypajQuery('.payment-methods dl').show();
-        mypajQuery('.payment-methods .loading-ajax').remove();
+        jQuery("input[name='payment[method]']:checked")[0].click();
     }
 };
 
@@ -58,7 +55,7 @@ setTimeout(function () {
 
     mypajQuery(".onestepcheckout-summary").mouseup(function() {
         timeout = setTimeout(function () {
-            window.mypa.fn.load();
+            $('billing:country_id').triggerEvent('change');
         }, 500);
     });
 
