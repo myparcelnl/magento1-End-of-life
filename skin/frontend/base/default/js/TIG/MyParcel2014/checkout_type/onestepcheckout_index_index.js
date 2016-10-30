@@ -10,8 +10,6 @@ var fnCheckout = {
         var frm = mypajQuery('form');
         clearTimeout(timeout);
         timeout = setTimeout(function () {
-            //mypajQuery('.payment-methods dl').hide();
-            //mypajQuery('.payment-methods').append('<div class="loading-ajax">&nbsp;</div>');
             if (xhr && xhr.readyState != 4) {
                 xhr.abort();
             }
