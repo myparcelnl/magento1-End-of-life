@@ -65,25 +65,6 @@ var iframeDataLoaded;
             if(mypajQuery('#mypa-input').val() != '') {
                 mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
             }
-        });
-
-        /**
-         * If method not is MyParcel
-         */
-        mypajQuery(observer.magentoMethods).on('click', function () {
-            if(mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
-                mypajQuery('#mypa-input').val(null).change();
-            }
-        });
-
-        /**
-         * If the options changed, reload for IWD checkout
-         */
-        mypajQuery([
-            observer.input,
-            observer.onlyRecipient,
-            observer.signed
-        ].join()).on('change', function () {
             if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
 
                 /** saveShippingMethodTimeout because he should not execute this function eight times in 1/10 seconds */
@@ -95,6 +76,15 @@ var iframeDataLoaded;
                 setTimeout(
                     window.mypa.fn.fnCheckout.hideLoader
                     , 2000);
+            }
+        });
+
+        /**
+         * If method not is MyParcel
+         */
+        mypajQuery(observer.magentoMethods).on('click', function () {
+            if(mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
+                mypajQuery('#mypa-input').val(null).change();
             }
         });
     };

@@ -185,7 +185,7 @@
                     deliverydays_window: settings.deliverydays_window != null ? settings.deliverydays_window : void 0,
                     exclude_delivery_type: settings.exclude_delivery_type != null ? settings.exclude_delivery_type : void 0
                 },
-                success: renderPage,
+                success: renderPage
             };
             return jquery.ajax(options);
         };

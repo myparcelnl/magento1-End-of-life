@@ -45,7 +45,7 @@ function checkPendingRequest() {
     if (mypajQuery.active > 0) {
         window.setTimeout(checkPendingRequest, 200);
     } else {
-        jQuery("input[name='payment[method]']:checked")[0].click();
+        mypajQuery("input[name='shipping_method']:checked")[0].click();
     }
 };
 
