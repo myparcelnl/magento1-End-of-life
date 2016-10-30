@@ -81,9 +81,9 @@ var iframeDataLoaded;
 
         /**
          * If method not is MyParcel
-         */
+        */
         mypajQuery(observer.magentoMethods).on('click', function () {
-            if(mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
+            if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && mypajQuery('#mypa-input').val() != '') {
                 mypajQuery('#mypa-input').val(null).change();
             }
         });
