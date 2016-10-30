@@ -59,4 +59,36 @@
             background: #<?php echo $selectColor;?>;
         }
     <?php endif;?>
+    <?php $numberOfDays = $helper->getConfig('deliverydays_window', 'checkout');?>
+    <?php if ($numberOfDays == '1') :?>
+
+    #mypa-tabs, .mypa-tab {
+        min-width: 100%;
+    }
+
+    .mypa-date-slider-button {
+        display: none;
+    }
+
+    #mypa-tabs-container {
+        margin-left: 0;
+        margin-right: 0;
+        height: 20px;
+    }
+
+    .day-of-the-week {
+        display: inline-block;
+    }
+
+    span.day-of-the-week:first-letter {
+        text-transform: uppercase;
+    }
+
+    .mypa-delivery-header {
+        padding: 5px 17px;
+        font-size: 100%;
+        text-align: center;
+    }
+
+    <?php endif;?>
 </style>
