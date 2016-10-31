@@ -181,7 +181,7 @@
 
         if($myParcelData != null || key_exists('price_comment', $myParcelData)) {
 
-            $title = null;
+            $location = null;
             if ($myParcelData['price_comment'] == 'retail') {
                 $location = $myParcelData['location'];
             } elseif ($myParcelData['price_comment'] == 'retailexpress') {
