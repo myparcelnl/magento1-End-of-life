@@ -179,14 +179,16 @@
 
         }
 
-        if($myParcelData != null || key_exists('location', $myParcelData)) {
+        if($myParcelData != null || key_exists('price_comment', $myParcelData)) {
 
+            $title = null;
             if ($myParcelData['price_comment'] == 'retail') {
                 $title = $helper->getConfig('pickup_title', 'pickup');
-            } else {
+            } elseif ($myParcelData['price_comment'] == 'retailexpress') {
                 $title = $helper->getConfig('pickup_title', 'pickup') . ' (extra vroeg)';
             }
-            $result->getRateById(0)->setMethodTitle($title . ' (' . $myParcelData['location'] . ')');
+            if ($title)
+                $result->getRateById(0)->setMethodTitle($title . ' (' . $myParcelData['location'] . ')');
         }
 
         if (!$result) {
