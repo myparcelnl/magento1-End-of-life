@@ -112,7 +112,7 @@
             .mypa-checkmark {
                 cursor: pointer;
                 position: relative;
-                top: 6px;
+                top: 4px;
                 display: inline-block;
                 margin-right: 5px;
                 width: 22px;
@@ -486,16 +486,25 @@
                 display: block;
                 font-size: 20px;
             }
+            .mypa-pickup-selector input:checked ~ .mypa-highlight {
+                color:black;
+            }
 
             .mypa-address {
-                font-style: italic;
                 color: darkorange;
                 cursor: pointer;
             }
 
             .mypa-address:hover {
-                color: #b36200;
                 text-decoration: underline;
+            }
+
+            .text-location {
+                display: block;
+                font-style: italic;
+            }
+            .edit-location {
+                color: black;
             }
 
             .mypa-inline-block {
@@ -645,17 +654,9 @@
                                                 <div class="mypa-checkmark-stem"></div>
                                                 <div class="mypa-checkmark-kick"></div>
                                             </label>
+                                            <span class='mypa-price mypa-pickup-price'></span>
                                             <span class="mypa-highlight">Vanaf 16.00 uur</span><span
                                                 class='mypa-address' id="mypa-pickup-address"></span>
-                                            <div class="edit">
-                                                <div class="edit-stem">
-                                                </div>
-                                                <div class="edit-tip">
-                                                    <div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class='mypa-price mypa-pickup-price'></span>
                                         </label>
                                         <label for='mypa-pickup-express'
                                                class='mypa-row-subitem mypa-pickup-selector'>
@@ -665,17 +666,9 @@
                                                 <div class="mypa-checkmark-stem"></div>
                                                 <div class="mypa-checkmark-kick"></div>
                                             </label>
+                                            <span class='mypa-price mypa-pickup-express-price'></span>
                                             <span class="mypa-highlight">Vanaf 8.30 uur</span><span
                                                 class='mypa-address' id="mypa-pickup-express-address"></span>
-                                            <div class="edit">
-                                                <div class="edit-stem">
-                                                </div>
-                                                <div class="edit-tip">
-                                                    <div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <span class='mypa-price mypa-pickup-express-price'></span>
                                         </label>
                                     </div>
                                 </div>

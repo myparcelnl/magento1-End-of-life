@@ -419,7 +419,7 @@
 
     showDefaultPickupLocation = function(selector, item) {
         var html;
-        html = " - " + item.location + ", " + item.street + " " + item.number;
+        html = ' - <span class="edit-location">Aanpassen</span><span class="text-location">' + item.location + ", " + item.street + " " + item.number + '</span>';
         $(selector).html(html);
         $(selector).parent().find('input').val(JSON.stringify(item));
         return updateInputField();

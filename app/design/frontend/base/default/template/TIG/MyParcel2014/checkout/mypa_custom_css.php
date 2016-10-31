@@ -58,6 +58,9 @@
         input:checked ~ .mypa-price, input:checked ~ span span.mypa-price, .mypa-price-active {
             background: #<?php echo $selectColor;?>;
         }
+        .edit-location {
+            color: #<?php echo $selectColor;?>;
+        }
     <?php endif;?>
     <?php $numberOfDays = $helper->getConfig('deliverydays_window', 'checkout');?>
     <?php if ($numberOfDays == 'hide') :?>
