@@ -168,7 +168,11 @@
         }
 
         $myParcelData = null;
-        if (key_exists(0, $request->getAllItems())) {
+
+        $parentClass = debug_backtrace();
+        $parentClass = $parentClass[5]['class'];
+
+        if (key_exists(0, $request->getAllItems()) && $parentClass == 'Mage_Sales_Model_Quote_Address_Total_Shipping') {
             $tmpItem = $request->getAllItems();
             $quote = $tmpItem[0];
             if($quote) {
@@ -176,7 +180,6 @@
                 $myParcelData = json_decode($myParcelData, true);
 
             }
-
         }
 
         if($myParcelData != null || key_exists('price_comment', $myParcelData)) {
