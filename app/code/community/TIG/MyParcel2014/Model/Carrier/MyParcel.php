@@ -183,12 +183,15 @@
 
             $title = null;
             if ($myParcelData['price_comment'] == 'retail') {
-                $title = $helper->getConfig('pickup_title', 'pickup');
+                $location = $myParcelData['location'];
             } elseif ($myParcelData['price_comment'] == 'retailexpress') {
-                $title = $helper->getConfig('pickup_title', 'pickup') . ' (extra vroeg)';
+                $location = $myParcelData['location'] . ' (extra vroeg)';
             }
-            if ($title)
-                $result->getRateById(0)->setMethodTitle($title . ' (' . $myParcelData['location'] . ')');
+            if ($location) {
+                $rate = $result->getRateById(0);
+                $rate->setCarrierTitle($helper->getConfig('pickup_title', 'pickup'));
+                $rate->setMethodTitle($location);
+            }
         }
 
         if (!$result) {
