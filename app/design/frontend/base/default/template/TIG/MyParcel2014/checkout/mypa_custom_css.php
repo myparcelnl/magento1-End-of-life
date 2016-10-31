@@ -60,7 +60,11 @@
         }
     <?php endif;?>
     <?php $numberOfDays = $helper->getConfig('deliverydays_window', 'checkout');?>
-    <?php if ($numberOfDays == '1') :?>
+    <?php if ($numberOfDays == '0') :?>
+    #mypa-tabs-container, .mypa-date-slider-button {
+        display: none;
+    }
+    <?php elseif ($numberOfDays == '1'):?>
 
     #mypa-tabs, .mypa-tab {
         min-width: 100%;
