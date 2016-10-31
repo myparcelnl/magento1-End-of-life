@@ -47,7 +47,7 @@
         var currentOptions = '<?php echo $this->getCurrentOrderOptionsHtml(); ?>';
         var target = document.getElementsByClassName('head-shipping-method')[0].parentNode.parentNode;
 
-        target.innerHTML = target.innerHTML.replace('<?php echo $this->_order->getShippingDescription();?>', '<?php echo $this->getCheckoutOptionsHtml(true); ?>').replace('</fieldset>', checkoutOptions + currentOptions + '</fieldset>');
+        target.innerHTML = target.innerHTML.replace('</fieldset>', checkoutOptions + currentOptions + '</fieldset>');
     });
     /*]]>*/
 </script>

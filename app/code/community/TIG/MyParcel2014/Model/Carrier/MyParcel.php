@@ -145,6 +145,7 @@
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
+        /** @var Mage_Shipping_Model_Rate_Result $result */
         if (!$this->getConfigFlag('active')) {
             return false;
         }
@@ -166,34 +167,33 @@
             $result = $this->_getTableRate($request);
         }
 
+        $myParcelData = null;
+        if (key_exists(0, $request->getAllItems())) {
+            $tmpItem = $request->getAllItems();
+            $quote = $tmpItem[0];
+            if($quote) {
+                $myParcelData = $quote->getQuote()->getMyparcelData();
+                $myParcelData = json_decode($myParcelData, true);
+
+            }
+
+        }
+
+        if($myParcelData != null || key_exists('location', $myParcelData)) {
+
+            if ($myParcelData['price_comment'] == 'retail') {
+                $title = $helper->getConfig('pickup_title', 'pickup');
+            } else {
+                $title = $helper->getConfig('pickup_title', 'pickup') . ' (extra vroeg)';
+            }
+            $result->getRateById(0)->setMethodTitle($title . ' (' . $myParcelData['location'] . ')');
+        }
+
         if (!$result) {
             throw new TIG_MyParcel2014_Exception(
                 $helper->__('Unknown rate type specified: %s.', $rateType),
                 'MYPA-0014'
             );
-        }
-
-        // add PakjeGemak if country is NL and not in admin
-        if (!$helper->isAdmin()
-            && 'NL' === $request->getDestCountryId()
-            && $helper->getShippingMethodConfig('pakjegemak', 'active')
-            && $this->_shippingMethodValidOrderAmount('pakjegemak')
-        ) {
-            $currentRate = current($result->getRatesByCarrier($this->_code));
-
-            if ($currentRate) {
-                $currentPrice = $currentRate->getPrice();
-                $pakjegemakPrice = floatval($helper->getShippingMethodConfig('pakjegemak', 'fee'));
-
-                // use a modified clone of the configured shipping rate
-                $pakjegemakRate = clone $currentRate;
-
-                $pakjegemakRate->setMethod('pakjegemak');
-                $pakjegemakRate->setMethodTitle($helper->getShippingMethodConfig('pakjegemak', 'title'));
-                $pakjegemakRate->setPrice($currentPrice + $pakjegemakPrice);
-
-                $result->append($pakjegemakRate);
-            }
         }
 
         return $result;

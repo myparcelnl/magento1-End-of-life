@@ -61,7 +61,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
      *
      * @return string
      */
-    public function getCheckoutOptionsHtml($shortDescription = false)
+    public function getCheckoutOptionsHtml()
     {
 
         $html = false;
@@ -74,9 +74,6 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         if ($pgAddress && $this->_helper->shippingMethodIsPakjegemak($shippingMethod))
         {
             if(key_exists('location', $data)){
-                if ($shortDescription) {
-                    return $this->__('PostNL location:');
-                }
 
                 $dateTime = date('d-m-Y H:i', strtotime($data['date'] . ' ' . $data['start_time']));
 
@@ -96,9 +93,6 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
                 $html .= $this->_helper->getPackageType($totalWeight, $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
 
                 if(key_exists('date', $data)){
-                    if ($shortDescription) {
-                        return $this->__('deliver:');
-                    }
 
                     $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
                     $html .= $this->__('deliver:') .' ' . $dateTime;
@@ -118,11 +112,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         if (key_exists('browser', $data))
             $html = ' <span title="'.$data['browser'].'"">'.$html.'</span>';
 
-        if ($shortDescription) {
-            return $this->_order->getShippingDescription();
-        } else {
             return $html !== false ? '<br>' . $html : '';
-        }
     }
 
     /**
