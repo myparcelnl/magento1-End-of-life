@@ -50,7 +50,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_WindowDays
 
         $array = array(
             array(
-                'value' => 0,
+                'value' => 'hide',
                 'label' => $helper->__('Hide days'),
             ),
         );

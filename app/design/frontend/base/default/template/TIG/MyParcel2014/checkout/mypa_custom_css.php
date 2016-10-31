@@ -60,7 +60,7 @@
         }
     <?php endif;?>
     <?php $numberOfDays = $helper->getConfig('deliverydays_window', 'checkout');?>
-    <?php if ($numberOfDays == '0') :?>
+    <?php if ($numberOfDays == 'hide') :?>
     #mypa-tabs-container, .mypa-date-slider-button {
         display: none;
     }
