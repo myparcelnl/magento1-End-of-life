@@ -1204,7 +1204,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
     private function calculatePriceAndGetAddress($address, $extraShippingPrice)
     {
-
+        /** @var Mage_Sales_Model_Quote_Address $address */
         $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
         $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
         $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);

@@ -80,7 +80,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         }
         Mage::getSingleton('core/session')->setMyParcelBasePrice($basePrice);
 
-        $data = [];
+        $data = array();
 
         $data['address'] = $helper->getQuoteAddress($quote);
 
