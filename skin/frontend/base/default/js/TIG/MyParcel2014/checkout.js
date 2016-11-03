@@ -107,9 +107,13 @@ function iframeLoaded() {
             iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + 5 + "px";
         }
     }, 500);
-}
-window.onload = function() {
-    mypajQuery('#mypa-input').on('change', (function () {
-        iframeLoaded()
-    }));
+
+    setTimeout(function () {
+        var iFrameID = document.getElementById('myparcel-iframe');
+        if(iFrameID) {
+            // here you can make the height, I delete it first, then I make it again
+            iFrameID.height = "";
+            iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + 5 + "px";
+        }
+    }, 3000);
 }

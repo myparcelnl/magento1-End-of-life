@@ -143,7 +143,8 @@ window.mypa.settings = {};
             window.setTimeout(updatePageRequest, 100);
         }
         else {
-            window.mypa.fn.updatePage()
+            window.mypa.fn.updatePage();
+            parent.iframeLoaded();
         }
     };
 
