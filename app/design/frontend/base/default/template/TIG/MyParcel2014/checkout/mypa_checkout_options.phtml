@@ -1,7 +1,7 @@
 <html>
 <head>
     <script>
-        var BASE_URL = '<?php echo Mage::getBaseUrl();?>';
+        var BASE_URL = '<?php echo Mage::getUrl('',array('_secure'=>true));?>';
     </script>
     <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/jquery.min.js'; ?>"></script>
     <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/moment.min.js'; ?>"></script>
