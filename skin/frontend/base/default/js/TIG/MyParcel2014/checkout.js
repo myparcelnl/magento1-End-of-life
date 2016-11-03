@@ -83,8 +83,12 @@ var iframeDataLoaded;
          * If method not is MyParcel
         */
         mypajQuery(observer.magentoMethods).on('click', function () {
-            if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && mypajQuery('#mypa-input').val() != '') {
+            if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
                 mypajQuery('#mypa-input').val(null).change();
+            } else {
+                mypajQuery('#mypa-load').show();
+                var iFrameID = document.getElementById('myparcel-iframe');
+                iFrameID.contentWindow.mypa.fn.reloadShippingMethod();
             }
         });
     };
