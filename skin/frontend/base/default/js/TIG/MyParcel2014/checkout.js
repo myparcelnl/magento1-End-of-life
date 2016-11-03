@@ -87,7 +87,9 @@ var iframeDataLoaded, myParcelToggleOptions;
                 if (myParcelToggleOptions) {
                     mypajQuery('#mypa-load').hide();
                 } else {
-                    mypajQuery('#mypa-input').val(null).change();
+                    if (mypajQuery('#mypa-input').val() != '') {
+                        mypajQuery('#mypa-input').val(null).change();
+                    }
                 }
             } else {
                 mypajQuery('#mypa-load').show();

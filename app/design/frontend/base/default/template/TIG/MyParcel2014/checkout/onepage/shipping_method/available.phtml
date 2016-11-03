@@ -48,10 +48,13 @@ if (isset($address) && key_exists('country', $address)) {
 
 $useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 || $mailboxTitle == '');
 
-/** Hide and toggle MyParcel options (used by parnis.nl) */
+/**
+ * Hide and toggle MyParcel options (used by parnis.nl). Hidden field in the settings.
+ * Example: https://monosnap.com/file/gJ9DoOhbJF6p0qMit0NmjCMjNhP8rM
+ */
 $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true : false;
 ?>
-<script>myParcelToggleOptions = <?php echo $toggleOptions;?></script>
+<script>myParcelToggleOptions = '<?php echo $toggleOptions;?>'</script>
 <?php if (!$_shippingRateGroups): ?>
     <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
 <?php else: ?>
@@ -132,6 +135,10 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
     </dl>
     <script type="text/javascript">
         //<![CDATA[
+        if (typeof quoteBaseGrandTotal == 'undefined') {
+            var quoteBaseGrandTotal;
+        }
+
         <?php if (!empty($shippingCodePrice)): ?>
         var shippingCodePrice = {<?php echo implode(',', $shippingCodePrice); ?>};
         <?php endif; ?>
