@@ -29,7 +29,7 @@ function checkPendingRequest() {
     if (mypajQuery.active > 0) {
         window.setTimeout(checkPendingRequest, 200);
     } else {
-        if (mypajQuery("input[name='shipping_method']:checked")[0].length) {
+        if (mypajQuery("input[name='shipping_method']:checked").length) {
             mypajQuery("input[name='shipping_method']:checked")[0].click();
         }
     }

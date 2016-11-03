@@ -66,7 +66,6 @@ window.mypa.settings = {};
                                 $('#mypa-input', parent.document).trigger('change');
                             });
                             parent.iframeDataLoaded();
-                            parent.iframeLoaded();
 
                         });
                     } else {
@@ -137,11 +136,6 @@ window.mypa.settings = {};
         if (data.pickupExpress['active'] == false) {
             excludeDeliveryTypes.push('5');
         }
-    };
-
-    window.mypa.fn.reloadShippingMethod = function () {
-        new MyParcel();
-        window.mypa.fn.load();
     };
 
     updatePageRequest = function () {

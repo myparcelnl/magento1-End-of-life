@@ -22,7 +22,7 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
     window.mypa.fn = {};
 }
 window.mypa.settings = {};
-var iframeDataLoaded;
+var iframeDataLoaded, myParcelToggleOptions;
 (function () {
     var observer, saveShippingMethodTimeout;
     observer = parent.mypajQuery.extend({
@@ -84,11 +84,13 @@ var iframeDataLoaded;
         */
         mypajQuery(observer.magentoMethods).on('click', function () {
             if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
-                mypajQuery('#mypa-input').val(null).change();
+                if (myParcelToggleOptions) {
+                    mypajQuery('#mypa-load').hide();
+                } else {
+                    mypajQuery('#mypa-input').val(null).change();
+                }
             } else {
                 mypajQuery('#mypa-load').show();
-                var iFrameID = document.getElementById('myparcel-iframe');
-                iFrameID.contentWindow.mypa.fn.reloadShippingMethod();
             }
         });
     };
