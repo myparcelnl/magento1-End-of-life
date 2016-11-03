@@ -62,6 +62,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
         <?php $shippingCodePrice = array(); ?>
         <?php $_sole = count($_shippingRateGroups) == 1;
         foreach ($_shippingRateGroups as $code => $_rates): ?>
+
             <dt style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
             <dd style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>">
                 <ul>
@@ -70,6 +71,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                     foreach ($_rates as $_rate): ?>
                         <?php if ($_rate->getCode() != $lastRate): ?>
                             <?php $lastRate = $_rate->getCode(); ?>
+                            <?php if ($code == 'myparcel') { Mage::getSingleton('core/session')->setMyParcelBasePrice((float)$_rate->getPrice());} ?>
                             <?php $shippingCodePrice[] = "'" . $_rate->getCode() . "':" . (float)$_rate->getPrice(); ?>
                             <li>
                                 <?php if ($_rate->getErrorMessage()): ?>
