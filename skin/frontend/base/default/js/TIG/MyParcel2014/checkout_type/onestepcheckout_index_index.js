@@ -25,22 +25,6 @@ var fnCheckout = {
 };
 window.mypa.fn.fnCheckout = fnCheckout;
 
-
-/* if address change, update shipping method */
-Element.prototype.triggerEvent = function(eventName)
-{
-    if (document.createEvent)
-    {
-        var evt = document.createEvent('HTMLEvents');
-        evt.initEvent(eventName, true, true);
-
-        return this.dispatchEvent(evt);
-    }
-
-    if (this.fireEvent)
-        return this.fireEvent('on' + eventName);
-};
-
 function checkPendingRequest() {
     if (mypajQuery.active > 0) {
         window.setTimeout(checkPendingRequest, 200);
@@ -52,9 +36,7 @@ function checkPendingRequest() {
 setTimeout(function () {
 
     mypajQuery(".onestepcheckout-summary").mouseup(function() {
-        timeout = setTimeout(function () {
-            $('billing:country_id').triggerEvent('change');
-        }, 500);
+        get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
     });
 
     mypajQuery([
@@ -67,8 +49,6 @@ setTimeout(function () {
         "input[id='shipping:postcode_housenumber']",
         "input[id='shipping:postcode']"
     ].join()).on('change', function () {
-        setTimeout(function () {
-            $('billing:country_id').triggerEvent('change');
-        }, 500);
+        get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
     });
 }, 2000);
