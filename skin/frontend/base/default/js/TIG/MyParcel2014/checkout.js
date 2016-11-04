@@ -102,35 +102,21 @@ var iframeDataLoaded, myParcelToggleOptions;
 
 function iframeLoaded() {
 
-    var iFrameID = document.getElementById('myparcel-iframe');
-    if(iFrameID) {
-        resizeIframeWidth(iFrameID);
-    }
+    resizeIframeWidth();
 
     setTimeout(function () {
-        var iFrameID = document.getElementById('myparcel-iframe');
-        if(iFrameID) {
-            resizeIframeWidth(iFrameID);
-        }
+            resizeIframeWidth();
     }, 500);
 
     setTimeout(function () {
-        var iFrameID = document.getElementById('myparcel-iframe');
-        if(iFrameID) {
-            resizeIframeWidth(iFrameID);
-        }
-    }, 3000);
+        resizeIframeWidth();
+    }
 }
 
 /**
  * Resizes the given iFrame width so it fits its content
  * @param e The iframe to resize
  */
-function resizeIframeWidth(e){
-    if (e.Document && e.Document.body.scrollHeight)
-        e.height = e.contentWindow.document.body.scrollHeight;
-    else if (e.contentDocument && e.contentDocument.body.scrollHeight)
-        e.height = e.contentDocument.body.scrollHeight;
-    else (e.contentDocument && e.contentDocument.body.offsetHeight)
-    e.height = e.contentDocument.body.offsetHeight;
+function resizeIframeWidth(){
+    mypajQuery('#myparcel-iframe').height(mypajQuery('#myparcel-iframe').contents().height());
 }
