@@ -110,7 +110,7 @@ function iframeLoaded() {
 
     setTimeout(function () {
         resizeIframeWidth();
-    }
+    }, 500);
 }
 
 /**
