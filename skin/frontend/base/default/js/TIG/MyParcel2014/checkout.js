@@ -22,9 +22,9 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
     window.mypa.fn = {};
 }
 window.mypa.settings = {};
-var iframeDataLoaded, myParcelToggleOptions;
+var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
 (function () {
-    var observer, saveShippingMethodTimeout;
+    var observer, saveShippingMethodTimeout, resizeIframeWidth;
     observer = parent.mypajQuery.extend({
         input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
@@ -45,7 +45,13 @@ var iframeDataLoaded, myParcelToggleOptions;
     iframeDataLoaded = function () {
 
         if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
-            mypajQuery('#mypa-input').val(null).change();
+            if (myParcelToggleOptions) {
+                mypajQuery('#mypa-load').hide();
+            } else {
+                if (mypajQuery('#mypa-input').val() != '') {
+                    mypajQuery('#mypa-input').val(null).change();
+                }
+            }
         } else {
             if(mypajQuery('#mypa-input').val() != '') {
                 if(typeof mypajQuery(observer.magentoMethodMyParcel)[0] !== 'undefined') {
@@ -63,7 +69,7 @@ var iframeDataLoaded, myParcelToggleOptions;
          */
         mypajQuery('#mypa-load').on('change', function () {
             iframeLoaded();
-            if(mypajQuery('#mypa-input').val() != '') {
+            if(mypajQuery('#mypa-input').val() != '' && !myParcelToggleOptions) {
                 mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
             }
             if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
@@ -97,26 +103,29 @@ var iframeDataLoaded, myParcelToggleOptions;
             }
         });
     };
+
+
+    iframeLoaded = function () {
+
+        resizeIframeWidth();
+
+        setTimeout(function () {
+            resizeIframeWidth();
+        }, 500);
+
+        setTimeout(function () {
+            resizeIframeWidth();
+        }, 500);
+    };
+
+    /**
+     * Resizes the given iFrame width so it fits its content
+     * @param e The iframe to resize
+     */
+    resizeIframeWidth = function () {
+        mypajQuery('#myparcel-iframe').height(10);
+        mypajQuery('#myparcel-iframe').height(mypajQuery('#myparcel-iframe').contents().height());
+    }
+
 })();
 
-
-function iframeLoaded() {
-
-    resizeIframeWidth();
-
-    setTimeout(function () {
-            resizeIframeWidth();
-    }, 500);
-
-    setTimeout(function () {
-        resizeIframeWidth();
-    }, 500);
-}
-
-/**
- * Resizes the given iFrame width so it fits its content
- * @param e The iframe to resize
- */
-function resizeIframeWidth(){
-    mypajQuery('#myparcel-iframe').height(mypajQuery('#myparcel-iframe').contents().height());
-}
