@@ -62,6 +62,7 @@ var iframeDataLoaded, myParcelToggleOptions;
          * If method is MyParcel
          */
         mypajQuery('#mypa-load').on('change', function () {
+            iframeLoaded();
             if(mypajQuery('#mypa-input').val() != '') {
                 mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
             }
@@ -103,25 +104,33 @@ function iframeLoaded() {
 
     var iFrameID = document.getElementById('myparcel-iframe');
     if(iFrameID) {
-        iFrameID.height = "";
-        iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + 5 + "px";
+        resizeIframeWidth(iFrameID);
     }
 
     setTimeout(function () {
         var iFrameID = document.getElementById('myparcel-iframe');
         if(iFrameID) {
-            // here you can make the height, I delete it first, then I make it again
-            iFrameID.height = "";
-            iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + 5 + "px";
+            resizeIframeWidth(iFrameID);
         }
     }, 500);
 
     setTimeout(function () {
         var iFrameID = document.getElementById('myparcel-iframe');
         if(iFrameID) {
-            // here you can make the height, I delete it first, then I make it again
-            iFrameID.height = "";
-            iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + 5 + "px";
+            resizeIframeWidth(iFrameID);
         }
     }, 3000);
+}
+
+/**
+ * Resizes the given iFrame width so it fits its content
+ * @param e The iframe to resize
+ */
+function resizeIframeWidth(e){
+    if (e.Document && e.Document.body.scrollHeight)
+        e.height = e.contentWindow.document.body.scrollHeight;
+    else if (e.contentDocument && e.contentDocument.body.scrollHeight)
+        e.height = e.contentDocument.body.scrollHeight;
+    else (e.contentDocument && e.contentDocument.body.offsetHeight)
+    e.height = e.contentDocument.body.offsetHeight;
 }
