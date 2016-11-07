@@ -433,6 +433,13 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $fullStreet = preg_replace("/[\n\r]/", " ", $fullStreet);
 
+        if (strlen($fullStreet) > 40) {
+            throw new TIG_MyParcel2014_Exception(
+                $this->__('Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice of MyParcel.'),
+                'MYPA-0026'
+            );
+        }
+
         $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
         if (!$result || !is_array($matches) || (isset($matches[0]) && $fullStreet != $matches[0])) {
