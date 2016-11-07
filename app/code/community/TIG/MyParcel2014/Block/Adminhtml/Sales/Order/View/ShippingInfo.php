@@ -100,10 +100,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
                     if($data['time'][0]['price_comment'] != 'standard')
                         $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
 
-                    if($data['home_address_only'])
+                    if(key_exists('home_address_only', $data) && $data['home_address_only'])
                         $html .=  ', ' . strtolower($this->__('Home address only'));
 
-                    if($data['signed'])
+                    if(key_exists('signed', $data) && $data['signed'])
                         $html .=  ', ' . strtolower($this->__('Signature on receipt'));
                 }
             }

@@ -220,7 +220,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
         if($checkoutData !== null) {
             $aData = json_decode($checkoutData, true);
-            if($aData['home_address_only']){
+            if(key_exists('home_address_only', $aData) && $aData['home_address_only']){
                 return 'checked="checked"';
             } else {
                 return $this->getIsSelected('home_address_only');
@@ -238,7 +238,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
         if($checkoutData !== null) {
             $aData = json_decode($checkoutData, true);
-            if($aData['signed']){
+            if(key_exists('signed', $aData) && $aData['signed']){
                 return 'checked="checked"';
             } else {
                 return $this->getIsSelected('signature_on_receipt');
