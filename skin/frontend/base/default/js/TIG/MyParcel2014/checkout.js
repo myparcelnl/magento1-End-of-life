@@ -56,6 +56,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
             if(mypajQuery('#mypa-input').val() != '') {
                 if(typeof mypajQuery(observer.magentoMethodMyParcel)[0] !== 'undefined') {
                     mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
+                    mypajQuery('#mypa-load').show();
                 }
             }
         }
@@ -68,7 +69,6 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
          * If method is MyParcel
          */
         mypajQuery('#mypa-load').on('change', function () {
-            iframeLoaded();
             if(mypajQuery('#mypa-input').val() != '' && !myParcelToggleOptions) {
                 mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
             }
@@ -99,23 +99,27 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
                     }
                 }
             } else {
-                mypajQuery('#mypa-load').show();
+                iframeLoaded();
             }
         });
     };
 
 
     iframeLoaded = function () {
+        if (mypajQuery(observer.magentoMethodMyParcel).is(":checked")) {
 
-        resizeIframeWidth();
+            mypajQuery('#mypa-load').show();
 
-        setTimeout(function () {
             resizeIframeWidth();
-        }, 500);
 
-        setTimeout(function () {
-            resizeIframeWidth();
-        }, 500);
+            setTimeout(function () {
+                resizeIframeWidth();
+            }, 500);
+
+            setTimeout(function () {
+                resizeIframeWidth();
+            }, 500);
+        }
     };
 
     /**
