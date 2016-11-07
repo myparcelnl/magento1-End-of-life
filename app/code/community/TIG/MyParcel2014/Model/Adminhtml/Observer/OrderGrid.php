@@ -303,12 +303,12 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                 'sortable'       => false,
                 'renderer'       => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
                 'type'           => 'options',
-                'options'        => [
+                'options'        => array(
                     'past_and_today' => $helper->__('Orders until today'),
                     'today' => $helper->__('Send today'),
                     'later' => $helper->__('Send later'),
                     'past' => $helper->__('Old orders'),
-                ],
+                ),
                 'filter_condition_callback' => array($this, '_filterHasUrlConditionCallback'),
             ),
             'shipping_name'

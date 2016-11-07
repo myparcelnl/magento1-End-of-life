@@ -543,7 +543,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getHsCodes($products, $_storeId)
     {
-        $hs = [];
+        $hs = array();
         /** @var Mage_Sales_Model_Order_Item $item */
         foreach ($products as $item) {
             $hs[$this->getHsCode($item, $_storeId)] = $this->getHsCode($item, $_storeId);
@@ -596,8 +596,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             return preg_replace("/[\n\r]/", " ", $address->getStreetFull());
         }
 
-        $numberStreet = ['CN', 'FR', 'GR', 'IE', 'IL', 'JP', 'LU', 'MY', 'MA', 'NZ', 'SG', 'GB',];
-        if (in_array($address->getCountry(), $numberStreet)) {
+        $numberBeforeStreetCountry = array('CN', 'FR', 'GR', 'IE', 'IL', 'JP', 'LU', 'MY', 'MA', 'NZ', 'SG', 'GB');
+        if (in_array($address->getCountry(), $numberBeforeStreetCountry)) {
             return $address->getStreet2() . ' ' . $address->getStreet1();
         } else {
             return preg_replace("/[\n\r]/", " ", $address->getStreetFull());

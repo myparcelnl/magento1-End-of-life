@@ -646,7 +646,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $consignmentId = (int) $aResponse->data->ids[0]->id;
 
         $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
-        $responseShipments = $apiInfo->getConsignmentsInfoData([$consignmentId]);
+        $responseShipments = $apiInfo->getConsignmentsInfoData(array($consignmentId));
 
         $responseShipment = $responseShipments[0];
         if($responseShipment){
