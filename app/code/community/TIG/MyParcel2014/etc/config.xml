@@ -273,18 +273,21 @@
             </checkout>
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
+                <only_recipient_active>1</only_recipient_active>
                 <only_recipient_title>Niet bij de buren bezorgen</only_recipient_title>
-                <only_recipient_fee>0</only_recipient_fee>
+                <only_recipient_fee>0.27</only_recipient_fee>
+                <signature_active>1</signature_active>
                 <signature_title>Handtekening voor ontvangst</signature_title>
-                <signature_fee>0</signature_fee>
+                <signature_fee>0.34</signature_fee>
+                <signature_and_only_recipient>0.42</signature_and_only_recipient>
             </delivery>
             <morningdelivery>
-                <morningdelivery_active>0</morningdelivery_active>
-                <morningdelivery_fee>0</morningdelivery_fee>
+                <morningdelivery_active>1</morningdelivery_active>
+                <morningdelivery_fee>10</morningdelivery_fee>
             </morningdelivery>
             <eveningdelivery>
-                <eveningdelivery_active>0</eveningdelivery_active>
-                <eveningdelivery_fee>0</eveningdelivery_fee>
+                <eveningdelivery_active>1</eveningdelivery_active>
+                <eveningdelivery_fee>1.25</eveningdelivery_fee>
             </eveningdelivery>
             <pickup>
                 <pickup_active>1</pickup_active>
@@ -292,8 +295,8 @@
                 <pickup_fee>0</pickup_fee>
             </pickup>
             <pickup_express>
-                <pickup_express_active>0</pickup_express_active>
-                <pickup_express_fee>0</pickup_express_fee>
+                <pickup_express_active>1</pickup_express_active>
+                <pickup_express_fee>1.25</pickup_express_fee>
             </pickup_express>
         </tig_myparcel>
     </default>
