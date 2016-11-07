@@ -73,7 +73,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
         if ($pgAddress && $this->_helper->shippingMethodIsPakjegemak($shippingMethod))
         {
-            if(key_exists('location', $data)){
+            if(is_array($data) && key_exists('location', $data)){
 
                 $dateTime = date('d-m-Y H:i', strtotime($data['date'] . ' ' . $data['start_time']));
 
@@ -92,7 +92,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
             if($totalWeight !== false){
                 $html .= $this->_helper->getPackageType($totalWeight, $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
 
-                if(key_exists('date', $data)){
+                if(is_array($data) && key_exists('date', $data)){
 
                     $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
                     $html .= $this->__('deliver:') .' ' . $dateTime;
@@ -109,7 +109,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
             }
         }
 
-        if (key_exists('browser', $data))
+        if (is_array($data) && key_exists('browser', $data))
             $html = ' <span title="'.$data['browser'].'"">'.$html.'</span>';
 
             return $html !== false ? '<br>' . $html : '';

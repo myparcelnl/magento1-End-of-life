@@ -40,7 +40,7 @@ $hideDays =     $helper->getConfig('deliverydays_window', 'checkout') == '1' ? t
 
 /** Check if the checkout must use the MyParcel checkout */
 $address = $helper->getQuoteAddress($this->getQuote());
-if (isset($address) && key_exists('country', $address)) {
+if (isset($address) && is_array($address) && key_exists('country', $address)) {
     $country = $address['country'];
 } else {
     $country = false;

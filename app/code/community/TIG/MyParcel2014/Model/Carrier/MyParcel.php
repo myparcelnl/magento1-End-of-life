@@ -182,7 +182,7 @@
             }
         }
 
-        if($myParcelData != null || key_exists('price_comment', $myParcelData)) {
+        if($myParcelData != null && key_exists('price_comment', $myParcelData)) {
 
             $location = null;
             if ($myParcelData['price_comment'] == 'retail') {

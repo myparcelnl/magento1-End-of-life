@@ -324,7 +324,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if(is_array($aResult)){
 
             //log the response
-            $helper->log(json_decode($aResult, true));
+            $helper->log(json_encode($aResult, true));
 
             //check if there are curl-errors
             if ($response === false) {

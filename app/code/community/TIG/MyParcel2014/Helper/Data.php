@@ -435,8 +435,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
-        if (!$result || !is_array($matches) || $fullStreet != $matches[0]) {
-            if ($fullStreet != $matches[0]) {
+        if (!$result || !is_array($matches) || (isset($matches[0]) && $fullStreet != $matches[0])) {
+            if (isset($matches[0]) && $fullStreet != $matches[0]) {
                 // Characters are gone by preg_match
                 throw new TIG_MyParcel2014_Exception(
                     $this->__('Something went wrong with splitting up address %s.', $fullStreet),
