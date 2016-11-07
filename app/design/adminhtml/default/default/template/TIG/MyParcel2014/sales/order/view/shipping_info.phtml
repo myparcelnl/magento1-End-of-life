@@ -198,8 +198,10 @@
 
             return false;
         };
-        $$('.form-buttons').first().appendChild(printLabelButton).insert('<span>Print Label</span>');
 
+        setTimeout(function () {
+            $$('.form-buttons').first().appendChild(printLabelButton).insert('<span>Print Label</span>');
+        }, 100);
 
         <?php if ($this->_myParcelShipments->getAllIds()):?>
         // Create the button in de action bar to print the packing slip
@@ -213,7 +215,9 @@
         };
         printPackingButton.className = 'scalable save';
 
-        $$('.form-buttons').first().appendChild(printPackingButton).insert('<span><?php echo $this->__('Print packing slip');?></span>');
+        setTimeout(function () {
+            $$('.form-buttons').first().appendChild(printPackingButton).insert('<span><?php echo $this->__('Print packing slip');?></span>');
+        }, 100);
 
         <?php endif; ?>
     })();
