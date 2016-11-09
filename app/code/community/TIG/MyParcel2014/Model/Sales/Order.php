@@ -9,7 +9,7 @@
  *  @since      File available since Release 1.5.0
  *  @license    http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-    if (file_exists('MDN/AdvancedStock/Model/Sales/Order.php') && class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
+    if (file_exists(Mage::getBaseDir() . '/app/code/community/MDN/AdvancedStock/Model/Sales/Order.php') && class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends MDN_AdvancedStock_Model_Sales_Order { }
     } else {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Mage_Sales_Model_Order { }
