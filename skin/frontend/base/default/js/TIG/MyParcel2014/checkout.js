@@ -24,7 +24,7 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
 window.mypa.settings = {};
 var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
 (function () {
-    var observer, saveShippingMethodTimeout, resizeIframeWidth;
+    var observer, saveShippingMethodTimeout, resizeIframeWidth, resizeIframeInterval;
     observer = parent.mypajQuery.extend({
         input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
@@ -109,14 +109,10 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
         if (mypajQuery(observer.magentoMethodMyParcel).is(":checked")) {
 
             mypajQuery('#mypa-load').show();
-
+            clearInterval(resizeIframeInterval);
             resizeIframeWidth();
 
-            setTimeout(function () {
-                resizeIframeWidth();
-            }, 500);
-
-            setTimeout(function () {
+            resizeIframeInterval = setInterval(function () {
                 resizeIframeWidth();
             }, 500);
         }
