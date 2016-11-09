@@ -338,7 +338,7 @@
 
     renderPage = function(response) {
         if (response.data.message === 'No results') {
-            $('#mypa-no-options').html('Geen bezorgopties gevonden voor het opgegeven adres.');
+            $('#mypa-no-options').html('Het opgegevens adres is niet bekend.');
             $('.mypa-overlay').removeClass('mypa-hidden');
             return;
         }
