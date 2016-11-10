@@ -64,7 +64,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
                         mypajQuery('.myparcel_holder').show();
                         mypajQuery('#mypa-load').hide();
                     }
-                }, 4000);
+                }, 8000);
             }
         }
 
