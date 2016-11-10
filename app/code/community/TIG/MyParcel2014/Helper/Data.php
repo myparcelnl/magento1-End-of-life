@@ -1102,7 +1102,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function updateRatePrice(Mage_Sales_Model_Quote $quote = null)
     {
-
         /** @var TIG_MyParcel2014_Helper_Data $helper */
         if (!$quote)
             $quote = Mage::getModel('checkout/cart')->getQuote();
@@ -1138,10 +1137,11 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get the price of the chosen options in the checkout
      *
+     * @param $price
+     *
      * @return float
-     * @throws TIG_MyParcel2014_Exception
      */
-    public function calculatePrice()
+    public function calculatePrice($price = null)
     {
         /**
          * @var Mage_Sales_Model_Quote $quote
@@ -1159,7 +1159,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         $address = $quote->getShippingAddress();
 
-        $price = Mage::getSingleton('core/session')->getMyParcelBasePrice();
+        $price = $price === null ? $price = Mage::getSingleton('core/session')->getMyParcelBasePrice() : $price;
 
         $data = json_decode($quote->getMyparcelData(), true);
 

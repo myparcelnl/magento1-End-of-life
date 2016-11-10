@@ -27,32 +27,21 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
     {
         /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = Mage::helper('tig_myparcel');
+
         /**
          * @var Mage_Sales_Model_Quote $quote
          */
         $quote = $observer->getQuote();
-        if ($quote->getMyparcelData() !== null) {
-            $store = Mage::app()->getStore($quote->getStoreId());
-                $carriers = Mage::getStoreConfig('carriers', $store);
 
-                foreach ($carriers as $carrierCode => $carrierConfig) {
-                    if ($carrierCode == 'myparcel') {
-                        $fee = $this->_isFree() ? 0 : $helper->calculatePrice();
-                        $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
-                        $store->setConfig("carriers/{$carrierCode}/price", $fee);
-                    }
-                }
-        }
-    }
+        $price = Mage::getSingleton('core/session')->getMyParcelBasePrice();
 
-    private function _isFree()
-    {
-        $quote = Mage::getModel('checkout/cart')->getQuote();
-        foreach ($quote->getItemsCollection() as $item) {
-            if ($item->getData('free_shipping') == '1') {
-                return true;
+        $shipAddress = $quote->getShippingAddress();
+        foreach ($shipAddress->getShippingRatesCollection() as $rate) {
+            if ($rate->getCarrier() == 'myparcel') {
+                $price = $rate->getPrice();
+                Mage::getSingleton('core/session')->setMyParcelBasePrice($price);
             }
         }
-        return false;
+        $helper->calculatePrice($price);
     }
 }
