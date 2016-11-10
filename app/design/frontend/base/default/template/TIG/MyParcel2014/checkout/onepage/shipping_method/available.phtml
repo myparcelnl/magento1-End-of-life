@@ -63,8 +63,8 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
         <?php $_sole = count($_shippingRateGroups) == 1;
         foreach ($_shippingRateGroups as $code => $_rates): ?>
 
-            <dt style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
-            <dd style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>">
+            <dt style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>" class="<?php echo $code . '_holder'; ?>"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
+            <dd style="<?php echo $code == 'myparcel' && $useMyParcel && !$toggleOptions ? 'display:none;' : '';?>" class="<?php echo $code . '_holder'; ?>">
                 <ul>
                     <?php $_sole = $_sole && count($_rates) == 1;
                     $lastRate = null;
