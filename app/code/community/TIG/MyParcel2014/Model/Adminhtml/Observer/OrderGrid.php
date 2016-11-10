@@ -41,7 +41,13 @@
  * @method TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid   setBlock(Mage_Adminhtml_Block_Sales_Order_Grid $value)
  * @method Mage_Adminhtml_Block_Sales_Order_Grid                 getBlock()
  */
-class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
+if (file_exists(Mage::getBaseDir() . '/app/code/community/BL/CustomGrid/Model/Grid.php') && class_exists('BL_CustomGrid_Model_Grid')) {
+    class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends BL_CustomGrid_Model_Grid { }
+} else {
+    class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel2014_Model_Grid_OverrideCheck { }
+}
+
+class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
 {
     /**
      * The block we want to edit.
@@ -360,30 +366,30 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
          * Add the print labels mass action.
          */
         $block->getMassactionBlock()
-              ->addItem(
-                  'myparcel_print_labels',
-                  array(
-                      'label' => $helper->__('MyParcel - Create labels'),
-                      'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massPrintLabels'),
-                      'additional' => array(
-                          'type_consignment' => array(
-                              'name'    => 'type_consignment',
-                              'type'    => 'select',
-                              'options' => array(
-                                  'default'     => $helper->__('Accordance with type consignment'),
-                                  TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
-                                  TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
-                                  TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
-                              ),
-                          ),
-                          'create_consignment' => array(
-                              'name'    => 'create_consignment',
-                              'type'    => 'hidden',
-                              'value'   => 1,
-                          ),
-                      )
-                  )
-              );
+            ->addItem(
+                'myparcel_print_labels',
+                array(
+                    'label' => $helper->__('MyParcel - Create labels'),
+                    'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massPrintLabels'),
+                    'additional' => array(
+                        'type_consignment' => array(
+                            'name'    => 'type_consignment',
+                            'type'    => 'select',
+                            'options' => array(
+                                'default'     => $helper->__('Accordance with type consignment'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
+                            ),
+                        ),
+                        'create_consignment' => array(
+                            'name'    => 'create_consignment',
+                            'type'    => 'hidden',
+                            'value'   => 1,
+                        ),
+                    )
+                )
+            );
 
         return $this;
     }
