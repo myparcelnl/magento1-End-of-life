@@ -38,7 +38,9 @@ function checkPendingRequest() {
 setTimeout(function () {
 
     mypajQuery(".onestepcheckout-summary").mouseup(function() {
-        get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
+        setTimeout(function() {
+            get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
+        }, 500);
     });
 
     mypajQuery([
@@ -55,6 +57,6 @@ setTimeout(function () {
         setTimeout(function() {
                 get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
             }
-        , 500);
+            , 500);
     });
 }, 2000);
