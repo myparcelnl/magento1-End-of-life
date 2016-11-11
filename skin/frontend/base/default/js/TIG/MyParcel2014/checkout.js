@@ -58,13 +58,6 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
                     mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
                     mypajQuery('#mypa-load').show();
                 }
-            } else {
-                setTimeout(function () {
-                    if(mypajQuery('#mypa-input').val() == '') {
-                        mypajQuery('.myparcel_holder').show();
-                        mypajQuery('#mypa-load').hide();
-                    }
-                }, 8000);
             }
         }
 
@@ -95,7 +88,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
 
         /**
          * If method not is MyParcel
-        */
+         */
         mypajQuery(observer.magentoMethods).on('click', function () {
             if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
                 if (myParcelToggleOptions) {
