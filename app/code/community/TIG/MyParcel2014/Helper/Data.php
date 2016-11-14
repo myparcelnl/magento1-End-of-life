@@ -1110,25 +1110,27 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
          * @var $rate Mage_Sales_Model_Quote_Address_Rate
          */
         $shipAddress = $quote->getShippingAddress();
-        foreach ($shipAddress->getShippingRatesCollection() as $rate) {
-            if ($rate->getCarrier() == 'myparcel') {
-                $price = $this->calculatePrice();
-                $rate->setPrice($price);
-                $rate->save();
-            }
-        }
-        /**
-         * @var $rate Mage_Sales_Model_Quote_Address_Rate
-         */
-        if ($quote->getMyparcelData() !== null && $price != null) {
-            $store = Mage::app()->getStore($quote->getStoreId());
-            $carriers = Mage::getStoreConfig('carriers', $store);
 
-            foreach ($carriers as $carrierCode => $carrierConfig) {
-                if ($carrierCode == 'myparcel') {
-                    $fee = $price;
-                    $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
-                    $store->setConfig("carriers/{$carrierCode}/price", $fee);
+        if(strpos($shipAddress->getShippingMethod(), 'myparcel') !== false) {
+            foreach ($shipAddress->getShippingRatesCollection() as $rate) {
+                if ($rate->getCarrier() == 'myparcel') {
+                    $price = $this->calculatePrice();
+                    $rate->setPrice($price);
+                    $rate->save();
+                }
+            }
+            /**
+             * @var $rate Mage_Sales_Model_Quote_Address_Rate
+             */
+            if ($quote->getMyparcelData() !== null && $price != null) {
+                $store = Mage::app()->getStore($quote->getStoreId());
+                $carriers = Mage::getStoreConfig('carriers', $store);
+
+                foreach ($carriers as $carrierCode => $carrierConfig) {
+                    if ($carrierCode == 'myparcel') {
+                        $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
+                        $store->setConfig("carriers/{$carrierCode}/price", $price);
+                    }
                 }
             }
         }

@@ -35,8 +35,8 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
 
         $price = Mage::getSingleton('core/session')->getMyParcelBasePrice();
 
+        $shipAddress = $quote->getShippingAddress();
         if ($price === null) {
-            $shipAddress = $quote->getShippingAddress();
             foreach ($shipAddress->getShippingRatesCollection() as $rate) {
                 if ($rate->getCarrier() == 'myparcel') {
                     $price = $rate->getPrice();
@@ -45,6 +45,8 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
             }
         }
 
-        $helper->calculatePrice($price);
+        if(strpos($shipAddress->getShippingMethod(), 'myparcel') !== false) {
+            $helper->calculatePrice($price);
+        }
     }
 }
