@@ -35,13 +35,16 @@ class TIG_MyParcel2014_Model_Observer_SavePrice
 
         $price = Mage::getSingleton('core/session')->getMyParcelBasePrice();
 
-        $shipAddress = $quote->getShippingAddress();
-        foreach ($shipAddress->getShippingRatesCollection() as $rate) {
-            if ($rate->getCarrier() == 'myparcel') {
-                $price = $rate->getPrice();
-                Mage::getSingleton('core/session')->setMyParcelBasePrice($price);
+        if ($price === null) {
+            $shipAddress = $quote->getShippingAddress();
+            foreach ($shipAddress->getShippingRatesCollection() as $rate) {
+                if ($rate->getCarrier() == 'myparcel') {
+                    $price = $rate->getPrice();
+                    Mage::getSingleton('core/session')->setMyParcelBasePrice($price);
+                }
             }
         }
+
         $helper->calculatePrice($price);
     }
 }
