@@ -622,14 +622,14 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
         $perpage = $helper->getConfig('print_orientation');
         $pdfData = $api->createRetrievePdfsRequest($consignmentIds, $start, $perpage)
-            ->sendRequest()
+            ->sendRequest('GET')
             ->getRequestResponse();
 
         $fileName = 'MyParcel Shipping Labels '
             . date('Ymd-His', Mage::getSingleton('core/date')->timestamp())
             . '.pdf';
 
-        $this->_preparePdfResponse($fileName, urldecode($pdfData['pdf']));
+        $this->_preparePdfResponse($fileName, $pdfData);
 
         /**
          * We need to check for warnings before the label download response.
