@@ -288,7 +288,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
         if($checkoutData !== null) {
             $aData = json_decode($checkoutData, true);
-            if($aData['home_address_only']){
+            if(key_exists('home_address_only', $aData) && $aData['home_address_only']){
                 return 1;
             }
         }
@@ -302,7 +302,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
         if($checkoutData !== null) {
             $aData = json_decode($checkoutData, true);
-            if($aData['signed']){
+            if(key_exists('signed', $aData) && $aData['signed']){
                 return 1;
             }
         }
@@ -535,7 +535,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             $consignmentOptions = array_merge($consignmentOptions, $registryOptions);
         }
 
-        if ($registryOptions['type_consignment'] == 'default') {
+        if (key_exists('type_consignment', $registryOptions) || $registryOptions['type_consignment'] == 'default') {
 
             if ($this->helper->getPackageType($this->getTotalWeight(), $this->getShippingAddress()->getCountryId()) == 1) {
                 $type = self::TYPE_NORMAL;

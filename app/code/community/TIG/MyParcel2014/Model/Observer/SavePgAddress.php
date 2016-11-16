@@ -125,7 +125,6 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             return $this;
         }
 
-        $order->setShippingMethod('myparcel_pakjegemak');
         $aMyParcelData = $myParcelData;
         if (key_exists('date', $aMyParcelData)) {
             $dateTime = strtotime($aMyParcelData['date'] . ' 00:00:00');
@@ -146,7 +145,7 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         if (!$pakjeGemakAddress) {
             return $this;
         }
-
+        $order->setShippingMethod('myparcel_pakjegemak');
         Mage::getModel('tig_myparcel/checkout_service')->copyAddressToOrder($order, $pakjeGemakAddress);
         return $this;
     }

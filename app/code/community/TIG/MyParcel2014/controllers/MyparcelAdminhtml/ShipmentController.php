@@ -439,7 +439,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          * Load the shipments and check if they are valid.
          * returns an array with shipment objects
          */
-        $shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
+        $shipments = $this->_loadAndCheckShipments($shipmentIds, true, true, false);
 
         /**
          * Get the labels from CIF.
@@ -562,7 +562,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          * Load the shipments and check if they are valid.
          * returns an array with shipment objects
          */
-        $shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
+        $shipments = $this->_loadAndCheckShipments($shipmentIds, true, false, false);
 
         /**
          * Get the labels from CIF.
@@ -687,13 +687,14 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      * @param array|int $shipmentIds
      * @param boolean   $loadMyParcelShipments Flag that determines whether the shipments will be loaded as
      *                                         Mage_Sales_Model_Shipment or TIG_MyParcel2014_Model_Shipment objects.
-     * @param boolean   $throwException Flag whether an exception should be thrown when loading the shipment fails.
+     * @param boolean   $throwException        Flag whether an exception should be thrown when loading the shipment fails.
+     * @param bool $keyIsConsignmentId         When creating a new shipment there is no consignment_id. Other times it
+     *                                         is necessary to use consignment_id as the key.
      *
      * @return array
-     *
      * @throws TIG_MyParcel2014_Exception
      */
-    protected function _loadAndCheckShipments($shipmentIds, $loadMyParcelShipments = false, $throwException = true)
+    protected function _loadAndCheckShipments($shipmentIds, $loadMyParcelShipments = false, $throwException = true, $keyIsConsignmentId = true)
     {
         if (!is_array($shipmentIds)) {
             $shipmentIds = array($shipmentIds);
@@ -731,7 +732,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 continue;
             }
 
-            $shipments[$shipment->getData('consignment_id')] = $shipment;
+            if ($keyIsConsignmentId) {
+                $shipments[$shipment->getData('consignment_id')] = $shipment;
+            } else {
+                $shipments[] = $shipment;
+            }
         }
 
         return $shipments;
@@ -825,6 +830,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             );
         }
 
+        /** @var Mage_Sales_Model_Order_Shipment $shipment */
         $shipment = Mage::getModel('sales/service_order', $order)
             ->prepareShipment($this->_getItemQtys($order));
 

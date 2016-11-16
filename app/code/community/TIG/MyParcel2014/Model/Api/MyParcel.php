@@ -705,7 +705,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         if ($checkoutData !== null) {
 
-            if ($checkoutData['time'][0]['price_comment'] !== null) {
+            if (key_exists('price_comment', $checkoutData['time'][0]) && $checkoutData['time'][0]['price_comment'] !== null) {
                 switch ($checkoutData['time'][0]['price_comment']) {
                     case 'morning':
                         $data['delivery_type'] = self::TYPE_MORNING;
