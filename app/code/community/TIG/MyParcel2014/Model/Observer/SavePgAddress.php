@@ -127,7 +127,7 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             $sDropOff = date("Y-m-d", $dropOffDate);
 
             $methodDescription = $order->getShippingDescription();
-            $methodDescription .= ' ' . date("d-m-Y", $dropOffDate);;
+            $methodDescription .= ' ' . date("d-m-Y", $dateTime);
 
             $time = $aMyParcelData['time'][0];
             if (!empty($time)) {
