@@ -120,31 +120,34 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         $myParcelData['browser'] = $_SERVER['HTTP_USER_AGENT'];
         $order->setMyparcelData(json_encode($myParcelData));
 
-        if($myParcelData === null || !key_exists('location', $myParcelData)){
-            Mage::getModel('tig_myparcel/checkout_service')->removePgAddress($quote);
-            return $this;
-        }
-
         $aMyParcelData = $myParcelData;
         if (key_exists('date', $aMyParcelData)) {
             $dateTime = strtotime($aMyParcelData['date'] . ' 00:00:00');
             $dropOffDate = $helper->getDropOffDay($dateTime);
             $sDropOff = date("Y-m-d", $dropOffDate);
+
+            $methodDescription = $order->getShippingDescription();
+            $methodDescription .= ' ' . date("d-m-Y", $dropOffDate);;
+
+            $time = $aMyParcelData['time'][0];
+            if (!empty($time)) {
+                $methodDescription .= ' van ' . substr($time['start'], 0, -3). ' tot ' . substr($time['end'], 0, -3);
+            }
+
+            $order->setShippingDescription($methodDescription);
             $order->setMyparcelSendDate($sDropOff);
         }
 
-
         /**
          * Get the PakjeGemak address for this quote.
-         */
-        $pakjeGemakAddress = $helper->getPgAddress($quote);
-
-        /**
          * If no PakjeGemak address was found we don't need to do anything else.
          */
-        if (!$pakjeGemakAddress) {
+        $pakjeGemakAddress = $helper->getPgAddress($quote);
+        if($myParcelData === null || !key_exists('location', $myParcelData) || !$pakjeGemakAddress){
+            Mage::getModel('tig_myparcel/checkout_service')->removePgAddress($quote);
             return $this;
         }
+
         $order->setShippingMethod('myparcel_pakjegemak');
         Mage::getModel('tig_myparcel/checkout_service')->copyAddressToOrder($order, $pakjeGemakAddress);
         return $this;
