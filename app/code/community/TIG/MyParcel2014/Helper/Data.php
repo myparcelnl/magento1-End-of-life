@@ -1168,7 +1168,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         /**
          * If shipping method is delivery else shipping method is pickup
          */
-        if (key_exists('price_comment', $data['time'][0]) && $data['time'][0]['price_comment'] !== null) {
+        if ($data['time'][0] != null && key_exists('price_comment', $data['time'][0]) && $data['time'][0]['price_comment'] !== null) {
             $priceComment = $data['time'][0]['price_comment'];
             if ($priceComment == 'morning') {
                 $price += (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');

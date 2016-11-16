@@ -72,7 +72,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
                 $data = json_decode($request->getPost('mypa-post-nl-data', ''), true);
 
-                if ($data['location'] !== null) {
+                if (key_exists('location', $data) && $data['location'] !== null) {
 
                     /**
                      * is pickup
