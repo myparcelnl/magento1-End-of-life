@@ -94,24 +94,6 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
 
         $address = $quote->getShippingAddress();
 
-        if (strpos($address->getShippingMethod(), 'myparcel') !== false) {
-            $price = $helper->calculatePrice();
-            $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
-        } else {
-            $extraShippingPrice = 0;
-        }
-
-        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $extraShippingPrice));
-        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $extraShippingPrice));
-
-        $this->setQuote($quote);
-        $order
-            ->setShippingInclTax($order->getShippingInclTax() + $extraShippingPrice)
-            ->setShippingAmount($order->getShippingAmount() + $extraShippingPrice)
-            ->setBaseShippingAmount($order->getBaseShippingAmount() + $extraShippingPrice)
-            ->setBaseGrandTotal($order->getBaseGrandTotal() + $extraShippingPrice)
-            ->setGrandTotal($order->getGrandTotal() + $extraShippingPrice);
-
         /**
          * Set myparcel json data from checkout
          */
@@ -155,7 +137,6 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             return $this;
         }
 
-        $order->setShippingMethod('myparcel_pakjegemak');
         Mage::getModel('tig_myparcel/checkout_service')->copyAddressToOrder($order, $pakjeGemakAddress);
         return $this;
     }

@@ -243,13 +243,14 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
                 $currentPrice = $currentRate->getPrice();
                 $extraPrice = $helper->getExtraPrice($method);
 
-                // use a modified clone of the configured shipping rate
+                /**
+                 * Use a modified clone of the configured shipping rate
+                 * @var Mage_Sales_Model_Quote_Address_Rate $newRate
+                 */
                 $newRate = clone $currentRate;
-
                 $newRate->setMethod($method);
                 $newRate->setMethodTitle($shippingRates[$method]);
                 $newRate->setPrice($currentPrice + $extraPrice);
-
                 $result->append($newRate);
             }
         }

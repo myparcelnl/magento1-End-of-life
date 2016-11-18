@@ -50,6 +50,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
          * @var Mage_Sales_Model_Quote $quote
          * @var Mage_Sales_Model_Quote_Item $item
          * @var Mage_Sales_Model_Quote_Address $address
+         * @var Mage_Sales_Model_Quote_Address_Rate $rate
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
 
@@ -66,7 +67,9 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
             $address->requestShippingRates();
 
             foreach ($address->getShippingRatesCollection() as $rate) {
-                if ($rate->getCarrier() == 'myparcel') {
+                if ($rate->getCarrier() == 'myparcel' &&
+                    ($rate->getMethod() == 'flatrate' || $rate->getMethod() == 'tablerate')
+                ) {
 
                     $_excl = $this->getShippingPrice($rate->getPrice(), $quote);
                     $_incl = $this->getShippingPrice($rate->getPrice(), $quote, true);

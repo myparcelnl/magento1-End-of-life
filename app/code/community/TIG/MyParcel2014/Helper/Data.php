@@ -1092,51 +1092,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Update rate price in the checkout
-     *
-     * TIG_MyParcel2014_Model_Observer_SavePrice::salesQuoteCollectTotalsBefore() also ensures that the price will be adjusted at checkout
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     *
-     * @throws Exception
-     */
-    public function updateRatePrice(Mage_Sales_Model_Quote $quote = null)
-    {
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        if (!$quote)
-            $quote = Mage::getModel('checkout/cart')->getQuote();
-        $price = null;
-        /**
-         * @var $rate Mage_Sales_Model_Quote_Address_Rate
-         */
-        $shipAddress = $quote->getShippingAddress();
-
-        if(strpos($shipAddress->getShippingMethod(), 'myparcel') !== false) {
-            foreach ($shipAddress->getShippingRatesCollection() as $rate) {
-                if ($rate->getCarrier() == 'myparcel') {
-                    $price = $this->calculatePrice();
-                    $rate->setPrice($price);
-                    $rate->save();
-                }
-            }
-            /**
-             * @var $rate Mage_Sales_Model_Quote_Address_Rate
-             */
-            if ($quote->getMyparcelData() !== null && $price != null) {
-                $store = Mage::app()->getStore($quote->getStoreId());
-                $carriers = Mage::getStoreConfig('carriers', $store);
-
-                foreach ($carriers as $carrierCode => $carrierConfig) {
-                    if ($carrierCode == 'myparcel') {
-                        $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
-                        $store->setConfig("carriers/{$carrierCode}/price", $price);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Get the price of the chosen options in the checkout
      *
      * @param $method
