@@ -131,7 +131,14 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
 
             $time = $aMyParcelData['time'][0];
             if (!empty($time)) {
-                $methodDescription .= ' van ' . substr($time['start'], 0, -3). ' tot ' . substr($time['end'], 0, -3);
+                $hasEndTime = key_exists('end', $time);
+                if ($hasEndTime)
+                    $methodDescription .= ' van';
+
+                $methodDescription .= ' ' . substr($time['start'], 0, -3);
+
+                if ($hasEndTime)
+                    $methodDescription .= ' tot ' . substr($time['end'], 0, -3);
             }
 
             $order->setShippingDescription($methodDescription);
