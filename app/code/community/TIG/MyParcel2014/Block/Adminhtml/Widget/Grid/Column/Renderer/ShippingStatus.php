@@ -69,6 +69,8 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
         /** @var Mage_Sales_Model_Order $order */
         $shippingMethod = $order->getShippingMethod();
+        if($shippingMethod === null)
+            return '';
 
         /**
          * The shipment was not shipped using MyParcel
