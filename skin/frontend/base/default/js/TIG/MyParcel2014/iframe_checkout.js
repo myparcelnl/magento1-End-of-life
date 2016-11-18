@@ -115,8 +115,8 @@ window.mypa.settings = {};
             price['signed'] = '+ &#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
         }
 
-        if (data.delivery['signature_and_only_recipient'] > 0) {
-            price['combi_options'] = '+ &#8364; ' + data.delivery['signature_and_only_recipient'].toFixed(2).replace(".", ",");
+        if (data.delivery['signature_and_only_recipient_fee'] > 0) {
+            price['combi_options'] = '+ &#8364; ' + data.delivery['signature_and_only_recipient_fee'].toFixed(2).replace(".", ",");
         }
 
         /**

@@ -279,7 +279,7 @@
                 <signature_active>1</signature_active>
                 <signature_title>Handtekening voor ontvangst</signature_title>
                 <signature_fee>0.34</signature_fee>
-                <signature_and_only_recipient>0.42</signature_and_only_recipient>
+                <signature_and_only_recipient_fee>0.42</signature_and_only_recipient_fee>
             </delivery>
             <morningdelivery>
                 <morningdelivery_active>1</morningdelivery_active>

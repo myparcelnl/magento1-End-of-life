@@ -334,7 +334,7 @@
                                 <signature_active>1</signature_active>
                             </depends>
                         </signature_fee>
-                        <signature_and_only_recipient translate="label,comment" module="tig_myparcel">
+                        <signature_and_only_recipient_fee translate="label,comment" module="tig_myparcel">
                             <label>Home address only and signature on receipt together fee</label>
                             <comment>If both have been selected this price will be added to the regular shipping price. Leave empty for not using it.</comment>
                             <frontend_type>text</frontend_type>
@@ -347,7 +347,7 @@
                                 <signature_active>1</signature_active>
                                 <only_recipient_active>1</only_recipient_active>
                             </depends>
-                        </signature_and_only_recipient>
+                        </signature_and_only_recipient_fee>
                     </fields>
                 </delivery>
                 <morningdelivery translate="label comment" module="tig_myparcel">

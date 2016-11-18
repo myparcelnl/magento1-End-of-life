@@ -100,7 +100,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $delivery['signature_active'] =             $helper->getConfig('signature_active', 'delivery') == "1" ? true : false;
         $delivery['signature_title'] =              $helper->getConfig('signature_title', 'delivery');
         $delivery['signature_fee'] =                $this->getShippingPrice($helper->getConfig('signature_fee', 'delivery'), $quote);
-        $delivery['signature_and_only_recipient'] =                $this->getShippingPrice($helper->getConfig('signature_and_only_recipient', 'delivery'), $quote);
+        $delivery['signature_and_only_recipient_fee'] =                $this->getShippingPrice($helper->getConfig('signature_and_only_recipient_fee', 'delivery'), $quote);
         $data['delivery'] = (object)$delivery;
 
         $morningDelivery['active'] =                $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" ? true : false;
