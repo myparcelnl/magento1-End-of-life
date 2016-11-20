@@ -23,7 +23,7 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
 }
 window.mypa.settings = {};
 (function () {
-    var load, info, price, data, excludeDeliveryTypes, getData;
+    var load, info, price, data, excludeDeliveryTypes, getData, updatePageRequest;
 
 
     window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
@@ -42,7 +42,7 @@ window.mypa.settings = {};
                     getData();
 
                     if (address['street']) {
-                        window.mypa.settings = parent.mypajQuery.extend(window.mypa.settings, {
+                        window.mypa.settings = externalJQuery.extend(window.mypa.settings, {
                             postal_code: address['postal_code'].replace(/ /g,""),
                             street: address['street'],
                             number: address['number'],
@@ -58,12 +58,12 @@ window.mypa.settings = {};
                             }
                         });
 
-                        $.when(
+                        externalJQuery.when(
                             updatePageRequest()
                         ).done(function () {
 
-                            parent.mypajQuery('#mypa-load').on('change', function () {
-                                $('#mypa-input', parent.document).trigger('change');
+                            externalJQuery('#mypa-load').on('change', function () {
+                                externalJQuery('#mypa-input').trigger('change');
                             });
                             parent.iframeDataLoaded();
 
@@ -74,7 +74,7 @@ window.mypa.settings = {};
                 }
             }
         };
-        $.ajax(ajaxOptions);
+        externalJQuery.ajax(ajaxOptions);
 
     };
 
@@ -139,7 +139,7 @@ window.mypa.settings = {};
     };
 
     updatePageRequest = function () {
-        if ($.active > 0) {
+        if (parent.active > 0) {
             window.setTimeout(updatePageRequest, 100);
         }
         else {

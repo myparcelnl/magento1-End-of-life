@@ -146,6 +146,36 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
     }
 
     /**
+     * Get allowed shipping methods
+     *
+     * @return array
+     */
+    public function getAllowedMethods()
+    {
+        $helper = $this->helper;
+
+        $deliveryTitle = $helper->getConfig('delivery_title', 'delivery');
+        $onlyRecipientTitle = strtolower($helper->getConfig('only_recipient_title', 'delivery'));
+        $signatureTitle = strtolower($helper->getConfig('signature_title', 'delivery'));
+
+        $methods = array(
+            'delivery_signature' => $deliveryTitle . ' (' . $signatureTitle . ')',
+            'delivery_only_recipient' => $deliveryTitle . ' (' . $onlyRecipientTitle . ')',
+            'delivery_signature_and_only_recipient_fee' => $deliveryTitle . ' (' . $onlyRecipientTitle . ' + ' . $signatureTitle . ')',
+            'morning' => $helper->__('TYPE_morning'),
+            'morning_signature' => $helper->__('TYPE_morning') . ' (' . $signatureTitle . ')',
+            'evening' => $helper->__('TYPE_night'),
+            'evening_signature' => $helper->__('TYPE_night') . ' (' . $signatureTitle . ')',
+            'pickup' => $helper->getConfig('pickup_title', 'pickup'),
+            'pickup_express' => $helper->getConfig('pickup_title', 'pickup') . ' (' . strtolower($helper->__('TYPE_retailexpress')) . ')',
+            'flatrate' => $this->getConfigData('name') . ' flat',
+            'tablerate' => $this->getConfigData('name') . ' table',
+        );
+
+        return $methods;
+    }
+
+    /**
      * Collect and get rates
      *
      * @param Mage_Shipping_Model_Rate_Request $request
@@ -159,8 +189,6 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         if (!$this->getConfigFlag('active')) {
             return false;
         }
-
-
 
         /**
          * @todo Change this so it also works when creating orders in the backend.
@@ -197,36 +225,6 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         }
 
         return $result;
-    }
-
-    /**
-     * Get allowed shipping methods
-     *
-     * @return array
-     */
-    public function getAllowedMethods()
-    {
-        $helper = $this->helper;
-
-        $deliveryTitle = $helper->getConfig('delivery_title', 'delivery');
-        $onlyRecipientTitle = strtolower($helper->getConfig('only_recipient_title', 'delivery'));
-        $signatureTitle = strtolower($helper->getConfig('signature_title', 'delivery'));
-
-        $methods = array(
-            'delivery_signature' => $deliveryTitle . ' (' . $signatureTitle . ')',
-            'delivery_only_recipient' => $deliveryTitle . ' (' . $onlyRecipientTitle . ')',
-            'delivery_signature_and_only_recipient_fee' => $deliveryTitle . ' (' . $onlyRecipientTitle . ' + ' . $signatureTitle . ')',
-            'morning' => $helper->__('TYPE_morning'),
-            'morning_signature' => $helper->__('TYPE_morning') . ' (' . $signatureTitle . ')',
-            'evening' => $helper->__('TYPE_night'),
-            'evening_signature' => $helper->__('TYPE_night') . ' (' . $signatureTitle . ')',
-            'pickup' => $helper->getConfig('pickup_title', 'pickup'),
-            'pickup_express' => $helper->getConfig('pickup_title', 'pickup') . ' (' . strtolower($helper->__('TYPE_retailexpress')) . ')',
-            'flatrate' => $this->getConfigData('name') . ' flat',
-            'tablerate' => $this->getConfigData('name') . ' table',
-        );
-
-        return $methods;
     }
 
     private function addShippingRate(&$result, $settingGroup, $settingAlias, $method)
