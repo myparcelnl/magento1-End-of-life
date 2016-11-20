@@ -62,7 +62,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
         <?php $shippingCodePrice = array(); ?>
         <?php $_sole = count($_shippingRateGroups) == 1;
         foreach ($_shippingRateGroups as $code => $_rates): ?>
-            <?php $hideRate = 'myparcel' && $useMyParcel && !$toggleOptions; ?>
+            <?php $hideRate = $code == 'myparcel' && $useMyParcel && !$toggleOptions; ?>
             <dt style="<?php echo $hideRate ? 'display:none;' : '';?>" class="<?php echo $code . '_holder'; ?>"><?php echo $this->escapeHtml($this->getCarrierName($code)) ?></dt>
             <dd style="<?php echo $hideRate ? 'display:none;' : '';?>" class="<?php echo $code . '_holder'; ?>">
                 <ul>
@@ -71,10 +71,9 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                     foreach ($_rates as $_rate): ?>
                         <?php if ($_rate->getCode() != $lastRate): ?>
                             <?php $lastRate = $_rate->getCode(); ?>
-                            <?php if ($code == 'myparcel') Mage::getSingleton('core/session')->setMyParcelBasePrice((float)$_rate->getPrice()); ?>
                             <?php $shippingCodePrice[] = "'" . $_rate->getCode() . "':" . (float)$_rate->getPrice(); ?>
-                            <li style="<?php echo $code == 'myparcel' && $_rate->getMethod() != 'flatrate' && $_rate->getMethod() != 'tablerate' ? 'display:none' : '';?>">
-                                <?php if ($_rate->getErrorMessage()): ?>
+                            <li style="<?php if ($code == 'myparcel') echo $_rate->getMethod() != 'flatrate' && $_rate->getMethod() != 'tablerate' ? 'display:none' : '';?>">
+                            <?php if ($_rate->getErrorMessage()): ?>
                                     <ul class="messages">
                                         <li class="error-msg">
                                             <ul>
