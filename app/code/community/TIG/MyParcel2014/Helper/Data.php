@@ -239,7 +239,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if ($method == $myParcelCode . '_pakjegemak') {
+        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup' || $method == $myParcelCode . '_pickup_express') {
             return true;
         }
 
