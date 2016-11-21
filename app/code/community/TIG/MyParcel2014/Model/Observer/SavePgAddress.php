@@ -92,8 +92,6 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             return $this;
         }
 
-        $address = $quote->getShippingAddress();
-
         /**
          * Set myparcel json data from checkout
          */
