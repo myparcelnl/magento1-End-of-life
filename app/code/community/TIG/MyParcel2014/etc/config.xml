@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.8.0</version>
+            <version>1.8.1</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -55,15 +55,6 @@
             </tig_myparcel_setup>
         </resources>
         <events>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <your_module>
-                        <type>singleton</type>
-                        <class>tig_myparcel/observer_savePrice</class>
-                        <method>salesQuoteCollectTotalsBefore</method>
-                    </your_module>
-                </observers>
-            </sales_quote_collect_totals_before>
             <sales_order_shipment_save_after>
                 <observers>
                     <tig_myparcel_shipment_save_after>
@@ -279,7 +270,7 @@
                 <signature_active>1</signature_active>
                 <signature_title>Handtekening voor ontvangst</signature_title>
                 <signature_fee>0.34</signature_fee>
-                <signature_and_only_recipient>0.42</signature_and_only_recipient>
+                <signature_and_only_recipient_fee>0.42</signature_and_only_recipient_fee>
             </delivery>
             <morningdelivery>
                 <morningdelivery_active>1</morningdelivery_active>

@@ -3,11 +3,6 @@
     <script>
         var BASE_URL = '<?php echo Mage::getUrl('',array('_secure'=>true));?>';
     </script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/jquery.min.js'; ?>"></script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/moment.min.js'; ?>"></script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/iframe_webcomponents.min.js'; ?>"></script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/iframe_checkout.js'; ?>"></script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/myparcel.js'; ?>"></script>
     <style>
         body {
             margin: 0;
@@ -647,6 +642,12 @@
             </div>
         </div>
     </template>
+
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/jquery.min.js'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/moment.min.js'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/iframe_webcomponents.min.js'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/iframe_checkout.js'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/myparcel.js'; ?>"></script>
     <script>
         setTimeout(function () {
             new MyParcel();
@@ -654,7 +655,7 @@
 
             var fonts = parent.mypajQuery('label').css('font-family');
             var fontsSize = parent.mypajQuery('label').css('font-size');
-            $('#myparcel').css("font-family", fonts).css("font-size", fontsSize);
+            $('#mypa-delivery-options-container').css("font-family", fonts).css("font-size", fontsSize);
         }, 500);
     </script>
 </head>
