@@ -24,40 +24,30 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
 window.mypa.settings = {};
 var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
 (function () {
-    var observer, saveShippingMethodTimeout, resizeIframeWidth, resizeIframeInterval;
+    var observer, resizeIframeWidth, resizeIframeInterval, checkMyParcelMethod, checkMethod;
     observer = parent.mypajQuery.extend({
         input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
         magentoMethods: "input:radio[name='shipping_method']",
-        magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
-        payment: "input[name='payment[method]']",
-        billingPostalCode: "input[name='billing[postcode]']",
-        billingStreet1: "input[name='billing[street][0]']",
-        billingStreet2: "input[name='billing[street][1]']",
-        billingCountry: "select[name='billing[country_id]']",
-        postalCode: "input[name='billing[postcode]']",
-        street1: "input[name='shipping[street][0]']",
-        street2: "input[name='shipping[street][1]']",
-        country: "select[name='shipping[country_id]']"
+        myParcelMethods: ".myparcel_method",
+        myParcelExtraMethods: ".myparcel_extra_method",
+        myParcelBaseMethod: ".myparcel_base_method"
     }, window.mypa.observer);
 
     iframeDataLoaded = function () {
 
-        if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false && mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
+        if (mypajQuery(observer.myParcelMethods).is(":checked") == false && mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
             if (myParcelToggleOptions) {
                 mypajQuery('#mypa-load').hide();
-            } else {
-                if (mypajQuery('#mypa-input').val() != '') {
-                    mypajQuery('#mypa-input').val(null).change();
-                }
+            } else if (mypajQuery('#mypa-input').val() != '') {
+                mypajQuery(observer.myParcelBaseMethod).prop("checked", false);
+                mypajQuery('#mypa-input').val(null).change();
             }
         } else {
-            if(mypajQuery('#mypa-input').val() != '') {
-                if(typeof mypajQuery(observer.magentoMethodMyParcel)[0] !== 'undefined') {
-                    mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
-                    mypajQuery('#mypa-load').show();
-                }
+            if(typeof mypajQuery(observer.myParcelBaseMethod) !== 'undefined') {
+                mypajQuery(observer.myParcelBaseMethod).prop("checked", true);
+                mypajQuery('#mypa-load').show();
             }
         }
 
@@ -69,16 +59,13 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
          * If method is MyParcel
          */
         mypajQuery('#mypa-load').on('change', function () {
-            if(mypajQuery('#mypa-input').val() != '' && !myParcelToggleOptions) {
-                mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
-            }
+            setTimeout(function () {
+                if (mypajQuery('#mypa-input').val() != '' && !myParcelToggleOptions) {
+                    checkMyParcelMethod();
+                }
+            }, 200);
             if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-
-                /** saveShippingMethodTimeout because he should not execute this function eight times in 1/10 seconds */
-                clearTimeout(saveShippingMethodTimeout);
-                saveShippingMethodTimeout = setTimeout(function () {
-                    window.mypa.fn.fnCheckout.saveShippingMethod();
-                }, 100);
+                window.mypa.fn.fnCheckout.saveShippingMethod();
 
                 setTimeout(
                     window.mypa.fn.fnCheckout.hideLoader
@@ -90,13 +77,13 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
          * If method not is MyParcel
          */
         mypajQuery(observer.magentoMethods).on('click', function () {
-            if (mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
+            if (mypajQuery(observer.myParcelMethods + ':checked').length == 0) {
                 if (myParcelToggleOptions) {
                     mypajQuery('#mypa-load').hide();
-                } else {
-                    if (mypajQuery('#mypa-input').val() != '') {
-                        mypajQuery('#mypa-input').val(null).change();
-                    }
+                } else if (mypajQuery('#mypa-input').val() != '') {
+                    mypajQuery(observer.onlyRecipient).prop("checked", false).change();
+                    mypajQuery(observer.signed).prop("checked", false).change();
+                    mypajQuery('#mypa-input').val(null).change();
                 }
             } else {
                 iframeLoaded();
@@ -106,11 +93,10 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
 
 
     iframeLoaded = function () {
-        if (mypajQuery(observer.magentoMethodMyParcel).is(":checked")) {
-            if (myParcelToggleOptions) {
-                mypajQuery('#mypa-load').show();
-            }
+        if (mypajQuery(observer.myParcelMethods).is(":checked") && myParcelToggleOptions) {
+            mypajQuery('#mypa-load').show();
         }
+
         clearInterval(resizeIframeInterval);
         resizeIframeWidth();
 
@@ -121,13 +107,66 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
 
     /**
      * Resizes the given iFrame width so it fits its content
-     * @param e The iframe to resize
      */
     resizeIframeWidth = function () {
         var iframe = mypajQuery('#myparcel-iframe');
         if (iframe && iframe.contents()){
             iframe.height(10).height(iframe.contents().height());
         }
+    };
+
+    checkMyParcelMethod = function() {
+        var recipientOnly = mypajQuery('#mypa-recipient-only').is(":checked");
+        var signed = mypajQuery('#mypa-signed').is(":checked");
+        var type;
+
+        json = jQuery.parseJSON(parent.mypajQuery('#mypa-input').val());
+        if (typeof json.time[0].price_comment != 'undefined') {
+            type = json.time[0].price_comment;
+        } else {
+            type = json.price_comment;
+        }
+
+        switch (type) {
+            case "morning":
+                if (signed) {
+                    checkMethod('#s_method_myparcel_morning_signature');
+                } else {
+                    checkMethod('#s_method_myparcel_morning');
+                }
+                break;
+            case "standard":
+                if (signed && recipientOnly) {
+                    checkMethod('#s_method_myparcel_delivery_signature_and_only_recipient_fee');
+                } else {
+                    if (signed) {
+                        checkMethod('#s_method_myparcel_evening_signature');
+                    } else if (recipientOnly) {
+                        checkMethod('#s_method_myparcel_delivery_only_recipient');
+                    } else {
+                        checkMethod(observer.myParcelBaseMethod);
+                    }
+                }
+                break;
+            case "night":
+                if (signed) {
+                    checkMethod('#s_method_myparcel_evening_signature');
+                } else {
+                    checkMethod('#s_method_myparcel_evening');
+                }
+                break;
+            case "retail":
+                checkMethod('#s_method_myparcel_pickup');
+                break;
+            case "retailexpress":
+                checkMethod('#s_method_myparcel_pickup_express');
+                break;
+
+        }
+    };
+
+    checkMethod = function (selector){
+        mypajQuery(selector).prop("checked", true).change();
     }
 
 })();

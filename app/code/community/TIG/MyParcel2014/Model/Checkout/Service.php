@@ -47,8 +47,6 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $request = Mage::app()->getRequest();
         if($request->isPost()){
 
-            /** @var TIG_MyParcel2014_Helper_Data $helper */
-            $helper = Mage::helper('tig_myparcel');
             $addressHelper = Mage::helper('tig_myparcel/addressValidation');
             /** @var $quote Mage_Sales_Model_Quote */
             $quote = Mage::getModel('checkout/cart')->getQuote();
@@ -92,16 +90,14 @@ class TIG_MyParcel2014_Model_Checkout_Service
                         $data['signed'] = true;
                     }
 
-
                     $this->removePgAddress($quote);
                 }
 
                 $quote->setMyparcelData(json_encode($data))->save();
-                $helper->updateRatePrice($quote);
 
             } else {
                 $quote->setMyparcelData(null)->save();
-                $this->removePgAddress(json_encode($quote));
+                $this->removePgAddress($quote);
             }
         }
         return true;
@@ -115,6 +111,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
      */
     public function savePgAddress($data, Mage_Sales_Model_Quote $quote)
     {
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = Mage::helper('tig_myparcel');
 
         /**

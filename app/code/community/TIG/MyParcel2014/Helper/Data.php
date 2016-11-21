@@ -239,7 +239,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if ($method == $myParcelCode . '_pakjegemak') {
+        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup' || $method == $myParcelCode . '_pickup_express') {
             return true;
         }
 
@@ -1092,59 +1092,57 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Update rate price in the checkout
-     *
-     * TIG_MyParcel2014_Model_Observer_SavePrice::salesQuoteCollectTotalsBefore() also ensures that the price will be adjusted at checkout
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     *
-     * @throws Exception
-     */
-    public function updateRatePrice(Mage_Sales_Model_Quote $quote = null)
-    {
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        if (!$quote)
-            $quote = Mage::getModel('checkout/cart')->getQuote();
-        $price = null;
-        /**
-         * @var $rate Mage_Sales_Model_Quote_Address_Rate
-         */
-        $shipAddress = $quote->getShippingAddress();
-
-        if(strpos($shipAddress->getShippingMethod(), 'myparcel') !== false) {
-            foreach ($shipAddress->getShippingRatesCollection() as $rate) {
-                if ($rate->getCarrier() == 'myparcel') {
-                    $price = $this->calculatePrice();
-                    $rate->setPrice($price);
-                    $rate->save();
-                }
-            }
-            /**
-             * @var $rate Mage_Sales_Model_Quote_Address_Rate
-             */
-            if ($quote->getMyparcelData() !== null && $price != null) {
-                $store = Mage::app()->getStore($quote->getStoreId());
-                $carriers = Mage::getStoreConfig('carriers', $store);
-
-                foreach ($carriers as $carrierCode => $carrierConfig) {
-                    if ($carrierCode == 'myparcel') {
-                        $store->setConfig("carriers/{$carrierCode}/handling_type", 'F'); #F - Fixed, P - Percentage
-                        $store->setConfig("carriers/{$carrierCode}/price", $price);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Get the price of the chosen options in the checkout
      *
-     * @param $price
+     * @param $method
      *
      * @return float
      */
-    public function calculatePrice($price = null)
+    public function getExtraPrice($method)
     {
+        $price = 0;
+        $onlyRecipientFee = (float)$this->getConfig('only_recipient_fee', 'delivery');
+        $signatureFee = (float)$this->getConfig('signature_fee', 'delivery');
+        $morningFee = (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
+        $eveningFee = (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
+        $signatureAndOnlyRecipient = (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
+        $pickupFee = (float)$this->getConfig('pickup_fee', 'pickup');
+        $pickupExpressFee = (float)$this->getConfig('pickup_express_fee', 'pickup_express');
+
+        switch ($method) {
+            case ('delivery_signature'):
+                $price += $signatureFee;
+                break;
+            case ('delivery_only_recipient'):
+                $price += $onlyRecipientFee;
+                break;
+            case ('delivery_signature_and_only_recipient_fee'):
+                $price += $signatureAndOnlyRecipient;
+                break;
+            case ('morning'):
+                $price += $morningFee;
+                break;
+            case ('morning_signature'):
+                $price += $morningFee;
+                $price += $signatureFee;
+                break;
+            case ('evening'):
+                $price += $eveningFee;
+                break;
+            case ('evening_signature'):
+                $price += $eveningFee;
+                $price += $signatureFee;
+                break;
+            case ('pickup'):
+                $price += $pickupFee;
+                break;
+            case ('pickup_express'):
+                $price += $pickupExpressFee;
+                break;
+        }
+
+        return $price;
+
         /**
          * @var Mage_Sales_Model_Quote $quote
          * @var Mage_Sales_Model_Quote_Address $address
@@ -1181,9 +1179,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 $priceComment != 'night' &&
                 $priceComment != 'morning' &&
                 key_exists('signed', $data) &&
-                $this->getConfig('signature_and_only_recipient', 'delivery') > 0
+                $this->getConfig('signature_and_only_recipient_fee', 'delivery') > 0
             ) {
-                $price += (float)$this->getConfig('signature_and_only_recipient', 'delivery');
+                $price += (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
             } else {
                 if (key_exists('home_address_only', $data) && $priceComment != 'night' && $priceComment != 'morning')
                     $price += (float)$this->getConfig('only_recipient_fee', 'delivery');
