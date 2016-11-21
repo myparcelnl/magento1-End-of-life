@@ -451,6 +451,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             try {
                 if (!$shipment->hasConsignmentId()) {
                     $type = $this->getRequest()->getParam('type_consignment');
+                    $type = $type ? $type : 'default';
 
                     if($helper->getPgAddress($shipment->getOrder()) && $type != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL && $type != 'default'){
                         $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
