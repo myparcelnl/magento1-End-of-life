@@ -175,9 +175,11 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
         //]]>
     </script>
     <script>
-        iframeLoaded();
-        mypajQuery('#mypa-input').on('change', (function () {
-            iframeLoaded()
-        }));
+        mypajQuery( document ).ready(function() {
+            iframeLoaded();
+            mypajQuery('#mypa-input').on('change', (function () {
+                iframeLoaded()
+            }));
+        });
     </script>
 <?php endif; ?>
