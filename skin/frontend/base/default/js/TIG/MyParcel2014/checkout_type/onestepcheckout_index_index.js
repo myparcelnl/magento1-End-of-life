@@ -3,7 +3,7 @@ if (typeof window.mypa == 'undefined') {
     window.mypa.observer = {};
     window.mypa.fn = {};
 }
-var timeout, timeout2, xhr;
+var timeout, xhr, latestData;
 var fnCheckout = {
     'saveShippingMethod': function () {
 
@@ -35,13 +35,52 @@ function checkPendingRequest() {
     }
 };
 
+function myparcelSaveBilling() {
+    setTimeout(function() {
+            var currentData = mypajQuery("input[id='billing:street1']").val();
+            if(mypajQuery("input[id='billing:street2']").length && mypajQuery("input[id='billing:street2']").val().length){
+                currentData = currentData + mypajQuery("input[id='billing:street2']").val();
+            }
+            if(mypajQuery("input[id='shipping:street1']").length && mypajQuery("input[id='shipping:street1']").val().length){
+                currentData = currentData + mypajQuery("input[id='shipping:street1']").val();
+            }
+            if(mypajQuery("input[id='shipping:street2']").length && mypajQuery("input[id='shipping:street2']").val().length){
+                currentData = currentData + mypajQuery("input[id='shipping:street2']").val();
+            }
+
+            if (latestData == currentData) {
+                console.log(currentData);
+                myparcelSaveBilling();
+            } else {
+                get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
+
+                latestData = mypajQuery("input[id='billing:street1']").val();
+                if(mypajQuery("input[id='billing:street2']").length && mypajQuery("input[id='billing:street2']").val().length){
+                    latestData = latestData + mypajQuery("input[id='billing:street2']").val();
+                }
+            }
+        }
+        , 300);
+}
+
 setTimeout(function () {
 
-    mypajQuery(".onestepcheckout-summary").mouseup(function() {
+    mypajQuery(".onestepcheckout-summary > tbody > tr > .editcart").mouseup(function() {
         setTimeout(function() {
             get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
         }, 500);
     });
+
+    latestData = mypajQuery("input[id='billing:street1']").val();
+    if(mypajQuery("input[id='billing:street2']").length && mypajQuery("input[id='billing:street2']").val().length){
+        latestData = latestData + mypajQuery("input[id='billing:street2']").val();
+    }
+    if(mypajQuery("input[id='shipping:street1']").length && mypajQuery("input[id='shipping:street1']").val().length){
+        latestData = latestData + mypajQuery("input[id='shipping:street1']").val();
+    }
+    if(mypajQuery("input[id='shipping:street2']").length && mypajQuery("input[id='shipping:street2']").val().length){
+        latestData = latestData + mypajQuery("input[id='shipping:street2']").val();
+    }
 
     mypajQuery([
         "input[id='billing:street1']",
@@ -53,10 +92,6 @@ setTimeout(function () {
         "input[id='shipping:postcode_housenumber']",
         "input[id='shipping:postcode']"
     ].join()).on('change', function () {
-
-        setTimeout(function() {
-                get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
-            }
-            , 500);
+        myparcelSaveBilling();
     });
 }, 2000);
