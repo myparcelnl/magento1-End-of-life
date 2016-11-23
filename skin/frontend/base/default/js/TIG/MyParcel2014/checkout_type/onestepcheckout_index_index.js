@@ -65,10 +65,12 @@ function myparcelSaveBilling() {
 
 setTimeout(function () {
 
-    mypajQuery(".onestepcheckout-summary > tbody > tr > .editcart").mouseup(function() {
-        setTimeout(function() {
-            get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
-        }, 500);
+    mypajQuery(".onestepcheckout-summary").mouseup(function(event) {
+        if(event.target.classList.contains( 'subsqty' ) || event.target.classList.contains( 'addsqty' )) {
+            setTimeout(function () {
+                get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
+            }, 500);
+        }
     });
 
     latestData = mypajQuery("input[id='billing:street1']").val();
