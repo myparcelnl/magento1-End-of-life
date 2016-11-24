@@ -233,7 +233,11 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         $shippingRates = $this->allowed_methods;
         if (
             $helper->getConfig($settingAlias . '_active', $settingGroup) == "1" ||
-            ($settingAlias == 'signature_and_only_recipient_fee' && $helper->getConfig('signature_and_only_recipient_fee', 'delivery') > 0)
+            (
+                $settingAlias == 'signature_and_only_recipient_fee' &&
+                $helper->getConfig('only_recipient_active', 'delivery') == "1" &&
+                $helper->getConfig('signature_active', 'delivery') == "1"
+            )
         ) {
             $currentRate = current($result->getRatesByCarrier($this->_code));
 
