@@ -82,6 +82,7 @@ class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
      */
     public function modifyGrid(Varien_Event_Observer $observer)
     {
+        $helper = Mage::helper('tig_myparcel');
         /**
          * Checks if the current block is the one we want to edit.
          *
@@ -99,23 +100,43 @@ class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
         /**
          * check if the extension is active
          */
-        if (!Mage::helper('tig_myparcel')->isEnabled()) {
+        if (!$helper->isEnabled()) {
             return $this;
         }
 
-        /**
-         * replace the collection, as the default collection has a bug preventing it from being reset.
-         * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
-         */
-        $collection = $block->getCollection();
+        $useFilter = $helper->getConfig('use_filter', 'general') == '1';
+        if ($useFilter) {
+
+
+            /**
+             * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
+             * @var Mage_Sales_Model_Resource_Order_Collection $currentCollection
+             */
+            $currentCollection = $block->getCollection();
+            $select = $currentCollection->getSelect()->reset(Zend_Db_Select::WHERE);
+
+            /**
+             * replace the collection, as the default collection has a bug preventing it from being reset.
+             * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
+             */
+            $collection = Mage::getResourceModel('tig_myparcel/order_grid_collection');
+            $collection->setSelect($select)
+                ->setPageSize($currentCollection->getPageSize())
+                ->setCurPage($currentCollection->getCurPage());
+
+        } else {
+            $collection = $block->getCollection();
+        }
 
         $this->setCollection($collection);
         $this->setBlock($block);
 
-        $this->_joinCollection($collection);
-        $this->_modifyColumns($block);
         $this->_addColumns($block);
-        $this->_applySortAndFilter();
+        if($useFilter) {
+            $this->_joinCollection($collection);
+            $this->_applySortAndFilter();
+        }
+
         $this->_addMassaction($block);
 
         $block->setCollection($collection);
@@ -133,25 +154,6 @@ class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
     {
         $resource = Mage::getSingleton('core/resource');
 
-        $collection->addExpressionFieldToSelect(
-            'country_id',
-            'IF({{pakjegemak_parent_id}}, {{pakjegemak_country_id}}, {{shipping_country_id}})',
-            array(
-                'pakjegemak_parent_id'   => 'pakjegemak_address.parent_id',
-                'pakjegemak_country_id'  => 'pakjegemak_address.country_id',
-                'shipping_country_id'    => 'shipping_address.country_id',
-            )
-        );
-        $collection->addExpressionFieldToSelect(
-            'postcode',
-            'IF({{pakjegemak_parent_id}}, {{pakjegemak_postcode}}, {{shipping_postcode}})',
-            array(
-                'pakjegemak_parent_id' => 'pakjegemak_address.parent_id',
-                'pakjegemak_postcode'  => 'pakjegemak_address.postcode',
-                'shipping_postcode'    => 'shipping_address.postcode',
-            )
-        );
-
         $select = $collection->getSelect();
 
         /**
@@ -165,116 +167,11 @@ class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
             )
         );
 
-        /**
-         * Join sales_flat_order_address table.
-         */
-        $select->joinLeft(
-            array('shipping_address' => $resource->getTableName('sales/order_address')),
-            "main_table.entity_id=shipping_address.parent_id AND shipping_address.address_type='shipping'",
-            array()
-        );
-        $select->joinLeft(
-            array('pakjegemak_address' => $resource->getTableName('sales/order_address')),
-            "main_table.entity_id=pakjegemak_address.parent_id " .
-            "AND pakjegemak_address.address_type='pakje_gemak'",
-            array()
-        );
-
-        /**
-         * Join tig_myparcel_shipment table.
-         */
-        $select->joinLeft(
-            array('tig_myparcel_shipment' => $resource->getTableName('tig_myparcel/shipment')),
-            'main_table.entity_id=tig_myparcel_shipment.order_id',
-            array(
-                'shipping_status' => new Zend_Db_Expr(
-                    'group_concat(tig_myparcel_shipment.status ORDER BY '
-                    . 'tig_myparcel_shipment.created_at DESC SEPARATOR ",")'
-                ),
-                'barcode' => new Zend_Db_Expr(
-                    'group_concat(tig_myparcel_shipment.barcode ORDER BY '
-                    . 'tig_myparcel_shipment.created_at DESC SEPARATOR ",")'
-                ),
-            )
-        );
 
         /**
          * Group the results by the ID column.
          */
         $select->group('main_table.entity_id');
-
-        return $this;
-    }
-
-    /**
-     * Modifies existing columns to prevent issues with the new collections.
-     *
-     * @param Mage_Adminhtml_Block_Sales_Order_Grid $block
-     *
-     * @return $this
-     */
-    protected function _modifyColumns($block)
-    {
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $incrementIdColumn
-         */
-        $incrementIdColumn = $block->getColumn('real_order_id');
-        if ($incrementIdColumn) {
-            $incrementIdColumn->setFilterIndex('main_table.increment_id');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $massactionColumn
-         */
-        $massactionColumn = $block->getColumn('massaction');
-        if ($massactionColumn) {
-            $massactionColumn->setFilterIndex('main_table.entity_id');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $statusColumn
-         * Fix status_preorder for Aitoc Aitpreorder plugin
-         */
-        $statusColumn = $block->getColumn('status');
-        if($statusColumn == false) {
-            $statusColumn = $block->getColumn('status_preorder');
-        }
-
-        if ($statusColumn) {
-            $statusColumn->setFilterIndex('main_table.status');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $createdAtColumn
-         */
-        $createdAtColumn = $block->getColumn('created_at');
-        if ($createdAtColumn) {
-            $createdAtColumn->setFilterIndex('main_table.created_at');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $baseGrandTotalColumn
-         */
-        $baseGrandTotalColumn = $block->getColumn('base_grand_total');
-        if ($baseGrandTotalColumn) {
-            $baseGrandTotalColumn->setFilterIndex('main_table.base_grand_total');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $grandTotalColumn
-         */
-        $grandTotalColumn = $block->getColumn('grand_total');
-        if ($grandTotalColumn) {
-            $grandTotalColumn->setFilterIndex('main_table.grand_total');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $storeIdColumn
-         */
-        $storeIdColumn = $block->getColumn('store_id');
-        if ($storeIdColumn) {
-            $storeIdColumn->setFilterIndex('main_table.store_id');
-        }
 
         return $this;
     }
@@ -297,7 +194,6 @@ class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
             'shipping_status',
             array(
                 'header'         => $helper->__('Shipping status'),
-                'index'          => 'shipping_status',
                 'sortable'       => false,
                 'renderer'       => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
                 'type'           => 'options',
