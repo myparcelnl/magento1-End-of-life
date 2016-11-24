@@ -433,7 +433,7 @@ sortLocationsOnDistance = function(pickupOptions) {
 
 showDefaultPickupLocation = function(selector, item) {
     var html;
-        html = ' - <span class="edit-location">Aanpassen</span><span class="text-location">' + item.location + ", " + item.street + " " + item.number + '</span>';
+        html = ' - <span class="edit-location">Aanpassen</span><span class="text-location">' + item.location + ", " + item.street + " " + item.number + ", " + item.city + '</span>';
     $(selector).html(html);
     $(selector).parent().find('input').val(JSON.stringify(item));
     return updateInputField();
