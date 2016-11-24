@@ -535,7 +535,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             $consignmentOptions = array_merge($consignmentOptions, $registryOptions);
         }
 
-        if (key_exists('type_consignment', $registryOptions) || $registryOptions['type_consignment'] == 'default') {
+        if (!key_exists('type_consignment', $registryOptions) || $registryOptions['type_consignment'] == 'default') {
 
             if ($this->helper->getPackageType($this->getTotalWeight(), $this->getShippingAddress()->getCountryId()) == 1) {
                 $type = self::TYPE_NORMAL;
