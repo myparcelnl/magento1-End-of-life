@@ -60,7 +60,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
          */
         mypajQuery('#mypa-load').on('change', function () {
             setTimeout(function () {
-                if (mypajQuery('#mypa-input').val() != '' && !myParcelToggleOptions) {
+                if (mypajQuery('#mypa-input').val() != '') {
                     checkMyParcelMethod();
                 }
             }, 200);
@@ -166,6 +166,10 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
     };
 
     checkMethod = function (selector){
+        if(myParcelToggleOptions) {
+            mypajQuery('.myparcel_holder > ul > li').hide();
+            mypajQuery(selector).parent().show();
+        }
         mypajQuery(selector).prop("checked", true).change();
     }
 

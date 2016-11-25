@@ -49,7 +49,6 @@ function myparcelSaveBilling() {
             }
 
             if (latestData == currentData) {
-                console.log(currentData);
                 myparcelSaveBilling();
             } else {
                 get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
