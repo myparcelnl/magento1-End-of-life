@@ -54,25 +54,4 @@ class TIG_MyParcel2014_Model_Type_Onepage extends Mage_Checkout_Model_Type_Onepa
 
         return array();
     }
-
-
-    /**
-     * Specify quote payment method
-     *
-     * @param   array $data
-     * @return  array
-     */
-    public function savePayment($data)
-    {
-
-        $return = parent::savePayment($data);
-
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        $helper = Mage::helper('tig_myparcel');
-        $price = $helper->calculatePrice();
-        $this->getQuote()->getShippingAddress()->setShippingAmount($price);
-
-        return $return;
-    }
-
 }
