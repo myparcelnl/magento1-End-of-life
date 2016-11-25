@@ -104,75 +104,15 @@ class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
             return $this;
         }
 
-        $useFilter = $helper->getConfig('use_filter', 'general') == '1';
-        if ($useFilter) {
-
-
-            /**
-             * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
-             * @var Mage_Sales_Model_Resource_Order_Collection $currentCollection
-             */
-            $currentCollection = $block->getCollection();
-            $select = $currentCollection->getSelect()->reset(Zend_Db_Select::WHERE);
-
-            /**
-             * replace the collection, as the default collection has a bug preventing it from being reset.
-             * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
-             */
-            $collection = Mage::getResourceModel('tig_myparcel/order_grid_collection');
-            $collection->setSelect($select)
-                ->setPageSize($currentCollection->getPageSize())
-                ->setCurPage($currentCollection->getCurPage());
-
-        } else {
-            $collection = $block->getCollection();
-        }
+        $collection = $block->getCollection();
 
         $this->setCollection($collection);
         $this->setBlock($block);
 
         $this->_addColumns($block);
-        if($useFilter) {
-            $this->_joinCollection($collection);
-            $this->_applySortAndFilter();
-        }
-
         $this->_addMassaction($block);
 
         $block->setCollection($collection);
-        return $this;
-    }
-
-    /**
-     * Adds additional joins to the collection that will be used by newly added columns.
-     *
-     * @param TIG_MyParcel2014_Model_Resource_Order_Grid_Collection $collection
-     *
-     * @return $this
-     */
-    protected function _joinCollection($collection)
-    {
-        $resource = Mage::getSingleton('core/resource');
-
-        $select = $collection->getSelect();
-
-        /**
-         * Join sales_flat_order table.
-         */
-        $select->joinInner(
-            array('tig_myparcel_order' => $resource->getTableName('sales/order')),
-            'main_table.entity_id=tig_myparcel_order.entity_id',
-            array(
-                'shipping_method' => 'tig_myparcel_order.shipping_method',
-            )
-        );
-
-
-        /**
-         * Group the results by the ID column.
-         */
-        $select->group('main_table.entity_id');
-
         return $this;
     }
 

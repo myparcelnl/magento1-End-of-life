@@ -421,10 +421,6 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             }
         }
 
-        if($errors > 0){
-            $this->_redirect('adminhtml/sales_order/index');
-        }
-
         // if new shipments are created, refresh the collection of shipments for the orders
         if(!empty($newShipments))
         {
@@ -523,7 +519,6 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          * @var TIG_MyParcel2014_Model_Shipment $shipment
          */
         $shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
-
 
         $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
         $apiInfo    ->setStoreId($storeId);
