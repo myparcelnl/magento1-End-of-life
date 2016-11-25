@@ -720,9 +720,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                 if ($checkoutData['date'] !== null) {
                     $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
-                    if (date_parse($checkoutDateTime) >= new dateTime()) {
-                        $data['delivery_date'] = $checkoutDateTime;
-                    }
+                    $data['delivery_date'] = $checkoutDateTime;
                     $dateTime = date_parse($checkoutData['date']);
                     $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
                 }
