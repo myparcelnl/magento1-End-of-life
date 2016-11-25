@@ -59,6 +59,7 @@ TIG_MyParcel2014::Dropoff-delay,Vertraging
 TIG_MyParcel2014::No delay,Geen vertraging
 TIG_MyParcel2014::Base color,Basis kleur
 TIG_MyParcel2014::Color for selected items,Kleur voor geselecteerde items
+TIG_MyParcel2014::Add style to the checkout,Voeg een css file toe aan de checkout
 TIG_MyParcel2014::Delivery,Bezorging
 TIG_MyParcel2014::Delivery title,Bezorging titel
 TIG_MyParcel2014::To determine the base price you have to navigate in the menu to <a id=""shipping_method_link"">Shipping Methods</a>.,Om de basisprijs te bepalen moet je navigeren naar <a id=""shipping_method_link"">Verzendmethodes</a>

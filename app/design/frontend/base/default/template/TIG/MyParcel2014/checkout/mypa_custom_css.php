@@ -99,3 +99,13 @@
 
     <?php endif;?>
 </style>
+<?php $cssPath = $helper->getConfig('css_path', 'checkout');?>
+<?php if ($cssPath !== ''):?>
+    <?php if (file_exists(Mage::getBaseDir() . DS . $cssPath)):?>
+        <style>
+            <?php include(Mage::getBaseDir() . DS . $cssPath); ?>
+        </style>
+    <?php else: ?>
+        File not found: <?php echo Mage::getBaseDir() . DS . $cssPath;?>
+    <?php endif;?>
+<?php endif;?>
