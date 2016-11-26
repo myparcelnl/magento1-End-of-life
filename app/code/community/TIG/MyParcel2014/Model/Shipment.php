@@ -496,13 +496,13 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     public function calculateConsignmentOptions()
     {
         $homeAddressOnly     = $this->getHomeAddressOnlyOption();
-        $signtatureOnReceipt = $this->getSignatureOnReceiptOption();
+        $signatureOnReceipt = $this->getSignatureOnReceiptOption();
         $returnIfNoAnswer    = $this->getReturnIfNoAnswerOption();
         $xl                  = $this->getXlOption();
         $insured             = $this->getInsuredOption();
 
         $this->setDataUsingMethod($homeAddressOnly['option'], $homeAddressOnly['selected']);
-        $this->setDataUsingMethod($signtatureOnReceipt['option'], $signtatureOnReceipt['selected']);
+        $this->setDataUsingMethod($signatureOnReceipt['option'], $signtatureOnReceipt['selected']);
         $this->setDataUsingMethod($returnIfNoAnswer['option'], $returnIfNoAnswer['selected']);
         $this->setDataUsingMethod($xl['option'], $xl['selected']);
         $this->setDataUsingMethod($insured['option'], $insured['selected']);
