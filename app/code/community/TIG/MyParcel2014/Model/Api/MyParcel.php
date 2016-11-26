@@ -319,7 +319,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         //read the response
         $response = $request->read();
 
-        $aResult = json_decode($response, true);
+       $aResult = json_decode($response, true);
 
         if(is_array($aResult)){
 
@@ -474,7 +474,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * @return $this
      * @var Mage_Sales_Model_Order_Shipment $shipment
      */
-    public function createRetourlinkRequest($shipment, $consignmentId)
+    public function createRetourmailRequest($shipment, $consignmentId)
     {
         $data = array(
             'parent' => (int)$consignmentId,
@@ -486,6 +486,24 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $requestString = $this->_createRequestString($data, 'return_shipments');
 
         $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_RETURN);
+
+        return $this;
+    }
+
+    /**
+     * create a request string for generating a retour-url
+     *
+     * @param $consignmentId
+     * @return $this
+     * @var Mage_Sales_Model_Order_Shipment $shipment
+     */
+    public function createRetourlinkRequest($shipment, $consignmentId)
+    {
+        $data = array('id' => (int)$consignmentId);
+
+        $requestString = $this->_createRequestString($data, 'parent_shipments');
+
+        $this->_setRequestParameters($requestString, 'create_related_return_shipment_link', self::REQUEST_HEADER_RETURN);
 
         return $this;
     }
@@ -784,7 +802,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $requestData['data'][$dataType][] = $data;
 
         return json_encode($requestData);
-
     }
 
     /**

@@ -39,6 +39,7 @@
  */
 class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Object
 {
+    const RETOURMAIL_ROUTE = 'adminhtml/myparcelAdminhtml_config/generateRetourmail';
     const RETOURLINK_ROUTE = 'adminhtml/myparcelAdminhtml_config/generateRetourlink';
     const CREDIT_CONSIGNMENT_ROUTE = 'adminhtml/myparcelAdminhtml_config/creditConsignment';
 
@@ -87,12 +88,19 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
                 // remove Send Tracking Information button
                 $block->removeButton('save');
             } else if ($myParcelShipment->getShipment()->getShippingAddress()->getCountry() == 'NL') {
-                $retourUrl = $block->getUrl(self::RETOURLINK_ROUTE, array('shipment_id' => $shipmentId,));
 
-                $block->addButton('myparcel_create_return_url', array(
+                $mailRetournMailAction = $block->getUrl(self::RETOURMAIL_ROUTE, array('shipment_id' => $shipmentId,));
+                $block->addButton('myparcel_mail_return_label', array(
                     'label' => $helper->__('Mail retour label'),
                     'class' => 'go',
-                    'onclick' => "setLocation('" . $retourUrl . "')",
+                    'onclick' => "setLocation('" . $mailRetournMailAction . "')",
+                ));
+
+                $retourLinkAction = $block->getUrl(self::RETOURLINK_ROUTE, array('shipment_id' => $shipmentId,));
+                $block->addButton('myparcel_create_return_url', array(
+                    'label' => $helper->__('Get retour label url'),
+                    'class' => 'go',
+                    'onclick' => "setLocation('" . $retourLinkAction . "')",
                 ));
             }
         }
