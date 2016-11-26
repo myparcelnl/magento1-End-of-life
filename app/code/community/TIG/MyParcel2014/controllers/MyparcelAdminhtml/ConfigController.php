@@ -125,7 +125,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml
          * @var TIG_MyParcel2014_Model_Api_MyParcel $api
          */
         $api      = $myparcelShipment->getApi();
-        $response = $api->createRetourlinkRequest($shipment, $consignmentId)
+        $response = $api->createRetourlinkRequest($consignmentId)
                         ->setStoreId($shipment->getOrder()->getStoreId())
                         ->sendRequest()
                         ->getRequestResponse();

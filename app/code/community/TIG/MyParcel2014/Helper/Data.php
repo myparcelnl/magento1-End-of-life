@@ -1019,6 +1019,25 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             return false;
         }
 
+        $retourLabelUrl = '';
+        $emailTemplate  = Mage::getModel('core/email_template')->load($templateId);
+        if (strpos($emailTemplate->getTemplateText(), 'retourlabel_url') > 0) {
+
+            /**
+             * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+             */
+            $api      = $myParcelShipment->getApi();
+            $response = $api->createRetourlinkRequest($myParcelShipment->getConsignmentId())
+                ->setStoreId($myParcelShipment->getShipment()->getOrder()->getStoreId())
+                ->sendRequest()
+                ->getRequestResponse();
+            $aResponse = json_decode($response, true);
+            if ($aResponse) {
+                $retourLabelUrl = $aResponse['data']['download_url'][0]['link'];
+            }
+
+        }
+
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
@@ -1044,11 +1063,13 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             'tracktrace_url' => $barcodeUrl,
             'order' => $order,
             'shipment' => $myParcelShipment->getShipment(),
+            'retourlabel_url' => $retourLabelUrl,
             'billing' => $order->getBillingAddress(),
             'payment_html' => $paymentBlockHtml,
         );
 
         try {
+            /* @var Mage_Core_Model_Email_Template_Mailer $mailer */
             $mailer = Mage::getModel('core/email_template_mailer');
             $emailInfo = Mage::getModel('core/email_info');
             $emailInfo->addTo($order->getCustomerEmail(), $shippingAddress->getName());

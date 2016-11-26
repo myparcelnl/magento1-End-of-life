@@ -495,9 +495,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param $consignmentId
      * @return $this
-     * @var Mage_Sales_Model_Order_Shipment $shipment
      */
-    public function createRetourlinkRequest($shipment, $consignmentId)
+    public function createRetourlinkRequest($consignmentId)
     {
         $data = array('id' => (int)$consignmentId);
 
