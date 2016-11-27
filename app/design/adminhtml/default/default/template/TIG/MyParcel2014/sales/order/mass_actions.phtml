@@ -42,8 +42,11 @@
 <?php $helper = Mage::helper('tig_myparcel');?>
     <script>
         /* Select MyParcel option */
-        document.getElementById('sales_order_grid_massaction-select').value = 'myparcel_print_labels';
-        $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="default"><?php echo $helper->__('Accordance with type consignment');?></option><option value="normal"><?php echo $helper->__('Normal');?></option><option value="letter_box"><?php echo $helper->__('Letterbox'); ?></option><option value="unstamped"><?php echo $helper->__('Unpaid'); ?></option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
+        function selectMyparcel() {
+            document.getElementById('sales_order_grid_massaction-select').value = 'myparcel_print_labels';
+            $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="default"><?php echo $helper->__('Accordance with type consignment');?></option><option value="normal"><?php echo $helper->__('Normal');?></option><option value="letter_box"><?php echo $helper->__('Letterbox'); ?></option><option value="unstamped"><?php echo $helper->__('Unpaid'); ?></option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
+        }
+        selectMyparcel();
     </script>
 <?php if ($helper->getConfig('print_orientation') == 'A4'): ?>
     <div id="print_container" style="display:none;">
@@ -143,6 +146,12 @@
                                 printChildren[i].observe('click', function (event) {
                                     $('myparcel_print_labels_start').value = Event.element(event).innerHTML;
                                     Windows.close('myparcel_popup_window');
+                                    setTimeout(function () {
+                                        sales_order_gridJsObject.reload();
+                                        setTimeout(function () {
+                                            selectMyparcel();
+                                        }, 5000);
+                                    }, 2000);
                                     this.apply(true);
                                 }.bindAsEventListener(this));
                             }

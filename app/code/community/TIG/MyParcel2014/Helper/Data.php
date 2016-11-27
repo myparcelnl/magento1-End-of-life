@@ -239,7 +239,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if ($method == $myParcelCode . '_pakjegemak') {
+        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup' || $method == $myParcelCode . '_pickup_express') {
             return true;
         }
 
@@ -433,10 +433,17 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $fullStreet = preg_replace("/[\n\r]/", " ", $fullStreet);
 
+        if (strlen($fullStreet) > 40) {
+            throw new TIG_MyParcel2014_Exception(
+                $this->__('Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice of MyParcel.'),
+                'MYPA-0026'
+            );
+        }
+
         $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
-        if (!$result || !is_array($matches) || $fullStreet != $matches[0]) {
-            if ($fullStreet != $matches[0]) {
+        if (!$result || !is_array($matches) || (isset($matches[0]) && $fullStreet != $matches[0])) {
+            if (isset($matches[0]) && $fullStreet != $matches[0]) {
                 // Characters are gone by preg_match
                 throw new TIG_MyParcel2014_Exception(
                     $this->__('Something went wrong with splitting up address %s.', $fullStreet),
@@ -486,7 +493,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getTotalWeight($products)
     {
-        $totalWeight = 0;
+        $totalWeight = false;
         /** @var Mage_Sales_Model_Order_Item $product */
         foreach ($products as $product) {
             if ($product->canShip()) {
@@ -501,13 +508,20 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      * @param int    $weight
      * @param string $country
      * @param bool   $getAdminTitle
+     * @param bool   $pakjegemak
      *
      * @return int|string package = 1, mailbox = 2, letter = 3
      */
-    public function getPackageType($weight, $country, $getAdminTitle = false)
+    public function getPackageType($weight, $country, $getAdminTitle = false, $pakjegemak = false)
     {
-        $weight = $this->getCorrectWeight((float)$weight);
-        $type = $weight <= 2 && $country == 'NL' && $weight != 0 ? 2 : 1;
+        $useMailboxTitle = $this->getConfig('mailbox_title', 'delivery') == '' ? false : true;
+
+        if ($pakjegemak || $useMailboxTitle == false){
+            $type = 1;
+        } else {
+            $weight = $this->getCorrectWeight((float)$weight);
+            $type = $weight <= 2 && $country == 'NL' && $weight != 0 ? 2 : 1;
+        }
 
         if ($getAdminTitle) {
             return $type == 1 ? $this->__('Normal') : $this->__('Letter box');
@@ -536,7 +550,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getHsCodes($products, $_storeId)
     {
-        $hs = [];
+        $hs = array();
         /** @var Mage_Sales_Model_Order_Item $item */
         foreach ($products as $item) {
             $hs[$this->getHsCode($item, $_storeId)] = $this->getHsCode($item, $_storeId);
@@ -585,12 +599,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     protected function _getInternationalFullStreet($address)
     {
-        if (empty($address->getStreet2())) {
+        if (!$address->getStreet2()) {
             return preg_replace("/[\n\r]/", " ", $address->getStreetFull());
         }
 
-        $numberStreet = ['CN', 'FR', 'GR', 'IE', 'IL', 'JP', 'LU', 'MY', 'MA', 'NZ', 'SG', 'GB',];
-        if (in_array($address->getCountry(), $numberStreet)) {
+        $numberBeforeStreetCountry = array('CN', 'FR', 'GR', 'IE', 'IL', 'JP', 'LU', 'MY', 'MA', 'NZ', 'SG', 'GB');
+        if (in_array($address->getCountry(), $numberBeforeStreetCountry)) {
             return $address->getStreet2() . ' ' . $address->getStreet1();
         } else {
             return preg_replace("/[\n\r]/", " ", $address->getStreetFull());
@@ -1078,58 +1092,81 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Update rate price in the checkout
-     *
-     * TIG_MyParcel2014_Model_Observer_SavePrice::salesQuoteCollectTotalsBefore() also ensures that the price will be adjusted at checkout
-     *
-     * @param Mage_Sales_Model_Quote $quote
-     *
-     * @throws Exception
-     */
-    public function updateRatePrice(Mage_Sales_Model_Quote $quote)
-    {
-        /**
-         * @var $rate Mage_Sales_Model_Quote_Address_Rate
-         */
-        $shipAddress = $quote->getShippingAddress();
-
-        foreach ($shipAddress->getShippingRatesCollection() as $rate) {
-            if ($rate->getCarrier() == 'myparcel') {
-                $code = $rate->getData('code');
-            }
-        }
-        if ($code) {
-            $oRate = $shipAddress->getShippingRateByCode($code);
-            $oRate->setPrice($this->calculatePrice($quote));
-            $oRate->save();
-        }
-    }
-
-    /**
      * Get the price of the chosen options in the checkout
      *
-     * @param Mage_Sales_Model_Quote $quote
+     * @param $method
      *
      * @return float
-     * @throws TIG_MyParcel2014_Exception
      */
-    public function calculatePrice(Mage_Sales_Model_Quote $quote)
+    public function getExtraPrice($method)
     {
+        $price = 0;
+        $onlyRecipientFee = (float)$this->getConfig('only_recipient_fee', 'delivery');
+        $signatureFee = (float)$this->getConfig('signature_fee', 'delivery');
+        $morningFee = (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
+        $eveningFee = (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
+        $signatureAndOnlyRecipient = (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
+        $pickupFee = (float)$this->getConfig('pickup_fee', 'pickup');
+        $pickupExpressFee = (float)$this->getConfig('pickup_express_fee', 'pickup_express');
 
-        if ($this->_isFree()) {
-            $price = 0;
-        } else {
-            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
-            $rates = $rates->getAllRates();
-            $rate = $rates[0];
-            $price = (float)$rate->getData('price');
+        switch ($method) {
+            case ('delivery_signature'):
+                $price += $signatureFee;
+                break;
+            case ('delivery_only_recipient'):
+                $price += $onlyRecipientFee;
+                break;
+            case ('delivery_signature_and_only_recipient_fee'):
+                $price += $signatureAndOnlyRecipient;
+                break;
+            case ('morning'):
+                $price += $morningFee;
+                break;
+            case ('morning_signature'):
+                $price += $morningFee;
+                $price += $signatureFee;
+                break;
+            case ('evening'):
+                $price += $eveningFee;
+                break;
+            case ('evening_signature'):
+                $price += $eveningFee;
+                $price += $signatureFee;
+                break;
+            case ('pickup'):
+                $price += $pickupFee;
+                break;
+            case ('pickup_express'):
+                $price += $pickupExpressFee;
+                break;
         }
+
+        return $price;
+
+        /**
+         * @var Mage_Sales_Model_Quote $quote
+         * @var Mage_Sales_Model_Quote_Address $address
+         * @var Mage_Sales_Model_Quote_Address_Rate $rate
+         */
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+
+
+        $free = false;
+        foreach ($quote->getItemsCollection() as $item) {
+            $free = $item->getData('free_shipping') == '1' ? true : false;
+            break;
+        }
+
+        $address = $quote->getShippingAddress();
+
+        $price = $price === null ? $price = Mage::getSingleton('core/session')->getMyParcelBasePrice() : $price;
+
         $data = json_decode($quote->getMyparcelData(), true);
 
         /**
          * If shipping method is delivery else shipping method is pickup
          */
-        if ($data['time'][0]['price_comment'] !== null) {
+        if ($data['time'][0] != null && key_exists('price_comment', $data['time'][0]) && $data['time'][0]['price_comment'] !== null) {
             $priceComment = $data['time'][0]['price_comment'];
             if ($priceComment == 'morning') {
                 $price += (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
@@ -1138,18 +1175,18 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             if(
-                $data['home_address_only'] === true &&
+                key_exists('home_address_only', $data) &&
                 $priceComment != 'night' &&
                 $priceComment != 'morning' &&
-                $data['signed'] === true &&
-                $this->getConfig('signature_and_only_recipient', 'delivery') > 0
+                key_exists('signed', $data) &&
+                $this->getConfig('signature_and_only_recipient_fee', 'delivery') > 0
             ) {
-                $price += (float)$this->getConfig('signature_and_only_recipient', 'delivery');
+                $price += (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
             } else {
-                if ($data['home_address_only'] === true && $priceComment != 'night' && $priceComment != 'morning')
+                if (key_exists('home_address_only', $data) && $priceComment != 'night' && $priceComment != 'morning')
                     $price += (float)$this->getConfig('only_recipient_fee', 'delivery');
 
-                if ($data['signed'] === true)
+                if (key_exists('signed', $data))
                     $price += (float)$this->getConfig('signature_fee', 'delivery');
             }
         } else {
@@ -1159,8 +1196,61 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 $price += (float)$this->getConfig('pickup_express_fee', 'pickup_express');
             }
         }
+
+        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
+
+        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $extraShippingPrice));
+        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $extraShippingPrice));
+        $quote
+            ->setBaseGrandTotal($quote->getBaseGrandTotal() + $extraShippingPrice)
+            ->setGrandTotal($quote->getGrandTotal() + $extraShippingPrice)
+            ->save();
+
         return $price;
     }
+
+    private function calculatePriceAndGetAddress($address, $extraShippingPrice)
+    {
+        /** @var Mage_Sales_Model_Quote_Address $address */
+        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
+        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
+        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
+        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
+        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
+
+        return $address;
+    }
+
+    /**
+     * Get drop off day
+     *
+     * @param $dateTime int
+     *
+     * @return int
+     */
+    public function getDropOffDay($dateTime)
+    {
+        $weekDay = date('N', $dateTime);
+
+        switch ($weekDay) {
+            case (1): // Monday
+                $dropOff = strtotime("-2 day", $dateTime);
+                break;
+            case (2):
+            case (3):
+            case (4):
+            case (5): // Friday
+            case (6): // Saturday
+            case (7): // Sunday
+            default:
+                $dropOff = strtotime("-1 day", $dateTime);
+                break;
+        }
+
+        return $dropOff;
+    }
+
 
     private function _isFree()
     {

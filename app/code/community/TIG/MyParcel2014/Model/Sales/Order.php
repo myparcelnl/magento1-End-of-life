@@ -8,10 +8,8 @@
  *  @copyright  2016 MyParcelNL
  *  @since      File available since Release 1.5.0
  *  @license    http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
- *
- *  Class TIG_MyParcel2014_Model_Sales_Order
  */
-    if (class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
+    if (file_exists(Mage::getBaseDir() . '/app/code/community/MDN/AdvancedStock/Model/Sales/Order.php') && class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends MDN_AdvancedStock_Model_Sales_Order { }
     } else {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Mage_Sales_Model_Order { }
@@ -26,14 +24,14 @@
          * @return Mage_Sales_Model_Order_Address
          */
         public function getShippingAddress() {
-
-            $usePgAddress = true;
+            $helper = Mage::helper('tig_myparcel');
+            $usePgAddress = $helper->getConfig('pakjegemak_use_shipment_address') === '1';
 
             $parentFunctions = debug_backtrace();
-            if($parentFunctions[3]['class'] != 'TIG_Afterpay_Model_PaymentFee_Observer'){
+            if(isset($parentFunctions[3]['class']) && $parentFunctions[3]['class'] != 'TIG_Afterpay_Model_PaymentFee_Observer'){
                 $usePgAddress = false;
             }
-            if($parentFunctions[3]['function'] == '_getConsignmentData') {
+            if(isset($parentFunctions[3]['function']) && $parentFunctions[3]['function'] == '_getConsignmentData') {
                 $usePgAddress = false;
             }
 

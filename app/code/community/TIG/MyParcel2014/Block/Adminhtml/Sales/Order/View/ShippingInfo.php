@@ -73,8 +73,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
         if ($pgAddress && $this->_helper->shippingMethodIsPakjegemak($shippingMethod))
         {
-            if($data){
+            if(is_array($data) && key_exists('location', $data)){
+
                 $dateTime = date('d-m-Y H:i', strtotime($data['date'] . ' ' . $data['start_time']));
+
                 $html .= $this->__('PostNL location:') . ' ' . $dateTime;
                 if($data['price_comment'] != 'retail')
                     $html .= ', ' . $this->__('TYPE_' . $data['price_comment']);
@@ -87,24 +89,30 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
 
             // Get package type
             $totalWeight = $this->_helper->getTotalWeight($this->_order->getAllVisibleItems());
-            $html .= $this->_helper->getPackageType($totalWeight, $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
+            if($totalWeight !== false){
+                $html .= $this->_helper->getPackageType($totalWeight, $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
 
-            if($data){
-                $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
-                $html .= $this->__('deliver:') .' ' . $dateTime;
+                if(is_array($data) && key_exists('date', $data)){
 
-                if($data['time'][0]['price_comment'] != 'standard')
-                    $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
+                    $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
+                    $html .= $this->__('deliver:') .' ' . $dateTime;
 
-                if($data['home_address_only'])
-                    $html .=  ', ' . strtolower($this->__('Home address only'));
+                    if($data['time'][0]['price_comment'] != 'standard')
+                        $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
 
-                if($data['signed'])
-                    $html .=  ', ' . strtolower($this->__('Signature on receipt'));
+                    if(key_exists('home_address_only', $data) && $data['home_address_only'])
+                        $html .=  ', ' . strtolower($this->__('Home address only'));
+
+                    if(key_exists('signed', $data) && $data['signed'])
+                        $html .=  ', ' . strtolower($this->__('Signature on receipt'));
+                }
             }
         }
 
-        return $html !== false ? '<br>' . $html : '' ;
+        if (is_array($data) && key_exists('browser', $data))
+            $html = ' <span title="'.$data['browser'].'"">'.$html.'</span>';
+
+            return $html !== false ? '<br>' . $html : '';
     }
 
     /**
@@ -118,8 +126,15 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         /** @var $myParcelShipment TIG_MyParcel2014_Model_Shipment */
         foreach ($this->_myParcelShipments as $myParcelShipment) {
             $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
+            $editUrl = "https://backoffice.myparcel.nl/shipmentform?shipment=" . $myParcelShipment->getConsignmentId();
+            if ($myParcelShipment->getStatus() == 1) {
+                $editLink = '<a href="' . $editUrl . '" target="myparcel">' . $this->__("Edit options") . '</a>';
+            } else {
+                $editLink = '';
+            }
+
             $linkText = $myParcelShipment->getBarcode() ? $myParcelShipment->getBarcode() : $this->__('Shipment');
-            $optionsHtml .= '<p><a href="'.$shipmentUrl.'">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment) .'</p>';
+            $optionsHtml .= '<p><a href="'.$shipmentUrl.'">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment) . '</a> ' . $editLink . '</p>';
         }
 
         return $optionsHtml;

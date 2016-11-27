@@ -16,22 +16,6 @@
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/moment.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/webcomponents.min.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/myparcel.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/checkout.js</file>
             </action>
         </reference>
@@ -58,22 +42,6 @@
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/moment.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/webcomponents.min.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/myparcel.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/checkout_type/opc_index_index.js</file>
             </action>
             <action method="addItem">
@@ -91,26 +59,11 @@
 
     <!-- Idev OneStepCheckout-->
     <onestepcheckout_index_index>
+
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/moment.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/webcomponents.min.js</file>
-            </action>
-            <action method="addItem">
-                <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/myparcel.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
@@ -137,7 +90,7 @@
 
 
     <!-- for threesixty_checkout -->
-    <checkout_index_index>
+    <!--<checkout_index_index>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
@@ -156,5 +109,5 @@
             <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js"
                    template="TIG/MyParcel2014/checkout/threesixty_checkout/js.phtml"/>
         </reference>
-    </checkout_index_index>
+    </checkout_index_index>-->
 </layout>

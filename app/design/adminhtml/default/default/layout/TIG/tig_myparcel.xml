@@ -49,7 +49,7 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_css</type>
-                <name>css/TIG/MyParcel2014/system_config_edit.css</name>
+                <name>css/TIG/MyParcel2014/system_config_edit_1_7_1.css</name>
             </action>
         </reference>
         <reference name="head">

@@ -69,7 +69,7 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
                 }
             }
         }
-        if($selectedConsignmentOptions['is_xl'] == null)
+        if(key_exists('is_xl', $selectedConsignmentOptions) && $selectedConsignmentOptions['is_xl'] == null)
             $selectedConsignmentOptions['is_xl'] = 0;
 
         /**

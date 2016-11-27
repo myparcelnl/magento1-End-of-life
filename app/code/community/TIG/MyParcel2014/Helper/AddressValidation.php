@@ -125,18 +125,26 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
      */
     public function getQuoteAddress(Mage_Sales_Model_Quote $quote)
     {
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = Mage::helper('tig_myparcel');
 
-        $address = [];
+        $address = array();
+        $sameAsBilling = $quote->getShippingAddress()->getData('same_as_billing') == '1' ? true : false;
+
         if (
             $quote->getBillingAddress()->getData('country_id') == $quote->getShippingAddress()->getData('country_id') &&
-            $quote->getBillingAddress()->getStreetFull() == $quote->getShippingAddress()->getStreetFull()
+            $quote->getBillingAddress()->getStreetFull() == $quote->getShippingAddress()->getStreetFull() &&
+            $sameAsBilling
         ) {
             $address['full_street'] = $quote->getBillingAddress()->getStreetFull();
             if($address['full_street']){
+                $this->removeAddressLines($address['full_street']);
                 $address['type'] = 'billing';
                 $address['country'] = $quote->getBillingAddress()->getCountry();
                 $address['postal_code'] = $quote->getBillingAddress()->getPostcode();
+                if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getStreetFull())) {
+                    return false;
+                }
                 $streetData = $helper->getStreetData($quote->getBillingAddress());
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
@@ -144,9 +152,13 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
         } else {
             $address['full_street'] = $quote->getShippingAddress()->getStreetFull();
             if($address['full_street']){
+                $this->removeAddressLines($address['full_street']);
                 $address['type'] = 'shipping';
                 $address['country'] = $quote->getShippingAddress()->getCountry();
                 $address['postal_code'] = $quote->getShippingAddress()->getPostcode();
+                if (!preg_match('/[0-9]/', $quote->getShippingAddress()->getStreetFull())) {
+                    return false;
+                }
                 $streetData = $helper->getStreetData($quote->getShippingAddress());
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
@@ -160,6 +172,10 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['country'] = $tmpAddress->getCountry();
                 $address['postal_code'] = $tmpAddress->getPostcode();
                 $address['full_street'] = $tmpAddress->getStreetFull();
+                $this->removeAddressLines($address['full_street']);
+                if (!preg_match('/[0-9]/', $address['full_street'])) {
+                    return false;
+                }
                 $streetData = $helper->getStreetData($tmpAddress);
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
@@ -167,5 +183,15 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
         }
 
         return $address;
+    }
+
+    /**
+     * Remove multiple rows. For example, if the house number on a different row.
+     *
+     * @param $street
+     */
+    private function removeAddressLines(&$street){
+
+        $street = preg_replace("/[\n\r]/", " ", $street);
     }
 }

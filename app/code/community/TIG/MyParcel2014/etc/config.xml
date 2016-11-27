@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.7.0</version>
+            <version>1.9.0</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -46,7 +46,7 @@
                 <class>TIG_MyParcel2014_Helper</class>
             </tig_myparcel>
         </helpers>
-        <resources>
+       <resources>
             <tig_myparcel_setup>
                 <setup>
                     <module>TIG_MyParcel2014</module>
@@ -55,15 +55,6 @@
             </tig_myparcel_setup>
         </resources>
         <events>
-            <sales_quote_collect_totals_before>
-                <observers>
-                    <your_module>
-                        <type>singleton</type>
-                        <class>tig_myparcel/observer_savePrice</class>
-                        <method>salesQuoteCollectTotalsBefore</method>
-                    </your_module>
-                </observers>
-            </sales_quote_collect_totals_before>
             <sales_order_shipment_save_after>
                 <observers>
                     <tig_myparcel_shipment_save_after>
@@ -75,7 +66,6 @@
             </sales_order_shipment_save_after>
             <sales_order_place_after>
                 <observers>
-                    <!-- Copy a PakjeGemak address to the order. -->
                     <tig_myparcel_copy_pg_address>
                         <type>model</type>
                         <class>tig_myparcel/observer_savePgAddress</class>
@@ -183,6 +173,14 @@
                     <frontName>myparcel2014</frontName>
                 </args>
             </tig_myparcel>
+            <opc>
+                <args>
+
+                    <modules>
+                        <TIG_MyParcel2014 before="IWD_Opc">TIG_MyParcel2014</TIG_MyParcel2014>
+                    </modules>
+                </args>
+            </opc>
         </routers>
         <layout>
             <updates>
@@ -241,6 +239,7 @@
                 <test>0</test>
                 <print_orientation>A4</print_orientation>
                 <always_myparcel>1</always_myparcel>
+                <pakjegemak_use_shipment_address>1</pakjegemak_use_shipment_address>
                 <myparcel_shipping_methods>tig_myparcel_flatrate,myparcel_flatrate,tig_myparcel_tablerate,myparcel_tablerate,tig_myparcel_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
                 <ssl_handshake>0</ssl_handshake>
             </general>
@@ -265,18 +264,21 @@
             </checkout>
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
+                <only_recipient_active>1</only_recipient_active>
                 <only_recipient_title>Niet bij de buren bezorgen</only_recipient_title>
-                <only_recipient_fee>0</only_recipient_fee>
+                <only_recipient_fee>0.27</only_recipient_fee>
+                <signature_active>1</signature_active>
                 <signature_title>Handtekening voor ontvangst</signature_title>
-                <signature_fee>0</signature_fee>
+                <signature_fee>0.34</signature_fee>
+                <signature_and_only_recipient_fee>0.42</signature_and_only_recipient_fee>
             </delivery>
             <morningdelivery>
-                <morningdelivery_active>0</morningdelivery_active>
-                <morningdelivery_fee>0</morningdelivery_fee>
+                <morningdelivery_active>1</morningdelivery_active>
+                <morningdelivery_fee>10</morningdelivery_fee>
             </morningdelivery>
             <eveningdelivery>
-                <eveningdelivery_active>0</eveningdelivery_active>
-                <eveningdelivery_fee>0</eveningdelivery_fee>
+                <eveningdelivery_active>1</eveningdelivery_active>
+                <eveningdelivery_fee>1.25</eveningdelivery_fee>
             </eveningdelivery>
             <pickup>
                 <pickup_active>1</pickup_active>
@@ -284,8 +286,8 @@
                 <pickup_fee>0</pickup_fee>
             </pickup>
             <pickup_express>
-                <pickup_express_active>0</pickup_express_active>
-                <pickup_express_fee>0</pickup_express_fee>
+                <pickup_express_active>1</pickup_express_active>
+                <pickup_express_fee>1.25</pickup_express_fee>
             </pickup_express>
         </tig_myparcel>
     </default>

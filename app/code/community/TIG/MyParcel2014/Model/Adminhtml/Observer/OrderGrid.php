@@ -41,7 +41,13 @@
  * @method TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid   setBlock(Mage_Adminhtml_Block_Sales_Order_Grid $value)
  * @method Mage_Adminhtml_Block_Sales_Order_Grid                 getBlock()
  */
-class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
+if (file_exists(Mage::getBaseDir() . '/app/code/community/BL/CustomGrid/Model/Grid.php') && class_exists('BL_CustomGrid_Model_Grid')) {
+    class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends BL_CustomGrid_Model_Grid { }
+} else {
+    class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel2014_Model_Grid_OverrideCheck { }
+}
+
+class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
 {
     /**
      * The block we want to edit.
@@ -76,10 +82,13 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
      */
     public function modifyGrid(Varien_Event_Observer $observer)
     {
+        $helper = Mage::helper('tig_myparcel');
         /**
          * Checks if the current block is the one we want to edit.
          *
          * Unfortunately there is no unique event for this block.
+         * @var Mage_Adminhtml_Block_Sales_Order_Grid $orderGridClass
+         * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
          */
         $block = $observer->getBlock();
         $orderGridClass = Mage::getConfig()->getBlockClassName(self::ORDER_GRID_BLOCK_NAME);
@@ -91,188 +100,19 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
         /**
          * check if the extension is active
          */
-        if (!Mage::helper('tig_myparcel')->isEnabled()) {
+        if (!$helper->isEnabled()) {
             return $this;
         }
 
-        /**
-         * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
-         * @var Mage_Sales_Model_Resource_Order_Collection $currentCollection
-         */
-        $currentCollection = $block->getCollection();
-        $select = $currentCollection->getSelect()->reset(Zend_Db_Select::WHERE);
-
-        /**
-         * replace the collection, as the default collection has a bug preventing it from being reset.
-         * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
-         */
-        $collection = Mage::getResourceModel('tig_myparcel/order_grid_collection');
-        $collection->setSelect($select)
-                   ->setPageSize($currentCollection->getPageSize())
-                   ->setCurPage($currentCollection->getCurPage());
+        $collection = $block->getCollection();
 
         $this->setCollection($collection);
         $this->setBlock($block);
 
-        $this->_joinCollection($collection);
-        $this->_modifyColumns($block);
         $this->_addColumns($block);
-        $this->_applySortAndFilter();
         $this->_addMassaction($block);
 
         $block->setCollection($collection);
-        return $this;
-    }
-
-    /**
-     * Adds additional joins to the collection that will be used by newly added columns.
-     *
-     * @param TIG_MyParcel2014_Model_Resource_Order_Grid_Collection $collection
-     *
-     * @return $this
-     */
-    protected function _joinCollection($collection)
-    {
-        $resource = Mage::getSingleton('core/resource');
-
-        $collection->addExpressionFieldToSelect(
-            'country_id',
-            'IF({{pakjegemak_parent_id}}, {{pakjegemak_country_id}}, {{shipping_country_id}})',
-            array(
-                'pakjegemak_parent_id'   => 'pakjegemak_address.parent_id',
-                'pakjegemak_country_id'  => 'pakjegemak_address.country_id',
-                'shipping_country_id'    => 'shipping_address.country_id',
-            )
-        );
-        $collection->addExpressionFieldToSelect(
-            'postcode',
-            'IF({{pakjegemak_parent_id}}, {{pakjegemak_postcode}}, {{shipping_postcode}})',
-            array(
-                'pakjegemak_parent_id' => 'pakjegemak_address.parent_id',
-                'pakjegemak_postcode'  => 'pakjegemak_address.postcode',
-                'shipping_postcode'    => 'shipping_address.postcode',
-            )
-        );
-
-        $select = $collection->getSelect();
-
-        /**
-         * Join sales_flat_order table.
-         */
-        $select->joinInner(
-            array('tig_myparcel_order' => $resource->getTableName('sales/order')),
-            'main_table.entity_id=tig_myparcel_order.entity_id',
-            array(
-                'shipping_method' => 'tig_myparcel_order.shipping_method',
-            )
-        );
-
-        /**
-         * Join sales_flat_order_address table.
-         */
-        $select->joinLeft(
-            array('shipping_address' => $resource->getTableName('sales/order_address')),
-            "main_table.entity_id=shipping_address.parent_id AND shipping_address.address_type='shipping'",
-            array()
-        );
-        $select->joinLeft(
-            array('pakjegemak_address' => $resource->getTableName('sales/order_address')),
-            "main_table.entity_id=pakjegemak_address.parent_id " .
-            "AND pakjegemak_address.address_type='pakje_gemak'",
-            array()
-        );
-
-        /**
-         * Join tig_myparcel_shipment table.
-         */
-        $select->joinLeft(
-            array('tig_myparcel_shipment' => $resource->getTableName('tig_myparcel/shipment')),
-            'main_table.entity_id=tig_myparcel_shipment.order_id',
-            array(
-                'shipping_status' => new Zend_Db_Expr(
-                    'group_concat(tig_myparcel_shipment.status ORDER BY '
-                    . 'tig_myparcel_shipment.created_at DESC SEPARATOR ",")'
-                ),
-                'barcode' => new Zend_Db_Expr(
-                    'group_concat(tig_myparcel_shipment.barcode ORDER BY '
-                    . 'tig_myparcel_shipment.created_at DESC SEPARATOR ",")'
-                ),
-            )
-        );
-
-        /**
-         * Group the results by the ID column.
-         */
-        $select->group('main_table.entity_id');
-
-        return $this;
-    }
-
-    /**
-     * Modifies existing columns to prevent issues with the new collections.
-     *
-     * @param Mage_Adminhtml_Block_Sales_Order_Grid $block
-     *
-     * @return $this
-     */
-    protected function _modifyColumns($block)
-    {
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $incrementIdColumn
-         */
-        $incrementIdColumn = $block->getColumn('real_order_id');
-        if ($incrementIdColumn) {
-            $incrementIdColumn->setFilterIndex('main_table.increment_id');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $massactionColumn
-         */
-        $massactionColumn = $block->getColumn('massaction');
-        if ($massactionColumn) {
-            $massactionColumn->setFilterIndex('main_table.entity_id');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $statusColumn
-         */
-        $statusColumn = $block->getColumn('status');
-        if ($statusColumn) {
-            $statusColumn->setFilterIndex('main_table.status');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $createdAtColumn
-         */
-        $createdAtColumn = $block->getColumn('created_at');
-        if ($createdAtColumn) {
-            $createdAtColumn->setFilterIndex('main_table.created_at');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $baseGrandTotalColumn
-         */
-        $baseGrandTotalColumn = $block->getColumn('base_grand_total');
-        if ($baseGrandTotalColumn) {
-            $baseGrandTotalColumn->setFilterIndex('main_table.base_grand_total');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $grandTotalColumn
-         */
-        $grandTotalColumn = $block->getColumn('grand_total');
-        if ($grandTotalColumn) {
-            $grandTotalColumn->setFilterIndex('main_table.grand_total');
-        }
-
-        /**
-         * @var Mage_Adminhtml_Block_Widget_Grid_Column $storeIdColumn
-         */
-        $storeIdColumn = $block->getColumn('store_id');
-        if ($storeIdColumn) {
-            $storeIdColumn->setFilterIndex('main_table.store_id');
-        }
-
         return $this;
     }
 
@@ -294,16 +134,54 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
             'shipping_status',
             array(
                 'header'         => $helper->__('Shipping status'),
-                'type'           => 'text',
-                'index'          => 'shipping_status',
                 'sortable'       => false,
-                'filter'         => false,
                 'renderer'       => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
+                'type'           => 'options',
+                'options'        => array(
+                    'past_and_today' => $helper->__('Orders until today'),
+                    'today' => $helper->__('Send today'),
+                    'later' => $helper->__('Send later'),
+                    'past' => $helper->__('Old orders'),
+                ),
+                'filter_condition_callback' => array($this, '_filterHasUrlConditionCallback'),
             ),
             'shipping_name'
         );
 
         $block->sortColumnsByOrder();
+
+        return $this;
+    }
+
+    protected function _filterHasUrlConditionCallback($collection, $column)
+    {
+        if (!$value = $column->getFilter()->getValue()) {
+            return $this;
+        }
+
+        $date = date('Y-m-d');
+        if (isset($value)) {
+            $sqlDate = null;
+            switch ($value){
+                case ('past_and_today'):
+                    $sqlDate = "<= '" . $date . "'";
+                    break;
+                case ('today'):
+                    $sqlDate = "= '" . $date . "'";
+                    break;
+                case ('later'):
+                    $sqlDate = "> '" . $date . "'";
+                    break;
+                case ('past'):
+                    $sqlDate = "< '" . $date . "'";
+                    break;
+            }
+
+            if($date){
+                $this->getCollection()->getSelect()->where(
+                    "tig_myparcel_order.myparcel_send_date " . $sqlDate);
+            }
+        }
 
         return $this;
     }
@@ -324,30 +202,30 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
          * Add the print labels mass action.
          */
         $block->getMassactionBlock()
-              ->addItem(
-                  'myparcel_print_labels',
-                  array(
-                      'label' => $helper->__('MyParcel - Create labels'),
-                      'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massPrintLabels'),
-                      'additional' => array(
-                          'type_consignment' => array(
-                              'name'    => 'type_consignment',
-                              'type'    => 'select',
-                              'options' => array(
-                                  'default'     => $helper->__('Accordance with type consignment'),
-                                  TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
-                                  TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
-                                  TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
-                              ),
-                          ),
-                          'create_consignment' => array(
-                              'name'    => 'create_consignment',
-                              'type'    => 'hidden',
-                              'value'   => 1,
-                          ),
-                      )
-                  )
-              );
+            ->addItem(
+                'myparcel_print_labels',
+                array(
+                    'label' => $helper->__('MyParcel - Create labels'),
+                    'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massPrintLabels'),
+                    'additional' => array(
+                        'type_consignment' => array(
+                            'name'    => 'type_consignment',
+                            'type'    => 'select',
+                            'options' => array(
+                                'default'     => $helper->__('Accordance with type consignment'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
+                            ),
+                        ),
+                        'create_consignment' => array(
+                            'name'    => 'create_consignment',
+                            'type'    => 'hidden',
+                            'value'   => 1,
+                        ),
+                    )
+                )
+            );
 
         return $this;
     }

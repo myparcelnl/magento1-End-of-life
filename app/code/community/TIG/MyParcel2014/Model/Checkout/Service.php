@@ -47,27 +47,30 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $request = Mage::app()->getRequest();
         if($request->isPost()){
 
-            $helper = Mage::helper('tig_myparcel');
             $addressHelper = Mage::helper('tig_myparcel/addressValidation');
+            /** @var $quote Mage_Sales_Model_Quote */
             $quote = Mage::getModel('checkout/cart')->getQuote();
 
             $address = $addressHelper->getQuoteAddress($quote);
 
-            if ($address['country'] !== 'NL')
+            if ($address['country'] !== 'NL'){
+                $quote->setMyparcelData(null)->save();
                 return true;
+            }
 
             /**
              * If shipping method is myparcel
              */
             if (strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
-
-                if ($request->getPost('mypa-post-nl-data') == null)
+                if ($request->getPost('mypa-post-nl-data') == null) {
+                    $quote->setMyparcelData(null)->save();
                     return true;
+                }
 
                 $data = json_decode($request->getPost('mypa-post-nl-data', ''), true);
 
-                if ($data['location'] !== null) {
+                if (key_exists('location', $data) && $data['location'] !== null) {
 
                     /**
                      * is pickup
@@ -87,16 +90,14 @@ class TIG_MyParcel2014_Model_Checkout_Service
                         $data['signed'] = true;
                     }
 
-
                     $this->removePgAddress($quote);
                 }
 
                 $quote->setMyparcelData(json_encode($data))->save();
-                $helper->updateRatePrice($quote);
 
             } else {
                 $quote->setMyparcelData(null)->save();
-                $this->removePgAddress(json_encode($quote));
+                $this->removePgAddress($quote);
             }
         }
         return true;
@@ -110,6 +111,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
      */
     public function savePgAddress($data, Mage_Sales_Model_Quote $quote)
     {
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = Mage::helper('tig_myparcel');
 
         /**

@@ -44,9 +44,13 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
      */
     public function infoAction()
     {
+        /** @var TIG_MyParcel2014_Helper_AddressValidation $helper */
         $helper = Mage::helper('tig_myparcel/addressValidation');
         /**
-         * @var Mage_Sales_Model_Quote $item
+         * @var Mage_Sales_Model_Quote $quote
+         * @var Mage_Sales_Model_Quote_Item $item
+         * @var Mage_Sales_Model_Quote_Address $address
+         * @var Mage_Sales_Model_Quote_Address_Rate $rate
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
 
@@ -56,26 +60,36 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
             break;
         }
 
-        if($free) {
-            $basePrice = 0;
-        } else {
-            $rates = Mage::getModel('tig_myparcel/carrier_myParcel')->collectRates($quote);
-            if($rates) {
-                $rates = $rates->getAllRates();
-                $rate = $rates[0];
-                $basePrice = (float)$rate->getData('price');
-            } else {
-                $basePrice = 0;
+        $basePrice = 0;
+        $_incl = 0;
+        if(!$free) {
+            $address = $quote->getShippingAddress();
+            $address->requestShippingRates();
+
+            foreach ($address->getShippingRatesCollection() as $rate) {
+                if ($rate->getCarrier() == 'myparcel' &&
+                    ($rate->getMethod() == 'flatrate' || $rate->getMethod() == 'tablerate')
+                ) {
+
+                    $_excl = $this->getShippingPrice($rate->getPrice(), $quote);
+                    $_incl = $this->getShippingPrice($rate->getPrice(), $quote, true);
+                    if (Mage::helper('tax')->displayShippingBothPrices() && $_incl != $_excl) {
+                        $basePrice = $_incl;
+                    } else {
+                        $basePrice = $_excl;
+                    }
+                }
             }
         }
+        Mage::getSingleton('core/session')->setMyParcelBasePrice($_incl);
 
-        $data = [];
+        $data = array();
 
         $data['address'] = $helper->getQuoteAddress($quote);
 
         $general['base_price'] =                    $basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));
-        $general['deliverydays_window'] =           $helper->getConfig('deliverydays_window', 'checkout');
+        $general['deliverydays_window'] =           $helper->getConfig('deliverydays_window', 'checkout') == 'hide' ? 1 : $helper->getConfig('deliverydays_window', 'checkout');
         $general['dropoff_days'] =                  str_replace(',', ';', $helper->getConfig('dropoff_days', 'checkout'));
         $general['dropoff_delay'] =                 $helper->getConfig('dropoff_delay', 'checkout');
         $general['base_color'] =                    $helper->getConfig('base_color', 'checkout');
@@ -85,36 +99,28 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
         $delivery['only_recipient_active'] =        $helper->getConfig('only_recipient_active', 'delivery') == "1" ? true : false;
         $delivery['only_recipient_title'] =         $helper->getConfig('only_recipient_title', 'delivery');
-        $delivery['only_recipient_fee'] =           (float)$helper->getConfig('only_recipient_fee', 'delivery');
+        $delivery['only_recipient_fee'] =           $this->getShippingPrice($helper->getConfig('only_recipient_fee', 'delivery'), $quote);
         $delivery['signature_active'] =             $helper->getConfig('signature_active', 'delivery') == "1" ? true : false;
         $delivery['signature_title'] =              $helper->getConfig('signature_title', 'delivery');
-        $delivery['signature_fee'] =                (float)$helper->getConfig('signature_fee', 'delivery');
-        $delivery['signature_and_only_recipient'] =                (float)$helper->getConfig('signature_and_only_recipient', 'delivery');
+        $delivery['signature_fee'] =                $this->getShippingPrice($helper->getConfig('signature_fee', 'delivery'), $quote);
+        $delivery['signature_and_only_recipient_fee'] =                $this->getShippingPrice($helper->getConfig('signature_and_only_recipient_fee', 'delivery'), $quote);
         $data['delivery'] = (object)$delivery;
 
         $morningDelivery['active'] =                $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" ? true : false;
-        $morningDelivery['fee'] =                   $basePrice + (float)$helper->getConfig('morningdelivery_fee', 'morningdelivery');
-        $morningDelivery['min_order_enabled'] =     $helper->getConfig('morningdelivery_min_order_enabled', 'morningdelivery') == "1";
-        $morningDelivery['min_order_total'] =       (float)$helper->getConfig('morningdelivery_min_order_total', 'morningdelivery');
+        $morningDelivery['fee'] =                   $basePrice + $this->getShippingPrice($helper->getConfig('morningdelivery_fee', 'morningdelivery'), $quote);
         $data['morningDelivery'] = (object)$morningDelivery;
 
         $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" ? true : false;
-        $eveningDelivery['fee'] =                   $basePrice + (float)$helper->getConfig('eveningdelivery_fee', 'eveningdelivery');
-        $eveningDelivery['min_order_enabled'] =     $helper->getConfig('eveningdelivery_min_order_enabled', 'eveningdelivery') == "1";
-        $eveningDelivery['min_order_total'] =       (float)$helper->getConfig('eveningdelivery_min_order_total', 'eveningdelivery');
+        $eveningDelivery['fee'] =                   $basePrice + $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote);
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
         $pickup['active'] =                         $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
         $pickup['title'] =                          $helper->getConfig('pickup_title', 'pickup');
-        $pickup['fee'] =                            $basePrice + (float)$helper->getConfig('pickup_fee', 'pickup');
-        $pickup['min_order_enabled'] =              $helper->getConfig('pickup_min_order_enabled', 'pickup') == "1";
-        $pickup['min_order_total'] =                (float)$helper->getConfig('pickup_min_order_total', 'pickup');
+        $pickup['fee'] =                            $basePrice + $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote);
         $data['pickup'] = (object)$pickup;
 
         $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" ? true : false;
-        $pickupExpress['fee'] =                     $basePrice + (float)$helper->getConfig('pickup_express_fee', 'pickup_express');
-        $pickupExpress['min_order_enabled'] =       $helper->getConfig('pickup_express_min_order_enabled', 'pickup_express') == "1";
-        $pickupExpress['min_order_total'] =         (float)$helper->getConfig('pickup_express_min_order_total', 'pickup_express');
+        $pickupExpress['fee'] =                     $basePrice + $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote);
         $data['pickupExpress'] = (object)$pickupExpress;
 
 
@@ -125,6 +131,12 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
         header('Content-Type: application/json');
         echo(json_encode($info));
+        exit;
+    }
+
+    public function checkout_optionsAction()
+    {
+        require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_checkout_options.phtml');
         exit;
     }
 
@@ -143,6 +155,21 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
     {
         $cronController = new TIG_MyParcel2014_Model_Observer_Cron;
         $cronController->checkStatus();
+    }
+
+    /**
+     * Get shipping price
+     *
+     * @param $price
+     * @param $quote
+     * @param $flag
+     *
+     * @return mixed
+     */
+    private function getShippingPrice($price, $quote, $flag = false)
+    {
+        $flag = $flag ? true : Mage::helper('tax')->displayShippingPriceIncludingTax();
+        return (float)Mage::helper('tax')->getShippingPrice($price, $flag, $quote->getShippingAddress());
     }
 
 }

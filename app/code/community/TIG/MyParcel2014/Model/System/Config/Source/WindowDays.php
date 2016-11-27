@@ -50,13 +50,18 @@ class TIG_MyParcel2014_Model_System_Config_Source_WindowDays
 
         $array = array(
             array(
-                'value' => 1,
-                'label' => 1 . ' ' . $helper->__('day'),
+                'value' => 'hide',
+                'label' => $helper->__('Hide days'),
             ),
         );
 
+        $array[] = array(
+            'value' => 1,
+            'label' => '1 ' . $helper->__('day'),
+        );
+
         $x = 2;
-        while($x <= 14) {
+        while ($x <= 14) {
             $array[] = array(
                 'value' => $x,
                 'label' => $x . ' ' . $helper->__('days')

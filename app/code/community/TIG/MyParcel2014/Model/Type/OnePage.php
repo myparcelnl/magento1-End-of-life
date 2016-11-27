@@ -54,5 +54,4 @@ class TIG_MyParcel2014_Model_Type_Onepage extends Mage_Checkout_Model_Type_Onepa
 
         return array();
     }
-
 }

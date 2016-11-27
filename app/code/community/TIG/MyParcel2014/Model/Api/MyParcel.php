@@ -299,6 +299,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             // log the request url
             $helper->log($url);
+            $helper->log(json_decode($body));
             $request->setConfig($config)
                 ->write(Zend_Http_Client::POST, $url, '1.1', $header, $body);
         } else {
@@ -323,7 +324,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if(is_array($aResult)){
 
             //log the response
-            $helper->log(json_decode($aResult, true));
+            $helper->log(json_encode($aResult, true));
 
             //check if there are curl-errors
             if ($response === false) {
@@ -334,7 +335,19 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             }
 
             //check if the response has errors codes
-            if(isset($aResult['errors'][0]['code'])){
+            if(isset($aResult['errors']) && isset($aResult['message'])) {
+                if(strpos($aResult['message'], 'Access Denied')){
+                    $this->requestError = $helper->__('Wrong API key. Go to MyParcel settings to set the API key.');
+                } else {
+                    foreach ($aResult['errors'] as $tmpError) {
+                        $errorMessage = $aResult['message'] . '; ' . $tmpError['fields'][0];
+                        $this->requestError = $errorMessage;
+                    }
+                }
+                $request->close();
+
+                return $this;
+            } else if (isset($aResult['errors'][0]['code'])){
                 $this->requestError = $aResult['errors'][0]['code'] . ' - ' . $aResult['errors'][0]['human'][0];
                 $this->requestErrorDetail = $aResult['errors'][0]['code'] . ' - ' . $aResult['errors'][0]['human'][0];
                 $request->close();
@@ -511,6 +524,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _getConsignmentData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = Mage::helper('tig_myparcel');
         $order = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
@@ -523,7 +537,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $shippingAddress = $myParcelShipment->getShippingAddress();
         $streetData      = $helper->getStreetData($shippingAddress);
         $email           = $myParcelShipment->getOrder()->getCustomerEmail();
-        $phone           = $order->getBillingAddress()->getTelephone();
 
         $data = array(
             'recipient'     => array(
@@ -536,13 +549,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'number_suffix' => trim($streetData['housenumberExtension']),
                 'city'          => trim($shippingAddress->getCity()),
                 'email'         => $email,
-                'phone'         => $phone,
             ),
             'options'    => $this->_getOptionsData($myParcelShipment),
         );
 
-        if($shippingAddress->getCountry() != 'NL')
-        {
+        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
+            $phone           = $order->getBillingAddress()->getTelephone();
+            if ($phone)
+                $data['recipient']['phone'] = $phone;
+
             $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
             unset($data['recipient']['number']);
             unset($data['recipient']['number_suffix']);
@@ -678,27 +693,35 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
-            'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
+            'label_description' => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
-        $CheckoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
+        $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
-        if($CheckoutData !== null) {
+        if ($checkoutData !== null) {
 
-            if($CheckoutData['time'][0]['price_comment'] !== null) {
-                switch ($CheckoutData['time'][0]['price_comment']) {
+            if (key_exists('price_comment', $checkoutData['time'][0]) && $checkoutData['time'][0]['price_comment'] !== null) {
+                switch ($checkoutData['time'][0]['price_comment']) {
                     case 'morning':
                         $data['delivery_type'] = self::TYPE_MORNING;
                         break;
                     case 'standard':
                         $data['delivery_type'] = self::TYPE_STANDARD;
                         break;
-                    case 'avond':
+                    case 'night':
                         $data['delivery_type'] = self::TYPE_NIGHT;
                         break;
                 }
-            } elseif ($CheckoutData['price_comment']!== null) {
-                switch ($CheckoutData['price_comment']) {
+
+                if ($checkoutData['date'] !== null) {
+                    $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
+                    $data['delivery_date'] = $checkoutDateTime;
+                    $dateTime = date_parse($checkoutData['date']);
+                    $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
+                }
+
+            } elseif ($checkoutData['price_comment'] !== null) {
+                switch ($checkoutData['price_comment']) {
                     case 'retail':
                         $data['delivery_type'] = self::TYPE_RETAIL;
                         break;
@@ -707,23 +730,21 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         break;
                 }
             }
-            if($CheckoutData['date']!== null) {
-                $data['delivery_date'] = $CheckoutData['date']. ' 00:00:00';
-            }
         }
 
-        if((int) $myParcelShipment->getInsured() === 1) {
+        if ((int)$myParcelShipment->getInsured() === 1) {
             $data['insurance']['amount'] = $this->_getInsuredAmount($myParcelShipment) * 100;
             $data['insurance']['currency'] = 'EUR';
         }
 
 
-        if($myParcelShipment->getShippingAddress()->getCountry() != 'NL')
-        {
+        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
             // strip all Dutch domestic options if shipment is not NL
             unset($data['only_recipient']);
             unset($data['signature']);
             unset($data['return']);
+            unset($data['delivery_type']);
+            unset($data['delivery_date']);
         }
 
         return $data;

@@ -59,7 +59,7 @@ $_defaultCustomsContentCode = $_helper->getHsCodes($this->getShipment()->getOrde
 $tmpInsured = 1000;
 
 $totalWeight = $_helper->getTotalWeight($this->getShipment()->getOrder()->getAllVisibleItems());
-$type = $_helper->getPackageType($totalWeight, $this->getDestinationCountry());
+$type = $_helper->getPackageType($totalWeight, $this->getDestinationCountry(), false, $this->getIsPakjeGemak());
 
 if(is_array($_insured)){
     $_insuredAmount   = (int)$_insured['insuredAmount'];
@@ -109,13 +109,13 @@ if(true == $_isPakjegemak){
                     <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
                 </p>
                 <p>
-                    <label for="tig_myparcel_insured" class="normal">(<?= $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?= $this->__('Insured up to:');?> </label>
+                    <label for="tig_myparcel_insured" class="normal">(<?php echo $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?php echo $this->__('Insured up to:');?> </label>
                     <select id="tig_myparcel_insured_amount" name="tig_myparcel[insured_amount]" >
-                        <option value="50" <?= $_insuredUpTo == 50 ? 'selected="selected"' : '';?>>&euro; 50</option>
-                        <option value="250" <?= $_insuredUpTo == 250 ? 'selected="selected"' : '';?>>&euro; 250</option>
-                        <option value="500" <?= $_insuredUpTo == 500 && $_insuredUpTo < 1000 ? 'selected="selected"' : '';?>>&euro; 500</option>
+                        <option value="50" <?php echo $_insuredUpTo == 50 ? 'selected="selected"' : '';?>>&euro; 50</option>
+                        <option value="250" <?php echo $_insuredUpTo == 250 ? 'selected="selected"' : '';?>>&euro; 250</option>
+                        <option value="500" <?php echo $_insuredUpTo == 500 && $_insuredUpTo < 1000 ? 'selected="selected"' : '';?>>&euro; 500</option>
                         <?php while($tmpInsured <= 5000) :?>
-                            <option value="<?=$tmpInsured;?>" <?= $this->getOrderTotal() <= $tmpInsured && $this->getOrderTotal() > ($tmpInsured-500) ? 'selected="selected"' : ''; ?>>&euro; <?=$tmpInsured;?></option>
+                            <option value="<?php echo $tmpInsured;?>" <?php echo $this->getOrderTotal() <= $tmpInsured && $this->getOrderTotal() > ($tmpInsured-500) ? 'selected="selected"' : ''; ?>>&euro; <?php echo $tmpInsured;?></option>
                             <?php $tmpInsured = $tmpInsured + 500; ?>
                         <?php endwhile; ?>
                     </select>
@@ -160,6 +160,7 @@ if(true == $_isPakjegemak){
             <?php endif;?>
         </div>
     </div>
+    <p><?php echo $this->__('By creating this shipment, you create a concept in MyParcel.<br>In the backoffice of MyParcel you can further customize the options.');?></p>
 </div>
 <script type ="text/javascript">
     /*<![CDATA[*/
@@ -186,13 +187,7 @@ if(true == $_isPakjegemak){
         var shipmentTypeSelect = $('tig_myparcel_shipment_type');
         if (shipmentTypeSelect) {
             shipmentTypeSelect.observe('change', function() {
-                var value = this.getValue();
-                var consignmentOptionFields = $('myparcel_consignment_options');
-                if (value == 'normal') {
-                    consignmentOptionFields.show();
-                } else {
-                    consignmentOptionFields.hide();
-                }
+                checkConsignment();
             })
         }
 
@@ -205,6 +200,17 @@ if(true == $_isPakjegemak){
 
             })
         }
+
+        function checkConsignment(){
+            var value = shipmentTypeSelect.getValue();
+            var consignmentOptionFields = $('myparcel_consignment_options');
+            if (value == 'normal') {
+                consignmentOptionFields.show();
+            } else {
+                consignmentOptionFields.hide();
+            }
+        }
+        checkConsignment();
     });
     /*]]>*/
 </script>

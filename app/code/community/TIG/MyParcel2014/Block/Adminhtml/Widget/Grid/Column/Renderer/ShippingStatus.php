@@ -61,31 +61,36 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
     {
         $helper = $this->helper('tig_myparcel');
         $html = '';
+
+        $order = Mage::getModel('sales/order')->load($row->getId());
+        $myParcelShipments = Mage::getModel('tig_myparcel/shipment')
+            ->getCollection()
+            ->addFieldToFilter('order_id', $row->getId());
+
+        /** @var Mage_Sales_Model_Order $order */
+        $shippingMethod = $order->getShippingMethod();
+        if($shippingMethod === null)
+            return '';
+
         /**
          * The shipment was not shipped using MyParcel
          */
-        $shippingMethod = $row->getData(self::SHIPPING_METHOD_COLUMN);
-
-        if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod)) {
+        if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod))
             return '';
-        }
 
-        $countryCode = $row->getData(self::COUNTRY_ID_COLUMN);
+        $countryCode = $order->getShippingAddress()->getCountryId();
 
         /**
          * Check if any data is available.
          * If not available, show send link and country code
          */
-        $value = $row->getData($this->getColumn()->getIndex());
-        $order = Mage::getModel('sales/order')->load($row->getId());
 
         if ($order->canShip()) {
             $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
-
             $data = json_decode($order->getMyparcelData(), true);
-            if ($data['date'] !== null) {
+            if (key_exists('date', $data) && $data['date'] !== null) {
                 $dateTime = strtotime($data['date'] . ' 00:00:00');
-                $dropOffDate = $this->_getDropOffDay($dateTime);
+                $dropOffDate = $helper->getDropOffDay($dateTime);
                 $sDropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
 
                 /**
@@ -116,47 +121,35 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             }
 
             $html .= $countryCode . ' - </small>' . $actionHtml;
-
-            if ($value) {
-                $html .= '<br />';
-            }
-
-        } else {
-
-            if (!$value) {
-                $html = $countryCode;
-            }
-
         }
 
-        if ($value) {
+        if ($myParcelShipments) {
             /**
              * Create a track & trace URL based on shipping destination
              */
-            $postcode = $row->getData(self::POSTCODE_COLUMN);
+            $postcode = $order->getShippingAddress()->getPostcode();
             $destinationData = array(
                 'countryCode' => $countryCode,
                 'postcode' => $postcode,
             );
 
-            $barcodeData = array();
-            $barcodes = explode(',', $row->getData(self::BARCODE_COLUMN));
-            $statusses = explode(',', $value);
+            /** @var TIG_MyParcel2014_Model_Shipment $myParcelShipment */
+            $i = 0;
+            foreach ($myParcelShipments as $myParcelShipment) {
 
-            foreach ($statusses as $key => $status) {
-                if (!empty($barcodes[$key])) {
-                    $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcodes[$key], $destinationData, false, true);
-                    $oneBarcodeData = "<a href='{$barcodeUrl}' target='_blank'>{$barcodes[$key]}</a> - <small>" . $this->__('status_' . $status) . "</small>";
-                    if (!in_array($oneBarcodeData, $barcodeData)) {
-                        $barcodeData[] = $oneBarcodeData;
-                    }
-                } else {
-                    $barcodeData[] = "<small>" . $this->__('status_' . $status) . "</small>";
-                }
+                if ($i++ == 1)
+                    $html .= "<br />";
+
+                $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($myParcelShipment->getBarcode(), $destinationData, false, true);
+                if($myParcelShipment->getBarcode())
+                    $html .= "<a href='{$barcodeUrl}' target='_blank'>{$myParcelShipment->getBarcode()}</a> - <small>";
+
+                $html .= $this->__('status_' . $myParcelShipment->getStatus()) . "</small>";
             }
-
-            $html .= implode('<br />', $barcodeData);
         }
+
+        if (!$html)
+            $html = $countryCode;
 
         return $html;
     }
@@ -180,34 +173,5 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         }
 
         return $totalWeight;
-    }
-
-    /**
-     * Get drop off day
-     *
-     * @param $dateTime int
-     *
-     * @return int
-     */
-    private function _getDropOffDay($dateTime)
-    {
-        $weekDay = date('N', $dateTime);
-
-        switch ($weekDay) {
-            case (1): // Monday
-                $dropOff = strtotime("-2 day", $dateTime);
-                break;
-            case (2):
-            case (3):
-            case (4):
-            case (5): // Friday
-            case (6): // Saturday
-            case (7): // Sunday
-            default:
-                $dropOff = strtotime("-1 day", $dateTime);
-                break;
-        }
-
-        return $dropOff;
     }
 }

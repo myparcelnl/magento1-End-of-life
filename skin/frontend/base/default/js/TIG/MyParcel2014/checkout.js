@@ -22,200 +22,156 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
     window.mypa.fn = {};
 }
 window.mypa.settings = {};
+var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
 (function () {
-    var $, load, info, objRegExp, price, data, excludeDeliveryTypes, getData, observer;
-
-    $ = jQuery.noConflict();
-
-    observer = $.extend({
+    var observer, resizeIframeWidth, resizeIframeInterval, checkMyParcelMethod, checkMethod;
+    observer = parent.mypajQuery.extend({
         input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
         magentoMethods: "input:radio[name='shipping_method']",
-        magentoMethodMyParcel: "input:radio[id^='s_method_myparcel']",
-        payment: "input[name='payment[method]']",
-        billingPostalCode: "input[id='billing[postcode]']",
-        billingStreet1: "input[id='billing[street1]']",
-        billingStreet2: "input[id='billing[street2]']",
-        billingCountry: "select[id='billing[country_id]']",
-        postalCode: "input[id='billing[postcode]']",
-        street1: "input[id='shipping[street1]']",
-        street2: "input[id='shipping[street2]']",
-        country: "select[id='shipping[country_id]']"
+        myParcelMethods: ".myparcel_method",
+        myParcelExtraMethods: ".myparcel_extra_method",
+        myParcelBaseMethod: ".myparcel_base_method"
     }, window.mypa.observer);
 
-    window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
+    iframeDataLoaded = function () {
 
-    window.mypa.fn.load = load = function () {
+        if (mypajQuery(observer.myParcelMethods).is(":checked") == false && mypajQuery("input:radio[name='shipping_method']").is(":checked") == true) {
+            if (myParcelToggleOptions) {
+                mypajQuery('#mypa-load').hide();
+            } else if (mypajQuery('#mypa-input').val() != '') {
+                mypajQuery(observer.myParcelBaseMethod).prop("checked", false);
+                mypajQuery('#mypa-input').val(null).change();
+            }
+        } else {
+            if(typeof mypajQuery(observer.myParcelBaseMethod) !== 'undefined') {
+                mypajQuery(observer.myParcelBaseMethod).prop("checked", true);
+                mypajQuery('#mypa-load').show();
+            }
+        }
+
+        if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+            window.mypa.fn.fnCheckout.saveShippingMethod();
+        }
+
         /**
-         * If address is change
+         * If method is MyParcel
          */
-        /*$([
-            observer.billingPostalCode,
-            observer.billingStreet1,
-            observer.billingStreet2,
-            observer.billingCountry,
-            observer.postalCode,
-            observer.street1,
-            observer.street2,
-            observer.country
-        ].join()).off('change').on('change', function () {
-            load();
-        });*/
+        mypajQuery('#mypa-load').on('change', function () {
+            setTimeout(function () {
+                if (mypajQuery('#mypa-input').val() != '') {
+                    checkMyParcelMethod();
+                }
+            }, 200);
+            if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
+                window.mypa.fn.fnCheckout.saveShippingMethod();
 
-        var ajaxOptions = {
-            url: BASE_URL + 'myparcel2014/checkout/info/',
-            success: function (response) {
+                setTimeout(
+                    window.mypa.fn.fnCheckout.hideLoader
+                    , 2000);
+            }
+        });
 
-                info = response;
-
-                var address = info.data['address'];
-                if (address && address['country'] == 'NL') {
-                    $(observer.magentoMethodMyParcel)[0].checked = true;
-                    getData();
-
-
-                    if (address['street']) {
-                        window.mypa.settings = $.extend(window.mypa.settings, {
-                            postal_code: address['postal_code'],
-                            street: address['street'],
-                            number: address['number'],
-                            cutoff_time: data.general['cutoff_time'],
-                            dropoff_days: data.general['dropoff_days'],
-                            dropoff_delay: data.general['dropoff_delay'],
-                            deliverydays_window: data.general['deliverydays_window'],
-                            exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
-                            price: price,
-                            text: {signed: data.delivery.signature_title, only_recipient: data.delivery.only_recipient_title},
-                            hvo_title: data.delivery.signature_title,
-                            only_recipient_title: data.delivery.only_recipient_title
-                        });
-
-                        $.when(
-                            updatePageRequest()
-                        ).done(function () {
-                            $(observer.magentoMethods).off('click').off('change');
-
-                            if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                                window.mypa.fn.fnCheckout.saveShippingMethod();
-                            }
-
-                            /**
-                             * If method is MyParcel
-                             */
-                            mypajQuery('#mypa-load').off('click').on('click', function () {
-                                if(mypajQuery('#mypa-input').val() != '') {
-                                    mypajQuery(observer.magentoMethodMyParcel)[0].checked = true;
-                                }
-                            });
+        /**
+         * If method not is MyParcel
+         */
+        mypajQuery(observer.magentoMethods).on('click', function () {
+            if (mypajQuery(observer.myParcelMethods + ':checked').length == 0) {
+                if (myParcelToggleOptions) {
+                    mypajQuery('#mypa-load').hide();
+                } else if (mypajQuery('#mypa-input').val() != '') {
+                    mypajQuery(observer.onlyRecipient).prop("checked", false).change();
+                    mypajQuery(observer.signed).prop("checked", false).change();
+                    mypajQuery('#mypa-input').val(null).change();
+                }
+            } else {
+                iframeLoaded();
+            }
+        });
+    };
 
 
-                            /**
-                             * If method not is MyParcel
-                             */
-                            $(observer.magentoMethods).on('click', function () {
-                                if(mypajQuery(observer.magentoMethodMyParcel).is(":checked") == false) {
-                                    mypajQuery('#mypa-input').val(null).change();
-                                }
-                            });
+    iframeLoaded = function () {
+        if (mypajQuery(observer.myParcelMethods).is(":checked") && myParcelToggleOptions) {
+            mypajQuery('#mypa-load').show();
+        }
 
-                            /**
-                             * If the options changed, reload for IWD checkout
-                             */
-                            mypajQuery([
-                                observer.input,
-                                observer.onlyRecipient,
-                                observer.signed
-                            ].join()).on('change', function () {
-                                if (typeof  window.mypa.fn.fnCheckout != 'undefined') {
-                                    window.mypa.fn.fnCheckout.saveShippingMethod();
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 600);
-                                    setTimeout(
-                                        window.mypa.fn.fnCheckout.hideLoader
-                                        , 1000);
-                                }
-                            });
+        clearInterval(resizeIframeInterval);
+        resizeIframeWidth();
 
-                        });
+        resizeIframeInterval = setInterval(function () {
+            resizeIframeWidth();
+        }, 500);
+    };
+
+    /**
+     * Resizes the given iFrame width so it fits its content
+     */
+    resizeIframeWidth = function () {
+        var iframe = mypajQuery('#myparcel-iframe');
+        if (iframe && iframe.contents()){
+            iframe.height(10).height(iframe.contents().height());
+        }
+    };
+
+    checkMyParcelMethod = function() {
+        var recipientOnly = mypajQuery('#mypa-recipient-only').is(":checked");
+        var signed = mypajQuery('#mypa-signed').is(":checked");
+        var type;
+
+        json = jQuery.parseJSON(parent.mypajQuery('#mypa-input').val());
+        if (typeof json.time[0].price_comment != 'undefined') {
+            type = json.time[0].price_comment;
+        } else {
+            type = json.price_comment;
+        }
+
+        switch (type) {
+            case "morning":
+                if (signed) {
+                    checkMethod('#s_method_myparcel_morning_signature');
+                } else {
+                    checkMethod('#s_method_myparcel_morning');
+                }
+                break;
+            case "standard":
+                if (signed && recipientOnly) {
+                    checkMethod('#s_method_myparcel_delivery_signature_and_only_recipient_fee');
+                } else {
+                    if (signed) {
+                        checkMethod('#s_method_myparcel_evening_signature');
+                    } else if (recipientOnly) {
+                        checkMethod('#s_method_myparcel_delivery_only_recipient');
                     } else {
-                        console.log('Adres niet gevonden (API request mislukt).')
+                        checkMethod(observer.myParcelBaseMethod);
                     }
                 }
-            }
-        };
-        $.ajax(ajaxOptions);
+                break;
+            case "night":
+                if (signed) {
+                    checkMethod('#s_method_myparcel_evening_signature');
+                } else {
+                    checkMethod('#s_method_myparcel_evening');
+                }
+                break;
+            case "retail":
+                checkMethod('#s_method_myparcel_pickup');
+                break;
+            case "retailexpress":
+                checkMethod('#s_method_myparcel_pickup_express');
+                break;
 
-    };
-
-
-    getData = function () {
-
-        data = info.data;
-
-        price = [];
-
-        price['default'] = '&#8364; ' + data.general['base_price'].toFixed(2).replace(".", ",");
-
-        if (data.morningDelivery['fee'] != 0) {
-            price['morning'] = '&#8364; ' + data.morningDelivery['fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.eveningDelivery['fee'] != 0) {
-            price['night'] = '&#8364; ' + data.eveningDelivery['fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.pickup['fee'] != 0) {
-            price['pickup'] = '&#8364; ' + data.pickup['fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.pickupExpress['fee'] != 0) {
-            price['pickup_express'] = '&#8364; ' + data.pickupExpress['fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.delivery['only_recipient_active'] == false) {
-            price['only_recipient'] = 'disabled';
-        } else if (data.delivery['only_recipient_fee'] !== 0) {
-            price['only_recipient'] = '+ &#8364; ' + data.delivery['only_recipient_fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.delivery['signature_active'] == false) {
-            price['signed'] = 'disabled';
-        } else if (data.delivery['signature_fee'] !== 0) {
-            price['signed'] = '+ &#8364; ' + data.delivery['signature_fee'].toFixed(2).replace(".", ",");
-        }
-
-        if (data.delivery['signature_and_only_recipient'] > 0) {
-            price['combi_options'] = '+ &#8364; ' + data.delivery['signature_and_only_recipient'].toFixed(2).replace(".", ",");
-        }
-
-        /**
-         * Exclude delivery types
-         */
-        excludeDeliveryTypes = [];
-
-        if (data.morningDelivery['active'] == false) {
-            excludeDeliveryTypes.push('1');
-        }
-        if (data.eveningDelivery['active'] == false) {
-            excludeDeliveryTypes.push('3');
-        }
-        if (data.pickup['active'] == false) {
-            excludeDeliveryTypes.push('4');
-        }
-        if (data.pickupExpress['active'] == false) {
-            excludeDeliveryTypes.push('5');
         }
     };
 
-    updatePageRequest = function () {
-        if (mypajQuery.active > 0) {
-            window.setTimeout(updatePageRequest, 100);
+    checkMethod = function (selector){
+        if(myParcelToggleOptions) {
+            mypajQuery('.myparcel_holder > ul > li').hide();
+            mypajQuery(selector).parent().show();
         }
-        else {
-            window.mypa.fn.updatePage()
-        }
-    };
+        mypajQuery(selector).prop("checked", true).change();
+    }
 
 })();
+
