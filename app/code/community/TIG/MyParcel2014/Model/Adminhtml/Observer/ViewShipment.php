@@ -91,7 +91,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
 
                 $mailRetournMailAction = $block->getUrl(self::RETOURMAIL_ROUTE, array('shipment_id' => $shipmentId,));
                 $block->addButton('myparcel_mail_return_label', array(
-                    'label' => $helper->__('Mail retour label'),
+                    'label' => $helper->__('Mail return label'),
                     'class' => 'go',
                     'onclick' => "setLocation('" . $mailRetournMailAction . "')",
                 ));

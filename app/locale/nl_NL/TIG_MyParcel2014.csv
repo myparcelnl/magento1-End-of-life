@@ -166,8 +166,11 @@ TIG_MyParcel2014::You can create a new transactional e-mail where the variables 
 TIG_MyParcel2014::Unable to send track and trace email for shipment #,Versturen van track & trace e-mail mislukt voor zending #
 TIG_MyParcel2014::Track&amp;Trace e-mail is send: %s,Track & Trace e-mail is verzonden: %s
 TIG_MyParcel2014::Credit Consignment,Crediteer zending
-TIG_MyParcel2014::Mail retour label,Mail retourlabel
+TIG_MyParcel2014::Mail return label,Mail retourlabel
 TIG_MyParcel2014::Retour label mailed,Retour label is gemaild naar de klant
+TIG_MyParcel2014::You did not specify a name,Je hebt geen naam opgeven
+TIG_MyParcel2014::You did not specify a email,Je hebt geen email opgeven
+TIG_MyParcel2014::Mail send to,Mail verzonden naar
 "TIG_MyParcel2014::Credit has not been created, check MyParcel backend for details","Credit is niet aangemaakt, zie MyParcel backend voor meer informatie."
 TIG_MyParcel2014::Consignment %s is credited at MyParcel,Zending %s is gecrediteerd bij MyParcel.
 "TIG_MyParcel2014::Select 'no' if you have problems with addresses on the labels","Selecteer 'nee' als u problemen heeft met adressen op de labels."

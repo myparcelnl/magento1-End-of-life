@@ -111,7 +111,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
     public function getRetourlinkText()
     {
         $helper = Mage::helper('tig_myparcel');
-        return $helper->__('Mail retour label');
+        return $helper->__('Mail return label');
     }
 
     public function getRetourlinkUrl()

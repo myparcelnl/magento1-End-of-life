@@ -119,7 +119,7 @@ TIG_MyParcel2014::You can create a new transactional e-mail where the variables 
 TIG_MyParcel2014::Unable to send track and trace email for shipment #,Unable to send track and trace email for shipment #
 TIG_MyParcel2014::Track&amp;Trace e-mail is send: %s,Track&amp;Trace e-mail is send: %s
 TIG_MyParcel2014::Credit Consignment,Credit Consignment
-TIG_MyParcel2014::Mail retour label,Mail retour label
+TIG_MyParcel2014::Mail return label,Mail return label
 TIG_MyParcel2014::Retour label mailed,Retour label mailed
 "TIG_MyParcel2014::Credit has not been created, check MyParcel backend for details","Credit has not been created, check MyParcel backend for details"
 TIG_MyParcel2014::Consignment %s is credited at MyParcel,Consignment %s is credited at MyParcel

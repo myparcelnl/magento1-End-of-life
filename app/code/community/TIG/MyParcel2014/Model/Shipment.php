@@ -502,7 +502,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $insured             = $this->getInsuredOption();
 
         $this->setDataUsingMethod($homeAddressOnly['option'], $homeAddressOnly['selected']);
-        $this->setDataUsingMethod($signatureOnReceipt['option'], $signtatureOnReceipt['selected']);
+        $this->setDataUsingMethod($signatureOnReceipt['option'], $signatureOnReceipt['selected']);
         $this->setDataUsingMethod($returnIfNoAnswer['option'], $returnIfNoAnswer['selected']);
         $this->setDataUsingMethod($xl['option'], $xl['selected']);
         $this->setDataUsingMethod($insured['option'], $insured['selected']);

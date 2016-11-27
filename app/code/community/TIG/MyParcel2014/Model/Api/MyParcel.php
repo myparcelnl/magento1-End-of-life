@@ -65,6 +65,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     const REQUEST_HEADER_SHIPMENT           = 'Content-Type: application/vnd.shipment+json; ';
     const REQUEST_HEADER_RETURN             = 'Content-Type: application/vnd.return_shipment+json; ';
+    const REQUEST_HEADER_UNRELATED_RETURN   = 'Content-Type: application/vnd.unrelated_return_shipment+json; ';
 
     /**
      * @var string
@@ -463,6 +464,22 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $requestString = $this->_createRequestString($data);
 
         $this->_setRequestParameters($requestString, self::REQUEST_TYPE_REGISTER_CONFIG);
+
+        return $this;
+    }
+
+    /**
+     * Send email with return label
+     *
+     * @param $data array
+     *
+     * @return $this
+     */
+    public function sendUnrelatedRetourmailRequest($data)
+    {
+        $requestString = $this->_createRequestString($data, 'return_shipments');
+
+        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_UNRELATED_RETURN);
 
         return $this;
     }

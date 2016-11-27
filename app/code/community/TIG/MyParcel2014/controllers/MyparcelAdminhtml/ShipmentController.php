@@ -549,7 +549,6 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             ->addFieldToFilter('entity_id', array('in', $shipmentIds));
 
         $shipmentIds      = $shipmentCollection->getColumnValues('entity_id');
-        $shipmentOrderIds = $shipmentCollection->getColumnValues('order_id');
 
         Mage::register('tig_myparcel_consignment_options', array(
             'create_consignment' => '1',
@@ -646,6 +645,61 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         return $this->massPrintLabelsAction();
     }
 
+    public function sendReturnMailAction()
+    {
+        /**
+         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+         */
+        $helper = Mage::helper('tig_myparcel');
+        $error = null;
+        $message = &$error;
+        $request = $this->getRequest();
+        $name = $request->getParam('myparcel_name');
+        $email = $request->getParam('myparcel_email');
+        $labelDescription = $request->getParam('myparcel_label_description');
+
+        if (!$email)
+            $error = $helper->__('You did not specify a email');
+
+        if (!$name)
+            $error = $helper->__('You did not specify a name');
+
+        if ($error == null) {
+
+            $data = array(
+                'cc' => 'NL',
+                'carrier' => 1,
+                'email' => $email,
+                'name' => $name,
+                'options' => array(
+                    'package_type' => 1,
+                    'label_description' => $labelDescription
+                )
+            );
+
+            $api = Mage::getModel('tig_myparcel/api_myParcel');
+            $response = $api->sendUnrelatedRetourmailRequest($data)
+                ->sendRequest()
+                ->getRequestResponse();
+            $aResponse = json_decode($response, true);
+            if ($aResponse) {
+                $message = $helper->__('Mail send to') . ' ' . $email;
+            } else {
+                $error = 'Something goes wrong with your request. Please feel free to contact MyParcel.';
+            }
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode(array(
+            'message' => $message
+        ));
+        exit;
+    }
+
+    /**
+     * @return Mage_Core_Controller_Varien_Action
+     * @throws TIG_MyParcel2014_Exception
+     */
     public function printPackingSlipAction(){
 
         $orderIds = $this->_getOrderIds();
