@@ -514,13 +514,18 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPackageType($weight, $country, $getAdminTitle = false, $pakjegemak = false)
     {
-        $useMailboxTitle = $this->getConfig('mailbox_title', 'delivery') == '' ? false : true;
+        $mailboxActive = $this->getConfig('mailbox_active', 'delivery') == '' ? false : true;
+        if ($mailboxActive) {
 
-        if ($pakjegemak || $useMailboxTitle == false){
-            $type = 1;
+            $useMailboxTitle = $this->getConfig('mailbox_title', 'delivery') == '' ? false : true;
+            if ($pakjegemak || $useMailboxTitle == false){
+                $type = 1;
+            } else {
+                $weight = $this->getCorrectWeight((float)$weight);
+                $type = $weight <= 2 && $country == 'NL' && $weight != 0 ? 2 : 1;
+            }
         } else {
-            $weight = $this->getCorrectWeight((float)$weight);
-            $type = $weight <= 2 && $country == 'NL' && $weight != 0 ? 2 : 1;
+            $type = 1;
         }
 
         if ($getAdminTitle) {
@@ -528,16 +533,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             return $type;
         }
-    }
-
-    /**
-     * @param $weight
-     *
-     * @return float
-     */
-    private function getCorrectWeight($weight)
-    {
-        return $this->getConfig('gram_is_set', 'general') == '1' ? $weight / 1000 : $weight;
     }
 
     /**
@@ -1115,13 +1110,14 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get the price of the chosen options in the checkout
      *
-     * @param $method
+     * @param     $method
+     *
+     * @param double $price
      *
      * @return float
      */
-    public function getExtraPrice($method)
+    public function getExtraPrice($method, $price)
     {
-        $price = 0;
         $onlyRecipientFee = (float)$this->getConfig('only_recipient_fee', 'delivery');
         $signatureFee = (float)$this->getConfig('signature_fee', 'delivery');
         $morningFee = (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
@@ -1129,6 +1125,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $signatureAndOnlyRecipient = (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
         $pickupFee = (float)$this->getConfig('pickup_fee', 'pickup');
         $pickupExpressFee = (float)$this->getConfig('pickup_express_fee', 'pickup_express');
+        $mailboxFee = (float)$this->getConfig('mailbox_fee', 'mailbox');
 
         switch ($method) {
             case ('delivery_signature'):
@@ -1160,87 +1157,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             case ('pickup_express'):
                 $price += $pickupExpressFee;
                 break;
+            case ('mailbox'):
+                $price = $mailboxFee;
+                break;
         }
 
         return $price;
-
-        /**
-         * @var Mage_Sales_Model_Quote $quote
-         * @var Mage_Sales_Model_Quote_Address $address
-         * @var Mage_Sales_Model_Quote_Address_Rate $rate
-         */
-        $quote = Mage::getModel('checkout/cart')->getQuote();
-
-
-        $free = false;
-        foreach ($quote->getItemsCollection() as $item) {
-            $free = $item->getData('free_shipping') == '1' ? true : false;
-            break;
-        }
-
-        $address = $quote->getShippingAddress();
-
-        $price = $price === null ? $price = Mage::getSingleton('core/session')->getMyParcelBasePrice() : $price;
-
-        $data = json_decode($quote->getMyparcelData(), true);
-
-        /**
-         * If shipping method is delivery else shipping method is pickup
-         */
-        if ($data['time'][0] != null && key_exists('price_comment', $data['time'][0]) && $data['time'][0]['price_comment'] !== null) {
-            $priceComment = $data['time'][0]['price_comment'];
-            if ($priceComment == 'morning') {
-                $price += (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
-            } elseif ($priceComment == 'night') {
-                $price += (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
-            }
-
-            if(
-                key_exists('home_address_only', $data) &&
-                $priceComment != 'night' &&
-                $priceComment != 'morning' &&
-                key_exists('signed', $data) &&
-                $this->getConfig('signature_and_only_recipient_fee', 'delivery') > 0
-            ) {
-                $price += (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
-            } else {
-                if (key_exists('home_address_only', $data) && $priceComment != 'night' && $priceComment != 'morning')
-                    $price += (float)$this->getConfig('only_recipient_fee', 'delivery');
-
-                if (key_exists('signed', $data))
-                    $price += (float)$this->getConfig('signature_fee', 'delivery');
-            }
-        } else {
-            if ($data['price_comment'] == 'retail') {
-                $price += (float)$this->getConfig('pickup_fee', 'pickup');
-            } elseif ($data['price_comment'] == 'retailexpress') {
-                $price += (float)$this->getConfig('pickup_express_fee', 'pickup_express');
-            }
-        }
-
-        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
-
-        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $extraShippingPrice));
-        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $extraShippingPrice));
-        $quote
-            ->setBaseGrandTotal($quote->getBaseGrandTotal() + $extraShippingPrice)
-            ->setGrandTotal($quote->getGrandTotal() + $extraShippingPrice)
-            ->save();
-
-        return $price;
-    }
-
-    private function calculatePriceAndGetAddress($address, $extraShippingPrice)
-    {
-        /** @var Mage_Sales_Model_Quote_Address $address */
-        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
-        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
-        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
-        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
-        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
-        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
-
-        return $address;
     }
 
     /**

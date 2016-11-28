@@ -382,6 +382,10 @@
                 background: #ff8c00
             }
 
+            #mypa-mailbox-options-title {
+                width: 100%;
+            }
+
             .mypa-info {
                 display: inline-block;
                 box-sizing: border-box;
@@ -581,6 +585,23 @@
                                 </label>
                                 <div id='mypa-delivery-options' class='mypa-content-lg'>
                                 </div>
+                            </div>
+                            <div id='mypa-mailbox-row' class='mypa-row-lg'>
+                                <input type="radio" name="mypa-delivery-type" id="mypa-mailbox-location">
+                                <label id='mypa-mailbox-options-title' class='mypa-row-title'
+                                       for="mypa-mailbox-location">
+                                    <div class="mypa-checkmark mypa-main">
+                                        <div class="mypa-circle"></div>
+                                        <div class="mypa-checkmark-stem"></div>
+                                        <div class="mypa-checkmark-kick"></div>
+                                    </div>
+                                    <span class='mypa-price mypa-mailbox-price'>
+                                        <?php echo '&#8364; ' . str_replace('.', ',', $helper->getConfig('mailbox_fee', 'mailbox')); ?>
+                                    </span>
+                                    <span class="mypa-highlight">
+                                        <?php echo $helper->getConfig('mailbox_title', 'mailbox'); ?>
+                                    </span>
+                                </label>
                             </div>
                             <div id='mypa-pickup-row' class='mypa-row-lg'>
                                 <input type="radio" name="mypa-delivery-type" id="mypa-pickup-location">

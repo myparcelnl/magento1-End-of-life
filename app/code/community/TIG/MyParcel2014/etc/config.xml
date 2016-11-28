@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.9.0</version>
+            <version>1.9.9</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -273,7 +273,7 @@
                 <signature_and_only_recipient_fee>0.42</signature_and_only_recipient_fee>
             </delivery>
             <mailbox>
-                <mailbox_title>Mailbox</mailbox_title>
+                <mailbox_title>Brievenbuspakje</mailbox_title>
                 <mailbox_weight>2.000</mailbox_weight>
                 <mailbox_fee>3.45</mailbox_fee>
             </mailbox>
