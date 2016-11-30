@@ -151,6 +151,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         if (!$this->_helper->isEnabled()
             || !$this->_order
             || !$this->_helper->shippingMethodIsMyParcel($shippingMethod)
+            || $this->_order->getIsVirtual()
         ) {
             return '';
         }
