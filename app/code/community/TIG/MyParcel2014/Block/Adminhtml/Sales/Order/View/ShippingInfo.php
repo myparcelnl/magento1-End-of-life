@@ -88,24 +88,21 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         } else {
 
             // Get package type
-            $totalWeight = $this->_helper->getTotalWeight($this->_order->getAllVisibleItems());
-            if($totalWeight !== false){
-                $html .= $this->_helper->getPackageType($totalWeight, $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
+            $html .= $this->_helper->getPackageType($this->getAllVisibleItems(), $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
 
-                if(is_array($data) && key_exists('date', $data)){
+            if(is_array($data) && key_exists('date', $data)){
 
-                    $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
-                    $html .= $this->__('deliver:') .' ' . $dateTime;
+                $dateTime = date('d-m-Y H:i', strtotime($data['date']. ' ' . $data['time'][0]['start']));
+                $html .= $this->__('deliver:') .' ' . $dateTime;
 
-                    if($data['time'][0]['price_comment'] != 'standard')
-                        $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
+                if($data['time'][0]['price_comment'] != 'standard')
+                    $html .=  ', ' . $this->__('TYPE_' . $data['time'][0]['price_comment']);
 
-                    if(key_exists('home_address_only', $data) && $data['home_address_only'])
-                        $html .=  ', ' . strtolower($this->__('Home address only'));
+                if(key_exists('home_address_only', $data) && $data['home_address_only'])
+                    $html .=  ', ' . strtolower($this->__('Home address only'));
 
-                    if(key_exists('signed', $data) && $data['signed'])
-                        $html .=  ', ' . strtolower($this->__('Signature on receipt'));
-                }
+                if(key_exists('signed', $data) && $data['signed'])
+                    $html .=  ', ' . strtolower($this->__('Signature on receipt'));
             }
         }
 

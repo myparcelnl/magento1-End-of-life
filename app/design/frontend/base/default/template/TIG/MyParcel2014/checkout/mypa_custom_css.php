@@ -55,7 +55,7 @@
             border-bottom: 0.2em solid #<?php echo $selectColor;?>;
         }
 
-        input:checked ~ .mypa-price, input:checked ~ span span.mypa-price, .mypa-price-active {
+        input:checked ~ .mypa-price, input:checked ~ span span.mypa-price, input:checked ~ label span.mypa-price, .mypa-price-active {
             background: #<?php echo $selectColor;?>;
         }
         .edit-location {

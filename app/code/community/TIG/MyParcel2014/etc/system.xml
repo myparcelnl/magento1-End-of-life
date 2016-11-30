@@ -368,6 +368,7 @@
                         </mailbox_active>
                         <mailbox_title translate="label,comment" module="tig_myparcel">
                             <label>Mailbox title</label>
+                            <comment>Leave blank to automate mailbox packets only in the backend</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>156</sort_order>
                             <show_in_default>1</show_in_default>

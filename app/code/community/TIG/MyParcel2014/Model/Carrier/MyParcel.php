@@ -191,10 +191,10 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             return false;
         }
 
-        /**
-         * @todo Change this so it also works when creating orders in the backend.
-         */
         $rateType = Mage::getStoreConfig(self::XML_PATH_RATE_TYPE, Mage::app()->getStore()->getId());
+        $items = $request->getAllItems();
+
+        $packageType = $this->helper->getPackageType($items, $request->getDestCountryId(), false, false, true);
 
         $result = false;
 
@@ -223,7 +223,8 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             $this->addShippingRate($result, 'eveningdelivery', 'eveningdelivery', 'evening_signature');
             $this->addShippingRate($result, 'pickup', 'pickup', 'pickup');
             $this->addShippingRate($result, 'pickup_express', 'pickup_express', 'pickup_express');
-            $this->addShippingRate($result, 'mailbox', 'mailbox', 'mailbox');
+            if ($packageType == 2)
+                $this->addShippingRate($result, 'mailbox', 'mailbox', 'mailbox');
         }
 
         return $result;

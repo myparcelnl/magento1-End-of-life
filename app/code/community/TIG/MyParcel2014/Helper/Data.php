@@ -505,24 +505,25 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param int    $weight
+     * @param        $items
      * @param string $country
      * @param bool   $getAdminTitle
-     * @param bool   $pakjegemak
+     * @param bool   $isPickup
+     * @param bool   $isFrontend If mailbox title is empty, don't show the mailbox option
      *
-     * @return int|string package = 1, mailbox = 2, letter = 3
+     * @return int|string               package = 1, mailbox = 2, letter = 3
      */
-    public function getPackageType($weight, $country, $getAdminTitle = false, $pakjegemak = false)
+    public function getPackageType($items, $country, $getAdminTitle = false, $isPickup = false, $isFrontend = false)
     {
-        $mailboxActive = $this->getConfig('mailbox_active', 'delivery') == '' ? false : true;
+        $mailboxActive = $this->getConfig('mailbox_active', 'mailbox') == '' ? false : true;
         if ($mailboxActive) {
 
-            $useMailboxTitle = $this->getConfig('mailbox_title', 'delivery') == '' ? false : true;
-            if ($pakjegemak || $useMailboxTitle == false){
+            $hideMailboxInFrontend = $this->getConfig('mailbox_title', 'mailbox') == '' && $isFrontend ? true : false;
+            if ($isPickup || $hideMailboxInFrontend == true) {
                 $type = 1;
             } else {
-                $weight = $this->getCorrectWeight((float)$weight);
-                $type = $weight <= 2 && $country == 'NL' && $weight != 0 ? 2 : 1;
+                $fitInLetterbox = $this->fitInLetterbox($items);
+                $type = $fitInLetterbox && $country == 'NL' ? 2 : 1;
             }
         } else {
             $type = 1;
@@ -533,6 +534,41 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             return $type;
         }
+    }
+
+    /**
+     * @param Mage_Sales_Model_Entity_Quote_Item_Collection|Mage_Sales_Model_Entity_Order_Item_Collection $items
+     *
+     * @return bool
+     */
+    private function fitInLetterbox($items)
+    {
+        $mailboxWeight = (float)$this->getConfig('mailbox_weight', 'mailbox');
+        $itemWeight = 0;
+
+        foreach ($items as $item) {
+            $qty = $item->getQty();
+            if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+                /** @var Mage_Sales_Model_Order_Item $item */
+                $id = $item->getProductId();
+            } else {
+                /** @var Mage_Sales_Model_Quote_Address_Item $item */
+                $id = $item->getProduct()->getId();
+            }
+            $itemAttributeVolume = Mage::getModel('catalog/product')
+                ->load($id)
+                ->getData('myparcel_mailbox_volume');
+
+            $itemVolume = (float)$itemAttributeVolume * $qty;
+
+            if ($itemVolume > 0) {
+                $itemWeight += $itemVolume / 100 * $mailboxWeight;
+            } else {
+                $itemWeight += $item->getWeight() * $qty;
+            }
+        }
+
+        return $itemWeight <= $mailboxWeight ? true : false;
     }
 
     /**
@@ -1015,13 +1051,13 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         $retourLabelUrl = '';
-        $emailTemplate  = Mage::getModel('core/email_template')->load($templateId);
+        $emailTemplate = Mage::getModel('core/email_template')->load($templateId);
         if (strpos($emailTemplate->getTemplateText(), 'retourlabel_url') > 0) {
 
             /**
              * @var TIG_MyParcel2014_Model_Api_MyParcel $api
              */
-            $api      = $myParcelShipment->getApi();
+            $api = $myParcelShipment->getApi();
             $response = $api->createRetourlinkRequest($myParcelShipment->getConsignmentId())
                 ->setStoreId($myParcelShipment->getShipment()->getOrder()->getStoreId())
                 ->sendRequest()
@@ -1110,7 +1146,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get the price of the chosen options in the checkout
      *
-     * @param     $method
+     * @param        $method
      *
      * @param double $price
      *

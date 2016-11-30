@@ -115,8 +115,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
                 $html .= $this->__('Normal') . ' ';
             } else {
-                $totalWeight = $this->getTotalWeight($order->getAllVisibleItems());
-                $type = $helper->getPackageType($totalWeight, $order->getShippingAddress()->getCountryId(), true);
+                $type = $helper->getPackageType($order->getAllVisibleItems(), $order->getShippingAddress()->getCountryId(), true);
                 $html .= $type . ' ';
             }
 

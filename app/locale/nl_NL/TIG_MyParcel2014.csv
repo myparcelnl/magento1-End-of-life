@@ -291,6 +291,7 @@ TIG_MyParcel2014::status_99,Inactief - Onbekende status
 TIG_MyParcel2014::PostNL location minimum order total enabled,PostNL locatie minimum totaal bedrag actief
 "TIG_MyParcel2014::PostNL location minimum order total, incl. BTW","PostNL locatie minimum totaal bedrag, incl. BTW"
 TIG_MyParcel2014::Mailbox title,Brievenbuspakje titel
+TIG_MyParcel2014::Leave blank to automate mailbox packets only in the backend,Laat leeg om brievenbuspakjes alleen in de backend te automatiseren
 TIG_MyParcel2014::Mailbox weight,Brievenbuspakje gewicht
 "TIG_MyParcel2014::Besides assigning weights to all products, you can also specify a volume of each product.","Om deze functie optimaal te gebruiken, stel je eerst de gewichten of volume in van jouw producten."
 TIG_MyParcel2014::Mailbox fee,Brievenbuspakje prijs
