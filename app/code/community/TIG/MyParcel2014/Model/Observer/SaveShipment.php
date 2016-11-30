@@ -117,7 +117,7 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
          * check if order is placed with Myparcel
          */
         $shippingMethod = $shipment->getOrder()->getShippingMethod();
-        if (!$helper->shippingMethodIsMyParcel($shippingMethod)) {
+        if (!$helper->shippingMethodIsMyParcel($shippingMethod) || $this->_order->getIsVirtual()) {
             return $this;
         }
 
