@@ -775,7 +775,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         /**
          * Check if the shipping method used is allowed
          */
-        if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod) || $this->_order->getIsVirtual()) {
+        if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod) || $shipment->getShipment()->getOrder()->getIsVirtual()) {
             return false;
         }
 
