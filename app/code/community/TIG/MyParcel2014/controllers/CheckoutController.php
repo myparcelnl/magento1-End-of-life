@@ -69,7 +69,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
             foreach ($address->getShippingRatesCollection() as $rate) {
                 if ($rate->getCarrier() == 'myparcel' &&
                     ($rate->getMethod() == 'flatrate' || $rate->getMethod() == 'tablerate') &&
-                    key_exists('rate_id', $rate) && $rate->getData('rate_id') !== null
+                    key_exists('rate_id', $rate->getData()) && $rate->getData('rate_id') !== null
                 ) {
 
                     $_excl = $this->getShippingPrice($rate->getPrice(), $quote);

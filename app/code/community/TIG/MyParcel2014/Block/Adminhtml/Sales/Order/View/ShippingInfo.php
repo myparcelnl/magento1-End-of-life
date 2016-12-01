@@ -42,6 +42,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
      * @var Mage_Sales_Model_Order|TIG_MyParcel2014_Model_Sales_Order
      */
     protected $_order;
+
+    /**
+     * @var TIG_MyParcel2014_Helper_Data
+     */
     protected $_helper;
     protected $_myParcelShipments;
 

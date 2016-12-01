@@ -1122,6 +1122,11 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return true;
     }
 
+    /**
+     * @param $shipmentId
+     *
+     * @return bool
+     */
     public function hasMyParcelShipment($shipmentId)
     {
         $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
@@ -1132,6 +1137,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return false;
     }
 
+    /**
+     * @param $shippingMethod
+     * @param $setting
+     *
+     * @return bool
+     */
     public function getShippingMethodConfig($shippingMethod, $setting)
     {
         $aConfig = Mage::getStoreConfig('tig_myparcel/' . $shippingMethod, Mage::app()->getStore());
@@ -1231,6 +1242,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
 
+    /**
+     * @return bool
+     */
     private function _isFree()
     {
         $quote = Mage::getModel('checkout/cart')->getQuote();

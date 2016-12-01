@@ -59,6 +59,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
      */
     public function render(Varien_Object $row)
     {
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = $this->helper('tig_myparcel');
         $html = '';
 
@@ -75,7 +76,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         /**
          * The shipment was not shipped using MyParcel
          */
-        if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod) && $order->getIsVirtual())
+        if (!$helper->shippingMethodIsMyParcel($shippingMethod) && $order->getIsVirtual())
             return '';
 
         $countryCode = $order->getShippingAddress()->getCountryId();
@@ -151,26 +152,5 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             $html = $countryCode;
 
         return $html;
-    }
-
-    /**
-     * Get total weight
-     *
-     * @param $products
-     *
-     * @return float|int
-     */
-    private function getTotalWeight($products)
-    {
-        $totalWeight = 0;
-        /** @var Mage_Sales_Model_Order_Item $product */
-
-        foreach ($products as $product) {
-            if ($product->canShip()) {
-                $totalWeight = $totalWeight + (float)$product->getData('weight') * ($product->getData('qty_ordered') - $product->getData('qty_shipped'));
-            }
-        }
-
-        return $totalWeight;
     }
 }
