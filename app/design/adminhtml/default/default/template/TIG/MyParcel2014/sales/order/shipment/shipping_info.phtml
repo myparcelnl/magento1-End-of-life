@@ -37,6 +37,7 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
  * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo $this
+ * @var TIG_MyParcel2014_Helper_Data $_helper
  */
 
 
@@ -51,7 +52,7 @@ $_homeSelected              = $this->getIsHomeSelected();
 $_signatureSelected         = $this->getIsSignatureOnReceipt();
 $_returnNoAnswerSelected    = $this->getIsReturnOnNoAnswer();
 $_insured                   = $this->getIsInsured();
-$_isPakjegemak              = $this->getIsPakjeGemak();
+$_hasExtraOptions           = $_helper->shippingHasExtraOptions($_shipment->getOrder()->getShippingMethod());
 $_insuredSelected           = '';
 $_insuredUpTo               = '';
 $_insuredAmount             = 0;
@@ -62,7 +63,7 @@ if(is_array($_insured)){
 }
 
 $_disabled = '';
-if(true == $_isPakjegemak){
+if(true == $_hasExtraOptions){
     $_disabled= 'disabled';
 }
 ?>

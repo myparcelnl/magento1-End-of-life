@@ -91,8 +91,9 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
             }
         } else {
 
+            $hasExtraOptions = $this->_helper->shippingHasExtraOptions($this->_order->getShippingMethod());
             // Get package type
-            $html .= $this->_helper->getPackageType($this->getAllVisibleItems(), $this->_order->getShippingAddress()->getCountryId(), true) . ' ';
+            $html .= $this->_helper->getPackageType($this->_order->getAllVisibleItems(), $this->_order->getShippingAddress()->getCountryId(), true, $hasExtraOptions) . ' ';
 
             if(is_array($data) && key_exists('date', $data)){
 
@@ -170,11 +171,9 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
      */
     public function getIsPakjeGemak()
     {
+
         $shipment = Mage::registry('current_shipment');
 
-        if($this->_helper->getPgAddress($shipment->getOrder())){
-            return true;
-        }
-        return false;
+        return $this->_helper->shippingMethodIsPakjegemak($shipment->getOrder()->getShippingMethod());
     }
 }

@@ -112,8 +112,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
             // Letterbox or normal package
             $shippingMethod = $order->getShippingMethod();
-            $pgAddress = $helper->getPgAddress($order);
-            if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
+            if ($helper->shippingHasExtraOptions($shippingMethod)) {
                 $html .= $this->__('Normal') . ' ';
             } else {
                 $type = $helper->getPackageType($order->getAllVisibleItems(), $order->getShippingAddress()->getCountryId(), true);

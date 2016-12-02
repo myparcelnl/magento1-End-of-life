@@ -535,7 +535,9 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
         if (!key_exists('type_consignment', $registryOptions) || $registryOptions['type_consignment'] == 'default') {
 
-            if ($this->helper->getPackageType($this->getShipment()->getItemsCollection(), $this->getShippingAddress()->getCountryId()) == 1) {
+            $hasExtraOptions = $this->helper->shippingHasExtraOptions($this->getShipment()->getOrder()->getShippingMethod());
+
+            if ($this->helper->getPackageType($this->getShipment()->getItemsCollection(), $this->getShippingAddress()->getCountryId(), false, $hasExtraOptions) == 1) {
                 $type = self::TYPE_NORMAL;
             } else {
                 $type = self::TYPE_LETTER_BOX;

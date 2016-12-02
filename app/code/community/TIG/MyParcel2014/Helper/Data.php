@@ -228,6 +228,28 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Checks if the given shipping has extra options
+     *
+     * @param $method
+     *
+     * @return bool
+     */
+    public function shippingHasExtraOptions($method)
+    {
+        $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
+        $myParcelCode = $myParcelCarrier->getCarrierCode();
+
+        if (
+            strpos($method, $myParcelCode) !== null &&
+            $method != $myParcelCode . '_mailbox'
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the given shipping method is Pakjegemak
      *
      * @param $method
@@ -508,20 +530,21 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      * @param        $items
      * @param string $country
      * @param bool   $getAdminTitle
-     * @param bool   $isPickup
+     * @param bool   $hasExtraOptions
      * @param bool   $isFrontend If mailbox title is empty, don't show the mailbox option
      *
      * @return int|string               package = 1, mailbox = 2, letter = 3
      */
-    public function getPackageType($items, $country, $getAdminTitle = false, $isPickup = false, $isFrontend = false)
+    public function getPackageType($items, $country, $getAdminTitle = false, $hasExtraOptions = false, $isFrontend = false)
     {
         $mailboxActive = $this->getConfig('mailbox_active', 'mailbox') == '' ? false : true;
         if ($mailboxActive) {
 
             $hideMailboxInFrontend = $this->getConfig('mailbox_title', 'mailbox') == '' && $isFrontend ? true : false;
-            if ($isPickup || $hideMailboxInFrontend == true) {
+            if ($hasExtraOptions || $hideMailboxInFrontend == true) {
                 $type = 1;
             } else {
+
                 $fitInLetterbox = $this->fitInLetterbox($items);
                 $type = $fitInLetterbox && $country == 'NL' ? 2 : 1;
             }
