@@ -1264,6 +1264,33 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return $dropOff;
     }
 
+    /**
+     * Get all countries that support ERS
+     *
+     * @return array
+     */
+    public function getReturnCountries()
+    {
+        return array(
+            'NL',
+            'DE',
+            'EE',
+            'FI',
+            'FR',
+            'GR',
+            'GB',
+            'IT',
+            'LU',
+            'MT',
+            'AT',
+            'SI',
+            'SK',
+            'ES',
+            'CZ',
+            'IE',
+        );
+    }
+
 
     /**
      * @return bool
