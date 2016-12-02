@@ -753,8 +753,18 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 }
 
                 if ($checkoutData['date'] !== null) {
+
+
                     $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
-                    $data['delivery_date'] = $checkoutDateTime;
+                    $currentDateTime = new dateTime();
+                    if (date_parse($checkoutDateTime) >= $currentDateTime) {
+                        $data['delivery_date'] = $checkoutDateTime;
+                    } else {
+                        $currentDateTime->modify('+1 day');
+                        $nextDeliveryDay = $this->getNextDeliveryDay($currentDateTime);
+                        $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d H:i:s');
+                    }
+
                     $dateTime = date_parse($checkoutData['date']);
                     $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
                 }
@@ -787,6 +797,22 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         }
 
         return $data;
+    }
+
+    /**
+     * @param dateTime $dateTime
+     *
+     * @return mixed
+     */
+    private function getNextDeliveryDay($dateTime)
+    {
+        $weekDay = date('w', strtotime($dateTime));
+        if ($weekDay == 0 || $weekDay == 6) {
+            $dateTime->modify('+1 day');
+            $dateTime = $this->getNextDeliveryDay($dateTime);
+        }
+
+        return $dateTime;
     }
 
     /**

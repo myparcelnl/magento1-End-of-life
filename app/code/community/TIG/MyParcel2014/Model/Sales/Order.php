@@ -28,10 +28,16 @@
             $usePgAddress = $helper->getConfig('pakjegemak_use_shipment_address') === '1';
 
             $parentFunctions = debug_backtrace();
-            if(isset($parentFunctions[3]['class']) && $parentFunctions[3]['class'] != 'TIG_Afterpay_Model_PaymentFee_Observer'){
+            if(isset($parentFunctions[3]['class']) && $parentFunctions[3]['class'] == 'TIG_Afterpay_Model_PaymentFee_Observer'){
                 $usePgAddress = false;
             }
-            if(isset($parentFunctions[3]['function']) && $parentFunctions[3]['function'] == '_getConsignmentData') {
+            if(
+                isset($parentFunctions[3]['function']) &&
+                (
+                    $parentFunctions[3]['function'] == '_getConsignmentData' ||
+                    $parentFunctions[3]['function'] == 'renderView'
+                )
+            ) {
                 $usePgAddress = false;
             }
 

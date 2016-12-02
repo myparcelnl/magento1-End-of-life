@@ -87,8 +87,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
                 ));
                 // remove Send Tracking Information button
                 $block->removeButton('save');
-            } else if ($myParcelShipment->getShipment()->getShippingAddress()->getCountry() == 'NL') {
-
+            } else if (in_array($myParcelShipment->getShipment()->getShippingAddress()->getCountry(), $helper->getReturnCountries())) {
                 $mailRetournMailAction = $block->getUrl(self::RETOURMAIL_ROUTE, array('shipment_id' => $shipmentId,));
                 $block->addButton('myparcel_mail_return_label', array(
                     'label' => $helper->__('Mail return label'),

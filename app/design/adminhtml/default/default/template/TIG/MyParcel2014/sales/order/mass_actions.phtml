@@ -103,6 +103,10 @@
             background: #eb5e00;
         }
 
+        button#myparcel_return_open_dialog {
+            padding: 2px 7px 3px;
+        }
+
         #myparcel_return_holder {
             padding: 10px;
         }
@@ -272,7 +276,6 @@
         })();
 
         function myParcelSendMail() {
-
             $('myparcel_return_form').request({
                 onFailure: function() {
                     $('myparcel_return_message').innerHTML = 'Something goes wrong. Please feel free to contact MyParcel.'

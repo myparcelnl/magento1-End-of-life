@@ -38,7 +38,7 @@
  *
  * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions $this
  */
-
+/** @var $_helper TIG_MyParcel2014_Helper_Data */
 $_countryNeedsCustoms       = $this->countryNeedsCustoms();
 $_storeId                   = $this->getOrderStoreId();
 $_helper                    = Mage::helper('tig_myparcel');
@@ -58,8 +58,7 @@ $_defaultCustomsContentCode = $_helper->getHsCodes($this->getShipment()->getOrde
 
 $tmpInsured = 1000;
 
-$totalWeight = $_helper->getTotalWeight($this->getShipment()->getOrder()->getAllVisibleItems());
-$type = $_helper->getPackageType($totalWeight, $this->getDestinationCountry(), false, $this->getIsPakjeGemak());
+$type = $_helper->getPackageType($this->getShipment()->getOrder()->getAllVisibleItems(), $this->getDestinationCountry(), false, $this->getIsPakjeGemak());
 
 if(is_array($_insured)){
     $_insuredAmount   = (int)$_insured['insuredAmount'];
