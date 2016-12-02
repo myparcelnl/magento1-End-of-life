@@ -52,6 +52,7 @@
     <div id="myparcel_return_container" style="display:none;">
         <div id="myparcel_return_holder">
             <form id="myparcel_return_form" action="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/sendReturnMail');?>">
+                <p><?php echo $helper->__('This only works for Dutch addresses');?></p>
                 <label for="return_name"><?php echo $helper->__('Name client');?></label>
                 <input type="text" class="input-text" id="myparcel_name" name="myparcel_name">
                 <label for="myparcel_email"><?php echo $helper->__('Email client');?></label>
@@ -101,6 +102,10 @@
 
         #print_pages .print_page:hover {
             background: #eb5e00;
+        }
+
+        button#myparcel_return_open_dialog {
+            padding: 2px 7px 3px;
         }
 
         #myparcel_return_holder {
@@ -272,7 +277,6 @@
         })();
 
         function myParcelSendMail() {
-
             $('myparcel_return_form').request({
                 onFailure: function() {
                     $('myparcel_return_message').innerHTML = 'Something goes wrong. Please feel free to contact MyParcel.'

@@ -170,6 +170,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             'pickup_express' => $helper->getConfig('pickup_title', 'pickup') . ' (' . strtolower($helper->__('TYPE_retailexpress')) . ')',
             'flatrate' => $this->getConfigData('name') . ' flat',
             'tablerate' => $this->getConfigData('name') . ' table',
+            'mailbox' => $helper->getConfig('mailbox_title', 'mailbox'),
         );
 
         return $methods;
@@ -190,10 +191,10 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             return false;
         }
 
-        /**
-         * @todo Change this so it also works when creating orders in the backend.
-         */
         $rateType = Mage::getStoreConfig(self::XML_PATH_RATE_TYPE, Mage::app()->getStore()->getId());
+        $items = $request->getAllItems();
+
+        $packageType = $this->helper->getPackageType($items, $request->getDestCountryId(), false, false, true);
 
         $result = false;
 
@@ -222,6 +223,8 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             $this->addShippingRate($result, 'eveningdelivery', 'eveningdelivery', 'evening_signature');
             $this->addShippingRate($result, 'pickup', 'pickup', 'pickup');
             $this->addShippingRate($result, 'pickup_express', 'pickup_express', 'pickup_express');
+            if ($packageType == 2)
+                $this->addShippingRate($result, 'mailbox', 'mailbox', 'mailbox');
         }
 
         return $result;
@@ -231,6 +234,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
     {
         $helper = $this->helper;
         $shippingRates = $this->allowed_methods;
+
         if (
             $helper->getConfig($settingAlias . '_active', $settingGroup) == "1" ||
             (
@@ -239,11 +243,12 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
                 $helper->getConfig('signature_active', 'delivery') == "1"
             )
         ) {
+
             $currentRate = current($result->getRatesByCarrier($this->_code));
 
             if ($currentRate) {
                 $currentPrice = $currentRate->getPrice();
-                $extraPrice = $helper->getExtraPrice($method);
+                $extraPrice = $helper->getExtraPrice($method, $currentPrice);
 
                 /**
                  * Use a modified clone of the configured shipping rate
@@ -252,7 +257,8 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
                 $newRate = clone $currentRate;
                 $newRate->setMethod($method);
                 $newRate->setMethodTitle($shippingRates[$method]);
-                $newRate->setPrice($currentPrice + $extraPrice);
+                $newRate->setPrice($extraPrice);
+
                 $result->append($newRate);
             }
         }

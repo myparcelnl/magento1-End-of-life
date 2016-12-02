@@ -65,6 +65,11 @@ window.mypa.settings = {};
                             externalJQuery('#mypa-load').on('change', function () {
                                 externalJQuery('#mypa-input').trigger('change');
                             });
+                            $('#mypa-mailbox-location').on('change', function () {
+                                parent.mypajQuery('#mypa-input').val('{"time":[{"price_comment":"mailbox","type":6}]}').trigger('change');
+                                parent.mypajQuery('#mypa-signed').prop('checked', false).trigger('change');
+                                parent.mypajQuery('#mypa-recipient-only').prop('checked', false).trigger('change');
+                            });
                             parent.iframeDataLoaded();
 
                         });

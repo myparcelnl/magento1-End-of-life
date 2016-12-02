@@ -88,10 +88,12 @@ setTimeout(function () {
         "input[id='billing:street2']",
         "input[id='billing:postcode_housenumber']",
         "input[id='billing:postcode']",
+        "input[id='billing:country_id']",
         "input[id='shipping:street1']",
         "input[id='shipping:street2']",
         "input[id='shipping:postcode_housenumber']",
-        "input[id='shipping:postcode']"
+        "input[id='shipping:postcode']",
+        "input[id='shipping:country_id']"
     ].join()).on('change', function () {
         myparcelSaveBilling();
     });

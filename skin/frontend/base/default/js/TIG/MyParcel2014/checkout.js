@@ -161,7 +161,9 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
             case "retailexpress":
                 checkMethod('#s_method_myparcel_pickup_express');
                 break;
-
+            case "mailbox":
+                checkMethod('#s_method_myparcel_mailbox');
+                break;
         }
     };
 
