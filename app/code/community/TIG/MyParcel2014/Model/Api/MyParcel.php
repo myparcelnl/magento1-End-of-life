@@ -764,7 +764,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         $nextDeliveryDay = $this->getNextDeliveryDay($currentDateTime);
                         $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d H:i:s');
                     }
-                    dump($currentDateTime);
 
                     $dateTime = date_parse($checkoutData['date']);
                     $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
