@@ -168,6 +168,10 @@ TIG_MyParcel2014::Track&amp;Trace e-mail is send: %s,Track & Trace e-mail is ver
 TIG_MyParcel2014::Credit Consignment,Crediteer zending
 TIG_MyParcel2014::Mail return label,Mail retourlabel
 TIG_MyParcel2014::Retour label mailed,Retour label is gemaild naar de klant
+TIG_MyParcel2014::This only works for Dutch addresses,Dit werkt alleen voor nederlandse adressen
+TIG_MyParcel2014::Name client,Naam klant
+TIG_MyParcel2014::Email client,Email klant
+TIG_MyParcel2014::Label description,Eigen kenmerk
 TIG_MyParcel2014::You did not specify a name,Je hebt geen naam opgeven
 TIG_MyParcel2014::You did not specify a email,Je hebt geen email opgeven
 TIG_MyParcel2014::Mail send to,Mail verzonden naar
