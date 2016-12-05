@@ -297,7 +297,7 @@ TIG_MyParcel2014::PostNL location minimum order total enabled,PostNL locatie min
 TIG_MyParcel2014::Mailbox title,Brievenbuspakje titel
 TIG_MyParcel2014::Leave blank to automate mailbox packets only in the backend,Laat leeg om brievenbuspakjes alleen in de backend te automatiseren
 TIG_MyParcel2014::Mailbox weight,Brievenbuspakje gewicht
-"TIG_MyParcel2014::Besides assigning weights to all products, you can also specify a volume of each product.","Om deze functie optimaal te gebruiken, stel je eerst de gewichten of volume in van jouw producten."
+"TIG_MyParcel2014::Besides assigning weights to all products, you can also specify a volume of each product.","Om deze functie optimaal te gebruiken, stel je eerst het gewicht of volume in van jouw producten."
 TIG_MyParcel2014::Mailbox fee,Brievenbuspakje prijs
 TIG_MyParcel2014::Enter a basic price for a mailbox. The regular price will not affect this price.,Vul een totaalprijs in voor een brievenbuspakje.
 TIG_MyParcel2014::Automate mailbox package,Brievenbuspakje automatiseren
