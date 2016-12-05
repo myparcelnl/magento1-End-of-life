@@ -352,8 +352,9 @@ displayOtherTab = function() {
 
 renderPage = function(response) {
     if (response.data.message === 'No results') {
-            $('#mypa-no-options').html('Het opgegevens adres is niet bekend.');
+        $('#mypa-no-options').html('Het opgegevens adres is niet bekend.');
         $('.mypa-overlay').removeClass('mypa-hidden');
+        parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', true);
         return;
     }
     $('.mypa-overlay').addClass('mypa-hidden');
