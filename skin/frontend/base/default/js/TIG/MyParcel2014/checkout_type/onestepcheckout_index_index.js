@@ -37,29 +37,43 @@ function checkPendingRequest() {
 
 function myparcelSaveBilling() {
     setTimeout(function() {
-            var currentData = mypajQuery("input[id='billing:street1']").val();
-            if(mypajQuery("input[id='billing:street2']").length && mypajQuery("input[id='billing:street2']").val().length){
-                currentData = currentData + mypajQuery("input[id='billing:street2']").val();
-            }
-            if(mypajQuery("input[id='shipping:street1']").length && mypajQuery("input[id='shipping:street1']").val().length){
-                currentData = currentData + mypajQuery("input[id='shipping:street1']").val();
-            }
-            if(mypajQuery("input[id='shipping:street2']").length && mypajQuery("input[id='shipping:street2']").val().length){
-                currentData = currentData + mypajQuery("input[id='shipping:street2']").val();
-            }
+            var currentData = getMyParcelLatestData();
 
             if (latestData == currentData) {
                 myparcelSaveBilling();
             } else {
                 get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
-
-                latestData = mypajQuery("input[id='billing:street1']").val();
-                if(mypajQuery("input[id='billing:street2']").length && mypajQuery("input[id='billing:street2']").val().length){
-                    latestData = latestData + mypajQuery("input[id='billing:street2']").val();
-                }
+                latestData = currentData;
             }
         }
         , 300);
+}
+
+function getMyParcelLatestData() {
+    var data = mypajQuery("input[id='billing:street1']").val();
+    if(mypajQuery("input[id='billing:street2']").length && mypajQuery("input[id='billing:street2']").val().length){
+        data += mypajQuery("input[id='billing:street2']").val();
+    }
+    if(mypajQuery("input[id='shipping:street1']").length && mypajQuery("input[id='shipping:street1']").val().length){
+        data += mypajQuery("input[id='shipping:street1']").val();
+    }
+    if(mypajQuery("input[id='shipping:street2']").length && mypajQuery("input[id='shipping:street2']").val().length){
+        data += mypajQuery("input[id='shipping:street2']").val();
+    }
+    if(mypajQuery("input[id='billing:housenumber']").length && mypajQuery("input[id='billing:housenumber']").val().length){
+        data += mypajQuery("input[id='billing:housenumber']").val();
+    }
+    if(mypajQuery("input[id='shipping:housenumber']").length && mypajQuery("input[id='shipping:housenumber']").val().length){
+        data += mypajQuery("input[id='shipping:housenumber']").val();
+    }
+    if($('billing:country_id').length && $('billing:country_id').getValue()){
+        data += $('billing:country_id').getValue();
+    }
+    if($('shipping:country_id').length && $('shipping:country_id').getValue()){
+        data += $('shipping:country_id').getValue();
+    }
+
+    return data;
 }
 
 setTimeout(function () {
@@ -72,28 +86,18 @@ setTimeout(function () {
         }
     });
 
-    latestData = mypajQuery("input[id='billing:street1']").val();
-    if(mypajQuery("input[id='billing:street2']").length && mypajQuery("input[id='billing:street2']").val().length){
-        latestData = latestData + mypajQuery("input[id='billing:street2']").val();
-    }
-    if(mypajQuery("input[id='shipping:street1']").length && mypajQuery("input[id='shipping:street1']").val().length){
-        latestData = latestData + mypajQuery("input[id='shipping:street1']").val();
-    }
-    if(mypajQuery("input[id='shipping:street2']").length && mypajQuery("input[id='shipping:street2']").val().length){
-        latestData = latestData + mypajQuery("input[id='shipping:street2']").val();
-    }
+    latestData = getMyParcelLatestData();
 
     mypajQuery([
         "input[id='billing:street1']",
         "input[id='billing:street2']",
         "input[id='billing:postcode_housenumber']",
         "input[id='billing:postcode']",
-        "input[id='billing:country_id']",
         "input[id='shipping:street1']",
         "input[id='shipping:street2']",
         "input[id='shipping:postcode_housenumber']",
         "input[id='shipping:postcode']",
-        "input[id='shipping:country_id']"
+        ".validate-select"
     ].join()).on('change', function () {
         myparcelSaveBilling();
     });
