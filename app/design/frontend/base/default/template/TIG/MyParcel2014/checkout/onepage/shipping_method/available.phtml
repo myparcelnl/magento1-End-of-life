@@ -165,12 +165,14 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
         });
         //]]>
     </script>
-    <script>
-        mypajQuery( document ).ready(function() {
-            iframeLoaded();
-            mypajQuery('#mypa-input').on('change', (function () {
-                iframeLoaded()
-            }));
-        });
-    </script>
+    <?php if ($useMyParcel) : ?>
+        <script>
+            mypajQuery(document).ready(function () {
+                iframeLoaded();
+                mypajQuery('#mypa-input').on('change', (function () {
+                    iframeLoaded()
+                }));
+            });
+        </script>
+    <?php endif; ?>
 <?php endif; ?>
