@@ -164,7 +164,7 @@ TIG_MyParcel2014::Select a transactional e-mail template to send the retourlink,
 TIG_MyParcel2014::Select a transactional e-mail template to send the barcode,Selecteer een transactionele e-mail template om de Track&amp;Trace code te versturen
 TIG_MyParcel2014::You can create a new transactional e-mail where the variables {{var retourlink}} is available.,"Maak een transactionele e-mail aan, daarin zal de variabele {{var retourlink}} beschikbaar zijn om te retourlink te verzenden."
 TIG_MyParcel2014::Unable to send track and trace email for shipment #,Versturen van track & trace e-mail mislukt voor zending #
-TIG_MyParcel2014::Track&amp;Trace e-mail is send: %s,Track & Trace e-mail is verzonden: %s
+TIG_MyParcel2014::Track&amp;Trace e-mail is sent: %s,Track & Trace e-mail is verzonden: %s
 TIG_MyParcel2014::Credit Consignment,Crediteer zending
 TIG_MyParcel2014::Mail return label,Mail retourlabel
 TIG_MyParcel2014::Retour label mailed,Retour label is gemaild naar de klant

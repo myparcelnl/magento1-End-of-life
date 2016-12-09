@@ -689,7 +689,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                 $barcodeUrl = $this->helper->getBarcodeUrl($barcode, $shippingAddress);
                 if ($isSend) {
                     //add comment to order-comment history
-                    $comment = $this->helper->__('Track&amp;Trace e-mail is send: %s', $barcodeUrl);
+                    $comment = $this->helper->__('Track&amp;Trace e-mail is sent: %s', $barcodeUrl);
 
                     // flag the myparcel shipment that barcode is send
                     $this->setBarcodeSend(true);
