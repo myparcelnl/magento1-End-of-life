@@ -706,8 +706,9 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
                 /** @var Mage_Sales_Model_Order $order */
                 $order = $this->getOrder();
-                $order->addStatusHistoryComment($comment);
-                $order->setEmailSent((int)$isSend);
+                $order->addStatusHistoryComment($comment)
+                    ->setIsVisibleOnFront(false)
+                    ->setIsCustomerNotified(true);
                 $order->save();
                 $this->setOrder($order);
             }
