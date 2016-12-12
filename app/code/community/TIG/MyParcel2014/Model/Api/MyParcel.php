@@ -256,6 +256,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param string $method
      *
+     * @throws TIG_MyParcel2014_Exception
+     *
      * @return $this|false|array|string
      */
     public function sendRequest($method = 'POST')
