@@ -32,10 +32,6 @@
 $_shippingRateGroups = $this->getShippingRates();
 $helper = Mage::helper('tig_myparcel/addressValidation');
 
-/** Check if shipment is mailbox  */
-$weight = $this->getQuote()->getShippingAddress()->getWeight();
-$shipmentType = $helper->getPackageType((float)$weight, $this->getAddress()->getCountryId());
-$mailboxTitle = $helper->getConfig('mailbox_title', 'delivery') != '' && $shipmentType == 2 ? $helper->getConfig('mailbox_title', 'delivery') : false;
 $hideDays =     $helper->getConfig('deliverydays_window', 'checkout') == '1' ? true : false;
 
 /** Check if the checkout must use the MyParcel checkout */
@@ -46,7 +42,7 @@ if (isset($address) && is_array($address) && key_exists('country', $address)) {
     $country = false;
 }
 
-$useMyParcel = $_shippingRateGroups && $country == 'NL' && ($shipmentType == 1 || $mailboxTitle == '');
+$useMyParcel = ($_shippingRateGroups && $country == 'NL');
 
 /**
  * Hide and toggle MyParcel options (used by parnis.nl). Hidden field in the settings.
@@ -108,13 +104,8 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                         </script>
                                     <?php endif; ?>
                                 <?php endif; ?>
-                                    <label
-                                        for="s_method_<?php echo $_rate->getCode() ?>">
-                                        <?php if ($code == 'myparcel' && $mailboxTitle && $country == 'NL') : ?>
-                                            <?php echo $mailboxTitle; ?>
-                                        <?php else: ?>
-                                            <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
-                                        <?php endif; ?>
+                                    <label for="s_method_<?php echo $_rate->getCode() ?>">
+                                        <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
                                         <?php if ($code != 'myparcel' || !$toggleOptions):?>
                                             <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
                                             <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
@@ -174,12 +165,14 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
         });
         //]]>
     </script>
-    <script>
-        mypajQuery( document ).ready(function() {
-            iframeLoaded();
-            mypajQuery('#mypa-input').on('change', (function () {
-                iframeLoaded()
-            }));
-        });
-    </script>
+    <?php if ($useMyParcel) : ?>
+        <script>
+            mypajQuery(document).ready(function () {
+                iframeLoaded();
+                mypajQuery('#mypa-input').on('change', (function () {
+                    iframeLoaded()
+                }));
+            });
+        </script>
+    <?php endif; ?>
 <?php endif; ?>

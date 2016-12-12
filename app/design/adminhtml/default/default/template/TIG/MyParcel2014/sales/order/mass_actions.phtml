@@ -48,6 +48,22 @@
         }
         selectMyparcel();
     </script>
+
+    <div id="myparcel_return_container" style="display:none;">
+        <div id="myparcel_return_holder">
+            <form id="myparcel_return_form" action="<?php echo Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/sendReturnMail');?>">
+                <p><?php echo $helper->__('This only works for Dutch addresses');?></p>
+                <label for="return_name"><?php echo $helper->__('Name client');?></label>
+                <input type="text" class="input-text" id="myparcel_name" name="myparcel_name">
+                <label for="myparcel_email"><?php echo $helper->__('Email client');?></label>
+                <input type="text" class="input-text" id="myparcel_email" name="myparcel_email">
+                <label for="myparcel_label_description"><?php echo $helper->__('Label description');?></label>
+                <input type="text" class="input-text" id="myparcel_label_description" name="myparcel_label_description">
+                <submit class="form-button" onclick="myParcelSendMail()"><?php echo $helper->__('Send');?></submit>
+                <div id="myparcel_return_message"></div>
+            </form>
+        </div>
+    </div>
 <?php if ($helper->getConfig('print_orientation') == 'A4'): ?>
     <div id="print_container" style="display:none;">
         <div id="print_pages">
@@ -86,6 +102,22 @@
 
         #print_pages .print_page:hover {
             background: #eb5e00;
+        }
+
+        button#myparcel_return_open_dialog {
+            padding: 2px 7px 3px;
+        }
+
+        #myparcel_return_holder {
+            padding: 10px;
+        }
+
+        #myparcel_return_holder label, #myparcel_return_holder input {
+            display: block;
+        }
+        #myparcel_return_holder input {
+            margin-bottom: 10px;
+            width: 100%;
         }
     </style>
     <script type="text/javascript">
@@ -212,7 +244,49 @@
                     }
                 }
             });
+
+            /* Add return button */
+            var returnSubmit = document.createElement('button');
+            returnSubmit.id = 'myparcel_return_open_dialog';
+            returnSubmit.type = 'button';
+            returnSubmit.name = 'myparcel_return_open_dialog';
+            returnSubmit.appendChild(document.createTextNode("<?php echo $helper->__('Mail return label');?>"));
+
+            $$('td.form-buttons')[0].appendChild(returnSubmit);
+
+            $('myparcel_return_open_dialog').observe('click', function () {
+                Dialog.info(null, {
+                    closable: true,
+                    resizable: false,
+                    draggable: true,
+                    className: 'magento',
+                    windowClassName: 'myparcel-return-popup-window',
+                    title: '<?php echo $helper->__('Mail return label'); ?>',
+                    top: 100,
+                    width: 200,
+                    height: 290,
+                    zIndex: 5000,
+                    recenterAuto: true,
+                    hideEffect: Element.hide,
+                    showEffect: Element.show,
+                    id: 'myparcel_popup_window'
+                });
+                Dialog.setInfoMessage($('myparcel_return_container').innerHTML);
+            });
+
         })();
+
+        function myParcelSendMail() {
+            $('myparcel_return_form').request({
+                onFailure: function() {
+                    $('myparcel_return_message').innerHTML = 'Something goes wrong. Please feel free to contact MyParcel.'
+                },
+                onSuccess: function(data) {
+                    $('myparcel_return_message').innerHTML = data.responseJSON.message;
+                }
+            });
+            Event.stop(event);
+        }
         /*]]>*/
     </script>
 <?php endif; ?>

@@ -137,6 +137,25 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
 
     public function checkout_optionsAction()
     {
+        /**
+         * @var Mage_Sales_Model_Quote $quote
+         * @var TIG_MyParcel2014_Helper_Data $helper
+         */
+        $quote = Mage::getModel('checkout/cart')->getQuote();
+        $helper = Mage::helper('tig_myparcel');
+
+        $packageType = $helper->getPackageType($quote->getItemsCollection(), 'NL', false, false, true);
+
+        /** Get mailbox Price */
+        $_excl = $this->getShippingPrice($helper->getConfig('mailbox_fee', 'mailbox'), $quote);
+        $_incl = $this->getShippingPrice($helper->getConfig('mailbox_fee', 'mailbox'), $quote, true);
+        if (Mage::helper('tax')->displayShippingBothPrices() && $_incl != $_excl) {
+            $mailBoxPrice = $_incl;
+        } else {
+            $mailBoxPrice = $_excl;
+        }
+        $mailBoxPrice = '&#8364; ' . str_replace('.', ',', $mailBoxPrice);
+
         require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_checkout_options.phtml');
         exit;
     }

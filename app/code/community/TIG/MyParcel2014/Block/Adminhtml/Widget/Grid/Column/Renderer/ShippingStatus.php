@@ -59,6 +59,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
      */
     public function render(Varien_Object $row)
     {
+        /** @var TIG_MyParcel2014_Helper_Data $helper */
         $helper = $this->helper('tig_myparcel');
         $html = '';
 
@@ -75,7 +76,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         /**
          * The shipment was not shipped using MyParcel
          */
-        if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod) && $order->getIsVirtual())
+        if (!$helper->shippingMethodIsMyParcel($shippingMethod) || $order->getIsVirtual())
             return '';
 
         $countryCode = $order->getShippingAddress()->getCountryId();
@@ -111,12 +112,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
             // Letterbox or normal package
             $shippingMethod = $order->getShippingMethod();
-            $pgAddress = $helper->getPgAddress($order);
-            if ($pgAddress && $helper->shippingMethodIsPakjegemak($shippingMethod)) {
+            if ($helper->shippingHasExtraOptions($shippingMethod)) {
                 $html .= $this->__('Normal') . ' ';
             } else {
-                $totalWeight = $this->getTotalWeight($order->getAllVisibleItems());
-                $type = $helper->getPackageType($totalWeight, $order->getShippingAddress()->getCountryId(), true);
+                $type = $helper->getPackageType($order->getAllVisibleItems(), $order->getShippingAddress()->getCountryId(), true);
                 $html .= $type . ' ';
             }
 
@@ -140,11 +139,16 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                 if ($i++ == 1)
                     $html .= "<br />";
 
-                $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($myParcelShipment->getBarcode(), $destinationData, false, true);
+                $barcodeUrl = $helper->getBarcodeUrl($myParcelShipment->getBarcode(), $destinationData, false, true);
                 if($myParcelShipment->getBarcode())
-                    $html .= "<a href='{$barcodeUrl}' target='_blank'>{$myParcelShipment->getBarcode()}</a> - <small>";
+                    $html .= "<a href='{$barcodeUrl}' target='_blank'>{$myParcelShipment->getBarcode()}</a>";
 
-                $html .= $this->__('status_' . $myParcelShipment->getStatus()) . "</small>";
+                if($myParcelShipment->getConsignmentId() && in_array($myParcelShipment->getShipment()->getShippingAddress()->getCountry(), $helper->getReturnCountries())) {
+                    $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
+                    $html .= " <a href='{$shipmentUrl}' style='text-decoration:none;' title='{$helper->__('Shipment')}'><img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAAe1BMVEUAAADqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgEq7PRIAAAAKHRSTlMAAQIHCA8RFRkeIy5BRE9fYWNmaWxveYKLjJWanZ6qsLnBzM/X6O3xz27B/QAAAHdJREFUGFd1zssSwUAYROEe4i5CiGtMCOK8/xNaTGqU+ctZdX2rlv7k/NEStaXUnAe6pvGX/WrmvhR7rweSan57ZFKZGHdJVYqLHp9FsalOLQAHBey/ZDugVcD4bwldWOU23r3xUlrO1dic3NiEobHp2ZBGY2uSPuP7Ek2Y8RzhAAAAAElFTkSuQmCC' style='height: 15px; margin-bottom: -4px;'></a>";
+                }
+
+                $html .= '&nbsp; <small>' . $this->__('status_' . $myParcelShipment->getStatus()) . "</small>";
             }
         }
 
@@ -152,26 +156,5 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             $html = $countryCode;
 
         return $html;
-    }
-
-    /**
-     * Get total weight
-     *
-     * @param $products
-     *
-     * @return float|int
-     */
-    private function getTotalWeight($products)
-    {
-        $totalWeight = 0;
-        /** @var Mage_Sales_Model_Order_Item $product */
-
-        foreach ($products as $product) {
-            if ($product->canShip()) {
-                $totalWeight = $totalWeight + (float)$product->getData('weight') * ($product->getData('qty_ordered') - $product->getData('qty_shipped'));
-            }
-        }
-
-        return $totalWeight;
     }
 }

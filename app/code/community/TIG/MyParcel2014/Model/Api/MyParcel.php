@@ -65,6 +65,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     const REQUEST_HEADER_SHIPMENT           = 'Content-Type: application/vnd.shipment+json; ';
     const REQUEST_HEADER_RETURN             = 'Content-Type: application/vnd.return_shipment+json; ';
+    const REQUEST_HEADER_UNRELATED_RETURN   = 'Content-Type: application/vnd.unrelated_return_shipment+json; ';
 
     /**
      * @var string
@@ -255,6 +256,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param string $method
      *
+     * @throws TIG_MyParcel2014_Exception
+     *
      * @return $this|false|array|string
      */
     public function sendRequest($method = 'POST')
@@ -319,7 +322,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         //read the response
         $response = $request->read();
 
-        $aResult = json_decode($response, true);
+        if ($this->requestType == 'shipment_labels' && !preg_match("/^%PDF-1./", $response)) {
+            $pdfError = $helper->__('There was an error when generating a PDF. Please feel free to contact MyParcel.');
+            throw new TIG_MyParcel2014_Exception(
+                $pdfError . '::' . $url,
+                'MYPA-0100'
+            );
+        }
+
+       $aResult = json_decode($response, true);
 
         if(is_array($aResult)){
 
@@ -468,13 +479,29 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     }
 
     /**
+     * Send email with return label
+     *
+     * @param $data array
+     *
+     * @return $this
+     */
+    public function sendUnrelatedRetourmailRequest($data)
+    {
+        $requestString = $this->_createRequestString($data, 'return_shipments');
+
+        $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_UNRELATED_RETURN);
+
+        return $this;
+    }
+
+    /**
      * create a request string for generating a retour-url
      *
      * @param $consignmentId
      * @return $this
      * @var Mage_Sales_Model_Order_Shipment $shipment
      */
-    public function createRetourlinkRequest($shipment, $consignmentId)
+    public function createRetourmailRequest($shipment, $consignmentId)
     {
         $data = array(
             'parent' => (int)$consignmentId,
@@ -486,6 +513,23 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $requestString = $this->_createRequestString($data, 'return_shipments');
 
         $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_RETURN);
+
+        return $this;
+    }
+
+    /**
+     * create a request string for generating a retour-url
+     *
+     * @param $consignmentId
+     * @return $this
+     */
+    public function createRetourlinkRequest($consignmentId)
+    {
+        $data = array('id' => (int)$consignmentId);
+
+        $requestString = $this->_createRequestString($data, 'parent_shipments');
+
+        $this->_setRequestParameters($requestString, 'create_related_return_shipment_link', self::REQUEST_HEADER_RETURN);
 
         return $this;
     }
@@ -719,8 +763,18 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 }
 
                 if ($checkoutData['date'] !== null) {
+
+
                     $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
-                    $data['delivery_date'] = $checkoutDateTime;
+                    $currentDateTime = new dateTime();
+                    if (date_parse($checkoutDateTime) >= $currentDateTime) {
+                        $data['delivery_date'] = $checkoutDateTime;
+                    } else {
+                        $currentDateTime->modify('+1 day');
+                        $nextDeliveryDay = $this->getNextDeliveryDay($currentDateTime);
+                        $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d H:i:s');
+                    }
+
                     $dateTime = date_parse($checkoutData['date']);
                     $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
                 }
@@ -756,6 +810,22 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     }
 
     /**
+     * @param dateTime $dateTime
+     *
+     * @return mixed
+     */
+    private function getNextDeliveryDay($dateTime)
+    {
+        $weekDay = date('w', strtotime($dateTime));
+        if ($weekDay == 0 || $weekDay == 6) {
+            $dateTime->modify('+1 day');
+            $dateTime = $this->getNextDeliveryDay($dateTime);
+        }
+
+        return $dateTime;
+    }
+
+    /**
      * Get the insured amount for this shipment.
      *
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
@@ -784,7 +854,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $requestData['data'][$dataType][] = $data;
 
         return json_encode($requestData);
-
     }
 
     /**

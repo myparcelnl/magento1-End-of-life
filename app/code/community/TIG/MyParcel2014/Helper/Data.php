@@ -228,6 +228,28 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Checks if the given shipping has extra options
+     *
+     * @param $method
+     *
+     * @return bool
+     */
+    public function shippingHasExtraOptions($method)
+    {
+        $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
+        $myParcelCode = $myParcelCarrier->getCarrierCode();
+
+        if (
+            strpos($method, $myParcelCode) !== null &&
+            $method != $myParcelCode . '_mailbox'
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if the given shipping method is Pakjegemak
      *
      * @param $method
@@ -505,22 +527,29 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param int    $weight
+     * @param        $items
      * @param string $country
      * @param bool   $getAdminTitle
-     * @param bool   $pakjegemak
+     * @param bool   $hasExtraOptions
+     * @param bool   $isFrontend If mailbox title is empty, don't show the mailbox option
      *
-     * @return int|string package = 1, mailbox = 2, letter = 3
+     * @return int|string               package = 1, mailbox = 2, letter = 3
      */
-    public function getPackageType($weight, $country, $getAdminTitle = false, $pakjegemak = false)
+    public function getPackageType($items, $country, $getAdminTitle = false, $hasExtraOptions = false, $isFrontend = false)
     {
-        $useMailboxTitle = $this->getConfig('mailbox_title', 'delivery') == '' ? false : true;
+        $mailboxActive = $this->getConfig('mailbox_active', 'mailbox') == '' ? false : true;
+        if ($mailboxActive) {
 
-        if ($pakjegemak || $useMailboxTitle == false){
-            $type = 1;
+            $hideMailboxInFrontend = $this->getConfig('mailbox_title', 'mailbox') == '' && $isFrontend ? true : false;
+            if ($hasExtraOptions || $hideMailboxInFrontend == true) {
+                $type = 1;
+            } else {
+
+                $fitInLetterbox = $this->fitInLetterbox($items);
+                $type = $fitInLetterbox && $country == 'NL' ? 2 : 1;
+            }
         } else {
-            $weight = $this->getCorrectWeight((float)$weight);
-            $type = $weight <= 2 && $country == 'NL' && $weight != 0 ? 2 : 1;
+            $type = 1;
         }
 
         if ($getAdminTitle) {
@@ -531,13 +560,38 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param $weight
+     * @param Mage_Sales_Model_Entity_Quote_Item_Collection|Mage_Sales_Model_Entity_Order_Item_Collection $items
      *
-     * @return float
+     * @return bool
      */
-    private function getCorrectWeight($weight)
+    private function fitInLetterbox($items)
     {
-        return $this->getConfig('gram_is_set', 'general') == '1' ? $weight / 1000 : $weight;
+        $mailboxWeight = (float)$this->getConfig('mailbox_weight', 'mailbox');
+        $itemWeight = 0;
+
+        foreach ($items as $item) {
+            $qty = $item->getQty();
+            if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+                /** @var Mage_Sales_Model_Order_Item $item */
+                $id = $item->getProductId();
+            } else {
+                /** @var Mage_Sales_Model_Quote_Address_Item $item */
+                $id = $item->getProduct()->getId();
+            }
+            $itemAttributeVolume = Mage::getModel('catalog/product')
+                ->load($id)
+                ->getData('myparcel_mailbox_volume');
+
+            $itemVolume = (float)$itemAttributeVolume * $qty;
+
+            if ($itemVolume > 0) {
+                $itemWeight += $itemVolume / 100 * $mailboxWeight;
+            } else {
+                $itemWeight += $item->getWeight() * $qty;
+            }
+        }
+
+        return $itemWeight <= $mailboxWeight ? true : false;
     }
 
     /**
@@ -1019,6 +1073,25 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             return false;
         }
 
+        $retourLabelUrl = '';
+        $emailTemplate = Mage::getModel('core/email_template')->load($templateId);
+        if (strpos($emailTemplate->getTemplateText(), 'retourlabel_url') > 0) {
+
+            /**
+             * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+             */
+            $api = $myParcelShipment->getApi();
+            $response = $api->createRetourlinkRequest($myParcelShipment->getConsignmentId())
+                ->setStoreId($myParcelShipment->getShipment()->getOrder()->getStoreId())
+                ->sendRequest()
+                ->getRequestResponse();
+            $aResponse = json_decode($response, true);
+            if ($aResponse) {
+                $retourLabelUrl = $aResponse['data']['download_url'][0]['link'];
+            }
+
+        }
+
         try {
             // Retrieve specified view block from appropriate design package (depends on emulated store)
             $paymentBlock = Mage::helper('payment')->getInfoBlock($order->getPayment())
@@ -1044,11 +1117,13 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             'tracktrace_url' => $barcodeUrl,
             'order' => $order,
             'shipment' => $myParcelShipment->getShipment(),
+            'retourlabel_url' => $retourLabelUrl,
             'billing' => $order->getBillingAddress(),
             'payment_html' => $paymentBlockHtml,
         );
 
         try {
+            /* @var Mage_Core_Model_Email_Template_Mailer $mailer */
             $mailer = Mage::getModel('core/email_template_mailer');
             $emailInfo = Mage::getModel('core/email_info');
             $emailInfo->addTo($order->getCustomerEmail(), $shippingAddress->getName());
@@ -1070,6 +1145,11 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return true;
     }
 
+    /**
+     * @param $shipmentId
+     *
+     * @return bool
+     */
     public function hasMyParcelShipment($shipmentId)
     {
         $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
@@ -1080,6 +1160,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return false;
     }
 
+    /**
+     * @param $shippingMethod
+     * @param $setting
+     *
+     * @return bool
+     */
     public function getShippingMethodConfig($shippingMethod, $setting)
     {
         $aConfig = Mage::getStoreConfig('tig_myparcel/' . $shippingMethod, Mage::app()->getStore());
@@ -1094,13 +1180,14 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get the price of the chosen options in the checkout
      *
-     * @param $method
+     * @param        $method
+     *
+     * @param double $price
      *
      * @return float
      */
-    public function getExtraPrice($method)
+    public function getExtraPrice($method, $price)
     {
-        $price = 0;
         $onlyRecipientFee = (float)$this->getConfig('only_recipient_fee', 'delivery');
         $signatureFee = (float)$this->getConfig('signature_fee', 'delivery');
         $morningFee = (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
@@ -1108,6 +1195,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $signatureAndOnlyRecipient = (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
         $pickupFee = (float)$this->getConfig('pickup_fee', 'pickup');
         $pickupExpressFee = (float)$this->getConfig('pickup_express_fee', 'pickup_express');
+        $mailboxFee = (float)$this->getConfig('mailbox_fee', 'mailbox');
 
         switch ($method) {
             case ('delivery_signature'):
@@ -1139,87 +1227,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             case ('pickup_express'):
                 $price += $pickupExpressFee;
                 break;
+            case ('mailbox'):
+                $price = $mailboxFee;
+                break;
         }
 
         return $price;
-
-        /**
-         * @var Mage_Sales_Model_Quote $quote
-         * @var Mage_Sales_Model_Quote_Address $address
-         * @var Mage_Sales_Model_Quote_Address_Rate $rate
-         */
-        $quote = Mage::getModel('checkout/cart')->getQuote();
-
-
-        $free = false;
-        foreach ($quote->getItemsCollection() as $item) {
-            $free = $item->getData('free_shipping') == '1' ? true : false;
-            break;
-        }
-
-        $address = $quote->getShippingAddress();
-
-        $price = $price === null ? $price = Mage::getSingleton('core/session')->getMyParcelBasePrice() : $price;
-
-        $data = json_decode($quote->getMyparcelData(), true);
-
-        /**
-         * If shipping method is delivery else shipping method is pickup
-         */
-        if ($data['time'][0] != null && key_exists('price_comment', $data['time'][0]) && $data['time'][0]['price_comment'] !== null) {
-            $priceComment = $data['time'][0]['price_comment'];
-            if ($priceComment == 'morning') {
-                $price += (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
-            } elseif ($priceComment == 'night') {
-                $price += (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
-            }
-
-            if(
-                key_exists('home_address_only', $data) &&
-                $priceComment != 'night' &&
-                $priceComment != 'morning' &&
-                key_exists('signed', $data) &&
-                $this->getConfig('signature_and_only_recipient_fee', 'delivery') > 0
-            ) {
-                $price += (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
-            } else {
-                if (key_exists('home_address_only', $data) && $priceComment != 'night' && $priceComment != 'morning')
-                    $price += (float)$this->getConfig('only_recipient_fee', 'delivery');
-
-                if (key_exists('signed', $data))
-                    $price += (float)$this->getConfig('signature_fee', 'delivery');
-            }
-        } else {
-            if ($data['price_comment'] == 'retail') {
-                $price += (float)$this->getConfig('pickup_fee', 'pickup');
-            } elseif ($data['price_comment'] == 'retailexpress') {
-                $price += (float)$this->getConfig('pickup_express_fee', 'pickup_express');
-            }
-        }
-
-        $extraShippingPrice = $price - (float)$address->getBaseShippingInclTax();
-
-        $quote->setShippingAddress($this->calculatePriceAndGetAddress($quote->getShippingAddress(), $extraShippingPrice));
-        $quote->setBillingAddress($this->calculatePriceAndGetAddress($quote->getBillingAddress(), $extraShippingPrice));
-        $quote
-            ->setBaseGrandTotal($quote->getBaseGrandTotal() + $extraShippingPrice)
-            ->setGrandTotal($quote->getGrandTotal() + $extraShippingPrice)
-            ->save();
-
-        return $price;
-    }
-
-    private function calculatePriceAndGetAddress($address, $extraShippingPrice)
-    {
-        /** @var Mage_Sales_Model_Quote_Address $address */
-        $address->setShippingAmount($address->getShippingAmount() + $extraShippingPrice);
-        $address->setBaseShippingAmount($address->getBaseShippingAmount() + $extraShippingPrice);
-        $address->setBaseShippingInclTax($address->getBaseShippingInclTax() + $extraShippingPrice);
-        $address->setShippingInclTax($address->getShippingInclTax() + $extraShippingPrice);
-        $address->setShippingTaxable($address->getShippingTaxable() + $extraShippingPrice);
-        $address->setBaseShippingTaxable($address->getBaseShippingTaxable() + $extraShippingPrice);
-
-        return $address;
     }
 
     /**
@@ -1251,7 +1264,37 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return $dropOff;
     }
 
+    /**
+     * Get all countries that support ERS
+     *
+     * @return array
+     */
+    public function getReturnCountries()
+    {
+        return array(
+            'NL',
+            'DE',
+            'EE',
+            'FI',
+            'FR',
+            'GR',
+            'GB',
+            'IT',
+            'LU',
+            'MT',
+            'AT',
+            'SI',
+            'SK',
+            'ES',
+            'CZ',
+            'IE',
+        );
+    }
 
+
+    /**
+     * @return bool
+     */
     private function _isFree()
     {
         $quote = Mage::getModel('checkout/cart')->getQuote();

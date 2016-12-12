@@ -117,9 +117,9 @@ TIG_MyParcel2014::Select a transactional e-mail template to send the retourlink,
 TIG_MyParcel2014::Select a transactional e-mail template to send the barcode,Select a transactional e-mail template to send the barcode
 TIG_MyParcel2014::You can create a new transactional e-mail where the variables {{var retourlink}} is available.,You can create a new transactional e-mail where the variables {{var retourlink}} is available.
 TIG_MyParcel2014::Unable to send track and trace email for shipment #,Unable to send track and trace email for shipment #
-TIG_MyParcel2014::Track&amp;Trace e-mail is send: %s,Track&amp;Trace e-mail is send: %s
+TIG_MyParcel2014::Track&amp;Trace e-mail is sent: %s,Track&amp;Trace e-mail is sent: %s
 TIG_MyParcel2014::Credit Consignment,Credit Consignment
-TIG_MyParcel2014::Mail retour label,Mail retour label
+TIG_MyParcel2014::Mail return label,Mail return label
 TIG_MyParcel2014::Retour label mailed,Retour label mailed
 "TIG_MyParcel2014::Credit has not been created, check MyParcel backend for details","Credit has not been created, check MyParcel backend for details"
 TIG_MyParcel2014::Consignment %s is credited at MyParcel,Consignment %s is credited at MyParcel

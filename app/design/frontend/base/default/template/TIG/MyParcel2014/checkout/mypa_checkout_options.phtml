@@ -377,9 +377,14 @@
             }
 
             input:checked ~ .mypa-price,
+            input:checked ~ label span.mypa-price,
             input:checked ~ span span.mypa-price,
             .mypa-price-active {
                 background: #ff8c00
+            }
+
+            #mypa-mailbox-options-title {
+                width: 100%;
             }
 
             .mypa-info {
@@ -582,6 +587,25 @@
                                 <div id='mypa-delivery-options' class='mypa-content-lg'>
                                 </div>
                             </div>
+                            <?php if ($packageType == 2): ?>
+                            <div id='mypa-mailbox-row' class='mypa-row-lg'>
+                                <input type="radio" name="mypa-delivery-type" id="mypa-mailbox-location">
+                                <label id='mypa-mailbox-options-title' class='mypa-row-title'
+                                       for="mypa-mailbox-location">
+                                    <div class="mypa-checkmark mypa-main">
+                                        <div class="mypa-circle"></div>
+                                        <div class="mypa-checkmark-stem"></div>
+                                        <div class="mypa-checkmark-kick"></div>
+                                    </div>
+                                    <span class='mypa-price mypa-mailbox-price'>
+                                        <?php echo $mailBoxPrice; ?>
+                                    </span>
+                                    <span class="mypa-highlight">
+                                        <?php echo $helper->getConfig('mailbox_title', 'mailbox'); ?>
+                                    </span>
+                                </label>
+                            </div>
+                            <?php endif;?>
                             <div id='mypa-pickup-row' class='mypa-row-lg'>
                                 <input type="radio" name="mypa-delivery-type" id="mypa-pickup-location">
                                 <label id='mypa-pickup-options-title' class='mypa-row-title'

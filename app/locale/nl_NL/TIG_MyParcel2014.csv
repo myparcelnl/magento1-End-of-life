@@ -164,10 +164,17 @@ TIG_MyParcel2014::Select a transactional e-mail template to send the retourlink,
 TIG_MyParcel2014::Select a transactional e-mail template to send the barcode,Selecteer een transactionele e-mail template om de Track&amp;Trace code te versturen
 TIG_MyParcel2014::You can create a new transactional e-mail where the variables {{var retourlink}} is available.,"Maak een transactionele e-mail aan, daarin zal de variabele {{var retourlink}} beschikbaar zijn om te retourlink te verzenden."
 TIG_MyParcel2014::Unable to send track and trace email for shipment #,Versturen van track & trace e-mail mislukt voor zending #
-TIG_MyParcel2014::Track&amp;Trace e-mail is send: %s,Track & Trace e-mail is verzonden: %s
+TIG_MyParcel2014::Track&amp;Trace e-mail is sent: %s,Track & Trace e-mail is verzonden: %s
 TIG_MyParcel2014::Credit Consignment,Crediteer zending
-TIG_MyParcel2014::Mail retour label,Mail retourlabel
+TIG_MyParcel2014::Mail return label,Mail retourlabel
 TIG_MyParcel2014::Retour label mailed,Retour label is gemaild naar de klant
+TIG_MyParcel2014::This only works for Dutch addresses,Dit werkt alleen voor nederlandse adressen
+TIG_MyParcel2014::Name client,Naam klant
+TIG_MyParcel2014::Email client,Email klant
+TIG_MyParcel2014::Label description,Eigen kenmerk
+TIG_MyParcel2014::You did not specify a name,Je hebt geen naam opgeven
+TIG_MyParcel2014::You did not specify a email,Je hebt geen email opgeven
+TIG_MyParcel2014::Mail send to,Mail verzonden naar
 "TIG_MyParcel2014::Credit has not been created, check MyParcel backend for details","Credit is niet aangemaakt, zie MyParcel backend voor meer informatie."
 TIG_MyParcel2014::Consignment %s is credited at MyParcel,Zending %s is gecrediteerd bij MyParcel.
 "TIG_MyParcel2014::Select 'no' if you have problems with addresses on the labels","Selecteer 'nee' als u problemen heeft met adressen op de labels."
@@ -288,7 +295,12 @@ TIG_MyParcel2014::status_99,Inactief - Onbekende status
 TIG_MyParcel2014::PostNL location minimum order total enabled,PostNL locatie minimum totaal bedrag actief
 "TIG_MyParcel2014::PostNL location minimum order total, incl. BTW","PostNL locatie minimum totaal bedrag, incl. BTW"
 TIG_MyParcel2014::Mailbox title,Brievenbuspakje titel
-TIG_MyParcel2014::Mailbox title under 2 kg. Leave empty to don't use it.,Brievenbuspakje titel als het totaal gewicht onder 2 kg is. Indien toegepast worden producten onder de 2 kg als brievenbuspakje aangemaakt en worden de bezorgopties voor pakketten niet getoond. Laat leeg om dit niet toe te passen.
+TIG_MyParcel2014::Leave blank to automate mailbox packets only in the backend,Laat leeg om brievenbuspakjes alleen in de backend te automatiseren
+TIG_MyParcel2014::Mailbox weight,Brievenbuspakje gewicht
+"TIG_MyParcel2014::Besides assigning weights to all products, you can also specify a volume of each product.","Om deze functie optimaal te gebruiken, stel je eerst het gewicht of volume in van jouw producten."
+TIG_MyParcel2014::Mailbox fee,Brievenbuspakje prijs
+TIG_MyParcel2014::Enter a basic price for a mailbox. The regular price will not affect this price.,Vul een totaalprijs in voor een brievenbuspakje.
+TIG_MyParcel2014::Automate mailbox package,Brievenbuspakje automatiseren
 "TIG_MyParcel2014::PostNL location will not be visible if the subtotal of an order is below this value","'Ophalen op een PostNL locatie' zal niet zichtbaar zijn als het bedrag van een bestelling onder deze waarde valt"
 
 TIG_MyParcel2014::PostNL location:,PostNL locatie:
