@@ -251,6 +251,7 @@
                 <insured_50>0</insured_50>
                 <insured_250>0</insured_250>
                 <insured_500>0</insured_500>
+                <automatically_next_status>1</automatically_next_status>
                 <customs_type>1</customs_type>
                 <customs_hstariffnr></customs_hstariffnr>
             </shipment>
