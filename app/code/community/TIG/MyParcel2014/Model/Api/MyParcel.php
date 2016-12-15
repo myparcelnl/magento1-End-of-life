@@ -256,6 +256,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param string $method
      *
+     * @throws TIG_MyParcel2014_Exception
+     *
      * @return $this|false|array|string
      */
     public function sendRequest($method = 'POST')
@@ -319,6 +321,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         //read the response
         $response = $request->read();
+
+        if ($this->requestType == 'shipment_labels' && !preg_match("/^%PDF-1./", $response)) {
+            $pdfError = $helper->__('There was an error when generating a PDF. Please feel free to contact MyParcel.');
+            throw new TIG_MyParcel2014_Exception(
+                $pdfError . '::' . $url,
+                'MYPA-0100'
+            );
+        }
 
        $aResult = json_decode($response, true);
 

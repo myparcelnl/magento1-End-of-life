@@ -76,7 +76,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
         /**
          * The shipment was not shipped using MyParcel
          */
-        if (!$helper->shippingMethodIsMyParcel($shippingMethod) && $order->getIsVirtual())
+        if (!$helper->shippingMethodIsMyParcel($shippingMethod) || $order->getIsVirtual())
             return '';
 
         $countryCode = $order->getShippingAddress()->getCountryId();

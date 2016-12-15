@@ -42,12 +42,12 @@
  * @method Mage_Adminhtml_Block_Sales_Order_Grid                 getBlock()
  */
 if (file_exists(Mage::getBaseDir() . '/app/code/community/BL/CustomGrid/Model/Grid.php') && class_exists('BL_CustomGrid_Model_Grid')) {
-    class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends BL_CustomGrid_Model_Grid { }
+    class TIG_MyParcel2014_Model_Grid_OverrideCheck extends BL_CustomGrid_Model_Grid { }
 } else {
-    class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel2014_Model_Grid_OverrideCheck { }
+    class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object { }
 }
 
-class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object
+class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel2014_Model_Grid_OverrideCheck
 {
     /**
      * The block we want to edit.

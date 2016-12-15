@@ -35,13 +35,15 @@
                 isset($parentFunctions[3]['function']) &&
                 (
                     $parentFunctions[3]['function'] == '_getConsignmentData' ||
-                    $parentFunctions[3]['function'] == 'renderView'
+                    $parentFunctions[3]['function'] == 'renderView' ||
+                    $parentFunctions[3]['function'] == 'save' ||
+                    $parentFunctions[3]['function'] == 'updateStatus' ||
+                    $parentFunctions[3]['function'] == 'setConsignmentOptions'
                 )
             ) {
                 $usePgAddress = false;
             }
 
-            $pgAddress = false;
             $shippingAddress = false;
 
             foreach ($this->getAddressesCollection() as $address) {
@@ -49,16 +51,12 @@
                 /**
                  * Get Pakjegemak address
                  */
-                if ($address->getAddressType()=='pakje_gemak' && !$address->isDeleted() && $usePgAddress) {
-                    $pgAddress = $address;
+                if ($address->getAddressType() == 'pakje_gemak' && !$address->isDeleted() && $usePgAddress) {
+                    return $address;
                 }
-                if ($address->getAddressType()=='shipping' && !$address->isDeleted()) {
+                if ($address->getAddressType() == 'shipping' && !$address->isDeleted()) {
                     $shippingAddress = $address;
                 }
-            }
-
-            if($pgAddress) {
-                return $pgAddress;
             }
 
             if($shippingAddress) {
