@@ -910,7 +910,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          * @var TIG_MyParcel2014_Helper_Data $helper
          */
         $helper = Mage::helper('tig_myparcel');
-        if ($helper->getConfig('automatically_next_status', 'shipment' === '1')) {
+        if ($helper->getConfig('automatically_next_status', 'shipment') === '1') {
             $shipment->getOrder()->setIsInProcess(true);
         }
 
