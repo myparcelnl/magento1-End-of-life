@@ -145,7 +145,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getStreetFull())) {
                     return false;
                 }
-                $streetData = $helper->getStreetData($quote->getBillingAddress());
+                $streetData = $helper->getStreetData($quote->getBillingAddress(), false);
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
             }
@@ -159,7 +159,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 if (!preg_match('/[0-9]/', $quote->getShippingAddress()->getStreetFull())) {
                     return false;
                 }
-                $streetData = $helper->getStreetData($quote->getShippingAddress());
+                $streetData = $helper->getStreetData($quote->getShippingAddress(), false);
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
             }
@@ -176,7 +176,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 if (!preg_match('/[0-9]/', $address['full_street'])) {
                     return false;
                 }
-                $streetData = $helper->getStreetData($tmpAddress);
+                $streetData = $helper->getStreetData($tmpAddress, false);
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
             }
