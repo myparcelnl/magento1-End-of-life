@@ -414,9 +414,12 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param Mage_Customer_Model_Address_Abstract $address
      *
+     * @param bool                                 $throwException
+     *
      * @return array
+     * @throws TIG_MyParcel2014_Exception
      */
-    public function getStreetData($address)
+    public function getStreetData($address, $throwException = true)
     {
 
         $fullStreet = $address->getStreetFull();
@@ -437,7 +440,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
          * Split the address using PREG.
          * @var TIG_MyParcel2014_Helper_Data $this
          */
-        $streetData = $this->_getSplitStreetData($fullStreet);
+        $streetData = $this->_getSplitStreetData($fullStreet, $throwException);
 
         return $streetData;
     }
@@ -447,15 +450,16 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @param string $fullStreet The full street name including all parts
      *
-     * @return array
+     * @param bool   $throwException
      *
+     * @return array
      * @throws TIG_MyParcel2014_Exception
      */
-    protected function _getSplitStreetData($fullStreet)
+    protected function _getSplitStreetData($fullStreet, $throwException = true)
     {
         $fullStreet = preg_replace("/[\n\r]/", " ", $fullStreet);
 
-        if (strlen($fullStreet) > 40) {
+        if (strlen($fullStreet) > 40 && $throwException) {
             throw new TIG_MyParcel2014_Exception(
                 $this->__('Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice of MyParcel.'),
                 'MYPA-0026'
@@ -465,18 +469,20 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $result = preg_match(self::SPLIT_STREET_REGEX, $fullStreet, $matches);
 
         if (!$result || !is_array($matches) || (isset($matches[0]) && $fullStreet != $matches[0])) {
-            if (isset($matches[0]) && $fullStreet != $matches[0]) {
+            if (isset($matches[0]) && $fullStreet != $matches[0] && $throwException) {
                 // Characters are gone by preg_match
                 throw new TIG_MyParcel2014_Exception(
                     $this->__('Something went wrong with splitting up address %s.', $fullStreet),
                     'MYPA-0026'
                 );
-            } else {
+            } elseif ($throwException) {
                 // Invalid full street supplied
                 throw new TIG_MyParcel2014_Exception(
                     $this->__('Invalid full street supplied: %s.', $fullStreet),
                     'MYPA-0005'
                 );
+            } else {
+                return false;
             }
         }
 
