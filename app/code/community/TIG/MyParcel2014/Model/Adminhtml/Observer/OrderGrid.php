@@ -152,26 +152,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
      */
     protected function _joinCollection($collection)
     {
-        $resource = Mage::getSingleton('core/resource');
-
-        $select = $collection->getSelect();
-
-        /**
-         * Join sales_flat_order table.
-         */
-        $select->joinInner(
-            array('tig_myparcel_order' => $resource->getTableName('sales/order')),
-            'main_table.entity_id=tig_myparcel_order.entity_id',
-            array(
-                'shipping_method' => 'tig_myparcel_order.shipping_method',
-            )
-        );
-
-
-        /**
-         * Group the results by the ID column.
-         */
-        $select->group('main_table.entity_id');
+        $collection->joinAttribute('myparcel_send_date', 'sales/order', 'entity_id', null, 'left');
 
         return $this;
     }
@@ -253,7 +234,8 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
 
             if($date){
                 $this->getCollection()->getSelect()->where(
-                    "tig_myparcel_order.myparcel_send_date " . $sqlDate);
+                    "myparcel_send_date " . $sqlDate
+                );
             }
         }
 
