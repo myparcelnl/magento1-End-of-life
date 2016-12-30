@@ -20,6 +20,11 @@ class Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_B
         foreach($this->getCollection() as $order)
         {
             $orderIds[] = $order->getId();
+
+            /** move order column myparcel send date to order grid */
+            $orderGridItem = Mage::getModel('sales/order/grid')->load($order->getId());
+            $orderGridItem->setMyparcelSendDate($order->getMyparcelSendDate());
+            $orderGridItem->save();
         }
 
         $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
@@ -34,7 +39,6 @@ class Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_B
                 $myParcelShipments[$consignmentId] = $myParcelShipment;
             }
         }
-
 
         $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
         $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);

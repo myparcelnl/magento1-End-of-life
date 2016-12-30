@@ -104,10 +104,6 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
             return $this;
         }
 
-        $useFilter = $helper->getConfig('use_filter', 'general') == '1';
-        if ($useFilter) {
-
-
             /**
              * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
              * @var Mage_Sales_Model_Resource_Order_Collection $currentCollection
@@ -124,36 +120,16 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
                 ->setPageSize($currentCollection->getPageSize())
                 ->setCurPage($currentCollection->getCurPage());
 
-        } else {
-        $collection = $block->getCollection();
-        }
 
         $this->setCollection($collection);
         $this->setBlock($block);
 
         $this->_addColumns($block);
-        if($useFilter) {
-            $this->_joinCollection($collection);
-            $this->_applySortAndFilter();
-        }
+        $this->_applySortAndFilter();
 
         $this->_addMassaction($block);
 
         $block->setCollection($collection);
-        return $this;
-    }
-
-    /**
-     * Adds additional joins to the collection that will be used by newly added columns.
-     *
-     * @param TIG_MyParcel2014_Model_Resource_Order_Grid_Collection $collection
-     *
-     * @return $this
-     */
-    protected function _joinCollection($collection)
-    {
-        $collection->joinAttribute('myparcel_send_date', 'sales/order', 'entity_id', null, 'left');
-
         return $this;
     }
 
@@ -203,7 +179,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
 
         }
 
-            $block->sortColumnsByOrder();
+        $block->sortColumnsByOrder();
 
         return $this;
     }
