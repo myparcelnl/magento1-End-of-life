@@ -330,7 +330,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             );
         }
 
-       $aResult = json_decode($response, true);
+        $aResult = json_decode($response, true);
 
         if(is_array($aResult)){
 
@@ -766,13 +766,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
 
                     $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
-                    $currentDateTime = new dateTime();
-                    if (date_parse($checkoutDateTime) >= $currentDateTime) {
+                    $currentDateTime = $currentDate = new dateTime();
+                    $currentDate = $currentDate->format('Y-m-d') . ' 00:00:00';
+                    if (date_parse($checkoutDateTime) > date_parse($currentDate)) {
                         $data['delivery_date'] = $checkoutDateTime;
                     } else {
                         $currentDateTime->modify('+1 day');
                         $nextDeliveryDay = $this->getNextDeliveryDay($currentDateTime);
-                        $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d H:i:s');
+                        $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d 00:00:00');
                     }
 
                     $dateTime = date_parse($checkoutData['date']);
@@ -816,7 +817,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     private function getNextDeliveryDay($dateTime)
     {
-        $weekDay = date('w', strtotime($dateTime));
+        $weekDay = $dateTime->format("W");
         if ($weekDay == 0 || $weekDay == 6) {
             $dateTime->modify('+1 day');
             $dateTime = $this->getNextDeliveryDay($dateTime);
