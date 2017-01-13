@@ -142,10 +142,13 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['type'] = 'billing';
                 $address['country'] = $quote->getBillingAddress()->getCountry();
                 $address['postal_code'] = $quote->getBillingAddress()->getPostcode();
-                if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getStreetFull())) {
+
+                if (!preg_match('/[0-9]/', $quote->getBillingAddress()->getStreetFull()))
                     return false;
-                }
-                $streetData = $helper->getStreetData($quote->getBillingAddress());
+                $streetData = $helper->getStreetData($quote->getBillingAddress(), false);
+                if ($streetData == false)
+                    return false;
+
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
             }
@@ -156,10 +159,14 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['type'] = 'shipping';
                 $address['country'] = $quote->getShippingAddress()->getCountry();
                 $address['postal_code'] = $quote->getShippingAddress()->getPostcode();
-                if (!preg_match('/[0-9]/', $quote->getShippingAddress()->getStreetFull())) {
+
+                if (!preg_match('/[0-9]/', $quote->getShippingAddress()->getStreetFull()))
                     return false;
-                }
-                $streetData = $helper->getStreetData($quote->getShippingAddress());
+
+                $streetData = $helper->getStreetData($quote->getShippingAddress(), false);
+                if ($streetData == false)
+                    return false;
+
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
             }
@@ -173,10 +180,14 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 $address['postal_code'] = $tmpAddress->getPostcode();
                 $address['full_street'] = $tmpAddress->getStreetFull();
                 $this->removeAddressLines($address['full_street']);
-                if (!preg_match('/[0-9]/', $address['full_street'])) {
+
+                if (!preg_match('/[0-9]/', $address['full_street']))
                     return false;
-                }
-                $streetData = $helper->getStreetData($tmpAddress);
+
+                $streetData = $helper->getStreetData($tmpAddress, false);
+                if ($streetData == false)
+                    return false;
+
                 $address['street'] = $streetData['streetname'];
                 $address['number'] = $streetData['housenumber'];
             }

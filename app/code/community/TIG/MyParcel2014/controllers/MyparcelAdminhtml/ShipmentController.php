@@ -905,7 +905,15 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      */
     protected function _saveShipment($shipment)
     {
-        $shipment->getOrder()->setIsInProcess(true);
+
+        /**
+         * @var TIG_MyParcel2014_Helper_Data $helper
+         */
+        $helper = Mage::helper('tig_myparcel');
+        if ($helper->getConfig('automatically_next_status', 'shipment') === '1') {
+            $shipment->getOrder()->setIsInProcess(true);
+        }
+
         Mage::getModel('core/resource_transaction')
             ->addObject($shipment)
             ->addObject($shipment->getOrder())
