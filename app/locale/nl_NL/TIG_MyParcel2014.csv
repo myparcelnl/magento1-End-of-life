@@ -23,6 +23,8 @@ TIG_MyParcel2014::Insured up to &euro; 250,Verzekerd tot &euro; 250
 "TIG_MyParcel2014::For NL shipping only, shipments outside the EU insured default is &euro; 200","Alleen voor Nederlandse verzendingen, zendingen naar landen buiten de EU zijn standaard verzekerd tot &euro; 200"
 TIG_MyParcel2014::Insured up to &euro; 500,Verzekerd tot &euro; 500
 "TIG_MyParcel2014::For NL shipping only, shipments inside the EU insured default is &euro; 500","Alleen voor Nederlandse verzendingen, zendingen naar landen binnen de EU zijn standaard verzekerd tot &euro; 500"
+TIG_MyParcel2014::Automatically next status,Automatisch volgende status
+TIG_MyParcel2014::Turn the order automatically to the next status after creating a label,Zet de status van een order automatisch naar de volgende status bij het aanmaken van een label
 TIG_MyParcel2014::Customs Shipment Type,Douane verzend type
 TIG_MyParcel2014::Customs Content HS Code,Douane goederen HS code
 "TIG_MyParcel2014::Default content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>". HS codes can also be connected to categories. The data you enter here will be used as default.,"Standaard goederen type voor Cross Domestic producten, zie <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a> voor de juiste HS code. Maximaal 4 karakters. HS codes kan ook gekoppeld worden per categorie. De gegevens die je hier invoert zal als standaard waarde gebruikt worden."

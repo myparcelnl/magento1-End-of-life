@@ -802,7 +802,6 @@ app/design/adminhtml/default/default/layout/iwd_opc.xml
 
 app/etc/modules/Idev_OneStepCheckout.xml
 
-app/etc/modules/Idev_OneStepCheckout.xml
 /skin/frontend/base/default/postcodenl/
 /skin/adminhtml/default/default/postcodenl/
 /app/code/community/PostcodeNl/
@@ -813,3 +812,18 @@ app/etc/modules/Idev_OneStepCheckout.xml
 /app/locale/nl_NL/PostcodeNl_Api.csv
 /app/locale/en_US/PostcodeNl_Api.csv
 /app/etc/modules/PostcodeNl_Api.xml
+/app/code/community/TIG/Buckaroo3Extended/
+/app/design/adminhtml/default/default/layout/TIG/buckaroo3extended.xml
+/app/design/adminhtml/default/default/template/buckaroo3extended/
+/app/design/frontend/base/default/layout/TIG/buckaroo3extended.xml
+/app/design/frontend/base/default/template/buckaroo3extended/
+/app/etc/modules/TIG_Buckaroo3Extended.xml
+/app/locale/en_US/TIG_Buckaroo3Extended.csv
+/app/locale/nl_NL/TIG_Buckaroo3Extended.csv
+/skin/adminhtml/default/default/css/tig_buckaroo3extended/
+/skin/adminhtml/default/default/images/tig_buckaroo3extended/
+/skin/adminhtml/default/default/js/tig_buckaroo3extended/
+/skin/frontend/base/default/css/TIG/Buckaroo3Extended/
+/skin/frontend/base/default/images/tig_buckaroo3extended/
+/skin/frontend/base/default/js/TIG/Buckaroo3Extended/
+/skin/adminhtml/default/default/js/TIG/Buckaroo3Extended/
