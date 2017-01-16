@@ -22,11 +22,11 @@
         Installatie- gebruikershandleiding
     </h1>
     <h2 class="project-tagline">
-        Magento MyParcel plug-in 1.7.x
+        Magento MyParcel plug-in 1.10.x
     </h2>
     <a target="_blank" class="btn" href="https://github.com/myparcelnl/Magento1">GitHub</a>
     <a target="_blank" class="btn" href="https://github.com/myparcelnl/magento1/releases">Alle updates</a>
-    <a target="_blank" class="btn" href="https://github.com/myparcelnl/magento1/releases/latest">Laatste versie</a>
+    <a target="_blank" class="btn" href="https://github.com/myparcelnl/magento1/archive/master.zip">Laatste versie</a>
     <br>
     <a target="_blank" class="btn" href="https://myparcelnl.github.io/magento1/1_5.html">Handleiding voor 1.5</a>
     <a target="_blank" class="btn" href="https://static1.squarespace.com/static/577bc806725e258e705c2a64/t/57fdefa815d5db9e7eed5542/1476259756919/Magento+update+naar+1.7++-+Flexibele+Bezorgopties+MyParcel.pdf">Wat is nieuw in versie 1.7?</a>
@@ -354,7 +354,7 @@
 
         <h1 id="3">3 Checkout instellingen</h2>
         <p>
-            Op het tabblad 'Checkout instellingen' kun je alle gewenste instellingen toepassen die zichtbaar zijn in de checkout. Dit tabblad wordt onderverdeeld in 'Basis instellingen' , 'Bezorging', 'Ochtendlevering', 'Avondlevering' , 'Ophalen' en 'Extra vroeg ophalen'
+            Op het tabblad 'Checkout instellingen' kun je alle gewenste instellingen toepassen die zichtbaar zijn in de checkout. Dit tabblad wordt onderverdeeld in 'Basis instellingen' , 'Bezorging', 'Mailbox' , 'Ochtendlevering', 'Avondlevering' , 'Ophalen' en 'Extra vroeg ophalen'
         </p>
 
         <h2 id="3_1">3.1 Basis instellingen</h2>
@@ -384,23 +384,31 @@
             <p>Je kunt hiermee aangeven of jouw klanten hier zelf voor kunnen kiezen in de checkout. Indien jij dit wilt weergeven in de checkout kies dan voor <span class="nice">Ja</span> Ook is het mogelijk om aan deze optie een eigen naam mee te geven, in het voorbeeld heet deze optie 'Handtekening voor ontvangst'. Als laatste optie kun je er ook een meerprijs aan koppelen, in het voorbeeld kost deze optie €0.45 extra.</p>
             <p> Er is ook een optie gemaakt voor een gecombineerde meerprijs voor de keuzes samen<span class="nice">Alleen bij mij bezorgen</span> en <span class="nice">Handtekening voor ontvangst</span> te bepalen. Je kunt zelf een prijs naar eigen inzicht invullen.</p>
             
+        <h2 id="3_3">3.3 Mailbox</h2>
+        	<img src="media1_7/mailbox.png">
+        	<p>Het is mogelijk om automatisch brievenbuspakjes te laten selecteren afhankelijk van de instellingen. Dit kan op basis van gewicht of volume welke jij kunt instellen bij de productgegevens. <span class="nice">Catalog -> Manage products -> Klik op edit</span><br><br>
+        	<img src="media1_7/manageproducts.png"></p>
+
+			<p>Het is mogelijk om dit te tonen in de checkout waarbij jouw klant een keuze heeft. In dit geval zullen er meerdere verzendopties worden getoont, namelijk: Pakket, Brievenbuspakje en indien ingesteld de keuze om op te halen bij een PostNL locatie.
+			Wil je liever niet deze keuze aan jouw klant bieden, kun je de titel leeg laten. In dit geval zal er alleen een brievenbuspakje worden aangemaakt bij MyParcel maar wordt het gewone tarief berekend.</p> 
+			<img src="media1_7/checkoutbbp.png">   
            
-        <h2 id="3_3">3.3 Ochtendlevering</h2>
+        <h2 id="3_4">3.4 Ochtendlevering</h2>
         	<p>Het is mogelijk om jouw klanten de mogelijkheid te geven te kiezen voor ochtendlevering (bezorging tussen 08:00 en 12:00). Wanneer je deze optie hebt geactiveerd zal er een extra keuzemogelijkheid verschijnen in de checkout. Tevens is het mogelijk hier een meerprijs aan te koppelen. De prijs die hier wordt ingevuld zal bij het huidige tarief worden opgeteld. Jouw klant ziet in de checkout het totaalbedrag van de zending.
         	</p>
         	<img src="media1_7/ochtendlevering.png">
 
-        <h2 id="3_4">3.4 Avondlevering</h2>
+        <h2 id="3_5">3.5 Avondlevering</h2>
         	<p>Het is ook mogelijk om jouw klanten de mogelijkheid te geven te kiezen voor avondlevering (bezorging vanaf 18:00 uur). Wanneer je deze optie hebt geactiveerd zal er net een extra keuzemogelijkheid verschijnen in de checkout. Tevens is het mogelijk hier een meerprijs aan te koppelen. De prijs die hier wordt ingevuld zal bij het huidige tarief worden opgeteld. Jouw klant ziet in de checkout het totaalbedrag van de zending.</p>
         	<img src="media1_7/avondlevering.png">
 
-        <h2 id="3_5">3.5 Ophalen</h2>
+        <h2 id="3_6">3.6 Ophalen</h2>
         	<p>Met deze optie kunnen jouw klanten kiezen om hun pakket bij een PostNL locatie op te halen. Deze locatie kunnen zij zelf kiezen in de checkout. Je kunt hier eventueel ook een meerprijs voor rekenen.</p>
-        	<img src="media1_7/ophalenpostnl.png">
+        	<img src="media1_7/ophalen.png">
 
-        <h2 id="3_6">3.6 Extra vroeg ophalen</h2>
+        <h2 id="3_7">3.7 Extra vroeg ophalen</h2>
         	<p>Ook voor het ophalen op een PostNL locatie is er een mogelijkheid om dit specifiek in de ochtend te doen (mogelijk vanaf 08:30 in plaats vanaf 16:00). Ook hierbij heb je de keuze om een meerprijs toe te voegen.</p>
-        	<img src="media1_7/extravroegophalenpostnl.png">
+        	<img src="media1_7/extravroegophalen.png">
 
 
 
@@ -462,6 +470,14 @@
             e-mailadres is ingevuld bij de zending. Je kunt jouw e-mail voor retouren binnen MyParcel eventueel nog
             personaliseren. Ook is het mogelijk om een eigen bijdrage voor jouw klant in te stellen. Je kunt dit doen door in te loggen bij MyParcel bij <span class="nice">Instellingen → Retour</span> en dan
             onderaan de pagina <span class="nice">Pas e-mail aan</span>.
+        </p>
+
+        <h2 id="4_2_1">4.2.1 Genereer ongerelateerde retourlabel</h2>
+        <p>
+        	Je kunt vanuit jouw order overzicht een retourlabel versturen naar jouw klant. Klik hiervoor op de button <span class="nice">Mail retourlabel</span><br>
+        	<img src="media1_7/mailretourlabel.png"><br><br>
+        	Vervolgens opent er een scherm waarin je de naam en het e-mailadres van jouw klant invullen. Ook is het mogelijk een kenmerk mee te geven zodat je eenvoudig kunt zien om welke zending het gaat.<br><br>
+        	<img src="media1_7/gegevensretourlabel.png">
         </p>
 
         <h1 id="5">5 Upgraden</h1>
