@@ -1238,6 +1238,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
         }
 
+        // Price can't be below 0 euro
+        $price = $price > 0 ? $price : 0;
+
         return $price;
     }
 
