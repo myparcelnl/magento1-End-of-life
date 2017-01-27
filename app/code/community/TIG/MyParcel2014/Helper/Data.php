@@ -85,7 +85,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      * )
      *
      */
-    const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)-?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,4}$|\s[a-zA-Z]{1}[0-9/]{0,3}$))$~';
+    const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)[\s|-]?(?P<number_suffix>[a-zA-Z/\s]{0,5}$|[0-9/]{0,5}$|\s[a-zA-Z]{1}[0-9]{0,3}$|\s[0-9]{2}[a-zA-Z]{0,3}$))$~';
 
     /**
      * Log filename to log all non-specific MyParcel exceptions.
