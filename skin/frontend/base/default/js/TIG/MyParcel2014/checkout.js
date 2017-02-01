@@ -114,9 +114,9 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
      */
     resizeIframeHeight = function () {
         var iframe = mypajQuery('#myparcel-iframe');
-        try {
+        if (iframe && iframe.contents().length > 0) {
             iframe.height(10).height(iframe.contents().height());
-            }
+        }
     };
 
     checkMyParcelMethod = function() {
