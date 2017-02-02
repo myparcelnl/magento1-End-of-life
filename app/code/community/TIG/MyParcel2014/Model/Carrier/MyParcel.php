@@ -230,6 +230,14 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         return $result;
     }
 
+    /**
+     * @param $result
+     * @param $settingGroup
+     * @param $settingAlias
+     * @param $method
+     *
+     * @return mixed
+     */
     private function addShippingRate(&$result, $settingGroup, $settingAlias, $method)
     {
         $helper = $this->helper;
@@ -262,6 +270,8 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
                 $result->append($newRate);
             }
         }
+
+        return $result;
     }
 
     /**
