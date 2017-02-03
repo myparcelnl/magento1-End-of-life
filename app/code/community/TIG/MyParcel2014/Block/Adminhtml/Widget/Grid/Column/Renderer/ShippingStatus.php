@@ -114,6 +114,11 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                 $html .= '&nbsp; <small>' . $this->__('status_' . $myParcelShipment->getStatus()) . "</small>";
             }
         } elseif ($order->canShip()) {
+
+            $sendText = strtolower($this->__('Send'));
+            // Only show send link color if status is nog pending or processing
+            $colorSendText = $row->getData('status') == 'pending' || $row->getData('status') =='processing' ? 'color:#2f2f2f' : '';
+
             $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
             $data = json_decode($order->getMyparcelData(), true);
             if (key_exists('date', $data) && $data['date'] !== null) {
@@ -125,14 +130,14 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                  * Show info text plus link to send
                  */
                 if (date('Ymd') == date('Ymd', $dropOffDate)) {
-                    $actionHtml = '<a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Today') . ' ' . strtolower($this->__('Send')) . '</a> ';
+                    $actionHtml = '<a class="scalable go" href="' . $orderSendUrl . '" style="' . $colorSendText . '">' . $this->__('Today') . ' ' . $sendText . '</a> ';
                 } else if (date('Ymd') > date('Ymd', $dropOffDate)) {
-                    $actionHtml = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
+                    $actionHtml = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="' . $colorSendText . '">' . $sendText . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
                 } else {
                     $actionHtml = $sDropOff . ' <span style="font-size: 115%;">&#8987;</span>';
                 }
             } else {
-                $actionHtml = ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a>';
+                $actionHtml = ' <a class="scalable go" href="' . $orderSendUrl . '" style="' . $colorSendText . '">' . $sendText . '</a>';
             }
 
             $html .= '<small>';
