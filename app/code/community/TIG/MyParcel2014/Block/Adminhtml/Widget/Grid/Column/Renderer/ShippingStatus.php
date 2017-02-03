@@ -117,7 +117,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
             $sendText = strtolower($this->__('Send'));
             // Only show send link color if status is nog pending or processing
-            $colorSendText = $row->getData('status') == 'pending' || $row->getData('status') =='processing' ? 'color:#2f2f2f' : '';
+            $colorSendText = $row->getData('status') != 'pending' && $row->getData('status') != 'processing' ? 'color:green' : '';
 
             $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
             $data = json_decode($order->getMyparcelData(), true);
