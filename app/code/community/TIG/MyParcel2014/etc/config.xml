@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.10.5</version>
+            <version>1.11.0</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -273,6 +273,9 @@
                 <signature_fee>0.34</signature_fee>
                 <signature_and_only_recipient_fee>0.42</signature_and_only_recipient_fee>
             </delivery>
+            <mailbox>
+                <mailbox_with_other_options>1</mailbox_with_other_options>
+            </mailbox>
             <morningdelivery>
                 <morningdelivery_active>1</morningdelivery_active>
                 <morningdelivery_fee>10</morningdelivery_fee>
