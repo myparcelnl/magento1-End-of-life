@@ -431,7 +431,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 'streetname' => $fullStreet,
                 'housenumber' => '',
                 'housenumberExtension' => '',
-                'fullStreet' => '',
+                'fullStreet' => $fullStreet,
             );
             return $streetData;
         }
@@ -506,7 +506,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             'streetname' => $streetname,
             'housenumber' => $housenumber,
             'housenumberExtension' => $housenumberExtension,
-            'fullStreet' => '',
+            'fullStreet' => $fullStreet,
         );
 
         return $streetData;

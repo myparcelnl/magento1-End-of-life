@@ -149,7 +149,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 if ($streetData == false)
                     return false;
 
-                $address['street'] = $streetData['streetname'];
+                $address['street'] = $streetData['fullStreet'];
                 $address['number'] = $streetData['housenumber'];
             }
         } else {
@@ -167,7 +167,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 if ($streetData == false)
                     return false;
 
-                $address['street'] = $streetData['streetname'];
+                $address['street'] = $streetData['fullStreet'];
                 $address['number'] = $streetData['housenumber'];
             }
         }
@@ -188,7 +188,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
                 if ($streetData == false)
                     return false;
 
-                $address['street'] = $streetData['streetname'];
+                $address['street'] = $streetData['fullStreet'];
                 $address['number'] = $streetData['housenumber'];
             }
         }

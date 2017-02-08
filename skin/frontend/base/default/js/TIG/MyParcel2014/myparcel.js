@@ -181,7 +181,7 @@ this.MyParcel = Application = (function() {
         }
         $('#mypa-no-options').html('Bezig met laden...');
         $('.mypa-overlay').removeClass('mypa-hidden');
-        $('.mypa-location').html(street + " " + number);
+        $('.mypa-location').html(street);
         options = {
             url: urlBase,
             data: {
