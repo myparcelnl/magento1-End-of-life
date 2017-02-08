@@ -352,9 +352,17 @@ displayOtherTab = function() {
 
 renderPage = function(response) {
     if (response.data.message === 'No results') {
-        $('#mypa-no-options').html('Het opgegevens adres is niet bekend.');
+        /* Show input field for housenumber */
+        $('#mypa-no-options').html('Het opgegeven huisnummer in combinatie met postcode ' + window.mypa.settings.postal_code + ' wordt niet herkend. Vul hier opnieuw uw huisnummer in. <br><br><input id="mypa-new-number" type="number" /><submit id="mypa-new-number-submit">Verstuur</submit>');
         $('.mypa-overlay').removeClass('mypa-hidden');
         parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', true);
+
+        $('#mypa-new-number-submit').click(function () {
+            var houseNumber = $('#mypa-new-number').val();
+            window.mypa.fn.updatePage(window.mypa.settings.postal_code, houseNumber);
+            parent.iframeLoaded();
+        });
+
         return;
     }
     $('.mypa-overlay').addClass('mypa-hidden');

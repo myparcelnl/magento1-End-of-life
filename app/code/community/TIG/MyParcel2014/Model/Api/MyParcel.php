@@ -347,7 +347,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             //check if the response has errors codes
             if(isset($aResult['errors']) && isset($aResult['message'])) {
-                if(strpos($aResult['message'], 'Access Denied')){
+                if(strpos($aResult['message'], 'Access Denied, token is not active.') !== null){
                     $this->requestError = $helper->__('Wrong API key. Go to MyParcel settings to set the API key.');
                 } else {
                     foreach ($aResult['errors'] as $tmpError) {
