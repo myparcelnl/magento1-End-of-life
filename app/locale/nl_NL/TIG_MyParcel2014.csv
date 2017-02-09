@@ -257,7 +257,7 @@ TIG_MyParcel2014::Always use MyParcel,Gebruik MyParcel voor alle verzendmethodes
 TIG_MyParcel2014::Use shipment address for PostNL location,Voeg PostNL locatie toe aan het afleveradres
 TIG_MyParcel2014::Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.,Gebruik het afleveradres voor 'Ophalen op een PostNL locatie'. De klant zal het adres op het factuur zien. Stel in op 'Nee' als je bijvoorbeeld AfterPay gebruikt.
 TIG_MyParcel2014::Use filter in order overview,Gebruik filter in order overzicht
-"TIG_MyParcel2014::Select 'No if you are using a plugin that is present in the order summary and therefore experience problems.","Selecteer 'nee' als je een plugin gebruikt die aanwezig is in het order overzicht en daardoor problemen ervaart."
+"TIG_MyParcel2014::Select 'No' if you are using a plugin that is present in the order summary and therefore experience problems.","Selecteer 'nee' als je een plugin gebruikt die aanwezig is in het order overzicht en daardoor problemen ervaart."
 
 TIG_MyParcel2014::status_1,Concept
 TIG_MyParcel2014::status_2,Voorgemeld
