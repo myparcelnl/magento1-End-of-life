@@ -361,6 +361,7 @@ renderPage = function(response) {
             var houseNumber = $('#mypa-new-number').val();
             window.mypa.fn.updatePage(window.mypa.settings.postal_code, houseNumber);
             parent.iframeLoaded();
+            parent.mypajQuery('.myparcel_base_method').prop("checked", true).prop('disabled', true);
         });
 
         return;
