@@ -103,10 +103,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                     $html .= "<br />";
 
                 $barcodeUrl = $helper->getBarcodeUrl($myParcelShipment->getBarcode(), $destinationData, false, true);
-                if($myParcelShipment->getBarcode())
+                if ($myParcelShipment->getBarcode())
                     $html .= "<a href='{$barcodeUrl}' target='_blank'>{$myParcelShipment->getBarcode()}</a>";
 
-                if($myParcelShipment->getConsignmentId() && in_array($myParcelShipment->getShipment()->getShippingAddress()->getCountry(), $helper->getReturnCountries())) {
+                if ($myParcelShipment->getConsignmentId() && $myParcelShipment->getShipment()->getShippingAddress() && in_array($myParcelShipment->getShipment()->getShippingAddress()->getCountry(), $helper->getReturnCountries())) {
                     $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
                     $html .= " <a href='{$shipmentUrl}' style='text-decoration:none;' title='{$helper->__('Shipment')}'><img src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAMAAABFjsb+AAAAe1BMVEUAAADqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgHqdgEq7PRIAAAAKHRSTlMAAQIHCA8RFRkeIy5BRE9fYWNmaWxveYKLjJWanZ6qsLnBzM/X6O3xz27B/QAAAHdJREFUGFd1zssSwUAYROEe4i5CiGtMCOK8/xNaTGqU+ctZdX2rlv7k/NEStaXUnAe6pvGX/WrmvhR7rweSan57ZFKZGHdJVYqLHp9FsalOLQAHBey/ZDugVcD4bwldWOU23r3xUlrO1dic3NiEobHp2ZBGY2uSPuP7Ek2Y8RzhAAAAAElFTkSuQmCC' style='height: 15px; margin-bottom: -4px;'></a>";
                 }
@@ -114,6 +114,11 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                 $html .= '&nbsp; <small>' . $this->__('status_' . $myParcelShipment->getStatus()) . "</small>";
             }
         } elseif ($order->canShip()) {
+
+            $sendText = strtolower($this->__('Send'));
+            // Only show send link color if status is nog pending or processing
+            $colorSendText = $row->getData('status') != 'pending' && $row->getData('status') != 'processing' ? 'color:green' : '';
+
             $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
             $data = json_decode($order->getMyparcelData(), true);
             if (key_exists('date', $data) && $data['date'] !== null) {
@@ -125,14 +130,14 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                  * Show info text plus link to send
                  */
                 if (date('Ymd') == date('Ymd', $dropOffDate)) {
-                    $actionHtml = '<a class="scalable go" href="' . $orderSendUrl . '" style="">' . $this->__('Today') . ' ' . strtolower($this->__('Send')) . '</a> ';
+                    $actionHtml = '<a class="scalable go" href="' . $orderSendUrl . '" style="' . $colorSendText . '">' . $this->__('Today') . ' ' . $sendText . '</a> ';
                 } else if (date('Ymd') > date('Ymd', $dropOffDate)) {
-                    $actionHtml = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
+                    $actionHtml = $sDropOff . ' <a class="scalable go" href="' . $orderSendUrl . '" style="' . $colorSendText . '">' . $sendText . '</a> <span style="color:red;font-size: 115%;">&#x2757;</span>';
                 } else {
                     $actionHtml = $sDropOff . ' <span style="font-size: 115%;">&#8987;</span>';
                 }
             } else {
-                $actionHtml = ' <a class="scalable go" href="' . $orderSendUrl . '" style="">' . strtolower($this->__('Send')) . '</a>';
+                $actionHtml = ' <a class="scalable go" href="' . $orderSendUrl . '" style="' . $colorSendText . '">' . $sendText . '</a>';
             }
 
             $html .= '<small>';
