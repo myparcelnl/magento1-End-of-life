@@ -13,28 +13,13 @@ class Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_B
          * @var Mage_Sales_Model_Order $order
          * @var TIG_MyParcel2014_Model_Shipment $myParcelShipment
          */
-        $orderIds = array();
         $consignmentIds = array();
         $myParcelShipments = array();
 
-        foreach($this->getCollection() as $order)
-        {
-            $orderIds[] = $order->getId();
-            /*
-             * @todo; remove if not necessary after test
-            // move order column myparcel send date to order grid
-            $orgOrder = Mage::getModel('sales/order')->load($order->getId());
-            $resource = Mage::getSingleton('core/resource');
-            $writeConnection = $resource->getConnection('core_write');
-            $query = "UPDATE " . $resource->getTableName('sales/order_grid') . " SET myparcel_send_date = '" . $orgOrder->getMyparcelSendDate() . "' WHERE `" . $resource->getTableName('sales/order_grid') . "`.`entity_id` = " . (int)$order->getId() . ";";
-            $results = $writeConnection->query($query);
-            */
-        }
-
         $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
         $collection->getSelect();
-        if ($orderIds)
-            $collection->addFieldToFilter('order_id', array('in' => array($orderIds)));
+        if ($this->getCollection()->getAllIds())
+            $collection->addFieldToFilter('order_id', array('in' => array($this->getCollection()->getAllIds())));
 
         foreach ($collection as $myParcelShipment){
             if($myParcelShipment->hasConsignmentId()){
