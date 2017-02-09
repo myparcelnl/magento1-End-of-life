@@ -3,7 +3,7 @@
 $installer = $this;
 $installer->startSetup();
 
-$tableName = $installer->getTable('sales/order/grid');
+$tableName = $installer->getTable('sales/order_grid');
 if (!$conn->tableColumnExists($tableName, 'myparcel_send_date')) {
     $conn->addColumn(
         $tableName,
