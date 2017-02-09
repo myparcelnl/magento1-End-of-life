@@ -209,7 +209,7 @@ TIG_MyParcel2014::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
 TIG_MyParcel2014::Orders until today,Alle orders t/m vandaag verzenden
 TIG_MyParcel2014::Send today,Alleen vandaag verzenden
 TIG_MyParcel2014::Send later,Later verzenden
-TIG_MyParcel2014::Old orders,Alle order t/m gister
+TIG_MyParcel2014::Old orders,Alle orders t/m gisteren
 TIG_MyParcel2014::Track&amp;Trace link: %s,Track&amp;Trace link: %s
 TIG_MyParcel2014::Is letter box parcel,Is brievenbuspakje
 TIG_MyParcel2014::Shipment type,Zendingtype
