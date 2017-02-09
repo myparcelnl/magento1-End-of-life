@@ -360,8 +360,9 @@ renderPage = function(response) {
         $('#mypa-new-number-submit').click(function () {
             var houseNumber = $('#mypa-new-number').val();
             window.mypa.fn.updatePage(window.mypa.settings.postal_code, houseNumber);
+            parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', false);
             parent.iframeLoaded();
-            parent.mypajQuery('.myparcel_base_method').prop("checked", true).prop('disabled', true);
+            parent.mypajQuery('#mypa-input').trigger('change');
         });
 
         return;
