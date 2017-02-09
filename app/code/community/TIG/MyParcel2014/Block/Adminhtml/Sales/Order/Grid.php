@@ -20,13 +20,15 @@ class Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_B
         foreach($this->getCollection() as $order)
         {
             $orderIds[] = $order->getId();
-
-            /** move order column myparcel send date to order grid */
+            /*
+             * @todo; remove if not necessary after test
+            // move order column myparcel send date to order grid
             $orgOrder = Mage::getModel('sales/order')->load($order->getId());
             $resource = Mage::getSingleton('core/resource');
             $writeConnection = $resource->getConnection('core_write');
             $query = "UPDATE " . $resource->getTableName('sales/order_grid') . " SET myparcel_send_date = '" . $orgOrder->getMyparcelSendDate() . "' WHERE `" . $resource->getTableName('sales/order_grid') . "`.`entity_id` = " . (int)$order->getId() . ";";
             $results = $writeConnection->query($query);
+            */
         }
 
         $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
