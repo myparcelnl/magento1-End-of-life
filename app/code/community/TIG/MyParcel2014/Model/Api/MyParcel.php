@@ -602,6 +602,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             if ($phone)
                 $data['recipient']['phone'] = $phone;
 
+            unset($streetData['fullStreet']);
             $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
             unset($data['recipient']['number']);
             unset($data['recipient']['number_suffix']);
@@ -780,7 +781,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
                 }
 
-            } elseif ($checkoutData['price_comment'] !== null) {
+            } elseif (key_exists('price_comment', $checkoutData) && $checkoutData['price_comment'] !== null) {
                 switch ($checkoutData['price_comment']) {
                     case 'retail':
                         $data['delivery_type'] = self::TYPE_RETAIL;
