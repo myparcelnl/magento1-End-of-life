@@ -493,11 +493,12 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         }
 
         $storeId = $shipment->getOrder()->getStoreId();
+        /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
         $api     = Mage::getModel('tig_myparcel/api_myParcel');
         $api->setStoreId($storeId);
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
         $perpage = $helper->getConfig('print_orientation');
-        $pdfData = $api->createRetrievePdfsRequest($consignmentIds, $start, $perpage)
+        $pdfData = $api->createSetupPdfsRequest($consignmentIds, $start, $perpage)
                        ->sendRequest('GET')
                        ->getRequestResponse();
 
@@ -614,11 +615,13 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         }
 
         $storeId = $shipment->getOrder()->getStoreId();
+
+        /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
         $api     = Mage::getModel('tig_myparcel/api_myParcel');
         $api->setStoreId($storeId);
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
         $perpage = $helper->getConfig('print_orientation');
-        $pdfData = $api->createRetrievePdfsRequest($consignmentIds, $start, $perpage)
+        $pdfData = $api->createSetupPdfsRequest($consignmentIds, $start, $perpage)
             ->sendRequest('GET')
             ->getRequestResponse();
 
