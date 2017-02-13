@@ -35,7 +35,6 @@ class Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_B
             }
         }
 
-
         $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
         $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
 
