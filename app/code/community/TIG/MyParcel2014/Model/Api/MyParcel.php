@@ -435,8 +435,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $responseData = json_decode($responseData);
 
             if (!key_exists('data', (array)$responseData)) {
-                var_dump($responseData);
-                exit('Response data not correct');
+                // if use filter
+                return false;
             }
 
             $responseShipments = $responseData->data->shipments;
