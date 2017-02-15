@@ -48,7 +48,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     const REQUEST_TYPE_CREATE_CONSIGNMENT   = 'shipments';
     const REQUEST_TYPE_REGISTER_CONFIG      = 'register-config';
-    const REQUEST_TYPE_RETRIEVE_LABEL       = 'shipment_labels';
+    const REQUEST_TYPE_SETUP_LABEL          = 'v2/shipment_labels';
+    const REQUEST_TYPE_RETRIEVE_LABEL       = 'pdfs';
     const REQUEST_TYPE_GET_LOCATIONS        = 'pickup';
 
     /**
@@ -243,8 +244,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestString = $requestString;
         $this->requestType   = $requestType;
 
-        $header[] = $requestHeader . 'charset=utf-8';
-        $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
+            $header[] = $requestHeader . 'charset=utf-8';
+            $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
 
         $this->requestHeader   = $header;
 
@@ -321,16 +322,40 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         //read the response
         $response = $request->read();
+        $aResult = json_decode($response, true);
 
-        if ($this->requestType == 'shipment_labels' && !preg_match("/^%PDF-1./", $response)) {
-            $pdfError = $helper->__('There was an error when generating a PDF. Please feel free to contact MyParcel.');
-            throw new TIG_MyParcel2014_Exception(
-                $pdfError . '::' . $url,
-                'MYPA-0100'
-            );
+        if ($this->requestType == self::REQUEST_TYPE_SETUP_LABEL) {
+            if (isset($aResult['data']['pdf']['url'])){
+                $pdfUrl = $aResult['data']['pdf']['url'];
+                $pdfUrl = str_replace('pdfs/', '', $pdfUrl);
+
+                sleep(2);
+                /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
+                $response = $this->createRetrievePdfsRequest($pdfUrl)
+                    ->sendRequest('GET')
+                    ->getRequestResponse();
+
+            } else {
+                $pdfError = $helper->__('There was an error when set up a PDF. Please feel free to contact MyParcel.');
+                throw new TIG_MyParcel2014_Exception(
+                    $pdfError . '::' . $url,
+                    'MYPA-0101'
+                );
+            }
         }
 
-        $aResult = json_decode($response, true);
+       /* if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && preg_match("/^%PDF-1./", $response)) {
+            exit('yes!');
+        }*/
+        if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && !preg_match("/^%PDF-1./", $response)) {
+            sleep(2);
+            /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
+            $response = $this->createRetrievePdfsRequest($this->requestString)
+                ->sendRequest('GET')
+                ->getRequestResponse();
+            return $this;
+        }
+
 
         if(is_array($aResult)){
 
@@ -409,6 +434,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             $responseData = json_decode($responseData);
 
+            if (!key_exists('data', (array)$responseData)) {
+                // if use filter
+                return false;
+            }
+
             $responseShipments = $responseData->data->shipments;
 
             return $responseShipments;
@@ -443,17 +473,36 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @return $this
      */
-    public function createRetrievePdfsRequest($consignmentIds = array(), $start = 1, $perpage = 'A4')
+    public function createSetupPdfsRequest($consignmentIds = array(), $start = 1, $perpage = 'A4')
     {
         $positions = '';
 
         if($perpage == 'A4') {
             $positions = '&positions=' . $this->_getPositions((int) $start);
         }
-        $data = implode(';',$consignmentIds);
+
+        $data = implode(';', $consignmentIds);
         $getParam = '/' . $data . '?format=' . $perpage . $positions;
 
-        $this->_setRequestParameters($getParam, self::REQUEST_TYPE_RETRIEVE_LABEL);
+        $this->_setRequestParameters($getParam, self::REQUEST_TYPE_SETUP_LABEL);
+
+        return $this;
+    }
+
+    /**
+     * Prepares the API for retrieving pdf's for an array of consignment IDs.
+     *
+     * @param $url
+     *
+     * @return $this
+     * @internal param array $consignmentIds
+     * @internal param int|string $start
+     * @internal param string $perpage
+     *
+     */
+    public function createRetrievePdfsRequest($url)
+    {
+        $this->_setRequestParameters($url, self::REQUEST_TYPE_RETRIEVE_LABEL);
 
         return $this;
     }

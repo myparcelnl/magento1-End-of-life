@@ -104,12 +104,29 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
             return $this;
         }
 
-        $collection = $block->getCollection();
+            /**
+             * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
+             * @var Mage_Sales_Model_Resource_Order_Collection $currentCollection
+             */
+            $currentCollection = $block->getCollection();
+            $select = $currentCollection->getSelect()->reset(Zend_Db_Select::WHERE);
+
+            /**
+             * replace the collection, as the default collection has a bug preventing it from being reset.
+             * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
+             */
+            $collection = Mage::getResourceModel('tig_myparcel/order_grid_collection');
+            $collection->setSelect($select)
+                ->setPageSize($currentCollection->getPageSize())
+                ->setCurPage($currentCollection->getCurPage());
+
 
         $this->setCollection($collection);
         $this->setBlock($block);
 
         $this->_addColumns($block);
+        $this->_applySortAndFilter();
+
         $this->_addMassaction($block);
 
         $block->setCollection($collection);
@@ -130,23 +147,37 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
         /**
          * Add the confirm status column.
          */
-        $block->addColumnAfter(
-            'shipping_status',
-            array(
-                'header'         => $helper->__('Shipping status'),
-                'sortable'       => false,
-                'renderer'       => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
-                'type'           => 'options',
-                'options'        => array(
-                    'past_and_today' => $helper->__('Orders until today'),
-                    'today' => $helper->__('Send today'),
-                    'later' => $helper->__('Send later'),
-                    'past' => $helper->__('Old orders'),
+        $useFilter = $helper->getConfig('use_filter', 'general') == '1';
+        if ($useFilter) {
+            $block->addColumnAfter(
+                'shipping_status',
+                array(
+                    'header' => $helper->__('Shipping status'),
+                    'sortable' => false,
+                    'renderer' => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
+                    'type' => 'options',
+                    'options' => array(
+                        'past_and_today' => $helper->__('Orders until today'),
+                        'today' => $helper->__('Send today'),
+                        'later' => $helper->__('Send later'),
+                        'past' => $helper->__('Old orders'),
+                    ),
+                    'filter_condition_callback' => array($this, '_filterHasUrlConditionCallback'),
                 ),
-                'filter_condition_callback' => array($this, '_filterHasUrlConditionCallback'),
-            ),
-            'shipping_name'
-        );
+                'shipping_name'
+            );
+        } else {
+            $block->addColumnAfter(
+                'shipping_status',
+                array(
+                    'header' => $helper->__('Shipping status'),
+                    'sortable' => false,
+                    'renderer' => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
+                ),
+                'shipping_name'
+            );
+
+        }
 
         $block->sortColumnsByOrder();
 
@@ -179,7 +210,8 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
 
             if($date){
                 $this->getCollection()->getSelect()->where(
-                    "tig_myparcel_order.myparcel_send_date " . $sqlDate);
+                    "myparcel_send_date " . $sqlDate
+                );
             }
         }
 
