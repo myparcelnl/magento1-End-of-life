@@ -17,6 +17,9 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Shipment_Grid extends Mage_Adminhtm
         $consignmentIds = array();
         $myParcelShipments = array();
 
+        if ($this->getCollection()->count() == 0) {
+            return $this;
+        }
 
         foreach($this->getCollection() as $shipment)
         {

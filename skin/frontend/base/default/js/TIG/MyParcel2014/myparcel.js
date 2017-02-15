@@ -181,7 +181,7 @@ this.MyParcel = Application = (function() {
         }
         $('#mypa-no-options').html('Bezig met laden...');
         $('.mypa-overlay').removeClass('mypa-hidden');
-        $('.mypa-location').html(street + " " + number);
+        $('.mypa-location').html(street);
         options = {
             url: urlBase,
             data: {
@@ -352,9 +352,19 @@ displayOtherTab = function() {
 
 renderPage = function(response) {
     if (response.data.message === 'No results') {
-        $('#mypa-no-options').html('Het opgegevens adres is niet bekend.');
+        /* Show input field for housenumber */
+        $('#mypa-no-options').html('Het opgegeven huisnummer in combinatie met postcode ' + window.mypa.settings.postal_code + ' wordt niet herkend. Vul hier opnieuw uw huisnummer zonder toevoeging in.<br><br><input id="mypa-new-number" type="number" /><submit id="mypa-new-number-submit">Verstuur</submit>');
         $('.mypa-overlay').removeClass('mypa-hidden');
         parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', true);
+
+        $('#mypa-new-number-submit').click(function () {
+            var houseNumber = $('#mypa-new-number').val();
+            window.mypa.fn.updatePage(window.mypa.settings.postal_code, houseNumber);
+            parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', false);
+            parent.iframeLoaded();
+            parent.mypajQuery('#mypa-input').trigger('change');
+        });
+
         return;
     }
     $('.mypa-overlay').addClass('mypa-hidden');
@@ -491,7 +501,7 @@ renderPickupLocation = function(data) {
             }
             openingHoursHtml += '</div></div>';
         }
-        html = "<div for='mypa-pickup-location-" + index + "' class=\"mypa-row-lg afhalen-row\">\n  <div class=\"afhalen-right\">\n    <i class='mypa-info'>\n    </i>\n  </div>\n  <div class='mypa-opening-hours'>\n    " + openingHoursHtml + "\n  </div>\n  <label for='mypa-pickup-location-" + index + "' class=\"afhalen-left\">\n    <div class=\"afhalen-check\">\n      <input id=\"mypa-pickup-location-" + index + "\" type=\"radio\" name=\"mypa-pickup-option\" value='" + (JSON.stringify(location)) + "'>\n      <label for='mypa-pickup-location-" + index + "' class='mypa-row-title'>\n        <div class=\"mypa-checkmark mypa-main\">\n          <div class=\"mypa-circle\"></div>\n          <div class=\"mypa-checkmark-stem\"></div>\n          <div class=\"mypa-checkmark-kick\"></div>\n        </div>\n      </label>\n    </div>\n    <div class='afhalen-tekst'>\n      <span class=\"mypa-highlight mypa-inline-block\">" + location.location + ", <b class='mypa-inline-block'>" + location.street + " " + location.number + "</b>,\n      <i class='mypa-inline-block'>" + (String(Math.round(location.distance / 100) / 10).replace('.', ',')) + " Km</i></span>\n    </div>\n  </label>\n</div>";
+        html = "<div for='mypa-pickup-location-" + index + "' class=\"mypa-row-lg afhalen-row\">\n  <div class=\"afhalen-right\">\n    <i class='mypa-info'>\n    </i>\n  </div>\n  <div class='mypa-opening-hours'>\n    " + openingHoursHtml + "\n  </div>\n  <label for='mypa-pickup-location-" + index + "' class=\"afhalen-left\">\n    <div class=\"afhalen-check\">\n      <input id=\"mypa-pickup-location-" + index + "\" type=\"radio\" name=\"mypa-pickup-option\" value='" + (JSON.stringify(location)) + "'>\n      <label for='mypa-pickup-location-" + index + "' class='mypa-row-title'>\n        <div class=\"mypa-checkmark mypa-main\">\n          <div class=\"mypa-circle\"></div>\n          <div class=\"mypa-checkmark-stem\"></div>\n          <div class=\"mypa-checkmark-kick\"></div>\n        </div>\n      </label>\n    </div>\n    <div class='afhalen-tekst'>\n      <span class=\"mypa-highlight mypa-inline-block\">" + location.location + ", <b class='mypa-inline-block'>" + location.street + " " + location.number + ", " + location.city + "</b>,\n      <i class='mypa-inline-block'>" + (String(Math.round(location.distance / 100) / 10).replace('.', ',')) + " Km</i></span>\n    </div>\n  </label>\n</div>";
         $('#mypa-location-container').append(html);
     }
     return $('input[name=mypa-pickup-option]').bind('click', function(e) {

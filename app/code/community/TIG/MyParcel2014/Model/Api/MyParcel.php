@@ -48,7 +48,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     const REQUEST_TYPE_CREATE_CONSIGNMENT   = 'shipments';
     const REQUEST_TYPE_REGISTER_CONFIG      = 'register-config';
-    const REQUEST_TYPE_RETRIEVE_LABEL       = 'shipment_labels';
+    const REQUEST_TYPE_SETUP_LABEL          = 'v2/shipment_labels';
+    const REQUEST_TYPE_RETRIEVE_LABEL       = 'pdfs';
     const REQUEST_TYPE_GET_LOCATIONS        = 'pickup';
 
     /**
@@ -243,8 +244,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestString = $requestString;
         $this->requestType   = $requestType;
 
-        $header[] = $requestHeader . 'charset=utf-8';
-        $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
+            $header[] = $requestHeader . 'charset=utf-8';
+            $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
 
         $this->requestHeader   = $header;
 
@@ -321,16 +322,40 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         //read the response
         $response = $request->read();
+        $aResult = json_decode($response, true);
 
-        if ($this->requestType == 'shipment_labels' && !preg_match("/^%PDF-1./", $response)) {
-            $pdfError = $helper->__('There was an error when generating a PDF. Please feel free to contact MyParcel.');
-            throw new TIG_MyParcel2014_Exception(
-                $pdfError . '::' . $url,
-                'MYPA-0100'
-            );
+        if ($this->requestType == self::REQUEST_TYPE_SETUP_LABEL) {
+            if (isset($aResult['data']['pdf']['url'])){
+                $pdfUrl = $aResult['data']['pdf']['url'];
+                $pdfUrl = str_replace('pdfs/', '', $pdfUrl);
+
+                sleep(2);
+                /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
+                $response = $this->createRetrievePdfsRequest($pdfUrl)
+                    ->sendRequest('GET')
+                    ->getRequestResponse();
+
+            } else {
+                $pdfError = $helper->__('There was an error when set up a PDF. Please feel free to contact MyParcel.');
+                throw new TIG_MyParcel2014_Exception(
+                    $pdfError . '::' . $url,
+                    'MYPA-0101'
+                );
+            }
         }
 
-       $aResult = json_decode($response, true);
+       /* if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && preg_match("/^%PDF-1./", $response)) {
+            exit('yes!');
+        }*/
+        if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && !preg_match("/^%PDF-1./", $response)) {
+            sleep(2);
+            /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
+            $response = $this->createRetrievePdfsRequest($this->requestString)
+                ->sendRequest('GET')
+                ->getRequestResponse();
+            return $this;
+        }
+
 
         if(is_array($aResult)){
 
@@ -347,7 +372,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             //check if the response has errors codes
             if(isset($aResult['errors']) && isset($aResult['message'])) {
-                if(strpos($aResult['message'], 'Access Denied')){
+                if(strpos($aResult['message'], 'Access Denied, token is not active.') !== null){
                     $this->requestError = $helper->__('Wrong API key. Go to MyParcel settings to set the API key.');
                 } else {
                     foreach ($aResult['errors'] as $tmpError) {
@@ -409,6 +434,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             $responseData = json_decode($responseData);
 
+            if (!key_exists('data', (array)$responseData)) {
+                // if use filter
+                return false;
+            }
+
             $responseShipments = $responseData->data->shipments;
 
             return $responseShipments;
@@ -443,17 +473,36 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @return $this
      */
-    public function createRetrievePdfsRequest($consignmentIds = array(), $start = 1, $perpage = 'A4')
+    public function createSetupPdfsRequest($consignmentIds = array(), $start = 1, $perpage = 'A4')
     {
         $positions = '';
 
         if($perpage == 'A4') {
             $positions = '&positions=' . $this->_getPositions((int) $start);
         }
-        $data = implode(';',$consignmentIds);
+
+        $data = implode(';', $consignmentIds);
         $getParam = '/' . $data . '?format=' . $perpage . $positions;
 
-        $this->_setRequestParameters($getParam, self::REQUEST_TYPE_RETRIEVE_LABEL);
+        $this->_setRequestParameters($getParam, self::REQUEST_TYPE_SETUP_LABEL);
+
+        return $this;
+    }
+
+    /**
+     * Prepares the API for retrieving pdf's for an array of consignment IDs.
+     *
+     * @param $url
+     *
+     * @return $this
+     * @internal param array $consignmentIds
+     * @internal param int|string $start
+     * @internal param string $perpage
+     *
+     */
+    public function createRetrievePdfsRequest($url)
+    {
+        $this->_setRequestParameters($url, self::REQUEST_TYPE_RETRIEVE_LABEL);
 
         return $this;
     }
@@ -602,6 +651,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             if ($phone)
                 $data['recipient']['phone'] = $phone;
 
+            unset($streetData['fullStreet']);
             $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
             unset($data['recipient']['number']);
             unset($data['recipient']['number_suffix']);
@@ -749,7 +799,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         if ($checkoutData !== null) {
 
-            if (key_exists('price_comment', $checkoutData['time'][0]) && $checkoutData['time'][0]['price_comment'] !== null) {
+            if (key_exists('time', $checkoutData) && key_exists('price_comment', $checkoutData['time'][0]) && $checkoutData['time'][0]['price_comment'] !== null) {
                 switch ($checkoutData['time'][0]['price_comment']) {
                     case 'morning':
                         $data['delivery_type'] = self::TYPE_MORNING;
@@ -766,20 +816,21 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
 
                     $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
-                    $currentDateTime = new dateTime();
-                    if (date_parse($checkoutDateTime) >= $currentDateTime) {
+                    $currentDateTime = $currentDate = new dateTime();
+                    $currentDate = $currentDate->format('Y-m-d') . ' 00:00:00';
+                    if (date_parse($checkoutDateTime) > date_parse($currentDate)) {
                         $data['delivery_date'] = $checkoutDateTime;
                     } else {
                         $currentDateTime->modify('+1 day');
                         $nextDeliveryDay = $this->getNextDeliveryDay($currentDateTime);
-                        $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d H:i:s');
+                        $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d 00:00:00');
                     }
 
                     $dateTime = date_parse($checkoutData['date']);
                     $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
                 }
 
-            } elseif ($checkoutData['price_comment'] !== null) {
+            } elseif (key_exists('price_comment', $checkoutData) && $checkoutData['price_comment'] !== null) {
                 switch ($checkoutData['price_comment']) {
                     case 'retail':
                         $data['delivery_type'] = self::TYPE_RETAIL;
@@ -816,7 +867,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     private function getNextDeliveryDay($dateTime)
     {
-        $weekDay = date('w', strtotime($dateTime));
+        $weekDay = $dateTime->format("W");
         if ($weekDay == 0 || $weekDay == 6) {
             $dateTime->modify('+1 day');
             $dateTime = $this->getNextDeliveryDay($dateTime);

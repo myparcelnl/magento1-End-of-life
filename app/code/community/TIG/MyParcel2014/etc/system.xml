@@ -308,7 +308,7 @@
                             <sort_order>190</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </signature_active>
                         <signature_title translate="label" module="tig_myparcel">
                             <label>Signature on receipt title</label>
@@ -366,11 +366,23 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </mailbox_active>
+                        <mailbox_with_other_options translate="label" module="tig_myparcel">
+                            <label>Mailbox with other options</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>156</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <depends>
+                                <mailbox_active>1</mailbox_active>
+                            </depends>
+                        </mailbox_with_other_options>
                         <mailbox_title translate="label,comment" module="tig_myparcel">
                             <label>Mailbox title</label>
                             <comment>Leave blank to automate mailbox packets only in the backend</comment>
                             <frontend_type>text</frontend_type>
-                            <sort_order>156</sort_order>
+                            <sort_order>157</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -383,7 +395,7 @@
                             <comment>Besides assigning weights to all products, you can also specify a volume of each product.</comment>
                             <validate>validate-number</validate>
                             <frontend_type>text</frontend_type>
-                            <sort_order>157</sort_order>
+                            <sort_order>158</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
@@ -396,7 +408,7 @@
                             <comment>Enter a basic price for a mailbox. The regular price will not affect this price.</comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number</validate>
-                            <sort_order>158</sort_order>
+                            <sort_order>159</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
@@ -643,6 +655,17 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </pakjegemak_use_shipment_address>
+                        <use_filter translate="label comment">
+                            <label>Use filter in order overview</label>
+                            <comment>Select 'No' if you are using a plugin that is present in the order summary and therefore experience problems.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>68</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <validate>validate-select</validate>
+                        </use_filter>
                         <ssl_handshake translate="label comment tooltip">
                             <label>Force unencrypted MyParcel connection</label>
                             <comment>By enabling this, you will force connection to the MyParcel platform over unsecured http, rather than https</comment>

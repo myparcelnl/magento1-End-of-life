@@ -108,20 +108,20 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $data['delivery'] = (object)$delivery;
 
         $morningDelivery['active'] =                $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" ? true : false;
-        $morningDelivery['fee'] =                   $basePrice + $this->getShippingPrice($helper->getConfig('morningdelivery_fee', 'morningdelivery'), $quote);
+        $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morningdelivery_fee', 'morningdelivery'), $quote));
         $data['morningDelivery'] = (object)$morningDelivery;
 
         $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" ? true : false;
-        $eveningDelivery['fee'] =                   $basePrice + $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote);
+        $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
         $pickup['active'] =                         $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
         $pickup['title'] =                          $helper->getConfig('pickup_title', 'pickup');
-        $pickup['fee'] =                            $basePrice + $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote);
+        $pickup['fee'] =                            $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote));
         $data['pickup'] = (object)$pickup;
 
         $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" ? true : false;
-        $pickupExpress['fee'] =                     $basePrice + $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote);
+        $pickupExpress['fee'] =                     $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote));
         $data['pickupExpress'] = (object)$pickupExpress;
 
 
@@ -175,6 +175,22 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
     {
         $cronController = new TIG_MyParcel2014_Model_Observer_Cron;
         $cronController->checkStatus();
+    }
+
+    /**
+     * Get extra price. Check if total shipping price is not below 0 euro
+     *
+     * @param $basePrice
+     * @param $extraPrice
+     *
+     * @return float
+     */
+    private function getExtraPrice($basePrice, $extraPrice)
+    {
+        if ($basePrice + $extraPrice < 0) {
+            return 0;
+        }
+        return (float)$basePrice + $extraPrice;
     }
 
     /**

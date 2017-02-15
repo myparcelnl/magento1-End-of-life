@@ -13,19 +13,13 @@ class Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_B
          * @var Mage_Sales_Model_Order $order
          * @var TIG_MyParcel2014_Model_Shipment $myParcelShipment
          */
-        $orderIds = array();
         $consignmentIds = array();
         $myParcelShipments = array();
 
-        foreach($this->getCollection() as $order)
-        {
-            $orderIds[] = $order->getId();
-        }
-
         $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
         $collection->getSelect();
-        if ($orderIds)
-            $collection->addFieldToFilter('order_id', array('in' => array($orderIds)));
+        if ($this->getCollection()->getAllIds())
+            $collection->addFieldToFilter('order_id', array('in' => array($this->getCollection()->getAllIds())));
 
         foreach ($collection as $myParcelShipment){
             if($myParcelShipment->hasConsignmentId()){
@@ -34,7 +28,6 @@ class Tig_MyParcel2014_Block_Adminhtml_Sales_Order_Grid extends Mage_Adminhtml_B
                 $myParcelShipments[$consignmentId] = $myParcelShipment;
             }
         }
-
 
         $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
         $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);

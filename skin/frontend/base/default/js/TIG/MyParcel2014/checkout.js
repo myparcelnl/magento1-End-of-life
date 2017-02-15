@@ -24,7 +24,7 @@ if(window.mypa.fn == null || window.mypa.fn == undefined){
 window.mypa.settings = {};
 var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
 (function () {
-    var observer, resizeIframeWidth, resizeIframeInterval, checkMyParcelMethod, checkMethod;
+    var observer, resizeIframeHeight, resizeIframeInterval, checkMyParcelMethod, checkMethod;
     observer = parent.mypajQuery.extend({
         input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
@@ -98,19 +98,23 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
         }
 
         clearInterval(resizeIframeInterval);
-        resizeIframeWidth();
+        resizeIframeHeight();
 
-        resizeIframeInterval = setInterval(function () {
-            resizeIframeWidth();
+        resizeIframeInterval = setTimeout(function () {
+            resizeIframeHeight();
         }, 500);
+
+        resizeIframeInterval = setTimeout(function () {
+            resizeIframeHeight();
+        }, 3000);
     };
 
     /**
      * Resizes the given iFrame width so it fits its content
      */
-    resizeIframeWidth = function () {
+    resizeIframeHeight = function () {
         var iframe = mypajQuery('#myparcel-iframe');
-        if (iframe && iframe.contents()){
+        if (iframe && iframe.contents().length > 0) {
             iframe.height(10).height(iframe.contents().height());
         }
     };
@@ -165,6 +169,8 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
                 checkMethod('#s_method_myparcel_mailbox');
                 break;
         }
+
+        resizeIframeHeight();
     };
 
     checkMethod = function (selector){
