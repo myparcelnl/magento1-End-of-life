@@ -637,18 +637,20 @@ checkCombination = function() {
  * Sets the json to the selected input field to be with the form
  */
 updateInputField = function() {
-    var json;
-    json = $('input[name=mypa-delivery-time]:checked').val();
-    if (externalJQuery('#mypa-input', parent.document).val() !== json) {
-        externalJQuery('#mypa-input', parent.document).val(json);
-        parent.mypajQuery('#mypa-input').trigger('change');
-    }
-    if (externalJQuery('#mypa-signed', parent.document).prop('checked') !== $('#mypa-signed').prop('checked')) {
-        externalJQuery('#mypa-signed', parent.document).prop('checked', $('#mypa-signed').prop('checked'));
-        parent.mypajQuery('#mypa-signed').trigger('change');
-    }
-    if (externalJQuery('#mypa-recipient-only', parent.document).prop('checked') !== $('#mypa-only-recipient').prop('checked')) {
-        externalJQuery('#mypa-recipient-only', parent.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
-        return parent.mypajQuery('#mypa-recipient-only').trigger('change');
+    if (externalJQuery('.myparcel_method:checked', parent.document).length != 0) {
+        var json;
+        json = $('input[name=mypa-delivery-time]:checked').val();
+        if (externalJQuery('#mypa-input', parent.document).val() !== json) {
+            externalJQuery('#mypa-input', parent.document).val(json);
+            parent.mypajQuery('#mypa-input').trigger('change');
+        }
+        if (externalJQuery('#mypa-signed', parent.document).prop('checked') !== $('#mypa-signed').prop('checked')) {
+            externalJQuery('#mypa-signed', parent.document).prop('checked', $('#mypa-signed').prop('checked'));
+            parent.mypajQuery('#mypa-signed').trigger('change');
+        }
+        if (externalJQuery('#mypa-recipient-only', parent.document).prop('checked') !== $('#mypa-only-recipient').prop('checked')) {
+            externalJQuery('#mypa-recipient-only', parent.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
+            return parent.mypajQuery('#mypa-recipient-only').trigger('change');
+        }
     }
 };
