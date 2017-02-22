@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.11.1</version>
+            <version>1.11.2</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -55,6 +55,15 @@
             </tig_myparcel_setup>
         </resources>
         <events>
+            <checkout_controller_onepage_save_shipping_method>
+                <observers>
+                    <tig_myparcel_shipping_method_save_after>
+                        <type>model</type>
+                        <class>tig_myparcel/observer_saveShippingMethod</class>
+                        <method>saveExtaOptions</method>
+                    </tig_myparcel_shipping_method_save_after>
+                </observers>
+            </checkout_controller_onepage_save_shipping_method>
             <sales_order_shipment_save_after>
                 <observers>
                     <tig_myparcel_shipment_save_after>
