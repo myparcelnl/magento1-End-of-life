@@ -638,8 +638,16 @@ checkCombination = function() {
  */
 updateInputField = function() {
     if (externalJQuery('.myparcel_method:checked', parent.document).length != 0) {
-        var json;
-        json = $('input[name=mypa-delivery-time]:checked').val();
+        var json = $('input[name=mypa-delivery-time]:checked').val();
+        console.log('thisdsfd');
+        var price_comment = jQuery.parseJSON(json).time[0].price_comment;
+        if (typeof price_comment == 'undefined'){
+            console.log('hide');
+            $('#mypa-tabs-container').hide();
+        } else {
+            console.log('show');
+            $('#mypa-tabs-container').show();
+        }
         if (externalJQuery('#mypa-input', parent.document).val() !== json) {
             externalJQuery('#mypa-input', parent.document).val(json);
             parent.mypajQuery('#mypa-input').trigger('change');
