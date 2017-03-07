@@ -126,7 +126,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
             $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
             $data = json_decode($order->getMyparcelData(), true);
-            if (key_exists('date', $data) && $data['date'] !== null) {
+            if ($data['date'] !== null && key_exists('date', $data)) {
                 $dateTime = strtotime($data['date'] . ' 00:00:00');
                 $dropOffDate = $helper->getDropOffDay($dateTime);
                 $sDropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
