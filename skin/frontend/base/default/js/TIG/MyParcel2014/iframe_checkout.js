@@ -83,7 +83,6 @@ window.mypa.settings = {};
 
 
         parent.hideDays = function () {
-            console.log(window.mypa.settings.deliverydays_window);
             if (window.mypa.settings.deliverydays_window > 1) {
                 $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').slideUp();
             }
