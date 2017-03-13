@@ -81,6 +81,15 @@ window.mypa.settings = {};
         };
         externalJQuery.ajax(ajaxOptions);
 
+
+        parent.hideDays = function () {
+            $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').slideUp();
+        };
+
+        parent.showDays = function () {
+            $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').slideDown();
+        };
+
     };
 
 

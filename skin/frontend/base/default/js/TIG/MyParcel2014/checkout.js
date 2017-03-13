@@ -12,19 +12,20 @@
  * @link        https://github.com/myparcelnl/magento1
  * @since       File available since Release 1.6.0
  */
-if(window.mypa == null || window.mypa == undefined){
+if (window.mypa == null || window.mypa == undefined) {
     window.mypa = {};
 }
-if(window.mypa.observer == null || window.mypa.observer == undefined){
+if (window.mypa.observer == null || window.mypa.observer == undefined) {
     window.mypa.observer = {};
 }
-if(window.mypa.fn == null || window.mypa.fn == undefined){
+if (window.mypa.fn == null || window.mypa.fn == undefined) {
     window.mypa.fn = {};
 }
 window.mypa.settings = {};
-var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
+var iframeDataLoaded, iframeLoaded, myParcelToggleOptions, hideDays = undefined, showDays = undefined;
 (function () {
     var observer, resizeIframeHeight, resizeIframeInterval, checkMyParcelMethod, checkMethod;
+
     observer = parent.mypajQuery.extend({
         input: "#mypa-input",
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
@@ -45,7 +46,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
                 mypajQuery('#mypa-input').val(null).change();
             }
         } else {
-            if(typeof mypajQuery(observer.myParcelBaseMethod) !== 'undefined') {
+            if (typeof mypajQuery(observer.myParcelBaseMethod) !== 'undefined') {
                 mypajQuery(observer.myParcelBaseMethod).prop("checked", true);
                 mypajQuery('#mypa-load').show();
             }
@@ -119,7 +120,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
         }
     };
 
-    checkMyParcelMethod = function() {
+    checkMyParcelMethod = function () {
         var recipientOnly = mypajQuery('#mypa-recipient-only').is(":checked");
         var signed = mypajQuery('#mypa-signed').is(":checked");
         var type;
@@ -138,6 +139,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
                 } else {
                     checkMethod('#s_method_myparcel_morning');
                 }
+                showDays();
                 break;
             case "standard":
                 if (signed && recipientOnly) {
@@ -151,6 +153,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
                         checkMethod(observer.myParcelBaseMethod);
                     }
                 }
+                showDays();
                 break;
             case "night":
                 if (signed) {
@@ -158,23 +161,27 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions;
                 } else {
                     checkMethod('#s_method_myparcel_evening');
                 }
+                showDays();
                 break;
             case "retail":
                 checkMethod('#s_method_myparcel_pickup');
+                hideDays();
                 break;
             case "retailexpress":
                 checkMethod('#s_method_myparcel_pickup_express');
+                hideDays();
                 break;
             case "mailbox":
                 checkMethod('#s_method_myparcel_mailbox');
+                hideDays();
                 break;
         }
 
         resizeIframeHeight();
     };
 
-    checkMethod = function (selector){
-        if(myParcelToggleOptions) {
+    checkMethod = function (selector) {
+        if (myParcelToggleOptions) {
             mypajQuery('.myparcel_holder > ul > li').hide();
             mypajQuery(selector).parent().show();
         }
