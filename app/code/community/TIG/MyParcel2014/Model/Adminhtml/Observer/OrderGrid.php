@@ -41,13 +41,7 @@
  * @method TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid   setBlock(Mage_Adminhtml_Block_Sales_Order_Grid $value)
  * @method Mage_Adminhtml_Block_Sales_Order_Grid                 getBlock()
  */
-if (file_exists(Mage::getBaseDir() . '/app/code/community/BL/CustomGrid/Model/Grid.php') && class_exists('BL_CustomGrid_Model_Grid')) {
-    class TIG_MyParcel2014_Model_Grid_OverrideCheck extends BL_CustomGrid_Model_Grid { }
-} else {
-    class TIG_MyParcel2014_Model_Grid_OverrideCheck extends Varien_Object { }
-}
-
-class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel2014_Model_Grid_OverrideCheck
+class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
 {
     /**
      * The block we want to edit.
@@ -104,22 +98,21 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
             return $this;
         }
 
-            /**
-             * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
-             * @var Mage_Sales_Model_Resource_Order_Collection $currentCollection
-             */
-            $currentCollection = $block->getCollection();
-            $select = $currentCollection->getSelect()->reset(Zend_Db_Select::WHERE);
+        /**
+         * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
+         * @var Mage_Sales_Model_Resource_Order_Collection $currentCollection
+         */
+        $currentCollection = $block->getCollection();
+        $select = $currentCollection->getSelect();
 
-            /**
-             * replace the collection, as the default collection has a bug preventing it from being reset.
-             * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
-             */
-            $collection = Mage::getResourceModel('tig_myparcel/order_grid_collection');
-            $collection->setSelect($select)
-                ->setPageSize($currentCollection->getPageSize())
-                ->setCurPage($currentCollection->getCurPage());
-
+        /**
+         * replace the collection, as the default collection has a bug preventing it from being reset.
+         * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
+         */
+        $collection = Mage::getResourceModel('tig_myparcel/order_grid_collection');
+        $collection->setSelect($select)
+            ->setPageSize($currentCollection->getPageSize())
+            ->setCurPage($currentCollection->getCurPage());
 
         $this->setCollection($collection);
         $this->setBlock($block);
@@ -130,6 +123,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
         $this->_addMassaction($block);
 
         $block->setCollection($collection);
+
         return $this;
     }
 
@@ -210,7 +204,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
 
             if($date){
                 $this->getCollection()->getSelect()->where(
-                    "myparcel_send_date " . $sqlDate
+                    "main_table.myparcel_send_date " . $sqlDate
                 );
             }
         }
@@ -303,7 +297,8 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends TIG_MyParcel20
         foreach ($filter as $columnName => $value) {
             $column = $block->getColumn($columnName);
 
-            if (!$column) {
+            // only add MyParcel filter
+            if (!$column || $columnName != 'shipping_status') {
                 continue;
             }
 
