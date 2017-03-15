@@ -240,7 +240,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
         if (
-            strpos($method, $myParcelCode) !== null &&
+            strpos($method, $myParcelCode) === null &&
             $method != $myParcelCode . '_mailbox'
         ) {
             return true;

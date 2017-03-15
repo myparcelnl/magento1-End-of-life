@@ -812,7 +812,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         break;
                 }
 
-                if ($checkoutData['date'] !== null) {
+                if (key_exists('date', $checkoutData) && $checkoutData['date'] !== null) {
 
 
                     $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
