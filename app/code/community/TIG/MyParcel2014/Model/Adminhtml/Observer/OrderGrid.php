@@ -253,6 +253,19 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                 )
             );
 
+
+        /**
+         * Add the create shipments mass action.
+         */
+        $block->getMassactionBlock()
+            ->addItem(
+                'myparcel_create_shipments',
+                array(
+                    'label' => $helper->__('Create shipments (no labels)'),
+                    'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massCreateShipments'),
+                )
+            );
+
         return $this;
     }
 
