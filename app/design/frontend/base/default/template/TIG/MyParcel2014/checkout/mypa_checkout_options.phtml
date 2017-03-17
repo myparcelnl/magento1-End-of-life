@@ -3,6 +3,7 @@
 <head>
     <script>
         var BASE_URL = '<?php echo Mage::getUrl('',array('_secure'=>true));?>';
+        var defaultFontSize = <?php echo $defaultFontSize;?>;
     </script>
     <style>
         body {
@@ -688,7 +689,7 @@
             if (defaultFontSize < 9) {
                 fontSize = parent.mypajQuery('label').css('font-size');
             } else {
-                fontSize = <?php echo $defaultFontSize;?>;
+                fontSize = defaultFontSize;
             }
 
             $('#mypa-delivery-options-container').css("font-family", fonts).css("font-size", fontSize);
