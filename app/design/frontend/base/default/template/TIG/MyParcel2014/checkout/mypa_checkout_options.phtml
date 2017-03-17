@@ -1,3 +1,4 @@
+<?php $defaultFontSize = $helper->getConfig('font_size', 'checkout') == '' ? 0 : $helper->getConfig('font_size', 'checkout'); ?>
 <html>
 <head>
     <script>
@@ -683,8 +684,14 @@
             window.mypa.fn.load();
 
             var fonts = parent.mypajQuery('label').css('font-family');
-            var fontsSize = parent.mypajQuery('label').css('font-size');
-            $('#mypa-delivery-options-container').css("font-family", fonts).css("font-size", fontsSize);
+            var fontSize;
+            if (defaultFontSize < 9) {
+                fontSize = parent.mypajQuery('label').css('font-size');
+            } else {
+                fontSize = <?php echo $defaultFontSize;?>;
+            }
+
+            $('#mypa-delivery-options-container').css("font-family", fonts).css("font-size", fontSize);
         }, 500);
     </script>
 </head>
