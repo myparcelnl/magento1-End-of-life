@@ -31,7 +31,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions, hideDays = undefined,
         onlyRecipient: "input:checkbox[name='mypa-only-recipient']",
         signed: "input:checkbox[name='mypa-signed']",
         magentoMethods: "input:radio[name='shipping_method']",
-        myParcelMethods: ".myparcel_method",
+        myParcelMethods: "input[id^='s_method_myparcel_']",
         myParcelExtraMethods: ".myparcel_extra_method",
         myParcelBaseMethod: ".myparcel_base_method"
     }, window.mypa.observer);

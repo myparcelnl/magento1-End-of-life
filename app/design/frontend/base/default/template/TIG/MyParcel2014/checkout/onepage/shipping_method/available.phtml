@@ -60,7 +60,7 @@ if (
  */
 $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true : false;
 ?>
-<script>myParcelToggleOptions = '<?php echo $toggleOptions;?>'</script>
+<script>myParcelToggleOptions = '<?php echo $toggleOptions;?>'; var lastPrice = 0;</script>
 <?php if (!$_shippingRateGroups): ?>
     <p><?php echo $this->__('Sorry, no quotes are available for this order at this time.') ?></p>
 <?php else: ?>
