@@ -131,7 +131,7 @@
 
             De MyParcel extensie maakt gebruik van enkele cronjobs. Deze zijn nodig om de statussen van zendingen periodiek bij te werken in jouw backend. De extensie haakt in op de cronfunctionaliteit van Magento.<br>
 
-			Neem contact op met jouw ontwikkelaar als je hier vragen over hebt.<br> 
+			Neem contact op met jouw ontwikkelaar als je hier vragen over hebt.<br>
             <br>
 			<strong>Server cronjob</strong><br>
 			De wijze waarop je cronjobs op jouw server instelt verschilt per hostingprovider omdat er meerdere webserverbeheer systemen bestaan. Voorbeelden hiervan zijn DirectAdmin, Plesk en Cpanel.
@@ -148,7 +148,7 @@
 			<li>Controleer met SSH of je de cronjob kunt activeren.<br>
 				Dit kan door in een terminal venster in te loggen en het command in te voeren. In ons voorbeeld is dat <span class="nice">/home/magento/public_html/cron.sh</span>. Dit dien je te doen met root rechten.
 
-				Mocht dit niet werken of mocht de server geen shell mogelijkheid hebben dan kunt je uitwijken naar het cron.php bestand. 
+				Mocht dit niet werken of mocht de server geen shell mogelijkheid hebben dan kunt je uitwijken naar het cron.php bestand.
 
 				In dat geval kun je twee cronjobs aan maken. Je kunt aan geven waar PHP draait voor de opdrachten en de locatie achterhalen met de PHP constante PHP_BINDIR.<br>
 
@@ -170,14 +170,14 @@
 					<li>
 						Ga naar het menu <span class="nice">System → Configuration → Advanced → System → Cron (Scheduled Tasks)</span>.
 					</li>
-					<li>		
+					<li>
 						Zorg dat de instellingen gelijk zijn aan onderstaande afbeelding.
 						<img src="media1_7/cron4.png">
 					</li>
 				</ol>
-				
+
 					Je kunt het beste de database openen en de table <span class="nice">cron_schedule</span> openen om te controleren of de cron succesvol draait. Die zal direct gevuld worden en daarin kun je zien of de aanpassingen effect hebben.
-				
+
 			</li>
 		</ol>
 
@@ -232,7 +232,7 @@
             <li>De Track&Trace mails via MyParcel versturen, of</li>
             <li>De Track&Trace mails vanuit je Magento shop versturen.</li>
         </ol>
-            
+
 
         <h4>Via MyParcel</h4>
         <p>
@@ -271,7 +271,7 @@
             Wanneer je deze optie niet wilt gebruiken kies je voor <span class="nice">Nee</span>. Je kunt nu de verzendmethoden zelf kiezen welke gebruikt kunnen worden door de MyParcel plugin.
         </p>
 
-                
+
         <h2 id="2_3">2.3 Standaard verzendinstellingen</h2>
         <img src="media1_7/image004.png">
 
@@ -291,7 +291,7 @@
         </ul>
         <p>
             Let op: Op het moment dat <span class="nice">0</span> ingevuld staat, is de optie niet geactiveerd. Bij invullen van <span class="nice">1</span> of hoger staat de optie actief.
-            
+
         </p>
 
         <h3 id="2_3_2">2.3.2 Douane verzend type</h3>
@@ -373,7 +373,7 @@
             <p> Indien jij een langere verwerkingstijd nodig hebt om tot leveren over te gaan kun je dat hier aangeven. Hier zal rekening mee worden gehouden in het tonen van de beschikbare bezorgdagen in de checkout.</p>
             <h3 id="3_1_5">3.1.5 Kleuren</h3>
             <p> Het is mogelijk om kleuren van het venster waarin de verzendopties worden weergegeven in de checkout geheel naar jouw stijl aan te passen.</p>
-            
+
         <h2 id="3_2">3.2 Bezorging</h2>
         <img src="media1_7/image007.png">
             <h3 id="3_2_1">3.2.1 Titel bezorging</h3>
@@ -383,16 +383,16 @@
             <h3 id="3_2_3">3.2.3 Handtekening voor ontvangst</h3>
             <p>Je kunt hiermee aangeven of jouw klanten hier zelf voor kunnen kiezen in de checkout. Indien jij dit wilt weergeven in de checkout kies dan voor <span class="nice">Ja</span> Ook is het mogelijk om aan deze optie een eigen naam mee te geven, in het voorbeeld heet deze optie 'Handtekening voor ontvangst'. Als laatste optie kun je er ook een meerprijs aan koppelen, in het voorbeeld kost deze optie €0.45 extra.</p>
             <p> Er is ook een optie gemaakt voor een gecombineerde meerprijs voor de keuzes samen<span class="nice">Alleen bij mij bezorgen</span> en <span class="nice">Handtekening voor ontvangst</span> te bepalen. Je kunt zelf een prijs naar eigen inzicht invullen.</p>
-            
+
         <h2 id="3_3">3.3 Mailbox</h2>
         	<img src="media1_7/mailbox.png">
         	<p>Het is mogelijk om automatisch brievenbuspakjes te laten selecteren afhankelijk van de instellingen. Dit kan op basis van gewicht of volume welke jij kunt instellen bij de productgegevens. <span class="nice">Catalog -> Manage products -> Klik op edit</span><br><br>
         	<img src="media1_7/manageproducts.png"></p>
 
 			<p>Het is mogelijk om dit te tonen in de checkout waarbij jouw klant een keuze heeft. In dit geval zullen er meerdere verzendopties worden getoont, namelijk: Pakket, Brievenbuspakje en indien ingesteld de keuze om op te halen bij een PostNL locatie.
-			Wil je liever niet deze keuze aan jouw klant bieden, kun je de titel leeg laten. In dit geval zal er alleen een brievenbuspakje worden aangemaakt bij MyParcel maar wordt het gewone tarief berekend.</p> 
-			<img src="media1_7/checkoutbbp.png">   
-           
+			Wil je liever niet deze keuze aan jouw klant bieden, kun je de titel leeg laten. In dit geval zal er alleen een brievenbuspakje worden aangemaakt bij MyParcel maar wordt het gewone tarief berekend.</p>
+			<img src="media1_7/checkoutbbp.png">
+
         <h2 id="3_4">3.4 Ochtendlevering</h2>
         	<p>Het is mogelijk om jouw klanten de mogelijkheid te geven te kiezen voor ochtendlevering (bezorging tussen 08:00 en 12:00). Wanneer je deze optie hebt geactiveerd zal er een extra keuzemogelijkheid verschijnen in de checkout. Tevens is het mogelijk hier een meerprijs aan te koppelen. De prijs die hier wordt ingevuld zal bij het huidige tarief worden opgeteld. Jouw klant ziet in de checkout het totaalbedrag van de zending.
         	</p>
@@ -458,12 +458,12 @@
 
         <h2 id="4_2">4.2 Genereer retourlabel</h2>
         <p>
-           
+
             Klik in het order overzicht op de betreffende order. Op het detailscherm klik je links in het menu op de tab
             Zendingen. Klik de betreffende zending aan die geretourneerd moet worden.  <img src="media1_7/zendingen.png">
             Je bent nu op het verzending detail scherm waar je rechtsboven de button Genereer retourlabel ziet staan.<br><br>
              <img src="media1_7/retourlabel.png">
-           
+
 
 
             Jouw klant zal van MyParcel een e-mail ontvangen met een link naar het verzendlabel indien er een
@@ -489,7 +489,7 @@
             Om het zip bestand te downloaden klik onder <span class="nice">Downloads</span> op source code.<br><br>
 
             Voor meer informatie over de release notes kun je <a target="_blank" href="https://github.com/myparcelnl/magento1/releases">hier klikken.</a>
-            
+
         </p>
 
         <h2 id="5_1">5.1 Upgrade stappen</h2>
@@ -567,8 +567,8 @@
             <li>Klik rechts bovenin op opslaan.</li>
         </ol>
 
-        
-        
+
+
     </div>
 
     <footer class="site-footer">
@@ -577,7 +577,7 @@
         </p>
         <p>
         <span class="site-footer-credits">
-            <strong>Adres </strong>Hoofdweg 679, 2131 BC Hoofddorp&nbsp;
+            <strong>Adres </strong>Siriusdreef 66-68, 2132 WT Hoofddorp&nbsp;
             <strong>Telefoon </strong>023 30 30 315&nbsp;
             <strong>E-mail</strong> &nbsp;info@myparcel.nl<br/>
             <strong>Website </strong>www.myparcel.nl&nbsp;
