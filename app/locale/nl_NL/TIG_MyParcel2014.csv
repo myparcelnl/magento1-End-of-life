@@ -210,6 +210,7 @@ TIG_MyParcel2014::Select A4 print start position,Selecteer de A4 print start pos
 TIG_MyParcel2014::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
 TIG_MyParcel2014::Orders until today,Alle orders t/m vandaag verzenden
 TIG_MyParcel2014::Send today,Alleen vandaag verzenden
+TIG_MyParcel2014::Send until tomorrow,Alle orders t/m morgen verzenden
 TIG_MyParcel2014::Send later,Later verzenden
 TIG_MyParcel2014::Old orders,Alle orders t/m gisteren
 TIG_MyParcel2014::Track&amp;Trace link: %s,Track&amp;Trace link: %s
