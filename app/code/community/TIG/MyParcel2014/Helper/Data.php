@@ -550,7 +550,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             if ($hasExtraOptions || $hideMailboxInFrontend == true) {
                 $type = 1;
             } else {
-
                 $fitInLetterbox = $this->fitInLetterbox($items);
                 $type = $fitInLetterbox && $country == 'NL' ? 2 : 1;
             }
@@ -577,6 +576,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         foreach ($items as $item) {
             $qty = $item->getQty();
+            $qty = $qty == null ? $item->getData('qty_ordered') : $qty;
             if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
                 /** @var Mage_Sales_Model_Order_Item $item */
                 $id = $item->getProductId();
