@@ -151,6 +151,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                     'renderer' => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
                     'type' => 'options',
                     'options' => array(
+                        'tomorrow' => $helper->__('Send until tomorrow'),
                         'past_and_today' => $helper->__('Orders until today'),
                         'today' => $helper->__('Send today'),
                         'later' => $helper->__('Send later'),
@@ -185,9 +186,14 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
         }
 
         $date = date('Y-m-d');
+        $tomorrow = date('Y-m-d', strtotime('+ 1 days'));
+
         if (isset($value)) {
             $sqlDate = null;
             switch ($value){
+                case ('tomorrow'):
+                    $sqlDate = "<= '" . $tomorrow . "'";
+                    break;
                 case ('past_and_today'):
                     $sqlDate = "<= '" . $date . "'";
                     break;

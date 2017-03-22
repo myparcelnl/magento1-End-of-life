@@ -811,25 +811,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         $data['delivery_type'] = self::TYPE_NIGHT;
                         break;
                 }
-
-                if (key_exists('date', $checkoutData) && $checkoutData['date'] !== null) {
-
-
-                    $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
-                    $currentDateTime = $currentDate = new dateTime();
-                    $currentDate = $currentDate->format('Y-m-d') . ' 00:00:00';
-                    if (date_parse($checkoutDateTime) > date_parse($currentDate)) {
-                        $data['delivery_date'] = $checkoutDateTime;
-                    } else {
-                        $currentDateTime->modify('+1 day');
-                        $nextDeliveryDay = $this->getNextDeliveryDay($currentDateTime);
-                        $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d 00:00:00');
-                    }
-
-                    $dateTime = date_parse($checkoutData['date']);
-                    $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
-                }
-
             } elseif (key_exists('price_comment', $checkoutData) && $checkoutData['price_comment'] !== null) {
                 switch ($checkoutData['price_comment']) {
                     case 'retail':
@@ -840,13 +821,30 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         break;
                 }
             }
+
+            if (key_exists('date', $checkoutData) && $checkoutData['date'] !== null) {
+
+
+                $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
+                $currentDateTime = $currentDate = new dateTime();
+                $currentDate = $currentDate->format('Y-m-d') . ' 00:00:00';
+                if (date_parse($checkoutDateTime) > date_parse($currentDate)) {
+                    $data['delivery_date'] = $checkoutDateTime;
+                } else {
+                    $currentDateTime->modify('+1 day');
+                    $nextDeliveryDay = $this->getNextDeliveryDay($currentDateTime);
+                    $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d 00:00:00');
+                }
+
+                $dateTime = date_parse($checkoutData['date']);
+                $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
+            }
         }
 
         if ((int)$myParcelShipment->getInsured() === 1) {
             $data['insurance']['amount'] = $this->_getInsuredAmount($myParcelShipment) * 100;
             $data['insurance']['currency'] = 'EUR';
         }
-
 
         if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
             // strip all Dutch domestic options if shipment is not NL

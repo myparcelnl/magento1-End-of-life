@@ -62,6 +62,8 @@ TIG_MyParcel2014::No delay,Geen vertraging
 TIG_MyParcel2014::Base color,Basis kleur
 TIG_MyParcel2014::Color for selected items,Kleur voor geselecteerde items
 TIG_MyParcel2014::Add style to the checkout,Voeg een css file toe aan de checkout
+TIG_MyParcel2014::Font size,Lettertypegrootte
+TIG_MyParcel2014::Leave blank to automatically determine the font size,Laat leeg om de lettertypegrootte automatisch te bepalen
 TIG_MyParcel2014::Delivery,Bezorging
 TIG_MyParcel2014::Delivery title,Bezorging titel
 TIG_MyParcel2014::To determine the base price you have to navigate in the menu to <a id=""shipping_method_link"">Shipping Methods</a>.,Om de basisprijs te bepalen moet je navigeren naar <a id=""shipping_method_link"">Verzendmethodes</a>
@@ -208,6 +210,7 @@ TIG_MyParcel2014::Select A4 print start position,Selecteer de A4 print start pos
 TIG_MyParcel2014::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
 TIG_MyParcel2014::Orders until today,Alle orders t/m vandaag verzenden
 TIG_MyParcel2014::Send today,Alleen vandaag verzenden
+TIG_MyParcel2014::Send until tomorrow,Alle orders t/m morgen verzenden
 TIG_MyParcel2014::Send later,Later verzenden
 TIG_MyParcel2014::Old orders,Alle orders t/m gisteren
 TIG_MyParcel2014::Track&amp;Trace link: %s,Track&amp;Trace link: %s
