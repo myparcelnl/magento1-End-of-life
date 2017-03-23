@@ -36,7 +36,8 @@
             </tig_myparcel>
             <adminhtml>
                 <rewrite>
-                    <sales_order_grid>TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Grid</sales_order_grid>
+                    <!-- Only update status if cronjob is not active -->
+                    <!-- <sales_order_grid>TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Grid</sales_order_grid> -->
                     <sales_shipment_grid>TIG_MyParcel2014_Block_Adminhtml_Sales_Shipment_Grid</sales_shipment_grid>
                 </rewrite>
             </adminhtml>
