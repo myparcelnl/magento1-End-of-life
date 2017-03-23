@@ -456,7 +456,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     public function  createConsignmentsInfoRequest($consignmentIds = array()){
 
 
-        $requestString = '/' . implode(';',$consignmentIds);
+        $requestString = '/' . implode(';',$consignmentIds) . '?size=300';
 
         $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_SHIPMENT);
 
