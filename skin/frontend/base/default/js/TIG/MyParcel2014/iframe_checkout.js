@@ -31,7 +31,7 @@ window.mypa.settings = {};
     window.mypa.fn.load = load = function () {
 
         var ajaxOptions = {
-            url: BASE_URL + 'myparcel2014/checkout/info/',
+            url: BASE_URL + 'myparcel2014/checkout/info/?ran=' + Math.random(),
             success: function (response) {
 
                 info = response;
