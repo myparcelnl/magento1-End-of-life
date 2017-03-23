@@ -769,7 +769,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
-
+        $helper = Mage::helper('tig_myparcel');
 
         /**
          * Add the shipment type parameter.
@@ -836,8 +836,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     $data['delivery_date'] = $nextDeliveryDay->format('Y-m-d 00:00:00');
                 }
 
-                $dateTime = date_parse($checkoutData['date']);
-                $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
+                if ((int) $helper->getConfig('deliverydays_window', 'checkout') > 1) {
+                    $dateTime = date_parse($checkoutData['date']);
+                    $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
+                }
             }
         }
 
