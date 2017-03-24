@@ -31,7 +31,7 @@ window.mypa.settings = {};
     window.mypa.fn.load = load = function () {
 
         var ajaxOptions = {
-            url: BASE_URL + 'myparcel2014/checkout/info/',
+            url: BASE_URL + 'myparcel2014/checkout/info/?ran=' + Math.random(),
             success: function (response) {
 
                 info = response;
@@ -80,6 +80,19 @@ window.mypa.settings = {};
             }
         };
         externalJQuery.ajax(ajaxOptions);
+
+
+        parent.hideDays = function () {
+            if (window.mypa.settings.deliverydays_window > 1) {
+                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').slideUp();
+            }
+        };
+
+        parent.showDays = function () {
+            if (window.mypa.settings.deliverydays_window > 1) {
+                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').slideDown();
+            }
+        };
 
     };
 
