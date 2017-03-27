@@ -258,6 +258,7 @@
                 <home_address_only>0</home_address_only>
                 <signature_on_receipt>0</signature_on_receipt>
                 <return_if_no_answer>0</return_if_no_answer>
+                <automatically_next_status>1</automatically_next_status>
                 <is_xl>0</is_xl>
                 <insured_50>0</insured_50>
                 <insured_250>0</insured_250>

@@ -827,3 +827,7 @@ app/etc/modules/Idev_OneStepCheckout.xml
 /skin/frontend/base/default/images/tig_buckaroo3extended/
 /skin/frontend/base/default/js/TIG/Buckaroo3Extended/
 /skin/adminhtml/default/default/js/TIG/Buckaroo3Extended/
+/.htaccess
+/.htaccess.sample
+/app/locale/en_US/Mage_Uploader.csv
+/skin/frontend/base/default/images/window_overlay.png
