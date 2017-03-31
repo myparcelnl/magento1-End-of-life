@@ -330,6 +330,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 $pdfUrl = str_replace('pdfs/', '', $pdfUrl);
 
                 sleep(2);
+
                 /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
                 $response = $this->createRetrievePdfsRequest($pdfUrl)
                     ->sendRequest('GET')
@@ -344,15 +345,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             }
         }
 
-       /* if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && preg_match("/^%PDF-1./", $response)) {
-            exit('yes!');
-        }*/
         if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && !preg_match("/^%PDF-1./", $response)) {
-            sleep(2);
-            /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
-            $response = $this->createRetrievePdfsRequest($this->requestString)
-                ->sendRequest('GET')
-                ->getRequestResponse();
+            if (preg_match("/pdfs/", $url)) {
+                $helper->addSessionMessage(
+                    'adminhtml/session', null, 'success',
+                    'Om de labels te downloaden ga naar: ' . $url . '. Mogelijk moet je deze pagina na enkele seconden opniew laden.'
+                );
+            }
             return $this;
         }
 
