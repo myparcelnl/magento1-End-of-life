@@ -49,7 +49,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     const REQUEST_TYPE_CREATE_CONSIGNMENT   = 'shipments';
     const REQUEST_TYPE_REGISTER_CONFIG      = 'register-config';
     const REQUEST_TYPE_SETUP_LABEL          = 'v2/shipment_labels';
-    const REQUEST_TYPE_RETRIEVE_LABEL       = 'pdfs';
+    const REQUEST_TYPE_RETRIEVE_LABEL       = 'shipment_labels';
+    const REQUEST_TYPE_RETRIEVE_V2_LABEL    = 'pdfs';
     const REQUEST_TYPE_GET_LOCATIONS        = 'pickup';
 
     /**
@@ -318,6 +319,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             $request->setConfig($config)
                 ->write(Zend_Http_Client::GET, $url, '1.1', $header);
+
+            $response = $request->read();
         }
 
         //read the response
@@ -329,7 +332,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 $pdfUrl = $aResult['data']['pdf']['url'];
                 $pdfUrl = str_replace('pdfs/', '', $pdfUrl);
 
-                sleep(2);
+                sleep(25);
 
                 /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
                 $response = $this->createRetrievePdfsRequest($pdfUrl)
@@ -345,7 +348,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             }
         }
 
-        if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && !preg_match("/^%PDF-1./", $response)) {
+        if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_V2_LABEL && !preg_match("/^%PDF-1./", $response)) {
             if (preg_match("/pdfs/", $url)) {
                 $helper->addSessionMessage(
                     'adminhtml/session', null, 'success',
@@ -383,6 +386,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                 return $this;
             } else if (isset($aResult['errors'][0]['code'])){
+                var_dump($aResult);
                 $this->requestError = $aResult['errors'][0]['code'] . ' - ' . $aResult['errors'][0]['human'][0];
                 $this->requestErrorDetail = $aResult['errors'][0]['code'] . ' - ' . $aResult['errors'][0]['human'][0];
                 $request->close();
@@ -483,7 +487,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $data = implode(';', $consignmentIds);
         $getParam = '/' . $data . '?format=' . $perpage . $positions;
 
-        $this->_setRequestParameters($getParam, self::REQUEST_TYPE_SETUP_LABEL);
+        if (count($consignmentIds) <= 10) {
+            $this->_setRequestParameters($getParam, self::REQUEST_TYPE_RETRIEVE_LABEL);
+        } else {
+            $this->_setRequestParameters($getParam, self::REQUEST_TYPE_SETUP_LABEL);
+        }
 
         return $this;
     }
@@ -501,7 +509,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function createRetrievePdfsRequest($url)
     {
-        $this->_setRequestParameters($url, self::REQUEST_TYPE_RETRIEVE_LABEL);
+        $this->_setRequestParameters($url, self::REQUEST_TYPE_RETRIEVE_V2_LABEL);
 
         return $this;
     }
