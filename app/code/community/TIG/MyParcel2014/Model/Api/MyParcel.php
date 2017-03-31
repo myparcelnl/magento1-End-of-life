@@ -349,7 +349,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             if (preg_match("/pdfs/", $url)) {
                 $helper->addSessionMessage(
                     'adminhtml/session', null, 'success',
-                    'Om de labels te downloaden ga naar: ' . $url . '. Mogelijk moet je deze pagina na enkele seconden opniew laden.'
+                    'Omdat je veel labels download, is niet gelukt om direct de labels te genereren. Om de labels te downloaden ga naar: ' . $url . '. Mogelijk moet je deze pagina na enkele seconden opniew laden.'
                 );
             }
             return $this;
