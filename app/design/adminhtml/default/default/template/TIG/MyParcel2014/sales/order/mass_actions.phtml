@@ -123,6 +123,7 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         (function () {
+            var useV2Endpoint;
             /* create hidden input to store the chosen option */
             var inputstart = document.createElement('input');
             inputstart.id = 'myparcel_print_labels_start';
@@ -232,11 +233,15 @@
                         return;
                     }
 
-                    if (this.useAjax && item.url) {
+                    useV2Endpoint = $$('input:checked[name=order_ids]').length > <?=TIG_MyParcel2014_Model_Api_MyParcel::SHIPMENT_V2_ACTIVE_FROM;?>;
+
+                    if ((this.useAjax || useV2Endpoint)&& item.url) {
                         new Ajax.Request(item.url, {
                             'method': 'post',
                             'parameters': this.form.serialize(true),
-                            'onComplete': this.onMassactionComplete.bind(this)
+                            'onComplete': function (transport) {
+                                myParcelOnMassactionComlete(transport)
+                            }
                         });
                     } else if (item.url) {
                         this.form.action = item.url;
@@ -273,6 +278,37 @@
                 });
                 Dialog.setInfoMessage($('myparcel_return_container').innerHTML);
             });
+
+            function myParcelOnMassactionComlete(response) {
+                if(useV2Endpoint) {
+                    var downloadUrl = response.responseText;
+                    checkLabel(downloadUrl);
+                } else {
+                    this.onMassactionComplete.bind(this);
+                }
+            }
+
+            function checkLabel(downloadUrl) {
+                setTimeout(function(){
+                    fileExists(downloadUrl)
+                }, 3000);
+                setTimeout(function(){
+                    $("loading-mask").show();
+                }, 10);
+            }
+
+            function fileExists(url) {
+                new Ajax.Request('<?=  Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/fileExists');?>?url=' + url, {
+                    'method': 'get',
+                    'onComplete': function (transport) {
+                        if (transport.responseText == true) {
+                            location.href = url;
+                        } else {
+                            checkLabel(url);
+                        }
+                    }
+                });
+            }
 
         })();
 
