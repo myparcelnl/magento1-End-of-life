@@ -493,25 +493,28 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         }
 
         $storeId = $shipment->getOrder()->getStoreId();
-        /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
-        $api     = Mage::getModel('tig_myparcel/api_myParcel');
-        $api->setStoreId($storeId);
+        /**
+         * @var $api TIG_MyParcel2014_Model_Api_MyParcel
+         */
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
         $perpage = $helper->getConfig('print_orientation');
-        $pdfData = $api->createSetupPdfsRequest($consignmentIds, $start, $perpage)
-                       ->sendRequest('GET')
-                       ->getRequestResponse();
+        $api     = Mage::getModel('tig_myparcel/api_myParcel');
+        $api->setStoreId($storeId)
+            ->createSetupPdfsRequest($consignmentIds, $start, $perpage)
+            ->sendRequest('GET');
 
-        $fileName = 'MyParcel Shipping Labels '
-            . date('Ymd-His', Mage::getSingleton('core/date')->timestamp())
-            . '.pdf';
+        if ($api->getLabelDownloadUrl() == null) {
+            $fileName = 'MyParcel Shipping Labels '
+                . date('Ymd-His', Mage::getSingleton('core/date')->timestamp())
+                . '.pdf';
 
-        $this->_preparePdfResponse($fileName, $pdfData);
+            $this->_preparePdfResponse($fileName, $api->getRequestResponse());
 
-        /**
-         * We need to check for warnings before the label download response.
-         */
-        $this->_checkForWarnings();
+            /**
+             * We need to check for warnings before the label download response.
+             */
+            $this->_checkForWarnings();
+        }
 
         /**
          * Load the shipments and check if they are valid.
@@ -528,6 +531,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         foreach($responseShipments as $responseShipment){
             $shipment = $shipments[$responseShipment->id];
             $shipment->updateStatus($responseShipment);
+        }
+
+        if ($api->getLabelDownloadUrl() != null) {
+            echo $api->getLabelDownloadUrl();
+            exit;
         }
 
         return $this;
@@ -734,6 +742,29 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         }
         $this->_redirect('*/*/');
 
+    }
+
+    /**
+     * Check if label pdf exists
+     *
+     * @throws TIG_MyParcel2014_Exception
+     */
+    public function fileExistsAction()
+    {
+        $request = $this->getRequest();
+        $url = $request->getParam('url');
+
+        /**
+         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+         */
+        $api = Mage::getModel('tig_myparcel/api_myParcel');
+        $response = $api->createFileExistsRequest($url)
+            ->sendRequest('GET', false)
+            ->getRequestResponse();
+
+        header('Content-Type: application/json');
+        echo (json_encode(preg_match("/^%PDF-1./", $response)));
+        exit;
     }
 
     /**
