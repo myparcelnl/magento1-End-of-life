@@ -571,6 +571,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     private function fitInLetterbox($items)
     {
+        if ($this->getConfig('mailbox_active', 'mailbox') == '0')
+            return false;
+
         $mailboxWeight = (float)$this->getConfig('mailbox_weight', 'mailbox');
         $itemWeight = 0;
 
