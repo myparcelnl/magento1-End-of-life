@@ -756,8 +756,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         );
                     }
 
+                    $itemDescription = $item->getName();
+
+                    if (strlen($itemDescription) > 50) {
+                        $itemDescription = substr($itemDescription, 0, 50);
+                    }
+
                     $data['customs_declaration']['items'][] = array(
-                        'description'       => $item->getName(),
+                        'description'       => $itemDescription,
                         'amount'            => $qty,
                         'weight'            => (int)$weight * 1000,
                         'item_value'        => array('amount' => $price * 100, 'currency' => 'EUR'),
