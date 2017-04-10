@@ -831,3 +831,4 @@ app/etc/modules/Idev_OneStepCheckout.xml
 /.htaccess.sample
 /app/locale/en_US/Mage_Uploader.csv
 /skin/frontend/base/default/images/window_overlay.png
+workspace.xml
