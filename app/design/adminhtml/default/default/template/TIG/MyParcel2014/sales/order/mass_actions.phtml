@@ -150,12 +150,13 @@
                         return;
                     }
 
+                    var massActionSelect = $('sales_order_grid_massaction-select');
+                    var selectedMassAction = massActionSelect[massActionSelect.selectedIndex];
+
                     /**
                      * Additional MyParcel functionality
                      */
                     if (!skipMyParcelCheck) {
-                        massActionSelect = $('sales_order_grid_massaction-select');
-                        selectedMassAction = massActionSelect[massActionSelect.selectedIndex];
                         if (selectedMassAction.value == 'myparcel_print_labels') {
 
                             var paper_type = '<?php echo $helper->getConfig('print_orientation');?>';
@@ -250,7 +251,12 @@
                         return;
                     }
 
-                    useV2Endpoint = $$('input:checked[name=order_ids]').length > <?=TIG_MyParcel2014_Model_Api_MyParcel::SHIPMENT_V2_ACTIVE_FROM;?>;
+
+                    if (selectedMassAction.value == 'myparcel_print_labels') {
+                        useV2Endpoint = $$('input:checked[name=order_ids]').length > <?=TIG_MyParcel2014_Model_Api_MyParcel::SHIPMENT_V2_ACTIVE_FROM;?>;
+                    } else {
+                        useV2Endpoint = false;
+                    }
 
                     if ((this.useAjax || useV2Endpoint)&& item.url) {
                         new Ajax.Request(item.url, {
