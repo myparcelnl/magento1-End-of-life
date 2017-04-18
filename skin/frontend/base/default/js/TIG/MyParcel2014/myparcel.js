@@ -1,4 +1,4 @@
-var $, AO_DEFAULT_TEXT, Application, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, Slider, checkCombination, displayOtherTab, externalJQuery, obj1, orderOpeningHours, preparePickup, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, sortLocationsOnDistance, updateDelivery, updateInputField,
+var $, AO_DEFAULT_TEXT, Application, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, Slider, checkCombination, displayOtherTab, externalJQuery, obj1, orderOpeningHours, preparePickup, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, sortLocationsOnDistance, updateDelivery, updateInputField, outsideIframe = parent,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 DISABLED = 'disabled';
@@ -64,8 +64,8 @@ this.MyParcel = Application = (function() {
         var isload = false;
         setTimeout(function () {
             if(isload != true){
-                parent.mypajQuery('.myparcel_holder').show();
-                parent.mypajQuery('#mypa-load').hide();
+                outsideIframe.mypajQuery('.myparcel_holder').show();
+                outsideIframe.mypajQuery('#mypa-load').hide();
             }
         }, 1000);
 
@@ -118,20 +118,20 @@ this.MyParcel = Application = (function() {
      */
 
     Application.prototype.bindInputListeners = function() {
-        parent.mypajQuery('#mypa-signed').on('change', (function(_this) {
+        outsideIframe.mypajQuery('#mypa-signed').on('change', (function(_this) {
             return function(e) {
-                return $('#mypa-signed').prop('checked', parent.mypajQuery('#mypa-signed').prop('checked'));
+                return $('#mypa-signed').prop('checked', outsideIframe.mypajQuery('#mypa-signed').prop('checked'));
             };
         })(this));
-        parent.mypajQuery('#mypa-recipient-only').on('change', (function(_this) {
+        outsideIframe.mypajQuery('#mypa-recipient-only').on('change', (function(_this) {
             return function(e) {
-                return $('#mypa-only-recipient').prop('checked', parent.mypajQuery('#mypa-recipient-only').prop('checked'));
+                return $('#mypa-only-recipient').prop('checked', outsideIframe.mypajQuery('#mypa-recipient-only').prop('checked'));
             };
         })(this));
-        return parent.mypajQuery('#mypa-input').on('change', (function(_this) {
+        return outsideIframe.mypajQuery('#mypa-input').on('change', (function(_this) {
             return function(e) {
                 var el, i, json, len, ref;
-                json = parent.mypajQuery('#mypa-input').val();
+                json = outsideIframe.mypajQuery('#mypa-input').val();
                 if (json === '') {
                     $('input[name=mypa-delivery-time]:checked').prop('checked', false);
                     $('input[name=mypa-delivery-type]:checked').prop('checked', false);
@@ -356,14 +356,14 @@ renderPage = function(response) {
         /* Show input field for housenumber */
         $('#mypa-no-options').html('Het opgegeven huisnummer in combinatie met postcode ' + window.mypa.settings.postal_code + ' wordt niet herkend. Vul hier opnieuw uw huisnummer zonder toevoeging in.<br><br><input id="mypa-new-number" type="number" /><submit id="mypa-new-number-submit">Verstuur</submit>');
         $('.mypa-overlay').removeClass('mypa-hidden');
-        parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', true);
+        outsideIframe.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', true);
 
         $('#mypa-new-number-submit').click(function () {
             var houseNumber = $('#mypa-new-number').val();
             window.mypa.fn.updatePage(window.mypa.settings.postal_code, houseNumber);
-            parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', false);
-            parent.iframeLoaded();
-            parent.mypajQuery('#mypa-input').trigger('change');
+            outsideIframe.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', false);
+            outsideIframe.iframeLoaded();
+            outsideIframe.mypajQuery('#mypa-input').trigger('change');
         });
 
         return;
@@ -640,16 +640,16 @@ checkCombination = function() {
 updateInputField = function() {
     var json;
     json = $('input[name=mypa-delivery-time]:checked').val();
-    if (externalJQuery('#mypa-input', parent.document).val() !== json) {
-        externalJQuery('#mypa-input', parent.document).val(json);
-        parent.mypajQuery('#mypa-input').trigger('change');
+    if (externalJQuery('#mypa-input', outsideIframe.document).val() !== json) {
+        externalJQuery('#mypa-input', outsideIframe.document).val(json);
+        outsideIframe.mypajQuery('#mypa-input').trigger('change');
     }
-    if (externalJQuery('#mypa-signed', parent.document).prop('checked') !== $('#mypa-signed').prop('checked')) {
-        externalJQuery('#mypa-signed', parent.document).prop('checked', $('#mypa-signed').prop('checked'));
-        parent.mypajQuery('#mypa-signed').trigger('change');
+    if (externalJQuery('#mypa-signed', outsideIframe.document).prop('checked') !== $('#mypa-signed').prop('checked')) {
+        externalJQuery('#mypa-signed', outsideIframe.document).prop('checked', $('#mypa-signed').prop('checked'));
+        outsideIframe.mypajQuery('#mypa-signed').trigger('change');
     }
-    if (externalJQuery('#mypa-recipient-only', parent.document).prop('checked') !== $('#mypa-only-recipient').prop('checked')) {
-        externalJQuery('#mypa-recipient-only', parent.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
-        return parent.mypajQuery('#mypa-recipient-only').trigger('change');
+    if (externalJQuery('#mypa-recipient-only', outsideIframe.document).prop('checked') !== $('#mypa-only-recipient').prop('checked')) {
+        externalJQuery('#mypa-recipient-only', outsideIframe.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
+        return outsideIframe.mypajQuery('#mypa-recipient-only').trigger('change');
     }
 };
