@@ -193,6 +193,7 @@ this.MyParcel = Application = (function() {
                 delivery_date: settings.delivery_date != null ? settings.delivery_date : void 0,
                 cutoff_time: settings.cutoff_time != null ? settings.cutoff_time : void 0,
                 dropoff_days: settings.dropoff_days != null ? settings.dropoff_days : void 0,
+                monday_delivery: settings.monday_delivery != null ? settings.monday_delivery : void 0,
                 dropoff_delay: settings.dropoff_delay != null ? settings.dropoff_delay : void 0,
                 deliverydays_window: settings.deliverydays_window != null ? settings.deliverydays_window : void 0,
                 exclude_delivery_type: settings.exclude_delivery_type != null ? settings.exclude_delivery_type : void 0
