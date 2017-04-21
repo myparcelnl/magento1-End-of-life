@@ -211,8 +211,8 @@
                             <show_in_store>1</show_in_store>
                         </monday_delivery_active>
                         <saturday_cutoff_time translate="label comment">
-                            <label>Cut-off time Monday delivery</label>
-                            <comment>If a request is made for the delivery options on Saturday before this time, then Monday will be shown as the next possible delivery date.</comment>
+                            <label>Monday delivery cut-off time</label>
+                            <comment>If a request is made before this time on Saturday, Monday will be shown as the next possible delivery date. </comment>
                             <frontend_type>time</frontend_type>
                             <sort_order>136</sort_order>
                             <show_in_default>1</show_in_default>
