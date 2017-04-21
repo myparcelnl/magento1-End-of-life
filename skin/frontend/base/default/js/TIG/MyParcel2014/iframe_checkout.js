@@ -26,9 +26,9 @@ window.mypa.settings = {};
     var load, info, price, data, excludeDeliveryTypes, getData, updatePageRequest;
 
 
-    window.mypa.settings.base_url = 'https://ui.staging.myparcel.nl/api/delivery_options';
+    /*window.mypa.settings.base_url = 'https://ui.staging.myparcel.nl/api/delivery_options';*/
     /*window.mypa.settings.base_url = 'https://backoffice.release.myparcel.nl/api/delivery_options';*/
-    /*window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';*/
+    window.mypa.settings.base_url = 'https://api.myparcel.nl/delivery_options';
 
     window.mypa.fn.load = load = function () {
 
