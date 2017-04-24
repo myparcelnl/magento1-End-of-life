@@ -56,10 +56,6 @@ class TIG_MyParcel2014_Model_Observer_Cron
      */
     public function checkStatus()
     {
-        if (!$this->helper->isEnabled()) {
-            return $this;
-        }
-
         $this->_checkEUShipments();
         $this->_checkCDShipments();
 

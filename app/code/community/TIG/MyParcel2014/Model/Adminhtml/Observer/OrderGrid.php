@@ -92,13 +92,6 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
         }
 
         /**
-         * check if the extension is active
-         */
-        if (!$helper->isEnabled()) {
-            return $this;
-        }
-
-        /**
          * @var Mage_Adminhtml_Block_Sales_Order_Grid $block
          * @var Mage_Sales_Model_Resource_Order_Collection $currentCollection
          */

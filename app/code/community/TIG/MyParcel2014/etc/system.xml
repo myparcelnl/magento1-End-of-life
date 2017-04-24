@@ -622,17 +622,6 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <active translate="label comment tooltip">
-                            <label>Enable Myparcel Extension</label>
-                            <comment>Enable or disable the MyParcel module.</comment>
-                            <tooltip>Selecting 'No' will overrule all individual settings.</tooltip>
-                            <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
-                            <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </active>
                         <print_orientation translate="label comment">
                             <label>Print Orientation</label>
                             <comment>Select a standard orientation for printing labels.</comment>

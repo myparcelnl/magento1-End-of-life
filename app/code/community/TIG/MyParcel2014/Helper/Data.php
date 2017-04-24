@@ -39,9 +39,6 @@
  */
 class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
-    const XPATH_MYPARCEL_CONFIG_ACTIVE = 'tig_myparcel/general/active';
-
     /**
      * Address type used by PakjeGemak addresses.
      */
@@ -723,22 +720,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return false;
-    }
-
-    /**
-     * various checks if the extension is enabled
-     *
-     * @param bool $storeId
-     *
-     * @return bool
-     */
-    public function isEnabled($storeId = false)
-    {
-        if (!$storeId) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-
-        return Mage::getStoreConfigFlag(self::XPATH_MYPARCEL_CONFIG_ACTIVE, $storeId);
     }
 
     /**
