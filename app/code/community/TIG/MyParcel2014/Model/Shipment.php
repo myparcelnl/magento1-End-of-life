@@ -523,10 +523,9 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         /**
          * If any consignment options were set in the registry, those will be added as well.
          */
-        $registryOptions = Mage::registry('tig_myparcel_consignment_options');
+        $filteredOptions = $registryOptions = Mage::registry('tig_myparcel_consignment_options');
         $hasExtraOptions = $this->helper->shippingHasExtraOptions($this->getShipment()->getOrder()->getShippingMethod());
 
-        $filteredOptions = $registryOptions;
         unset($filteredOptions['create_consignment']);
         unset($filteredOptions['type_consignment']);
 
