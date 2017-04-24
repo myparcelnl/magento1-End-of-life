@@ -348,4 +348,24 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         }
         return false;
     }
+
+    /**
+     * Check if the shipment has extra options
+     *
+     * @return bool
+     */
+    public function hasExtraOptions()
+    {
+        /**
+         * @var \TIG_MyParcel2014_Helper_Data $helper
+         * @var \TIG_MyParcel2014_Model_Shipment $shipment
+         */
+        $helper   = Mage::helper('tig_myparcel');
+        $shipment = Mage::registry('current_shipment');
+
+        if($helper->shippingHasExtraOptions($shipment->getOrder()->getShippingMethod())){
+            return true;
+        }
+        return false;
+    }
 }
