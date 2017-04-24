@@ -155,7 +155,7 @@ this.MyParcel = Application = (function() {
      */
 
     Application.prototype.updatePage = function(postal_code, number, street) {
-        var item, key, options, ref, settings, urlBase;
+        var item, key, options, ref, settings, urlBase, current_date, monday_delivery, cutoff_time;
         ref = window.mypa.settings.price;
         for (key in ref) {
             item = ref[key];
@@ -165,6 +165,7 @@ this.MyParcel = Application = (function() {
         }
         settings = window.mypa.settings;
         urlBase = settings.base_url;
+        current_date = new Date();
         if (number == null) {
             number = settings.number;
         }
@@ -179,6 +180,18 @@ this.MyParcel = Application = (function() {
             $('.mypa-overlay').removeClass('mypa-hidden');
             return;
         }
+        /* Check if Monday delivery is active */
+        if (settings.monday_delivery == true) {
+            monday_delivery = 1;
+        } else {
+            monday_delivery = void 0;
+        }
+        /* Use saturday_cutoff_time for cutoff_time if Monday delivery is active and current day is Saturday */
+        if (settings.monday_delivery == true && current_date.getDay() == 0) {
+            cutoff_time = settings.saturday_cutoff_time;
+        } else {
+            cutoff_time = settings.cutoff_time != null ? settings.cutoff_time : void 0
+        }
         $('#mypa-no-options').html('Bezig met laden...');
         $('.mypa-overlay').removeClass('mypa-hidden');
         $('.mypa-location').html(street);
@@ -191,9 +204,9 @@ this.MyParcel = Application = (function() {
                 postal_code: postal_code,
                 delivery_time: settings.delivery_time != null ? settings.delivery_time : void 0,
                 delivery_date: settings.delivery_date != null ? settings.delivery_date : void 0,
-                cutoff_time: settings.cutoff_time != null ? settings.cutoff_time : void 0,
+                cutoff_time: cutoff_time,
                 dropoff_days: settings.dropoff_days != null ? settings.dropoff_days : void 0,
-                monday_delivery: settings.monday_delivery != null ? settings.monday_delivery : void 0,
+                monday_delivery: monday_delivery,
                 dropoff_delay: settings.dropoff_delay != null ? settings.dropoff_delay : void 0,
                 deliverydays_window: settings.deliverydays_window != null ? settings.deliverydays_window : void 0,
                 exclude_delivery_type: settings.exclude_delivery_type != null ? settings.exclude_delivery_type : void 0
