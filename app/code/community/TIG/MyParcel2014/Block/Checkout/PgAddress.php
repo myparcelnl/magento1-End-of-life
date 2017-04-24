@@ -38,17 +38,4 @@
  */
 class TIG_MyParcel2014_Block_Checkout_PgAddress extends Mage_Core_Block_Template
 {
-    /**
-     * Check if MyParcel is enabled before rendering the template.
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        if (!Mage::helper('tig_myparcel')->isEnabled() && false) {
-            return '';
-        }
-
-        return parent::_toHtml();
-    }
 }

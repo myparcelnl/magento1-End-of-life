@@ -38,8 +38,6 @@ TIG_MyParcel2014::Print Orientation,Print ori&euml;ntatie
 TIG_MyParcel2014::Select a standard orientation for printing labels.,Selecteer een standaard print ori&euml;ntatie voor het printen van labels.
 TIG_MyParcel2014::Enable test modus,Activeer test modus
 TIG_MyParcel2014::Enable to test the extension,Activeer om test verzendingen te kunnen maken
-TIG_MyParcel2014::Enable Myparcel Extension,Activeer MyParcel extensie
-TIG_MyParcel2014::Enable or disable the MyParcel module.,Activeer of deactiveer de MyParcel extensie
 TIG_MyParcel2014::Selecting 'No' will overrule all individual settings.,"Wanneer ""nee"" is geselecteerd worden alle individuele instellingen overruled."
 TIG_MyParcel2014::General settings,Algemene instellingen
 TIG_MyParcel2014::Basic settings,Basis instellingen

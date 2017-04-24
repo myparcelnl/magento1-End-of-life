@@ -59,8 +59,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         $shipment = Mage::registry('current_shipment');
 
         $helper = Mage::helper('tig_myparcel');
-        if (!$helper->isEnabled()
-            || !$shipment
+        if (!$shipment
             || !$helper->shippingMethodIsMyParcel($shipment->getOrder()->getShippingMethod())
             || $this->getShipment()->getOrder()->getIsVirtual()
         ) {
