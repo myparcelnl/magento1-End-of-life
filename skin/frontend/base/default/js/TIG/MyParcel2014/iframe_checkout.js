@@ -50,8 +50,8 @@ window.mypa.settings = {};
                             number: address['number'],
                             cutoff_time: data.general['cutoff_time'],
                             dropoff_days: data.general['dropoff_days'],
-                            /*monday_delivery: data.general['monday_delivery_active'],
-                            saturday_cutoff_time: data.general['saturday_cutoff_time'],*/
+                            monday_delivery: data.general['monday_delivery_active'],
+                            saturday_cutoff_time: data.general['saturday_cutoff_time'],
                             dropoff_delay: data.general['dropoff_delay'],
                             deliverydays_window: data.general['deliverydays_window'],
                             exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
