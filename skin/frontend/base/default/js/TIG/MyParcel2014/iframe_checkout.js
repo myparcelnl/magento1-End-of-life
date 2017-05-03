@@ -88,13 +88,13 @@ window.mypa.settings = {};
 
         parent.hideDays = function () {
             if (window.mypa.settings.deliverydays_window > 1) {
-                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').slideUp();
+                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').hide();
             }
         };
 
         parent.showDays = function () {
             if (window.mypa.settings.deliverydays_window > 1) {
-                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').slideDown();
+                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').show();
             }
         };
 
