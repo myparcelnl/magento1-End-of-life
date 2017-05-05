@@ -1,4 +1,4 @@
-var $, AO_DEFAULT_TEXT, Application, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, Slider, checkCombination, displayOtherTab, externalJQuery, obj1, orderOpeningHours, preparePickup, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, sortLocationsOnDistance, updateDelivery, updateInputField, outsideIframe = parent,
+var $, AO_DEFAULT_TEXT, Application, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, Slider, checkCombination, displayOtherTab, externalJQuery, obj1, orderOpeningHours, preparePickup, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, sortLocationsOnDistance, updateDelivery, updateInputField, outsideIframe = parent, hideMyParcelOptions,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 DISABLED = 'disabled';
@@ -64,8 +64,7 @@ this.MyParcel = Application = (function() {
         var isload = false;
         setTimeout(function () {
             if(isload != true){
-                outsideIframe.mypajQuery('.myparcel_holder').show();
-                outsideIframe.mypajQuery('#mypa-load').hide();
+                hideMyParcelOptions();
             }
         }, 1000);
 
@@ -211,7 +210,8 @@ this.MyParcel = Application = (function() {
                 deliverydays_window: settings.deliverydays_window != null ? settings.deliverydays_window : void 0,
                 exclude_delivery_type: settings.exclude_delivery_type != null ? settings.exclude_delivery_type : void 0
             },
-            success: renderPage
+            success: renderPage,
+            error: hideMyParcelOptions
         };
         return externalJQuery.ajax(options);
     };
@@ -665,4 +665,11 @@ updateInputField = function() {
         externalJQuery('#mypa-recipient-only', outsideIframe.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
         return outsideIframe.mypajQuery('#mypa-recipient-only').trigger('change');
     }
+};
+/*
+ * Hide MyParcel options
+ */
+hideMyParcelOptions = function() {
+    outsideIframe.mypajQuery('.myparcel_holder').show();
+    outsideIframe.mypajQuery('#mypa-load').hide();
 };
