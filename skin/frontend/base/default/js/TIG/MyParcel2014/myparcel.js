@@ -1,4 +1,4 @@
-var $, AO_DEFAULT_TEXT, Application, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, Slider, checkCombination, displayOtherTab, externalJQuery, obj1, orderOpeningHours, preparePickup, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, sortLocationsOnDistance, updateDelivery, updateInputField,
+var $, AO_DEFAULT_TEXT, Application, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, Slider, checkCombination, displayOtherTab, externalJQuery, obj1, orderOpeningHours, preparePickup, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, sortLocationsOnDistance, updateDelivery, updateInputField, outsideIframe = parent, hideMyParcelOptions,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 DISABLED = 'disabled';
@@ -64,8 +64,7 @@ this.MyParcel = Application = (function() {
         var isload = false;
         setTimeout(function () {
             if(isload != true){
-                parent.mypajQuery('.myparcel_holder').show();
-                parent.mypajQuery('#mypa-load').hide();
+                hideMyParcelOptions();
             }
         }, 1000);
 
@@ -118,20 +117,20 @@ this.MyParcel = Application = (function() {
      */
 
     Application.prototype.bindInputListeners = function() {
-        parent.mypajQuery('#mypa-signed').on('change', (function(_this) {
+        outsideIframe.mypajQuery('#mypa-signed').on('change', (function(_this) {
             return function(e) {
-                return $('#mypa-signed').prop('checked', parent.mypajQuery('#mypa-signed').prop('checked'));
+                return $('#mypa-signed').prop('checked', outsideIframe.mypajQuery('#mypa-signed').prop('checked'));
             };
         })(this));
-        parent.mypajQuery('#mypa-recipient-only').on('change', (function(_this) {
+        outsideIframe.mypajQuery('#mypa-recipient-only').on('change', (function(_this) {
             return function(e) {
-                return $('#mypa-only-recipient').prop('checked', parent.mypajQuery('#mypa-recipient-only').prop('checked'));
+                return $('#mypa-only-recipient').prop('checked', outsideIframe.mypajQuery('#mypa-recipient-only').prop('checked'));
             };
         })(this));
-        return parent.mypajQuery('#mypa-input').on('change', (function(_this) {
+        return outsideIframe.mypajQuery('#mypa-input').on('change', (function(_this) {
             return function(e) {
                 var el, i, json, len, ref;
-                json = parent.mypajQuery('#mypa-input').val();
+                json = outsideIframe.mypajQuery('#mypa-input').val();
                 if (json === '') {
                     $('input[name=mypa-delivery-time]:checked').prop('checked', false);
                     $('input[name=mypa-delivery-type]:checked').prop('checked', false);
@@ -155,7 +154,7 @@ this.MyParcel = Application = (function() {
      */
 
     Application.prototype.updatePage = function(postal_code, number, street) {
-        var item, key, options, ref, settings, urlBase;
+        var item, key, options, ref, settings, urlBase, current_date, monday_delivery, cutoff_time;
         ref = window.mypa.settings.price;
         for (key in ref) {
             item = ref[key];
@@ -165,6 +164,7 @@ this.MyParcel = Application = (function() {
         }
         settings = window.mypa.settings;
         urlBase = settings.base_url;
+        current_date = new Date();
         if (number == null) {
             number = settings.number;
         }
@@ -179,6 +179,18 @@ this.MyParcel = Application = (function() {
             $('.mypa-overlay').removeClass('mypa-hidden');
             return;
         }
+        /* Check if Monday delivery is active */
+        if (settings.monday_delivery == true) {
+            monday_delivery = 1;
+        } else {
+            monday_delivery = void 0;
+        }
+        /* Use saturday_cutoff_time for cutoff_time if Monday delivery is active and current day is Saturday */
+        if (settings.monday_delivery == true && current_date.getDay() == 0) {
+            cutoff_time = settings.saturday_cutoff_time;
+        } else {
+            cutoff_time = settings.cutoff_time != null ? settings.cutoff_time : void 0
+        }
         $('#mypa-no-options').html('Bezig met laden...');
         $('.mypa-overlay').removeClass('mypa-hidden');
         $('.mypa-location').html(street);
@@ -191,13 +203,15 @@ this.MyParcel = Application = (function() {
                 postal_code: postal_code,
                 delivery_time: settings.delivery_time != null ? settings.delivery_time : void 0,
                 delivery_date: settings.delivery_date != null ? settings.delivery_date : void 0,
-                cutoff_time: settings.cutoff_time != null ? settings.cutoff_time : void 0,
+                cutoff_time: cutoff_time,
                 dropoff_days: settings.dropoff_days != null ? settings.dropoff_days : void 0,
+                monday_delivery: monday_delivery,
                 dropoff_delay: settings.dropoff_delay != null ? settings.dropoff_delay : void 0,
                 deliverydays_window: settings.deliverydays_window != null ? settings.deliverydays_window : void 0,
                 exclude_delivery_type: settings.exclude_delivery_type != null ? settings.exclude_delivery_type : void 0
             },
-            success: renderPage
+            success: renderPage,
+            error: hideMyParcelOptions
         };
         return externalJQuery.ajax(options);
     };
@@ -355,14 +369,14 @@ renderPage = function(response) {
         /* Show input field for housenumber */
         $('#mypa-no-options').html('Het opgegeven huisnummer in combinatie met postcode ' + window.mypa.settings.postal_code + ' wordt niet herkend. Vul hier opnieuw uw huisnummer zonder toevoeging in.<br><br><input id="mypa-new-number" type="number" /><submit id="mypa-new-number-submit">Verstuur</submit>');
         $('.mypa-overlay').removeClass('mypa-hidden');
-        parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', true);
+        outsideIframe.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', true);
 
         $('#mypa-new-number-submit').click(function () {
             var houseNumber = $('#mypa-new-number').val();
             window.mypa.fn.updatePage(window.mypa.settings.postal_code, houseNumber);
-            parent.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', false);
-            parent.iframeLoaded();
-            parent.mypajQuery('#mypa-input').trigger('change');
+            outsideIframe.mypajQuery('.myparcel_base_method').prop("checked", false).prop('disabled', false);
+            outsideIframe.iframeLoaded();
+            outsideIframe.mypajQuery('#mypa-input').trigger('change');
         });
 
         return;
@@ -639,16 +653,23 @@ checkCombination = function() {
 updateInputField = function() {
     var json;
     json = $('input[name=mypa-delivery-time]:checked').val();
-    if (externalJQuery('#mypa-input', parent.document).val() !== json) {
-        externalJQuery('#mypa-input', parent.document).val(json);
-        parent.mypajQuery('#mypa-input').trigger('change');
+    if (externalJQuery('#mypa-input', outsideIframe.document).val() !== json) {
+        externalJQuery('#mypa-input', outsideIframe.document).val(json);
+        outsideIframe.mypajQuery('#mypa-input').trigger('change');
     }
-    if (externalJQuery('#mypa-signed', parent.document).prop('checked') !== $('#mypa-signed').prop('checked')) {
-        externalJQuery('#mypa-signed', parent.document).prop('checked', $('#mypa-signed').prop('checked'));
-        parent.mypajQuery('#mypa-signed').trigger('change');
+    if (externalJQuery('#mypa-signed', outsideIframe.document).prop('checked') !== $('#mypa-signed').prop('checked')) {
+        externalJQuery('#mypa-signed', outsideIframe.document).prop('checked', $('#mypa-signed').prop('checked'));
+        outsideIframe.mypajQuery('#mypa-signed').trigger('change');
     }
-    if (externalJQuery('#mypa-recipient-only', parent.document).prop('checked') !== $('#mypa-only-recipient').prop('checked')) {
-        externalJQuery('#mypa-recipient-only', parent.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
-        return parent.mypajQuery('#mypa-recipient-only').trigger('change');
+    if (externalJQuery('#mypa-recipient-only', outsideIframe.document).prop('checked') !== $('#mypa-only-recipient').prop('checked')) {
+        externalJQuery('#mypa-recipient-only', outsideIframe.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
+        return outsideIframe.mypajQuery('#mypa-recipient-only').trigger('change');
     }
+};
+/*
+ * Hide MyParcel options
+ */
+hideMyParcelOptions = function() {
+    outsideIframe.mypajQuery('.myparcel_holder').show();
+    outsideIframe.mypajQuery('#mypa-load').hide();
 };

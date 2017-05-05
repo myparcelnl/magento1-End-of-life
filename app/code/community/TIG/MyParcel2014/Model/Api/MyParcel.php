@@ -812,14 +812,24 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
+        /**
+         * @var TIG_MyParcel2014_Helper_Data $helper
+         */
         $helper = Mage::helper('tig_myparcel');
+
+        $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
         /**
          * Add the shipment type parameter.
          */
         switch ($myParcelShipment->getShipmentType()) {
             case $myParcelShipment::TYPE_LETTER_BOX:
-                $packageType = 2;
+                /* Use mailbox only if no option is selected */
+                if ($helper->shippingHasExtraOptions($myParcelShipment->getOrder()->getShippingMethod())) {
+                    $packageType = 1;
+                } else {
+                    $packageType = 2;
+                }
                 break;
             case $myParcelShipment::TYPE_UNPAID:
                 $packageType = 3;
@@ -837,8 +847,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
             'label_description' => $myParcelShipment->getOrder()->getIncrementId(),
         );
-
-        $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
         if ($checkoutData !== null) {
 

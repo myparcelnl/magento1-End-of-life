@@ -66,8 +66,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
     {
         $helper = Mage::helper('tig_myparcel');
 
-        if (!$helper->isEnabled()
-            || !$this->_shipment
+        if (!$this->_shipment
             || !$helper->shippingMethodIsMyParcel($this->_shipment->getOrder()->getShippingMethod())
             || $this->getShipment()->getOrder()->getIsVirtual()
         ) {
