@@ -540,6 +540,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPackageType($items, $country, $getAdminTitle = false, $hasExtraOptions = false, $isFrontend = false)
     {
+        $country = $country === false ? 'NL' : $country;
         $mailboxActive = $this->getConfig('mailbox_active', 'mailbox') == '' ? false : true;
         if ($mailboxActive) {
 
