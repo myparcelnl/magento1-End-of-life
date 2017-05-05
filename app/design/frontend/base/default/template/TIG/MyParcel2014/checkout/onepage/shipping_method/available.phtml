@@ -39,7 +39,7 @@ $address = $helper->getQuoteAddress($this->getQuote());
 if (isset($address) && is_array($address) && key_exists('country', $address)) {
     $country = $address['country'];
 } else {
-    $country = false;
+    $country = 'NL';
 }
 
 // Check if mailbox must show with other options
