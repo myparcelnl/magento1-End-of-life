@@ -238,7 +238,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (
             strpos($method, $myParcelCode) === 0 &&
-            $method != $myParcelCode . '_mailbox'
+            $method != $myParcelCode . '_mailbox' &&
+            $method != $myParcelCode . '_tablerate' &&
+            $method != $myParcelCode . '_flatrate'
         ) {
             return true;
         }
@@ -540,6 +542,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPackageType($items, $country, $getAdminTitle = false, $hasExtraOptions = false, $isFrontend = false)
     {
+        $country = $country === false ? 'NL' : $country;
         $mailboxActive = $this->getConfig('mailbox_active', 'mailbox') == '' ? false : true;
         if ($mailboxActive) {
 
