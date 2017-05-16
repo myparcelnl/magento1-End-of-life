@@ -50,7 +50,7 @@ if (
     $useMyParcel = false;
     $onlyMailbox = true;
 } else {
-    $useMyParcel = ($_shippingRateGroups && $country == 'NL');
+    $useMyParcel = ($_shippingRateGroups && $country == 'NL' && $helper->productIsAvailable($this->getQuote()->getItemsCollection()));
     $onlyMailbox = false;
 }
 
