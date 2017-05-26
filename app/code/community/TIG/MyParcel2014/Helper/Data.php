@@ -565,6 +565,33 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param $items
+     *
+     * @return bool
+     */
+    public function productIsAvailable($items)
+    {
+        foreach ($items as $item) {
+            if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+                /** @var Mage_Sales_Model_Order_Item $item */
+                $id = $item->getProductId();
+            } else {
+                /** @var Mage_Sales_Model_Quote_Address_Item $item */
+                $id = $item->getProduct()->getId();
+            }
+            $itemAttributeVolume = Mage::getModel('catalog/product')
+                ->load($id)
+                ->getData('show_myparcel_options');
+
+            if ($itemAttributeVolume == "2") {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param Mage_Sales_Model_Entity_Quote_Item_Collection|Mage_Sales_Model_Entity_Order_Item_Collection $items
      *
      * @return bool
