@@ -146,7 +146,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions, hideDays = undefined,
                     checkMethod('#s_method_myparcel_delivery_signature_and_only_recipient_fee');
                 } else {
                     if (signed) {
-                        checkMethod('#s_method_myparcel_evening_signature');
+                        checkMethod('#s_method_myparcel_delivery_signature');
                     } else if (recipientOnly) {
                         checkMethod('#s_method_myparcel_delivery_only_recipient');
                     } else {
