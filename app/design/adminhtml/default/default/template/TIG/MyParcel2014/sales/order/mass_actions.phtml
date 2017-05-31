@@ -43,8 +43,11 @@
     <script>
         /* Select MyParcel option */
         function selectMyparcel() {
-            document.getElementById('sales_order_grid_massaction-select').value = 'myparcel_print_labels';
-            $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="default"><?php echo $helper->__('Accordance with type consignment');?></option><option value="normal"><?php echo $helper->__('Normal');?></option><option value="letter_box"><?php echo $helper->__('Letterbox'); ?></option><option value="unstamped"><?php echo $helper->__('Unpaid'); ?></option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
+            var myParcelSelector = document.getElementById('sales_order_grid_massaction-select');
+            if (myParcelSelector) {
+                myParcelSelector.value = 'myparcel_print_labels';
+                $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="default"><?php echo $helper->__('Accordance with type consignment');?></option><option value="normal"><?php echo $helper->__('Normal');?></option><option value="letter_box"><?php echo $helper->__('Letterbox'); ?></option><option value="unstamped"><?php echo $helper->__('Unpaid'); ?></option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
+            }
         }
         selectMyparcel();
 
@@ -308,6 +311,8 @@
                     checkLabel(downloadUrl);
                 } else {
                     this.onMassactionComplete.bind(this);
+                    sales_order_gridJsObject.reload();
+                    $("loading-mask").hide();
                 }
             }
 
@@ -326,6 +331,10 @@
                     'onComplete': function (transport) {
                         if (transport.responseText == true) {
                             location.href = url;
+
+                            setTimeout(function() {
+                                sales_order_gridJsObject.reload();
+                            }, 1000);
                         } else {
                             checkLabel(url);
                         }
