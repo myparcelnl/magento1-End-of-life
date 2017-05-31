@@ -682,6 +682,12 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
                 $barcode = $responseShipment->barcode;
                 $this->setBarcode($barcode);
+
+
+                if ($barcode) {
+                    $this->addTrackingCodeToShipment($barcode);
+                }
+
                 $isSend = $this->helper->sendBarcodeEmail($barcode, $this);
 
                 //add comment to order-comment history
@@ -696,10 +702,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
                 } else {
                     $comment = $this->helper->__('Track&amp;Trace link: %s', $barcodeUrl);
-                }
-
-                if ($barcode) {
-                    $this->addTrackingCodeToShipment($barcode);
                 }
 
                 $this->helper->log($comment);

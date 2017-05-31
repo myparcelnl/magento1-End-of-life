@@ -125,7 +125,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions, hideDays = undefined,
         var signed = mypajQuery('#mypa-signed').is(":checked");
         var type;
 
-        json = jQuery.parseJSON(parent.mypajQuery('#mypa-input').val());
+        json = parent.mypajQuery.parseJSON(parent.mypajQuery('#mypa-input').val());
         if (typeof json.time[0].price_comment != 'undefined') {
             type = json.time[0].price_comment;
         } else {
@@ -146,7 +146,7 @@ var iframeDataLoaded, iframeLoaded, myParcelToggleOptions, hideDays = undefined,
                     checkMethod('#s_method_myparcel_delivery_signature_and_only_recipient_fee');
                 } else {
                     if (signed) {
-                        checkMethod('#s_method_myparcel_evening_signature');
+                        checkMethod('#s_method_myparcel_delivery_signature');
                     } else if (recipientOnly) {
                         checkMethod('#s_method_myparcel_delivery_only_recipient');
                     } else {
