@@ -105,23 +105,25 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             $dateTime = strtotime($aMyParcelData['date'] . ' 00:00:00');
             $dropOffDate = $helper->getDropOffDay($dateTime);
             $sDropOff = date("Y-m-d", $dropOffDate);
+            if ($helper->getConfig('deliverydays_window', 'checkout') != 'hide') {
+                $methodDescription = $order->getShippingDescription();
+                $methodDescription .= ' ' . date("d-m-Y", $dateTime);
 
-            $methodDescription = $order->getShippingDescription();
-            $methodDescription .= ' ' . date("d-m-Y", $dateTime);
+                $time = $aMyParcelData['time'][0];
+                if (!empty($time)) {
+                    $hasEndTime = key_exists('end', $time);
+                    if ($hasEndTime)
+                        $methodDescription .= ' van';
 
-            $time = $aMyParcelData['time'][0];
-            if (!empty($time)) {
-                $hasEndTime = key_exists('end', $time);
-                if ($hasEndTime)
-                    $methodDescription .= ' van';
+                    $methodDescription .= ' ' . substr($time['start'], 0, -3);
 
-                $methodDescription .= ' ' . substr($time['start'], 0, -3);
+                    if ($hasEndTime)
+                        $methodDescription .= ' tot ' . substr($time['end'], 0, -3);
+                }
 
-                if ($hasEndTime)
-                    $methodDescription .= ' tot ' . substr($time['end'], 0, -3);
+                $order->setShippingDescription($methodDescription);
             }
 
-            $order->setShippingDescription($methodDescription);
             $order->setMyparcelSendDate($sDropOff);
         }
 

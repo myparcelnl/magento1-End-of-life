@@ -89,13 +89,6 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
         }
 
         /**
-         * check if the extension is active
-         */
-        if (!Mage::helper('tig_myparcel')->isEnabled()) {
-            return $this;
-        }
-
-        /**
          * @var Mage_Adminhtml_Block_Sales_Shipment_Grid $block
          * @var Mage_Sales_Model_Resource_Shipment_Collection $currentCollection
          */

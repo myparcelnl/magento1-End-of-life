@@ -39,9 +39,6 @@
  */
 class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
-    const XPATH_MYPARCEL_CONFIG_ACTIVE = 'tig_myparcel/general/active';
-
     /**
      * Address type used by PakjeGemak addresses.
      */
@@ -241,7 +238,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (
             strpos($method, $myParcelCode) === 0 &&
-            $method != $myParcelCode . '_mailbox'
+            $method != $myParcelCode . '_mailbox' &&
+            $method != $myParcelCode . '_tablerate' &&
+            $method != $myParcelCode . '_flatrate'
         ) {
             return true;
         }
@@ -543,6 +542,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPackageType($items, $country, $getAdminTitle = false, $hasExtraOptions = false, $isFrontend = false)
     {
+        $country = $country === false ? 'NL' : $country;
         $mailboxActive = $this->getConfig('mailbox_active', 'mailbox') == '' ? false : true;
         if ($mailboxActive) {
 
@@ -565,12 +565,42 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param $items
+     *
+     * @return bool
+     */
+    public function productIsAvailable($items)
+    {
+        foreach ($items as $item) {
+            if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+                /** @var Mage_Sales_Model_Order_Item $item */
+                $id = $item->getProductId();
+            } else {
+                /** @var Mage_Sales_Model_Quote_Address_Item $item */
+                $id = $item->getProduct()->getId();
+            }
+            $itemAttributeVolume = Mage::getModel('catalog/product')
+                ->load($id)
+                ->getData('show_myparcel_options');
+
+            if ($itemAttributeVolume == "2") {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param Mage_Sales_Model_Entity_Quote_Item_Collection|Mage_Sales_Model_Entity_Order_Item_Collection $items
      *
      * @return bool
      */
     private function fitInLetterbox($items)
     {
+        if ($this->getConfig('mailbox_active', 'mailbox') == '0')
+            return false;
+
         $mailboxWeight = (float)$this->getConfig('mailbox_weight', 'mailbox');
         $itemWeight = 0;
 
@@ -720,22 +750,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return false;
-    }
-
-    /**
-     * various checks if the extension is enabled
-     *
-     * @param bool $storeId
-     *
-     * @return bool
-     */
-    public function isEnabled($storeId = false)
-    {
-        if (!$storeId) {
-            $storeId = Mage::app()->getStore()->getId();
-        }
-
-        return Mage::getStoreConfigFlag(self::XPATH_MYPARCEL_CONFIG_ACTIVE, $storeId);
     }
 
     /**

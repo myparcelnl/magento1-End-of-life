@@ -46,10 +46,6 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
      */
     public function registerConsignmentOption(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('tig_myparcel')->isEnabled()) {
-            return $this;
-        }
-
         /**
          * Retrieve and register the chosen option, if any.
          *
@@ -100,13 +96,6 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
     public function saveConsignmentOption(Varien_Event_Observer $observer)
     {
         $helper = Mage::helper('tig_myparcel');
-
-        /**
-         * check if extension is enabled
-         */
-        if (!$helper->isEnabled()) {
-            return $this;
-        }
 
         /**
          * @var Mage_Sales_Model_Order_Shipment $shipment

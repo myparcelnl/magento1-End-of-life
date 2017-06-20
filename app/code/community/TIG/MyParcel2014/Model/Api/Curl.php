@@ -74,7 +74,7 @@ class TIG_MyParcel2014_Model_Api_Curl implements Zend_Http_Client_Adapter_Interf
      */
     protected function _applyConfig()
     {
-        curl_setopt_array($this->_getResource(), $this->_options);
+        @curl_setopt_array($this->_getResource(), $this->_options);
 
         if (empty($this->_config)) {
             return $this;

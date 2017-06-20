@@ -50,10 +50,6 @@ class TIG_MyParcel2014_Block_Checkout_Js extends Mage_Core_Block_Template
      */
     protected function _toHtml()
     {
-        if (!Mage::helper('tig_myparcel')->isEnabled()) {
-            return '';
-        }
-
         $pakjeGemakActive = Mage::getStoreConfigFlag(self::XPATH_PAKJEGEMAK_ACTIVE, Mage::app()->getStore()->getId());
         if (!$pakjeGemakActive) {
             return '';

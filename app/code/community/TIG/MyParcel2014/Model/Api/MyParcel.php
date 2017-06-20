@@ -49,7 +49,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     const REQUEST_TYPE_CREATE_CONSIGNMENT   = 'shipments';
     const REQUEST_TYPE_REGISTER_CONFIG      = 'register-config';
     const REQUEST_TYPE_SETUP_LABEL          = 'v2/shipment_labels';
-    const REQUEST_TYPE_RETRIEVE_LABEL       = 'pdfs';
+    const REQUEST_TYPE_RETRIEVE_LABEL       = 'shipment_labels';
+    const REQUEST_TYPE_RETRIEVE_V2_LABEL    = 'pdfs';
     const REQUEST_TYPE_GET_LOCATIONS        = 'pickup';
 
     /**
@@ -67,6 +68,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     const REQUEST_HEADER_SHIPMENT           = 'Content-Type: application/vnd.shipment+json; ';
     const REQUEST_HEADER_RETURN             = 'Content-Type: application/vnd.return_shipment+json; ';
     const REQUEST_HEADER_UNRELATED_RETURN   = 'Content-Type: application/vnd.unrelated_return_shipment+json; ';
+
+    /**
+     * Shipment v2 endpoint active from x number of orders
+     */
+    const SHIPMENT_V2_ACTIVE_FROM = 50;
 
     /**
      * @var string
@@ -114,6 +120,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     protected $requestErrorDetail = false;
 
     /**
+     * @var string
+     */
+    private $labelDownloadUrl = null;
+
+    /**
      * sets the api username and api key on construct.
      *
      * @return void
@@ -124,7 +135,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $helper   = Mage::helper('tig_myparcel');
         $username = $helper->getConfig('username', 'api', $storeId);
         $key      = $helper->getConfig('key', 'api', $storeId, true);
-        $url   = $helper->getConfig('url');
+        $url      = $helper->getConfig('url');
 
         if (Mage::app()->getStore()->isCurrentlySecure()) {
             if(!Mage::getStoreConfig('tig_myparcel/general/ssl_handshake')){
@@ -139,6 +150,40 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->apiUrl      = $url;
         $this->apiUsername = $username;
         $this->apiKey      = $key;
+    }
+
+    /**
+     * Get label url from v2 endpoint
+     *
+     * @return string
+     */
+    public function getLabelDownloadUrl()
+    {
+        return $this->labelDownloadUrl;
+    }
+
+    /**
+     * @param string $labelDownloadUrl
+     */
+    public function setLabelDownloadUrl($labelDownloadUrl)
+    {
+        $this->labelDownloadUrl = $labelDownloadUrl;
+    }
+
+    /**
+     * @param string $apiUrl
+     */
+    public function setApiUrl($apiUrl)
+    {
+        $this->apiUrl = $apiUrl;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
     }
 
     /**
@@ -257,13 +302,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param string $method
      *
+     * @param bool $checkConfig
+     * @return $this|array|false|string
      * @throws TIG_MyParcel2014_Exception
-     *
-     * @return $this|false|array|string
      */
-    public function sendRequest($method = 'POST')
+    public function sendRequest($method = 'POST', $checkConfig = true)
     {
-        if (!$this->_checkConfigForRequest()) {
+        if (!$this->_checkConfigForRequest() && $checkConfig) {
             return false;
         }
 
@@ -328,12 +373,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             if (isset($aResult['data']['pdf']['url'])){
                 $pdfUrl = $aResult['data']['pdf']['url'];
                 $pdfUrl = str_replace('pdfs/', '', $pdfUrl);
-
-                sleep(2);
-                /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
-                $response = $this->createRetrievePdfsRequest($pdfUrl)
-                    ->sendRequest('GET')
-                    ->getRequestResponse();
+                $pdfUrl = $this->apiUrl . self::REQUEST_TYPE_RETRIEVE_V2_LABEL . $pdfUrl;
+                $this->setLabelDownloadUrl($pdfUrl);
 
             } else {
                 $pdfError = $helper->__('There was an error when set up a PDF. Please feel free to contact MyParcel.');
@@ -343,19 +384,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 );
             }
         }
-
-       /* if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && preg_match("/^%PDF-1./", $response)) {
-            exit('yes!');
-        }*/
-        if ($this->requestType == self::REQUEST_TYPE_RETRIEVE_LABEL && !preg_match("/^%PDF-1./", $response)) {
-            sleep(2);
-            /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
-            $response = $this->createRetrievePdfsRequest($this->requestString)
-                ->sendRequest('GET')
-                ->getRequestResponse();
-            return $this;
-        }
-
 
         if(is_array($aResult)){
 
@@ -484,25 +512,24 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $data = implode(';', $consignmentIds);
         $getParam = '/' . $data . '?format=' . $perpage . $positions;
 
-        $this->_setRequestParameters($getParam, self::REQUEST_TYPE_SETUP_LABEL);
+        if ($this->useShipmentV2(count($consignmentIds))) {
+            $this->_setRequestParameters($getParam, self::REQUEST_TYPE_SETUP_LABEL);
+        } else {
+            $this->_setRequestParameters($getParam, self::REQUEST_TYPE_RETRIEVE_LABEL);
+        }
 
         return $this;
     }
 
     /**
-     * Prepares the API for retrieving pdf's for an array of consignment IDs.
-     *
      * @param $url
-     *
      * @return $this
-     * @internal param array $consignmentIds
-     * @internal param int|string $start
-     * @internal param string $perpage
-     *
      */
-    public function createRetrievePdfsRequest($url)
+    public function createFileExistsRequest($url)
     {
-        $this->_setRequestParameters($url, self::REQUEST_TYPE_RETRIEVE_LABEL);
+        $helper = Mage::helper('tig_myparcel');
+        $this->setApiUrl($url);
+        $this->setApiKey($helper->getConfig('key', 'api'));
 
         return $this;
     }
@@ -584,6 +611,17 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     }
 
     /**
+     * Shipment v2 endpoint active from x number of orders
+     *
+     * @param $numberOfOrders
+     * @return bool
+     */
+    public function useShipmentV2($numberOfOrders)
+    {
+        return $numberOfOrders > self::SHIPMENT_V2_ACTIVE_FROM ? true : false;
+    }
+
+    /**
      * Checks if all the requirements are set to send a request to MyParcel
      *
      * @return bool
@@ -601,7 +639,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if(empty($this->requestString)){
             return false;
         }
-
 
         return true;
     }
@@ -719,8 +756,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         );
                     }
 
+                    $itemDescription = $item->getName();
+
+                    if (strlen($itemDescription) > 50) {
+                        $itemDescription = substr($itemDescription, 0, 50);
+                    }
+
                     $data['customs_declaration']['items'][] = array(
-                        'description'       => $item->getName(),
+                        'description'       => $itemDescription,
                         'amount'            => $qty,
                         'weight'            => (int)$weight * 1000,
                         'item_value'        => array('amount' => $price * 100, 'currency' => 'EUR'),
@@ -769,14 +812,24 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
+        /**
+         * @var TIG_MyParcel2014_Helper_Data $helper
+         */
         $helper = Mage::helper('tig_myparcel');
+
+        $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
         /**
          * Add the shipment type parameter.
          */
         switch ($myParcelShipment->getShipmentType()) {
             case $myParcelShipment::TYPE_LETTER_BOX:
-                $packageType = 2;
+                /* Use mailbox only if no option is selected */
+                if ($helper->shippingHasExtraOptions($myParcelShipment->getOrder()->getShippingMethod())) {
+                    $packageType = 1;
+                } else {
+                    $packageType = 2;
+                }
                 break;
             case $myParcelShipment::TYPE_UNPAID:
                 $packageType = 3;
@@ -794,8 +847,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
             'label_description' => $myParcelShipment->getOrder()->getIncrementId(),
         );
-
-        $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
         if ($checkoutData !== null) {
 
@@ -843,7 +894,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             }
         }
 
-        if ((int)$myParcelShipment->getInsured() === 1) {
+        if ((int)$myParcelShipment->getInsured() === 1 && $data['package_type'] != 2) {
             $data['insurance']['amount'] = $this->_getInsuredAmount($myParcelShipment) * 100;
             $data['insurance']['currency'] = 'EUR';
         }

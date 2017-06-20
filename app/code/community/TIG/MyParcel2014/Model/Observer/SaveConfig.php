@@ -55,13 +55,6 @@ class TIG_MyParcel2014_Model_Observer_SaveConfig extends Varien_Object
     public function registerConfig(Varien_Event_Observer $observer)
     {
         /**
-         * Check if the MyParcel extension is enabled.
-         */
-        if (!Mage::helper('tig_myparcel')->isEnabled()) {
-            return $this;
-        }
-
-        /**
          * @var Mage_Core_Controller_Varien_Front $controller
          */
         $controller    = $observer->getControllerAction();

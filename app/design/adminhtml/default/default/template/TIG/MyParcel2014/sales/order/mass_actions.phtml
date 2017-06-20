@@ -43,10 +43,25 @@
     <script>
         /* Select MyParcel option */
         function selectMyparcel() {
-            document.getElementById('sales_order_grid_massaction-select').value = 'myparcel_print_labels';
-            $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="default"><?php echo $helper->__('Accordance with type consignment');?></option><option value="normal"><?php echo $helper->__('Normal');?></option><option value="letter_box"><?php echo $helper->__('Letterbox'); ?></option><option value="unstamped"><?php echo $helper->__('Unpaid'); ?></option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
+            var myParcelSelector = document.getElementById('sales_order_grid_massaction-select');
+            if (myParcelSelector) {
+                myParcelSelector.value = 'myparcel_print_labels';
+                $('sales_order_grid_massaction-form-additional').update('<div class="entry-edit"><span class="field-row"><select id="type_consignment" name="type_consignment" class="absolute-advice select"><option value="default"><?php echo $helper->__('Accordance with type consignment');?></option><option value="normal"><?php echo $helper->__('Normal');?></option><option value="letter_box"><?php echo $helper->__('Letterbox'); ?></option><option value="unstamped"><?php echo $helper->__('Unpaid'); ?></option></select></span><span class="field-row"><input id="create_consignment" name="create_consignment" value="1" type="hidden" class="absolute-advice"></span></div>');
+            }
         }
         selectMyparcel();
+
+        function myParcelSendMail() {
+            $('myparcel_return_form').request({
+                onFailure: function() {
+                    $('myparcel_return_message').innerHTML = 'Something goes wrong. Please feel free to contact MyParcel.'
+                },
+                onSuccess: function(data) {
+                    $('myparcel_return_message').innerHTML = data.responseJSON.message;
+                }
+            });
+            Event.stop(event);
+        }
     </script>
 
     <div id="myparcel_return_container" style="display:none;">
@@ -64,7 +79,6 @@
             </form>
         </div>
     </div>
-<?php if ($helper->getConfig('print_orientation') == 'A4'): ?>
     <div id="print_container" style="display:none;">
         <div id="print_pages">
             <div class="print_page">1</div>
@@ -123,6 +137,7 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         (function () {
+            var useV2Endpoint;
             /* create hidden input to store the chosen option */
             var inputstart = document.createElement('input');
             inputstart.id = 'myparcel_print_labels_start';
@@ -138,66 +153,73 @@
                         return;
                     }
 
+                    var massActionSelect = $('sales_order_grid_massaction-select');
+                    var selectedMassAction = massActionSelect[massActionSelect.selectedIndex];
+
                     /**
                      * Additional MyParcel functionality
                      */
                     if (!skipMyParcelCheck) {
-                        massActionSelect = $('sales_order_grid_massaction-select');
-                        selectedMassAction = massActionSelect[massActionSelect.selectedIndex];
                         if (selectedMassAction.value == 'myparcel_print_labels') {
-                            Dialog.info(null, {
-                                closable: true,
-                                resizable: false,
-                                draggable: true,
-                                className: 'magento',
-                                windowClassName: 'myparcel-popup-window',
-                                title: '<?php echo $this->__('Select A4 print start position'); ?>',
-                                top: 100,
-                                width: 200,
-                                height: 290,
-                                zIndex: 5000,
-                                recenterAuto: true,
-                                hideEffect: Element.hide,
-                                showEffect: Element.show,
-                                id: 'myparcel_popup_window'
-                            });
-                            Dialog.setInfoMessage($('print_container').innerHTML);
 
-                            var printPages = $('print_pages');
-                            printPages.show();
-                            $('sales_order_grid_massaction-form').appendChild(inputstart);
+                            var paper_type = '<?php echo $helper->getConfig('print_orientation');?>';
+                            if (paper_type == 'A4') {
+                                Dialog.info(null, {
+                                    closable: true,
+                                    resizable: false,
+                                    draggable: true,
+                                    className: 'magento',
+                                    windowClassName: 'myparcel-popup-window',
+                                    title: '<?php echo $this->__('Select A4 print start position'); ?>',
+                                    top: 100,
+                                    width: 200,
+                                    height: 290,
+                                    zIndex: 5000,
+                                    recenterAuto: true,
+                                    hideEffect: Element.hide,
+                                    showEffect: Element.show,
+                                    id: 'myparcel_popup_window'
+                                });
+                                Dialog.setInfoMessage($('print_container').innerHTML);
 
-                            var printChildren = printPages.childElements();
-                            for (var i = 0, j = printChildren.length; i < j; i++) {
-                                printChildren[i].observe('mouseover', function () {
-                                    $(this).toggleClassName('hover');
-                                });
-                                printChildren[i].observe('mouseout', function () {
-                                    $(this).toggleClassName('hover');
-                                });
-                                printChildren[i].observe('click', function (event) {
-                                    $('myparcel_print_labels_start').value = Event.element(event).innerHTML;
-                                    Windows.close('myparcel_popup_window');
-                                    setTimeout(function () {
-                                        sales_order_gridJsObject.reload();
+                                var printPages = $('print_pages');
+                                printPages.show();
+                                $('sales_order_grid_massaction-form').appendChild(inputstart);
+
+                                var printChildren = printPages.childElements();
+                                for (var i = 0, j = printChildren.length; i < j; i++) {
+                                    printChildren[i].observe('mouseover', function () {
+                                        $(this).toggleClassName('hover');
+                                    });
+                                    printChildren[i].observe('mouseout', function () {
+                                        $(this).toggleClassName('hover');
+                                    });
+                                    printChildren[i].observe('click', function (event) {
+                                        $('myparcel_print_labels_start').value = Event.element(event).innerHTML;
+                                        Windows.close('myparcel_popup_window');
                                         setTimeout(function () {
-                                            selectMyparcel();
-                                        }, 5000);
-                                    }, 2000);
-                                    this.apply(true);
-                                }.bindAsEventListener(this));
-                            }
+                                            sales_order_gridJsObject.reload();
+                                            setTimeout(function () {
+                                                selectMyparcel();
+                                            }, 5000);
+                                        }, 2000);
+                                        this.apply(true);
+                                    }.bindAsEventListener(this));
+                                }
 
-                            $('myparcel_popup_window_close').observe('click', function () {
-                                Windows.close('myparcel_popup_window');
-                            });
-
-                            // close popup when clicked outside
-                            setTimeout(function () {
-                                $('overlay_modal').observe('click', function () {
-                                    $('myparcel_popup_window_close').click();
+                                $('myparcel_popup_window_close').observe('click', function () {
+                                    Windows.close('myparcel_popup_window');
                                 });
-                            }, 300);
+
+                                // close popup when clicked outside
+                                setTimeout(function () {
+                                    $('overlay_modal').observe('click', function () {
+                                        $('myparcel_popup_window_close').click();
+                                    });
+                                }, 300);
+                            } else {
+                                this.apply(true);
+                            }
 
                             return;
                         }
@@ -232,11 +254,19 @@
                         return;
                     }
 
-                    if (this.useAjax && item.url) {
+                    if (selectedMassAction.value == 'myparcel_print_labels') {
+                        useV2Endpoint = $$('input:checked[name=order_ids]').length > <?=TIG_MyParcel2014_Model_Api_MyParcel::SHIPMENT_V2_ACTIVE_FROM;?>;
+                    } else {
+                        useV2Endpoint = false;
+                    }
+
+                    if ((this.useAjax || useV2Endpoint)&& item.url) {
                         new Ajax.Request(item.url, {
                             'method': 'post',
                             'parameters': this.form.serialize(true),
-                            'onComplete': this.onMassactionComplete.bind(this)
+                            'onComplete': function (transport) {
+                                myParcelOnMassactionComlete(transport)
+                            }
                         });
                     } else if (item.url) {
                         this.form.action = item.url;
@@ -274,19 +304,44 @@
                 Dialog.setInfoMessage($('myparcel_return_container').innerHTML);
             });
 
-        })();
-
-        function myParcelSendMail() {
-            $('myparcel_return_form').request({
-                onFailure: function() {
-                    $('myparcel_return_message').innerHTML = 'Something goes wrong. Please feel free to contact MyParcel.'
-                },
-                onSuccess: function(data) {
-                    $('myparcel_return_message').innerHTML = data.responseJSON.message;
+            function myParcelOnMassactionComlete(response) {
+                if(useV2Endpoint) {
+                    var downloadUrl = response.responseText;
+                    $("loading_mask_loader").insert('<br>Bij het printen van grote aantallen labels kan het voorkomen dat dit een aantal minuten in beslag neemt. Graag een moment geduld a.u.b.');
+                    checkLabel(downloadUrl);
+                } else {
+                    this.onMassactionComplete.bind(this);
+                    sales_order_gridJsObject.reload();
+                    $("loading-mask").hide();
                 }
-            });
-            Event.stop(event);
-        }
+            }
+
+            function checkLabel(downloadUrl) {
+                setTimeout(function(){
+                    fileExists(downloadUrl)
+                }, 3000);
+                setTimeout(function(){
+                    $("loading-mask").show();
+                }, 10);
+            }
+
+            function fileExists(url) {
+                new Ajax.Request('<?=  Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/fileExists');?>?url=' + url, {
+                    'method': 'get',
+                    'onComplete': function (transport) {
+                        if (transport.responseText == true) {
+                            location.href = url;
+
+                            setTimeout(function() {
+                                sales_order_gridJsObject.reload();
+                            }, 1000);
+                        } else {
+                            checkLabel(url);
+                        }
+                    }
+                });
+            }
+
+        })();
         /*]]>*/
     </script>
-<?php endif; ?>

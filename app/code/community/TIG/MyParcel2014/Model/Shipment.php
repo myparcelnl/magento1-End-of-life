@@ -523,9 +523,9 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         /**
          * If any consignment options were set in the registry, those will be added as well.
          */
-        $registryOptions = Mage::registry('tig_myparcel_consignment_options');
+        $filteredOptions = $registryOptions = Mage::registry('tig_myparcel_consignment_options');
+        $hasExtraOptions = $this->helper->shippingHasExtraOptions($this->getShipment()->getOrder()->getShippingMethod());
 
-        $filteredOptions = $registryOptions;
         unset($filteredOptions['create_consignment']);
         unset($filteredOptions['type_consignment']);
 
@@ -534,9 +534,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         }
 
         if (!key_exists('type_consignment', $registryOptions) || $registryOptions['type_consignment'] == 'default') {
-
-            $hasExtraOptions = $this->helper->shippingHasExtraOptions($this->getShipment()->getOrder()->getShippingMethod());
-
             if ($this->helper->getPackageType($this->getShipment()->getItemsCollection(), $this->getShippingAddress()->getCountryId(), false, $hasExtraOptions) == 1) {
                 $type = self::TYPE_NORMAL;
             } else {
@@ -544,6 +541,9 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             }
         } else {
             $type = $registryOptions['type_consignment'];
+            if ($type == self::TYPE_LETTER_BOX && $hasExtraOptions) {
+                $type = self::TYPE_NORMAL;
+            }
         }
 
         /**
@@ -682,6 +682,12 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
                 $barcode = $responseShipment->barcode;
                 $this->setBarcode($barcode);
+
+
+                if ($barcode) {
+                    $this->addTrackingCodeToShipment($barcode);
+                }
+
                 $isSend = $this->helper->sendBarcodeEmail($barcode, $this);
 
                 //add comment to order-comment history
@@ -696,10 +702,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
                 } else {
                     $comment = $this->helper->__('Track&amp;Trace link: %s', $barcodeUrl);
-                }
-
-                if ($barcode) {
-                    $this->addTrackingCodeToShipment($barcode);
                 }
 
                 $this->helper->log($comment);

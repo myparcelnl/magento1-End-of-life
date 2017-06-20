@@ -51,7 +51,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
         $array = array(
             array(
                 'value' => 1,
-                'label' => $helper->__('Saturday, Sunday, Monday'),
+                'label' => $helper->__('Monday'),
             ),
             array(
                 'value' => 2,
@@ -68,6 +68,10 @@ class TIG_MyParcel2014_Model_System_Config_Source_DropOffDays
             array(
                 'value' => 5,
                 'label' => $helper->__('Friday'),
+            ),
+            array(
+                'value' => 6,
+                'label' => $helper->__('Saturday'),
             ),
         );
         return $array;
