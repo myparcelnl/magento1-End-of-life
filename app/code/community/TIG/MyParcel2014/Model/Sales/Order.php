@@ -11,7 +11,7 @@
  */
     if (file_exists(Mage::getBaseDir() . '/app/code/community/MDN/AdvancedStock/Model/Sales/Order.php') && class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends MDN_AdvancedStock_Model_Sales_Order { }
-    } else if (class_exists('Emagicone_Mobassistantconnector_Model_Order')) {
+    } else if (file_exists(Mage::getBaseDir() . '/app/code/community/Emagicone/Mobassistantconnector/Model/Sales/Order.php') && class_exists('Emagicone_Mobassistantconnector_Model_Order')) {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Emagicone_Mobassistantconnector_Model_Order { }
     } else {
         class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Mage_Sales_Model_Order { }
