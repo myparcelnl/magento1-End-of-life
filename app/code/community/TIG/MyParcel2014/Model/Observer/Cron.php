@@ -56,52 +56,22 @@ class TIG_MyParcel2014_Model_Observer_Cron
      */
     public function checkStatus()
     {
-        $this->_checkEUShipments();
-        $this->_checkCDShipments();
+        $resource   = Mage::getSingleton('core/resource');
+        $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
+
+        $collection->getSelect()->joinLeft(
+            array('shipping_address' => $resource->getTableName('sales/order_address')),
+            "main_table.entity_id=shipping_address.parent_id AND shipping_address.address_type='shipping'",
+            array());
+
+        $collection->addFieldToFilter('main_table.is_final', array('eq' => '0'));
+        $collection->addFieldToFilter('main_table.created_at', array(
+                'gt' => date('Y-m-d', strtotime('-40 day')))
+        );
+
+        $this->_checkCollectionStatus($collection);
 
         return $this;
-    }
-
-    protected function _checkEUShipments()
-    {
-        $resource   = Mage::getSingleton('core/resource');
-        $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
-
-        $collection->getSelect()->joinLeft(
-            array('shipping_address' => $resource->getTableName('sales/order_address')),
-            "main_table.entity_id=shipping_address.parent_id AND shipping_address.address_type='shipping'",
-            array());
-
-        $collection->addFieldToFilter('shipping_address.country_id', array(
-                'in' => array($this->helper->whiteListCodes()))
-        );
-        $collection->addFieldToFilter('main_table.is_final', array('eq' => '0'));
-        $collection->addFieldToFilter('main_table.created_at', array(
-                'gt' => date('Y-m-d', strtotime('-21 day')))
-        );
-
-        $this->_checkCollectionStatus($collection);
-    }
-
-    protected function _checkCDShipments()
-    {
-        $resource   = Mage::getSingleton('core/resource');
-        $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
-
-        $collection->getSelect()->joinLeft(
-            array('shipping_address' => $resource->getTableName('sales/order_address')),
-            "main_table.entity_id=shipping_address.parent_id AND shipping_address.address_type='shipping'",
-            array());
-
-        $collection->addFieldToFilter('main_table.is_final', array('eq' => '0'));
-        $collection->addFieldToFilter('shipping_address.country_id', array(
-                'nin' => array($this->helper->whiteListCodes()))
-        );
-        $collection->addFieldToFilter('main_table.created_at', array(
-                'gt' => date('Y-m-d', strtotime('-2 months')))
-        );
-
-        $this->_checkCollectionStatus($collection);
     }
 
     /**
