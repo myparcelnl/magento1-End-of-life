@@ -753,7 +753,6 @@
 
         if (typeof stringData !== 'undefined') {
 
-            console.log($('#mypa-signed').prop('checked'));
             json = JSON.parse(stringData);
             json.options = {};
             json.options.signature = $('#mypa-signed').prop('checked');
