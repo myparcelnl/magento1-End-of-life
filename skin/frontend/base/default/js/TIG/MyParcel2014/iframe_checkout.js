@@ -44,7 +44,7 @@ window.mypa.settings = {};
                     getData();
 
                     if (address['street']) {
-                        window.mypa.settings = externalJQuery.extend(window.mypa.settings, {
+                        window.mypa.settings = jQuery.extend(window.mypa.settings, {
                             postal_code: address['postal_code'].replace(/ /g,""),
                             street: address['street'],
                             number: address['number'],
@@ -62,12 +62,12 @@ window.mypa.settings = {};
                             }
                         });
 
-                        externalJQuery.when(
+                        jQuery.when(
                             updatePageRequest()
                         ).done(function () {
 
-                            externalJQuery('#mypa-load').on('change', function () {
-                                externalJQuery('#mypa-input').trigger('change');
+                            jQuery('#mypa-load').on('change', function () {
+                                jQuery('#mypa-input').trigger('change');
                             });
                             $('#mypa-mailbox-location').on('change', function () {
                                 parent.mypajQuery('#mypa-input').val('{"time":[{"price_comment":"mailbox","type":6}]}').trigger('change');
@@ -83,7 +83,7 @@ window.mypa.settings = {};
                 }
             }
         };
-        externalJQuery.ajax(ajaxOptions);
+        jQuery.ajax(ajaxOptions);
 
 
         parent.hideDays = function () {
