@@ -45,6 +45,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
     public function saveMyParcelShippingMethod()
     {
         $request = Mage::app()->getRequest();
+        $cookieManager = Mage::getSingleton('core/cookie');
         if($request->isPost()){
 
             $addressHelper = Mage::helper('tig_myparcel/addressValidation');
@@ -95,8 +96,13 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
                 $quote->setMyparcelData(json_encode($data))->save();
 
+                /* Quick solution to remember MyParcel data */
+                $cookieManager->set('MPd', json_encode($data),time()+86400,'/');
+
             } else {
                 $quote->setMyparcelData(null)->save();
+                /* Quick solution to remember MyParcel data */
+                $cookieManager->set('MPd', null,time()+86400,'/');
                 $this->removePgAddress($quote);
             }
         }
