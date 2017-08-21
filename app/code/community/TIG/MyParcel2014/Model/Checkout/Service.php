@@ -125,7 +125,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $pgAddress = Mage::getModel('sales/quote_address');
         $pgAddress->setAddressType($helper::PG_ADDRESS_TYPE)
             ->setCity($data['city'])
-            ->setCountryId('NL')
+            ->setCountryId($data['cc'])
             ->setPostcode($data['postal_code'])
             ->setCompany($data['location'])
             ->setFirstname('Ophalen op een PostNL locatie')

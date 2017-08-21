@@ -349,6 +349,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             // log the request url
             $helper->log($url);
             $helper->log(json_decode($body));
+            echo($body);
+            exit;
             $request->setConfig($config)
                 ->write(Zend_Http_Client::POST, $url, '1.1', $header, $body);
         } else {
@@ -658,6 +660,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $helper = Mage::helper('tig_myparcel');
         $order = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
+        $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
         if($storeId != $this->getStoreId()){
             $this->apiUsername = $helper->getConfig('username', 'api', $storeId);
@@ -680,7 +683,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'city'          => trim($shippingAddress->getCity()),
                 'email'         => $email,
             ),
-            'options'    => $this->_getOptionsData($myParcelShipment),
+            'options'    => $this->_getOptionsData($myParcelShipment, $checkoutData),
         );
 
         if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
@@ -797,6 +800,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'number'            => trim($pgStreetData['housenumber']),
                 'location_name'     => trim($pgAddress->getCompany()),
             );
+
+            if (key_exists('retail_network_id', $checkoutData)) {
+                $data['pickup']['location_code'] = $checkoutData['location_code'];
+                $data['pickup']['retail_network_id'] = $checkoutData['retail_network_id'];
+            }
         }
 
         $data['carrier'] = 1;
@@ -808,16 +816,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
      *
+     * @param $checkoutData
      * @return array
      */
-    protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
+    protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $checkoutData)
     {
         /**
          * @var TIG_MyParcel2014_Helper_Data $helper
          */
         $helper = Mage::helper('tig_myparcel');
-
-        $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
         /**
          * Add the shipment type parameter.
@@ -904,8 +911,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             unset($data['only_recipient']);
             unset($data['signature']);
             unset($data['return']);
-            unset($data['delivery_type']);
-            unset($data['delivery_date']);
         }
 
         return $data;
