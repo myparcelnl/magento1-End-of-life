@@ -349,8 +349,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             // log the request url
             $helper->log($url);
             $helper->log(json_decode($body));
-            echo($body);
-            exit;
             $request->setConfig($config)
                 ->write(Zend_Http_Client::POST, $url, '1.1', $header, $body);
         } else {
