@@ -239,7 +239,7 @@
         };
 
         Application.prototype.showDays = function() {
-            if (window.mypa.settings.deliverydays_window >= 1) {
+            if (window.mypa.settings.deliverydays_window >= 1 && window.mypa.settings.cc === 'NL') {
                 $('#mypa-slider-holder').show();
             } else {
                 $('#mypa-slider-holder').hide();
@@ -441,6 +441,7 @@
                 renderDeliveryOptions(date);
             }
             setCheckboxActive('delivery');
+
 
             Application.prototype.showDays();
             return updateInputField();
@@ -720,6 +721,9 @@
         if ($('input[name=mypa-delivery-time]:checked').length < 1) {
             $($('input[name=mypa-delivery-time]')[0]).prop('checked', true);
         }
+        setTimeout(function () {
+            Application.prototype.hideDays();
+        }, 500);
         return $('div#mypa-delivery-row label').bind('click', updateInputField);
     };
 
@@ -773,7 +777,7 @@
                 externalJQuery('#mypa-recipient-only').trigger('change');
             }
 
-            if (typeof document.getElementById('mypa-input') !== 'undefined') {
+            if (typeof document.getElementById('mypa-input') !== 'undefined' && document.getElementById('mypa-input') !== null) {
                 /* did not use iframe */
                 document.getElementById('mypa-input').dispatchEvent(new Event('change'));
             } else {

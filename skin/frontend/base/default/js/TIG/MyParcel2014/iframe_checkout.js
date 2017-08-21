@@ -39,13 +39,15 @@ window.mypa.settings = {};
                 info = response;
 
                 var address = info.data['address'];
-                if (address && address['country'] == 'NL') {
+                if (address && (address['country'] === 'NL' || address['country'] === 'BE')) {
 
                     getData();
 
                     if (address['street']) {
+                        console.log(address['country']);
                         window.mypa.settings = jQuery.extend(window.mypa.settings, {
                             postal_code: address['postal_code'].replace(/ /g,""),
+                            cc: address['country'],
                             street: address['street'],
                             number: address['number'],
                             cutoff_time: data.general['cutoff_time'],
@@ -88,13 +90,15 @@ window.mypa.settings = {};
 
         parent.hideDays = function () {
             if (window.mypa.settings.deliverydays_window > 1) {
-                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').hide();
+                $('#mypa-slider-holder').hide();
             }
         };
 
         parent.showDays = function () {
-            if (window.mypa.settings.deliverydays_window > 1) {
-                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').show();
+            if (window.mypa.settings.cc === 'NL' && window.mypa.settings.deliverydays_window > 1) {
+                $('#mypa-slider-holder').show();
+            } else {
+                $('#mypa-slider-holder').hide();
             }
         };
 
