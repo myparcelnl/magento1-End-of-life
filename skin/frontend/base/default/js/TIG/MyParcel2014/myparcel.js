@@ -413,27 +413,36 @@ preparePickup = function(pickupOptions) {
     $('.mypa-pickup-price').toggleClass('mypa-hidden', pickupPrice == null);
     $('.mypa-pickup-express-price').html(pickupExpressPrice);
     $('.mypa-pickup-express-price').toggleClass('mypa-hidden', pickupExpressPrice == null);
+
     window.mypa.pickupFiltered = filter = {};
     pickupOptions = sortLocationsOnDistance(pickupOptions);
+
     for (i = 0, len = pickupOptions.length; i < len; i++) {
         pickupLocation = pickupOptions[i];
+
         ref = pickupLocation.time;
         for (j = 0, len1 = ref.length; j < len1; j++) {
             time = ref[j];
+
             if (filter[name1 = PICKUP_TIMES[time.start]] == null) {
                 filter[name1] = [];
             }
+
+
             filter[PICKUP_TIMES[time.start]].push(pickupLocation);
+
         }
     }
+
     if (filter[PICKUP_TIMES[MORNING_PICKUP]] == null) {
         $('#mypa-pickup-express').parent().css({
             display: 'none'
         });
     }
-    showDefaultPickupLocation('#mypa-pickup-address', filter[PICKUP_TIMES[NORMAL_PICKUP]][0]);
+
+    showDefaultPickupLocation('#mypa-pickup-address', filter[PICKUP_TIMES[NORMAL_PICKUP]][0], PICKUP);
         if(MORNING_PICKUP && PICKUP_TIMES[MORNING_PICKUP] && filter[PICKUP_TIMES[MORNING_PICKUP]]){
-    showDefaultPickupLocation('#mypa-pickup-express-address', filter[PICKUP_TIMES[MORNING_PICKUP]][0]);
+    showDefaultPickupLocation('#mypa-pickup-express-address', filter[PICKUP_TIMES[MORNING_PICKUP]][0], PICKUP_EXPRESS);
         }
     $('#mypa-pickup-address').off().bind('click', renderPickup);
     $('#mypa-pickup-express-address').off().bind('click', renderExpressPickup);
@@ -456,7 +465,25 @@ sortLocationsOnDistance = function(pickupOptions) {
  * Displays the default location behind the pickup location
  */
 
-showDefaultPickupLocation = function(selector, item) {
+correctPickupType = function(item, pickupType) {
+
+
+    if (pickupType == PICKUP_EXPRESS) {
+        console.log('morning');
+        item['price_comment'] = 'retailexpress';
+    } else {
+        console.log('normal');
+        item['price_comment'] = 'retail';
+    }
+
+    return item;
+};
+
+showDefaultPickupLocation = function(selector, item, pickupType) {
+
+    console.log(item);
+    item = correctPickupType(item, pickupType);
+
     var html;
         html = ' - <span class="edit-location">Aanpassen</span><span class="text-location">' + item.location + ", " + item.street + " " + item.number + ", " + item.city + '</span>';
     $(selector).html(html);
@@ -470,7 +497,7 @@ showDefaultPickupLocation = function(selector, item) {
  */
 
 renderPickup = function() {
-    renderPickupLocation(window.mypa.pickupFiltered[PICKUP_TIMES[NORMAL_PICKUP]]);
+    renderPickupLocation(window.mypa.pickupFiltered[PICKUP_TIMES[NORMAL_PICKUP]], PICKUP);
     $('.mypa-location-time').html('- Vanaf 16.00 uur');
     $('#mypa-pickup').prop('checked', true);
     return false;
@@ -482,7 +509,7 @@ renderPickup = function() {
  */
 
 renderExpressPickup = function() {
-    renderPickupLocation(window.mypa.pickupFiltered[PICKUP_TIMES[MORNING_PICKUP]]);
+    renderPickupLocation(window.mypa.pickupFiltered[PICKUP_TIMES[MORNING_PICKUP]], PICKUP_EXPRESS);
     $('.mypa-location-time').html('- Vanaf 08.30 uur');
     $('#mypa-pickup-express').prop('checked', true);
     return false;
@@ -493,7 +520,7 @@ renderExpressPickup = function() {
  * Renders the locations in the array order given in data
  */
 
-renderPickupLocation = function(data) {
+renderPickupLocation = function(data, pickupType) {
     var day_index, html, i, index, j, k, len, location, openingHoursHtml, orderedHours, ref, ref1, time;
     displayOtherTab();
     $('.mypa-onoffswitch-checkbox:checked').prop('checked', false);
@@ -515,6 +542,9 @@ renderPickupLocation = function(data) {
             }
             openingHoursHtml += '</div></div>';
         }
+
+        location = correctPickupType(location, pickupType);
+
         html = "<div for='mypa-pickup-location-" + index + "' class=\"mypa-row-lg afhalen-row\">\n  <div class=\"afhalen-right\">\n    <i class='mypa-info'>\n    </i>\n  </div>\n  <div class='mypa-opening-hours'>\n    " + openingHoursHtml + "\n  </div>\n  <label for='mypa-pickup-location-" + index + "' class=\"afhalen-left\">\n    <div class=\"afhalen-check\">\n      <input id=\"mypa-pickup-location-" + index + "\" type=\"radio\" name=\"mypa-pickup-option\" value='" + (JSON.stringify(location)) + "'>\n      <label for='mypa-pickup-location-" + index + "' class='mypa-row-title'>\n        <div class=\"mypa-checkmark mypa-main\">\n          <div class=\"mypa-circle\"></div>\n          <div class=\"mypa-checkmark-stem\"></div>\n          <div class=\"mypa-checkmark-kick\"></div>\n        </div>\n      </label>\n    </div>\n    <div class='afhalen-tekst'>\n      <span class=\"mypa-highlight mypa-inline-block\">" + location.location + ", <b class='mypa-inline-block'>" + location.street + " " + location.number + ", " + location.city + "</b>,\n      <i class='mypa-inline-block'>" + (String(Math.round(location.distance / 100) / 10).replace('.', ',')) + " Km</i></span>\n    </div>\n  </label>\n</div>";
         $('#mypa-location-container').append(html);
     }
