@@ -428,7 +428,6 @@ preparePickup = function(pickupOptions) {
                 filter[name1] = [];
             }
 
-
             filter[PICKUP_TIMES[time.start]].push(pickupLocation);
 
         }
@@ -470,6 +469,7 @@ correctPickupType = function(item, pickupType) {
     } else {
         item['price_comment'] = 'retail';
     }
+    
     return item;
 };
 
