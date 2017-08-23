@@ -440,6 +440,10 @@ preparePickup = function(pickupOptions) {
         });
     }
 
+    /*
+     * Displays the default location behind the pickup location
+     */
+
     showDefaultPickupLocation('#mypa-pickup-address', filter[PICKUP_TIMES[NORMAL_PICKUP]][0], PICKUP);
         if(MORNING_PICKUP && PICKUP_TIMES[MORNING_PICKUP] && filter[PICKUP_TIMES[MORNING_PICKUP]]){
     showDefaultPickupLocation('#mypa-pickup-express-address', filter[PICKUP_TIMES[MORNING_PICKUP]][0], PICKUP_EXPRESS);
@@ -448,7 +452,6 @@ preparePickup = function(pickupOptions) {
     $('#mypa-pickup-express-address').off().bind('click', renderExpressPickup);
     return $('.mypa-pickup-selector').on('click', updateInputField);
 };
-
 
 /*
  * Sorts the pickup options on nearest location
@@ -460,28 +463,22 @@ sortLocationsOnDistance = function(pickupOptions) {
     });
 };
 
-
 /*
- * Displays the default location behind the pickup location
+ * If the pickup address is both retail and retailextress, the correct type must be set
  */
 
 correctPickupType = function(item, pickupType) {
 
-
     if (pickupType == PICKUP_EXPRESS) {
-        console.log('morning');
         item['price_comment'] = 'retailexpress';
     } else {
-        console.log('normal');
         item['price_comment'] = 'retail';
     }
-
     return item;
 };
 
 showDefaultPickupLocation = function(selector, item, pickupType) {
 
-    console.log(item);
     item = correctPickupType(item, pickupType);
 
     var html;
