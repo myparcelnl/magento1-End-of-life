@@ -440,10 +440,6 @@ preparePickup = function(pickupOptions) {
         });
     }
 
-    /*
-     * Displays the default location behind the pickup location
-     */
-
     showDefaultPickupLocation('#mypa-pickup-address', filter[PICKUP_TIMES[NORMAL_PICKUP]][0], PICKUP);
         if(MORNING_PICKUP && PICKUP_TIMES[MORNING_PICKUP] && filter[PICKUP_TIMES[MORNING_PICKUP]]){
     showDefaultPickupLocation('#mypa-pickup-express-address', filter[PICKUP_TIMES[MORNING_PICKUP]][0], PICKUP_EXPRESS);
@@ -476,6 +472,10 @@ correctPickupType = function(item, pickupType) {
     }
     return item;
 };
+
+/*
+ * Displays the default location behind the pickup location
+ */
 
 showDefaultPickupLocation = function(selector, item, pickupType) {
 
