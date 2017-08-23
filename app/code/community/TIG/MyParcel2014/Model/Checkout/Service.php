@@ -45,7 +45,6 @@ class TIG_MyParcel2014_Model_Checkout_Service
     public function saveMyParcelShippingMethod()
     {
         $request = Mage::app()->getRequest();
-        $cookieManager = Mage::getSingleton('core/cookie');
         if($request->isPost()){
 
             $addressHelper = Mage::helper('tig_myparcel/addressValidation');
@@ -54,7 +53,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
             $address = $addressHelper->getQuoteAddress($quote);
 
-            if ($address['country'] !== 'NL'){
+            if ($address['country'] !== 'NL' && $address['country'] !== 'BE'){
                 $quote->setMyparcelData(null)->save();
                 return true;
             }
@@ -96,13 +95,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
                 $quote->setMyparcelData(json_encode($data))->save();
 
-                /* Quick solution to remember MyParcel data */
-                $cookieManager->set('MPd', json_encode($data),time()+86400,'/');
-
             } else {
                 $quote->setMyparcelData(null)->save();
-                /* Quick solution to remember MyParcel data */
-                $cookieManager->set('MPd', null,time()+86400,'/');
                 $this->removePgAddress($quote);
             }
         }
@@ -131,7 +125,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $pgAddress = Mage::getModel('sales/quote_address');
         $pgAddress->setAddressType($helper::PG_ADDRESS_TYPE)
             ->setCity($data['city'])
-            ->setCountryId('NL')
+            ->setCountryId($data['cc'])
             ->setPostcode($data['postal_code'])
             ->setCompany($data['location'])
             ->setFirstname('Ophalen op een PostNL locatie')
