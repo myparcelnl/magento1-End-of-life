@@ -839,3 +839,4 @@ app/etc/modules/Idev_OneStepCheckout.xml
 /app/locale/de_DE/
 /app/locale/nl_NL/Mage_AmazonPayments.csv
 workspace.xml
+.DS_Store

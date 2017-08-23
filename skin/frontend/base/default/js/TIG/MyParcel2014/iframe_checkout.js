@@ -39,13 +39,14 @@ window.mypa.settings = {};
                 info = response;
 
                 var address = info.data['address'];
-                if (address && address['country'] == 'NL') {
+                if (address && (address['country'] === 'NL' || address['country'] === 'BE')) {
 
                     getData();
 
                     if (address['street']) {
-                        window.mypa.settings = externalJQuery.extend(window.mypa.settings, {
+                        window.mypa.settings = jQuery.extend(window.mypa.settings, {
                             postal_code: address['postal_code'].replace(/ /g,""),
+                            cc: address['country'],
                             street: address['street'],
                             number: address['number'],
                             cutoff_time: data.general['cutoff_time'],
@@ -62,12 +63,12 @@ window.mypa.settings = {};
                             }
                         });
 
-                        externalJQuery.when(
+                        jQuery.when(
                             updatePageRequest()
                         ).done(function () {
 
-                            externalJQuery('#mypa-load').on('change', function () {
-                                externalJQuery('#mypa-input').trigger('change');
+                            jQuery('#mypa-load').on('change', function () {
+                                jQuery('#mypa-input').trigger('change');
                             });
                             $('#mypa-mailbox-location').on('change', function () {
                                 parent.mypajQuery('#mypa-input').val('{"time":[{"price_comment":"mailbox","type":6}]}').trigger('change');
@@ -83,18 +84,20 @@ window.mypa.settings = {};
                 }
             }
         };
-        externalJQuery.ajax(ajaxOptions);
+        jQuery.ajax(ajaxOptions);
 
 
         parent.hideDays = function () {
             if (window.mypa.settings.deliverydays_window > 1) {
-                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').hide();
+                $('#mypa-slider-holder').hide();
             }
         };
 
         parent.showDays = function () {
-            if (window.mypa.settings.deliverydays_window > 1) {
-                $('#mypa-date-slider-left, #mypa-date-slider-right, #mypa-tabs-container').show();
+            if (window.mypa.settings.cc === 'NL' && window.mypa.settings.deliverydays_window > 1) {
+                $('#mypa-slider-holder').show();
+            } else {
+                $('#mypa-slider-holder').hide();
             }
         };
 
