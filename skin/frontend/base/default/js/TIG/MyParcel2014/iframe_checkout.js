@@ -44,7 +44,6 @@ window.mypa.settings = {};
                     getData();
 
                     if (address['street']) {
-                        console.log(address['country']);
                         window.mypa.settings = jQuery.extend(window.mypa.settings, {
                             postal_code: address['postal_code'].replace(/ /g,""),
                             cc: address['country'],
