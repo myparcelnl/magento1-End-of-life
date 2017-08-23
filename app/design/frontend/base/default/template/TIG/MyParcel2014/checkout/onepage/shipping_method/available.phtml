@@ -32,7 +32,6 @@
 $_shippingRateGroups = $this->getShippingRates();
 $helper = Mage::helper('tig_myparcel/addressValidation');
 
-$hideDays =     $helper->getConfig('deliverydays_window', 'checkout') == '1' ? true : false;
 
 /** Check if the checkout must use the MyParcel checkout */
 $address = $helper->getQuoteAddress($this->getQuote());
@@ -42,6 +41,8 @@ if (isset($address) && is_array($address) && key_exists('country', $address)) {
     $country = 'NL';
 }
 
+$hideDays =     $helper->getConfig('deliverydays_window', 'checkout') == '1' ? true : false;
+
 // Check if mailbox must show with other options
 if (
     $helper->getPackageType($this->getQuote()->getItemsCollection(), $country, false, false, true) == 2 &&
@@ -50,7 +51,7 @@ if (
     $useMyParcel = false;
     $onlyMailbox = true;
 } else {
-    $useMyParcel = ($_shippingRateGroups && $country == 'NL' && $helper->productIsAvailable($this->getQuote()->getItemsCollection()));
+    $useMyParcel = ($_shippingRateGroups && ($country == 'NL' || $country == 'BE') && $helper->productIsAvailable($this->getQuote()->getItemsCollection()));
     $onlyMailbox = false;
 }
 
