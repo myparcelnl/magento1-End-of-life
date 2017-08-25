@@ -558,8 +558,11 @@ correctPickupType = function(item, pickupType) {
 
         item = correctPickupType(item, pickupType);
 
-        var html;
-        html = " - <span class='mypa-edit-location'>Aanpassen</span><span class='mypa-text-location'>" + item.location + ", " + item.street + " " + item.number + ", " + item.city + "</span>";
+        var html = '';
+        if (window.mypa.settings.cc != 'BE') {
+            html += ' - ';
+        }
+        html += "<span class='mypa-edit-location'>Kies een andere locatie</span><span class='mypa-text-location'>" + item.location + ", " + item.street + " " + item.number + ", " + item.city + "</span>";
         $(selector).html(html);
         $(selector).parent().find('input').val(JSON.stringify(item));
         return updateInputField();
@@ -655,11 +658,16 @@ correctPickupType = function(item, pickupType) {
     renderDeliveryOptions = function(date) {
         var checked, mailboxPrice, mailboxText, combinatedPrice, combine, deliveryTimes, html, hvoPrice, hvoText, i, index, json, len, onlyRecipientPrice, onlyRecipientText, price, ref, ref1, time;
         $('#mypa-delivery-options').html('');
+        if (window.mypa.settings.cc == 'BE') {
+            $('#mypa-delivery-options').hide();
+            $('#mypa-pickup-options-content .mypa-highlight').hide();
+        }
         html = '';
         deliveryTimes = window.mypa.sortedDeliverytimes[date];
         index = 0;
         for (i = 0, len = deliveryTimes.length; i < len; i++) {
             time = deliveryTimes[i];
+            var priceHtml = '';
             if (time.price_comment === 'avond') {
                 time.price_comment = EVENING_DELIVERY;
             }
@@ -671,13 +679,15 @@ correctPickupType = function(item, pickupType) {
             checked = '';
             if (time.price_comment === 'standard') {
                 checked = "checked";
+                $('#mypa-global_delivery_price').html(price).show();
             }
-            html += "<label for=\"mypa-time-" + index + "\" class='mypa-row-subitem'>\n  <input id='mypa-time-" + index + "' type=\"radio\" name=\"mypa-delivery-time\" value='" + (JSON.stringify(json)) + "' " + checked + ">\n  <label for=\"mypa-time-" + index + "\" class=\"mypa-checkmark\">\n    <div class=\"mypa-circle mypa-circle-checked\"></div>\n    <div class=\"mypa-checkmark-stem\"></div>\n    <div class=\"mypa-checkmark-kick\"></div>\n  </label>\n  <span class=\"mypa-highlight\">" + (moment(time.start, 'HH:mm:SS').format('H.mm')) + " - " + (moment(time.end, 'HH:mm:SS').format('H.mm')) + " uur</span>";
+            priceHtml += "<label for=\"mypa-time-" + index + "\" class='mypa-row-subitem'>\n  <input id='mypa-time-" + index + "' type=\"radio\" name=\"mypa-delivery-time\" value='" + (JSON.stringify(json)) + "' " + checked + ">\n  <label for=\"mypa-time-" + index + "\" class=\"mypa-checkmark\">\n    <div class=\"mypa-circle mypa-circle-checked\"></div>\n    <div class=\"mypa-checkmark-stem\"></div>\n    <div class=\"mypa-checkmark-kick\"></div>\n  </label>\n  <span class=\"mypa-highlight\">" + (moment(time.start, 'HH:mm:SS').format('H.mm')) + " - " + (moment(time.end, 'HH:mm:SS').format('H.mm')) + " uur</span>";
             if (price != null) {
-                html += "<span class='mypa-price'>" + price + "</span>";
+                priceHtml += "<span class='mypa-price'>" + price + "</span>";
             }
-            html += "</label>";
-            index++;
+            priceHtml += "</label>";
+            html += priceHtml;
+                index++;
         }
         hvoPrice = window.mypa.settings.price.signed;
         hvoText = (ref = window.mypa.settings.text) != null ? ref.signed : void 0;
@@ -712,18 +722,20 @@ correctPickupType = function(item, pickupType) {
             html += "</div>";
         }
         $('#mypa-delivery-options').html(html);
-        mailboxPrice = window.mypa.settings.price.mailbox;
-        if (typeof mailboxPrice !== 'undefined' && mailboxPrice !== DISABLED) {
-            mailboxText = (ref1 = window.mypa.settings.text) != null ? ref1.mailbox : void 0;
-            if (mailboxText == null) {
-                mailboxText = MAILBOX_DEFAULT_TEXT;
+        if (window.mypa.settings.cc != 'BE') {
+            mailboxPrice = window.mypa.settings.price.mailbox;
+            if (typeof mailboxPrice !== 'undefined' && mailboxPrice !== DISABLED) {
+                mailboxText = (ref1 = window.mypa.settings.text) != null ? ref1.mailbox : void 0;
+                if (mailboxText == null) {
+                    mailboxText = MAILBOX_DEFAULT_TEXT;
+                }
+                var mailboxHtml = "<input type='radio' name='mypa-delivery-type' id='mypa-mailbox-delivery'><label id='mypa-mailbox-options-title' class='mypa-row-title' for='mypa-mailbox-delivery'><div class='mypa-checkmark mypa-main'><div class='mypa-circle'></div><div class='mypa-checkmark-stem'></div><div class='mypa-checkmark-kick'></div></div><span class='mypa-price mypa-mailbox-price'>" + mailboxPrice + "</span><span class='mypa-highlight'>" + mailboxText + "</span></label>";
+                $('#mypa-mailbox-row').addClass('mypa-row-lg').html(mailboxHtml)
             }
-            var mailboxHtml = "<input type='radio' name='mypa-delivery-type' id='mypa-mailbox-delivery'><label id='mypa-mailbox-options-title' class='mypa-row-title' for='mypa-mailbox-delivery'><div class='mypa-checkmark mypa-main'><div class='mypa-circle'></div><div class='mypa-checkmark-stem'></div><div class='mypa-checkmark-kick'></div></div><span class='mypa-price mypa-mailbox-price'>" + mailboxPrice + "</span><span class='mypa-highlight'>" + mailboxText + "</span></label>";
-            $('#mypa-mailbox-row').addClass('mypa-row-lg').html(mailboxHtml)
+            $('#mypa-mailbox-delivery').on('change', function () {
+                externalJQuery('input[name=delivery_options]').val('{"time":[{"price_comment":"mailbox","type":6}]}').trigger('change');
+            });
         }
-        $('#mypa-mailbox-delivery').on('change', function () {
-            externalJQuery('input[name=delivery_options]').val('{"time":[{"price_comment":"mailbox","type":6}]}').trigger('change');
-        });
         $('.mypa-combination-price label').on('click', checkCombination);
         $('#mypa-delivery-options label.mypa-row-subitem input[name=mypa-delivery-time]').on('change', function(e) {
             var deliveryType;
