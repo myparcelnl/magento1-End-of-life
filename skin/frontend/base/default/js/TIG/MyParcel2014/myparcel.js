@@ -730,11 +730,12 @@ correctPickupType = function(item, pickupType) {
                     mailboxText = MAILBOX_DEFAULT_TEXT;
                 }
                 var mailboxHtml = "<input type='radio' name='mypa-delivery-type' id='mypa-mailbox-delivery'><label id='mypa-mailbox-options-title' class='mypa-row-title' for='mypa-mailbox-delivery'><div class='mypa-checkmark mypa-main'><div class='mypa-circle'></div><div class='mypa-checkmark-stem'></div><div class='mypa-checkmark-kick'></div></div><span class='mypa-price mypa-mailbox-price'>" + mailboxPrice + "</span><span class='mypa-highlight'>" + mailboxText + "</span></label>";
-                $('#mypa-mailbox-row').addClass('mypa-row-lg').html(mailboxHtml)
+                $('#mypa-mailbox-row').show().addClass('mypa-row-lg').html(mailboxHtml)
             }
             $('#mypa-mailbox-delivery').on('change', function () {
                 externalJQuery('input[name=delivery_options]').val('{"time":[{"price_comment":"mailbox","type":6}]}').trigger('change');
             });
+            $('#mypa-mailbox-row').show()
         }
         $('.mypa-combination-price label').on('click', checkCombination);
         $('#mypa-delivery-options label.mypa-row-subitem input[name=mypa-delivery-time]').on('change', function(e) {
