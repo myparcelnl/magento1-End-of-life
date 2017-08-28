@@ -256,7 +256,7 @@ var adminSystemConfig = {
         configGeneralContent.insert($('tig_myparcel_general-head').up(1));
         configGeneralContent.insert($('tig_myparcel_shipment-head').up(1));
 
-        // Shipping methods content
+        // Checkout options content
         $$('.entry-edit').last().insert('<fieldset id="configShippingMethodsContent" style="display:none;"></fieldset>');
         var configShippingMethodsContent = $('configShippingMethodsContent');
         configShippingMethodsContent.insert($('tig_myparcel_checkout-head').up(1));
@@ -266,6 +266,7 @@ var adminSystemConfig = {
         configShippingMethodsContent.insert($('tig_myparcel_eveningdelivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_pickup-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_pickup_express-head').up(1));
+        configShippingMethodsContent.insert($('tig_myparcel_pickup_belgium-head').up(1));
 
         tabButtonGeneral.observe('click', respondToClick);
         tabButtonShippingShippingMethods.observe('click', respondToClick);
