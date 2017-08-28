@@ -306,6 +306,11 @@
                 <pickup_express_active>1</pickup_express_active>
                 <pickup_express_fee>1.51</pickup_express_fee>
             </pickup_express>
+            <pickup_belgium>
+                <pickup_belgium_active>1</pickup_belgium_active>
+                <pickup_belgium_title>Ophalen bij een PostNL locatie</pickup_belgium_title>
+                <pickup_belgium_fee>0</pickup_belgium_fee>
+            </pickup_belgium>
         </tig_myparcel>
     </default>
 
