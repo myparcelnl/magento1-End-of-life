@@ -90,6 +90,10 @@ TIG_MyParcel2014::Pickup fee,Ophalen prijs
 TIG_MyParcel2014::Pickup Express at PostNL location,Extra vroeg ophalen bij PostNL locatie
 TIG_MyParcel2014::Pickup Express active,Extra vroeg ophalen actief
 TIG_MyParcel2014::Pickup Express fee,Extra vroeg ophalen prijs
+TIG_MyParcel2014::Pickup at Belgium PostNL location,Ophalen bij een Belgische PostNL locatie
+TIG_MyParcel2014::Pickup Belgium active,Ophalen België actief
+TIG_MyParcel2014::Pickup Belgium title,Ophalen België titel
+TIG_MyParcel2014::Pickup Belgium fee,Ophalen België prijs
 TIG_MyParcel2014::API Key,API Key,
 TIG_MyParcel2014::The API Key given by MyParcel.,Stel hier de API key in die is ontvangen vanuit MyParcel
 TIG_MyParcel2014::API Username,API Gebruikersnaam

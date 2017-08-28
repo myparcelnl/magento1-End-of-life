@@ -130,6 +130,10 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $pickupExpress['fee'] =                     $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote));
         $data['pickupExpress'] = (object)$pickupExpress;
 
+        $pickup['active'] =                         $helper->getConfig('pickup_belgium_active', 'pickup_belgium') == "1" ? true : false;
+        $pickup['title'] =                          $helper->getConfig('pickup_belgium_title', 'pickup_belgium');
+        $pickup['fee'] =                            $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_belgium_fee', 'pickup_belgium'), $quote));
+        $data['pickupBelgium'] = (object)$pickup;
 
         $info = array(
             'version' => (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version,
