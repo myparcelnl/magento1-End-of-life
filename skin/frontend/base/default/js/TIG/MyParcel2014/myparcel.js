@@ -679,7 +679,9 @@ correctPickupType = function(item, pickupType) {
             checked = '';
             if (time.price_comment === 'standard') {
                 checked = "checked";
-                $('#mypa-global_delivery_price').html(price).show();
+                if (window.mypa.settings.cc == 'BE') {
+                    $('#mypa-global_delivery_price').html(price).show();
+                }
             }
             priceHtml += "<label for=\"mypa-time-" + index + "\" class='mypa-row-subitem'>\n  <input id='mypa-time-" + index + "' type=\"radio\" name=\"mypa-delivery-time\" value='" + (JSON.stringify(json)) + "' " + checked + ">\n  <label for=\"mypa-time-" + index + "\" class=\"mypa-checkmark\">\n    <div class=\"mypa-circle mypa-circle-checked\"></div>\n    <div class=\"mypa-checkmark-stem\"></div>\n    <div class=\"mypa-checkmark-kick\"></div>\n  </label>\n  <span class=\"mypa-highlight\">" + (moment(time.start, 'HH:mm:SS').format('H.mm')) + " - " + (moment(time.end, 'HH:mm:SS').format('H.mm')) + " uur</span>";
             if (price != null) {
