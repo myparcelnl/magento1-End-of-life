@@ -117,15 +117,21 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
-        $pickup['active'] =                         $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
-        $pickup['title'] =                          $helper->getConfig('pickup_title', 'pickup');
-        $pickup['fee'] =                            $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote));
-        $data['pickup'] = (object)$pickup;
+        if ($data['address']['country'] == 'NL') {
+            $pickup['active'] = $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
+            $pickup['title'] = $helper->getConfig('pickup_title', 'pickup');
+            $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote));
+            $data['pickup'] = (object)$pickup;
+        } else if ($data['address']['country'] == 'BE') {
+            $pickup['active'] = $helper->getConfig('pickup_belgium_active', 'pickup_belgium') == "1" ? true : false;
+            $pickup['title'] = $helper->getConfig('pickup_belgium_title', 'pickup_belgium');
+            $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_belgium_fee', 'pickup_belgium'), $quote));
+            $data['pickup'] = (object)$pickup;
+        }
 
         $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" ? true : false;
         $pickupExpress['fee'] =                     $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote));
         $data['pickupExpress'] = (object)$pickupExpress;
-
 
         $info = array(
             'version' => (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version,

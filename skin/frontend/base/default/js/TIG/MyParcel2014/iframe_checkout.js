@@ -74,6 +74,12 @@ window.mypa.settings = {};
                                 parent.mypajQuery('#mypa-signed').prop('checked', false).trigger('change');
                                 parent.mypajQuery('#mypa-recipient-only').prop('checked', false).trigger('change');
                             });
+                            
+                            // Set BE pickup title if country == BE
+                            if (address['country'] == 'BE') {
+                                $('#mypa-pickup-options-title .mypa-highlight').html(info.data.pickup.title);
+                            }
+
                             parent.iframeDataLoaded();
 
                         });

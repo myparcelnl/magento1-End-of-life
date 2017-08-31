@@ -591,28 +591,29 @@
                                     </div>
                                         <span
                                             class="mypa-highlight"><?php echo $helper->getConfig('delivery_title', 'delivery'); ?></span>
+                                    <span id="mypa-global_delivery_price" class='mypa-price' style="display:none"></span>
                                 </label>
                                 <div id='mypa-delivery-options' class='mypa-content-lg'>
                                 </div>
                             </div>
                             <?php if ($packageType == 2): ?>
-                            <div id='mypa-mailbox-row' class='mypa-row-lg'>
-                                <input type="radio" name="mypa-delivery-type" id="mypa-mailbox-location">
-                                <label id='mypa-mailbox-options-title' class='mypa-row-title'
-                                       for="mypa-mailbox-location">
-                                    <div class="mypa-checkmark mypa-main">
-                                        <div class="mypa-circle"></div>
-                                        <div class="mypa-checkmark-stem"></div>
-                                        <div class="mypa-checkmark-kick"></div>
-                                    </div>
-                                    <span class='mypa-price mypa-mailbox-price'>
-                                        <?php echo $mailBoxPrice; ?>
-                                    </span>
-                                    <span class="mypa-highlight">
-                                        <?php echo $helper->getConfig('mailbox_title', 'mailbox'); ?>
-                                    </span>
-                                </label>
-                            </div>
+                                <div id='mypa-mailbox-row' class='mypa-row-lg' style="display:none">
+                                    <input type="radio" name="mypa-delivery-type" id="mypa-mailbox-location">
+                                    <label id='mypa-mailbox-options-title' class='mypa-row-title'
+                                           for="mypa-mailbox-location">
+                                        <div class="mypa-checkmark mypa-main">
+                                            <div class="mypa-circle"></div>
+                                            <div class="mypa-checkmark-stem"></div>
+                                            <div class="mypa-checkmark-kick"></div>
+                                        </div>
+                                        <span class='mypa-price mypa-mailbox-price'>
+                                            <?php echo $mailBoxPrice; ?>
+                                        </span>
+                                        <span class="mypa-highlight">
+                                            <?php echo $helper->getConfig('mailbox_title', 'mailbox'); ?>
+                                        </span>
+                                    </label>
+                                </div>
                             <?php endif;?>
                             <div id='mypa-pickup-row' class='mypa-row-lg'>
                                 <input type="radio" name="mypa-delivery-type" id="mypa-pickup-location">
@@ -625,6 +626,7 @@
                                     </div>
                                         <span
                                             class="mypa-highlight"><?php echo $helper->getConfig('pickup_title', 'pickup'); ?></span>
+                                    <span id="mypa-global_pickup_price" class='mypa-price' style="display:none"></span>
                                 </label>
                                 <div id='mypa-pickup-options-content' class='mypa-content-lg'>
                                     <div>
