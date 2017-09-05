@@ -44,7 +44,7 @@ window.mypa.settings = {};
                     getData();
 
                     if (address['street']) {
-                        window.mypa.settings = parent.mypajQuery.extend(window.mypa.settings, {
+                        window.mypa.settings = parent.jQuery.extend(window.mypa.settings, {
                             postal_code: address['postal_code'].replace(/ /g,""),
                             street: address['street'],
                             number: address['number'],
@@ -62,17 +62,17 @@ window.mypa.settings = {};
                             }
                         });
 
-                        parent.mypajQuery.when(
+                        parent.jQuery.when(
                             updatePageRequest()
                         ).done(function () {
 
-                            parent.mypajQuery('#mypa-load').on('change', function () {
-                                parent.mypajQuery('#mypa-input').trigger('change');
+                            parent.jQuery('#mypa-load').on('change', function () {
+                                parent.jQuery('#mypa-input').trigger('change');
                             });
                             $('#mypa-mailbox-location').on('change', function () {
-                                parent.mypajQuery('#mypa-input').val('{"time":[{"price_comment":"mailbox","type":6}]}').trigger('change');
-                                parent.mypajQuery('#mypa-signed').prop('checked', false).trigger('change');
-                                parent.mypajQuery('#mypa-recipient-only').prop('checked', false).trigger('change');
+                                parent.jQuery('#mypa-input').val('{"time":[{"price_comment":"mailbox","type":6}]}').trigger('change');
+                                parent.jQuery('#mypa-signed').prop('checked', false).trigger('change');
+                                parent.jQuery('#mypa-recipient-only').prop('checked', false).trigger('change');
                             });
                             
                             // Set BE pickup title if country == BE
@@ -89,7 +89,7 @@ window.mypa.settings = {};
                 }
             }
         };
-        parent.mypajQuery.ajax(ajaxOptions);
+        parent.jQuery.ajax(ajaxOptions);
 
 
         parent.hideDays = function () {

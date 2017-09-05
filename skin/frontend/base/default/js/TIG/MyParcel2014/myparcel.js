@@ -280,7 +280,7 @@
                 delivery = ref[i];
                 deliveryTimes[delivery.date] = delivery.time;
                 date = moment(delivery.date);
-                html = "<input type=\"radio\" id=\"mypa-date-" + index + "\" class=\"mypa-date\" name=\"date\" checked value=\"" + delivery.date + "\">\n<label for='mypa-date-" + index + "' class='mypa-tab active'>\n  <span class='mypa-day-of-the-week-item'>" + (date.format('dddd')) + "</span>\n <span class='date'>" + (date.format('DD MMMM')) + "</span>\n</label>";
+                html = "<input type=\"radio\" id=\"mypa-date-" + index + "\" class=\"mypa-date\" name=\"date\" checked value=\"" + delivery.date + "\">\n<label for='mypa-date-" + index + "' class='mypa-tab active'>\n <span class='mypa-day-of-the-week-item'>" + (date.format('dddd')) + "</span>\n <br><span class='date'>" + (date.format('DD MMMM')) + "</span>\n</label>";
                 $el.append(html);
                 index++;
             }
