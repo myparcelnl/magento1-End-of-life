@@ -135,10 +135,10 @@
                     return $('#mypa-only-recipient').prop('checked', externalJQuery('#mypa-recipient-only').prop('checked'));
                 };
             })(this));
-            return externalJQuery('input[name=delivery_options]').on('change', (function(_this) {
+            return externalJQuery('#mypa-input').on('change', (function(_this) {
                 return function(e) {
                     var el, i, json, len, ref;
-                    json = externalJQuery('input[name=delivery_options]').val();
+                    json = externalJQuery('#mypa-input').val();
                     if (json === '') {
                         $('input[name=mypa-delivery-time]:checked').prop('checked', false);
                         $('input[name=mypa-delivery-type]:checked').prop('checked', false);
