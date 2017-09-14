@@ -3,7 +3,7 @@
  */
 
 (function() {
-    var $, AO_DEFAULT_TEXT, MAILBOX_DEFAULT_TEXT, Application, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, Slider, checkCombination, displayOtherTab, externalJQuery, obj1, orderOpeningHours, preparePickup, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, sortLocationsOnDistance, updateDelivery, updateInputField, hideMyParcelOptions,
+    var $, AO_DEFAULT_TEXT, MAILBOX_DEFAULT_TEXT, Application, CARRIER, DAYS_OF_THE_WEEK, DAYS_OF_THE_WEEK_TRANSLATED, DEFAULT_DELIVERY, DISABLED, EVENING_DELIVERY, HVO_DEFAULT_TEXT, MORNING_DELIVERY, MORNING_PICKUP, NATIONAL, NORMAL_PICKUP, PICKUP, PICKUP_EXPRESS, PICKUP_TIMES, POST_NL_TRANSLATION, Slider, checkCombination, displayOtherTab, externalJQuery, obj1, orderOpeningHours, preparePickup, renderDeliveryOptions, renderExpressPickup, renderPage, renderPickup, renderPickupLocation, showDefaultPickupLocation, sortLocationsOnDistance, updateDelivery, updateInputField, hideMyParcelOptions, correctPickupType,
         bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
     DISABLED = 'disabled';
@@ -135,10 +135,11 @@
                     return $('#mypa-only-recipient').prop('checked', externalJQuery('#mypa-recipient-only').prop('checked'));
                 };
             })(this));
-            return externalJQuery('input[name=delivery_options]').on('change', (function(_this) {
+
+            return externalJQuery('#mypa-input').on('change', (function(_this) {
                 return function(e) {
                     var el, i, json, len, ref;
-                    json = externalJQuery('input[name=delivery_options]').val();
+                    json = externalJQuery('#mypa-input').val();
                     if (json === '') {
                         $('input[name=mypa-delivery-time]:checked').prop('checked', false);
                         $('input[name=mypa-delivery-type]:checked').prop('checked', false);
@@ -280,7 +281,7 @@
                 delivery = ref[i];
                 deliveryTimes[delivery.date] = delivery.time;
                 date = moment(delivery.date);
-                html = "<input type=\"radio\" id=\"mypa-date-" + index + "\" class=\"mypa-date\" name=\"date\" checked value=\"" + delivery.date + "\">\n<label for='mypa-date-" + index + "' class='mypa-tab active'>\n  <span class='mypa-day-of-the-week-item'>" + (date.format('dddd')) + "</span>\n <span class='date'>" + (date.format('DD MMMM')) + "</span>\n</label>";
+                html = "<input type=\"radio\" id=\"mypa-date-" + index + "\" class=\"mypa-date\" name=\"date\" checked value=\"" + delivery.date + "\">\n<label for='mypa-date-" + index + "' class='mypa-tab active'>\n <span class='mypa-day-of-the-week-item'>" + (date.format('dddd')) + "</span>\n <br><span class='date'>" + (date.format('DD MMMM')) + "</span>\n</label>";
                 $el.append(html);
                 index++;
             }
@@ -535,20 +536,19 @@
         });
     };
 
-/*
- * If the pickup address is both retail and retailextress, the correct type must be set
- */
+    /*
+     * If the pickup address is both retail and retailextress, the correct type must be set
+     */
+    correctPickupType = function(item, pickupType) {
 
-correctPickupType = function(item, pickupType) {
+        if (pickupType == PICKUP_EXPRESS) {
+            item['price_comment'] = 'retailexpress';
+        } else {
+            item['price_comment'] = 'retail';
+        }
 
-    if (pickupType == PICKUP_EXPRESS) {
-        item['price_comment'] = 'retailexpress';
-    } else {
-        item['price_comment'] = 'retail';
-    }
-
-    return item;
-};
+        return item;
+    };
 
     /*
      * Displays the default location behind the pickup location
