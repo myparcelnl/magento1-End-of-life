@@ -1,7 +1,7 @@
 <?php $defaultFontSize = $helper->getConfig('font_size', 'checkout') == '' ? 0 : $helper->getConfig('font_size', 'checkout'); ?>
 <html>
 <head>
-    <link href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/css/TIG/MyParcel2014/myparcel_options.css'; ?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/css/TIG/MyParcel2014/myparcel_options.css?v=2'; ?>" rel="stylesheet" type="text/css">
     <script>
         var BASE_URL = '<?php echo Mage::getUrl('',array('_secure'=>true));?>';
         var defaultFontSize = <?php echo $defaultFontSize;?>;
@@ -14,10 +14,10 @@
         }
     </style>
 
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/jquery.min.js'; ?>"></script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/moment.min.js'; ?>"></script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/iframe_checkout.js'; ?>"></script>
-    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/myparcel.js'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/jquery.min.js?v=2'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/moment.min.js?v=2'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/iframe_checkout.js?v=2'; ?>"></script>
+    <script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN) . 'frontend/base/default/js/TIG/MyParcel2014/myparcel.js?v=2'; ?>"></script>
     <script>
         setTimeout(function () {
             new MyParcel();
