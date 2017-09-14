@@ -423,7 +423,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         $fullStreet = $address->getStreetFull();
 
-        if ($address->getCountry() != 'NL') {
+        if ($address->getCountry() != 'NL' && $address->getCountry() != 'BE') {
 
             $fullStreet = $this->_getInternationalFullStreet($address);
             $streetData = array(
