@@ -800,9 +800,8 @@ correctPickupType = function(item, pickupType) {
             json.options.only_recipient = $('#mypa-only-recipient').prop('checked');
 
             stringData = JSON.stringify(json);
-
             if (externalJQuery('#mypa-input', externalJQuery.document).val() !== stringData) {
-                externalJQuery('#mypa-input', externalJQuery.document).val(stringData);
+                externalJQuery('#mypa-input', externalJQuery.document).val(stringData).change();
                 externalJQuery('#mypa-input').trigger('change');
             }
             if (externalJQuery('#mypa-signed', externalJQuery.document).prop('checked') !== $('#mypa-signed').prop('checked')) {
@@ -813,15 +812,6 @@ correctPickupType = function(item, pickupType) {
                 externalJQuery('#mypa-recipient-only', externalJQuery.document).prop('checked', $('#mypa-only-recipient').prop('checked'));
                 externalJQuery('#mypa-recipient-only').trigger('change');
             }
-
-            if (typeof document.getElementById('mypa-input') !== 'undefined' && document.getElementById('mypa-input') !== null) {
-                /* did not use iframe */
-                document.getElementById('mypa-input').dispatchEvent(new Event('change'));
-            } else {
-                /* use iframe in checkout */
-                parent.document.getElementById('mypa-input').dispatchEvent(new Event('change'));
-            }
-
         }
     };
 
