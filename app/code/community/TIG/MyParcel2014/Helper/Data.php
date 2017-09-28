@@ -237,11 +237,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
         if (
-            strpos($method, $myParcelCode) === 0 &&
-            $method != $myParcelCode . '_mailbox' &&
-            $method != $myParcelCode . '_tablerate' &&
-            $method != $myParcelCode . '_flatrate'
+            strpos($method, $myParcelCode) === 0 && // Check if MyParcel is used
+            $method != $myParcelCode . '_mailbox'
         ) {
+
             return true;
         }
 
@@ -544,6 +543,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $country = $country === false ? 'NL' : $country;
         $mailboxActive = $this->getConfig('mailbox_active', 'mailbox') == '' ? false : true;
+
         if ($mailboxActive) {
 
             $hideMailboxInFrontend = $this->getConfig('mailbox_title', 'mailbox') == '' && $isFrontend ? true : false;
@@ -559,9 +559,9 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($getAdminTitle) {
             return $type == 1 ? $this->__('Normal') : $this->__('Letter box');
-        } else {
-            return $type;
         }
+
+        return $type;
     }
 
     /**
