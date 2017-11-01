@@ -623,7 +623,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             if ($itemVolume > 0) {
                 $itemWeight += $itemVolume / 100 * $mailboxWeight;
             } else {
-                $itemWeight += $item->getWeight() * $qty;
+                $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($id);
+                if (empty($parentIds)) {
+                    $itemWeight += $item->getWeight() * $qty;
+                }
             }
         }
 
