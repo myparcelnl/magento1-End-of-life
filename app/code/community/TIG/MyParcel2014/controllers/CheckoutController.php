@@ -87,6 +87,9 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $data = array();
 
         $data['address'] = $helper->getQuoteAddress($quote);
+        if (empty($data['address']['country'])) {
+            $data['address']['country'] = 'NL';
+        }
 
         $general['base_price'] =                    $basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));

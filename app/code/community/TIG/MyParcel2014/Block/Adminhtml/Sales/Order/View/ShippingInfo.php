@@ -79,12 +79,18 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         {
             if(is_array($data) && key_exists('location', $data)){
 
-                $dateTime = date('d-m-Y H:i', strtotime($data['date'] . ' ' . $data['start_time']));
+                $html .= $this->__('PostNL location: ');
 
-                $html .= $this->__('PostNL location:') . ' ' . $dateTime;
-                if($data['price_comment'] != 'retail')
-                    $html .= ', ' . $this->__('TYPE_' . $data['price_comment']);
-                $html .= ', ' . $data['location']. ', ' . $data['city']. ' (' . $data['postal_code']. ')';
+                if ($pgAddress->getCountryId() != 'BE') {
+                    $dateTime = date('d-m-Y H:i', strtotime($data['date'] . ' ' . $data['start_time']));
+                    $html .= $dateTime . ', ';
+                }
+
+                if ($data['price_comment'] != 'retail') {
+                    $html .= $this->__('TYPE_' . $data['price_comment']) . ', ';
+                }
+
+                $html .= $data['location']. ', ' . $data['city']. ' (' . $data['postal_code']. ')';
             } else {
                 /** Old data from orders before version 1.6.0 */
                 $html .= $this->__('PostNL location:') . ' ' . $pgAddress->getCompany() . ' ' . $pgAddress->getCity();

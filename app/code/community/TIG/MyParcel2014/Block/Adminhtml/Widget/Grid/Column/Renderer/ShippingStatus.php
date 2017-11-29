@@ -126,7 +126,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
 
             $orderSendUrl = Mage::helper('adminhtml')->getUrl("adminhtml/sales_order_shipment/start", array('order_id' => $row->getId()));
             $data = json_decode($order->getMyparcelData(), true);
-            if ($data !== null && key_exists('date', $data) && $data['date'] !== null) {
+            if ($data !== null && key_exists('date', $data) && $data['date'] !== null && $countryCode != 'BE') {
                 $dateTime = strtotime($data['date'] . ' 00:00:00');
                 $dropOffDate = $helper->getDropOffDay($dateTime);
                 $sDropOff = Mage::app()->getLocale()->date($dropOffDate)->toString('d MMM');
@@ -142,6 +142,9 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                     $actionHtml = $sDropOff . ' <span style="font-size: 115%;">&#8987;</span>';
                 }
             } else {
+                if ($countryCode == 'BE') {
+                    $sendText = $this->__('Today') . ' ' . $sendText;
+                }
                 $actionHtml = ' <a class="scalable go" href="' . $orderSendUrl . '" style="' . $colorSendText . '">' . $sendText . '</a>';
             }
 
