@@ -904,12 +904,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $data['insurance']['currency'] = 'EUR';
         }
 
-        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
-            // strip all Dutch domestic options if shipment is not NL
-            unset($data['only_recipient']);
-            unset($data['signature']);
-            unset($data['return']);
-        }
+		if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL' || $data['package_type'] == 2) {
+			// strip all Dutch domestic options if shipment is not NL or package_type is mailbox
+			unset($data['only_recipient']);
+			unset($data['signature']);
+			unset($data['return']);
+			unset($data['delivery_date']);
+		}
 
         return $data;
     }
