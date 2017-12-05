@@ -233,14 +233,14 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function shippingHasExtraOptions($method)
     {
+
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if (
+		if (
             strpos($method, $myParcelCode) === 0 && // Check if MyParcel is used
-            $method != $myParcelCode . '_mailbox'
+			($method == $myParcelCode . '_tablerate' || $method == $myParcelCode . '_flatrate')
         ) {
-
             return true;
         }
 

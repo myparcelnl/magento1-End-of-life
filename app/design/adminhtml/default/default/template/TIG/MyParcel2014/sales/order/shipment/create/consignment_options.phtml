@@ -47,7 +47,7 @@ $_signatureSelected         = $this->getIsSignatureOnReceipt();
 $_returnNoAnswerSelected    = $this->getIsReturnOnNoAnswer();
 $_isXlSelected              = $this->getIsXl();
 $_insured                   = $this->getIsInsured();
-$_isPakjegemak              = $this->hasExtraOptions();
+$_isPakjegemak              = $this->getIsPakjeGemak();
 $_insuredSelected           = '';
 $_insuredUpTo               = '';
 $_insuredAmount             = 0;
@@ -58,7 +58,7 @@ $_defaultCustomsContentCode = $_helper->getHsCodes($this->getShipment()->getOrde
 
 $tmpInsured = 1000;
 
-$type = $_helper->getPackageType($this->getShipment()->getOrder()->getAllVisibleItems(), $this->getDestinationCountry(), false, $this->hasExtraOptions());
+$type = $_helper->getPackageType($this->getShipment()->getOrder()->getAllVisibleItems(), $this->getDestinationCountry(), false, $_isPakjegemak);
 
 if(is_array($_insured)){
     $_insuredAmount   = (int)$_insured['insuredAmount'];
