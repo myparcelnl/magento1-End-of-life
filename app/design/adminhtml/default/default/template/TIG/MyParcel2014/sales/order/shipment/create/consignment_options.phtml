@@ -60,7 +60,6 @@ $tmpInsured = 1000;
 
 $type = $_helper->getPackageType($this->getShipment()->getOrder()->getAllVisibleItems(), $this->getDestinationCountry(), false, $_isPakjegemak);
 
-var_dump($type);
 if(is_array($_insured)){
     $_insuredAmount   = (int)$_insured['insuredAmount'];
     $_insuredSelected = $_insured['selected'];
