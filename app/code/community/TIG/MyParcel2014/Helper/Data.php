@@ -44,45 +44,13 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     const PG_ADDRESS_TYPE = 'pakje_gemak';
 
-    /**
-     * Regular expression used to split street name from house number.
-     * For international shipments, it is not necessary to divide the address.
-     *
-     * Street (key street)
-     * (?P<street>.*?)
-     *
-     * An Street and house number is sometimes separated by a whitespace
-     * \s?
-     *
-     * Insert number and extension together in one array
-     * (?P<street_suffix>
-     *
-     * Set number (int)
-     * (?P<number>[\d]+)
-     *
-     * Sometimes an extension begins with a dash
-     * -?
-     *
-     * Set key for extension
-     * (?P<extension>
-     *
-     * If extension have text, / or whitespace
-     * [a-zA-Z/\s]{0,5}$
-     *
-     * OR(!) extension has a number
-     * |[0-9/]{0,4}$
-     *
-     * OR(!) extension has a letter followed by numbers
-     * |\s[a-zA-Z]{1}[0-9]{0,3}$
-     *
-     * Close key for extension
-     * )
-     *
-     * Close number and extension together
-     * )
-     *
-     */
-    const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)[\s|-]?(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,5}$|\s[a-zA-Z]{1}[0-9]{0,3}$|\s[0-9]{2}[a-zA-Z]{0,3}$))$~';
+	/**
+	 * Regular expression used to split street name from house number.
+	 *
+	 * For the full description go to:
+	 * @link https://gist.github.com/RichardPerdaan/1e6ce1588f3990e856b55255572692d1
+	 */
+    const SPLIT_STREET_REGEX = '~(?P<street>.*?)\s?(?P<street_suffix>(?P<number>[\d]+)[\s-]{0,2}(?P<extension>[a-zA-Z/\s]{0,5}$|[0-9/]{0,5}$|\s[a-zA-Z]{1}[0-9]{0,3}$|\s[0-9]{2}[a-zA-Z]{0,3}$))$~';
 
     /**
      * Log filename to log all non-specific MyParcel exceptions.
@@ -233,14 +201,14 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function shippingHasExtraOptions($method)
     {
+
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if (
+		if (
             strpos($method, $myParcelCode) === 0 && // Check if MyParcel is used
-            $method != $myParcelCode . '_mailbox'
+			($method == $myParcelCode . '_tablerate' || $method == $myParcelCode . '_flatrate')
         ) {
-
             return true;
         }
 
@@ -696,7 +664,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             return preg_replace("/[\n\r]/", " ", $address->getStreetFull());
         }
 
-        $numberBeforeStreetCountry = array('CN', 'FR', 'GR', 'IE', 'IL', 'JP', 'LU', 'MY', 'MA', 'NZ', 'SG', 'GB');
+        $numberBeforeStreetCountry = array('CN', 'FR', 'GR', 'IE', 'IL', 'JP', 'LU', 'MY', 'MA', 'NZ', 'SG', 'GB', 'US', 'VS');
         if (in_array($address->getCountry(), $numberBeforeStreetCountry)) {
             return $address->getStreet2() . ' ' . $address->getStreet1();
         } else {

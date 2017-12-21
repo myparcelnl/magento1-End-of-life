@@ -72,7 +72,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Shipment v2 endpoint active from x number of orders
      */
-    const SHIPMENT_V2_ACTIVE_FROM = 50;
+    const SHIPMENT_V2_ACTIVE_FROM = 25;
 
     /**
      * @var string
@@ -830,7 +830,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         switch ($myParcelShipment->getShipmentType()) {
             case $myParcelShipment::TYPE_LETTER_BOX:
                 /* Use mailbox only if no option is selected */
-                if ($helper->shippingHasExtraOptions($myParcelShipment->getOrder()->getShippingMethod())) {
+                if ($helper->shippingMethodIsPakjegemak($myParcelShipment->getOrder()->getShippingMethod())) {
                     $packageType = 1;
                 } else {
                     $packageType = 2;
@@ -842,6 +842,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             case $myParcelShipment::TYPE_NORMAL:
             default:
                 $packageType = 1;
+			break;
         }
 
         $data = array(
