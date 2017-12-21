@@ -72,7 +72,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Shipment v2 endpoint active from x number of orders
      */
-    const SHIPMENT_V2_ACTIVE_FROM = 50;
+    const SHIPMENT_V2_ACTIVE_FROM = 25;
 
     /**
      * @var string
