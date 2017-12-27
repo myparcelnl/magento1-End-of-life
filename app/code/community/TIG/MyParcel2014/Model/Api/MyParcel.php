@@ -318,9 +318,9 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
 	    $this->getUserAgent();
 
-        $header[] = $requestHeader . 'charset=utf-8';
-        $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
-	    $header[] = 'User-Agent: Magento/'. $this->magento_version . ' ' . 'MyParcel-Magento/'. $this->myparcel_version;
+		$header[] = $requestHeader . 'charset=utf-8';
+		$header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
+		$header[] = 'User-Agent: Magento/'. $this->magento_version . ' ' . 'MyParcel-Magento/'. $this->myparcel_version;
 
         $this->requestHeader   = $header;
 
