@@ -313,18 +313,18 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _setRequestParameters($requestString, $requestType, $requestHeader = '')
     {
-        $this->requestString = $requestString;
-        $this->requestType   = $requestType;
+		$this->requestString = $requestString;
+		$this->requestType   = $requestType;
 
-	    $this->getUserAgent();
+		$this->getUserAgent();
 
 		$header[] = $requestHeader . 'charset=utf-8';
 		$header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
 		$header[] = 'User-Agent: Magento/'. $this->magento_version . ' ' . 'MyParcel-Magento/'. $this->myparcel_version;
 
-        $this->requestHeader   = $header;
+		$this->requestHeader   = $header;
 
-        return $this;
+		return $this;
     }
 
     /**
