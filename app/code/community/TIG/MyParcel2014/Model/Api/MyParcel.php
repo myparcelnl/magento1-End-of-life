@@ -274,6 +274,33 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         return false;
     }
 
+	/**
+	 *
+	 * Get the Megento version and MyParcel version
+	 *
+	 * @return $this
+	 */
+	protected function getUserAgent()
+	{
+		//Get Magento version
+		$magentoVersion = Mage::getVersionInfo();
+
+		//Check if there is a value is empty en remove them
+		foreach ($magentoVersion as $key => $value) {
+			if (empty($value)) {
+				unset($magentoVersion[$key]);
+			}
+		}
+
+		//Place after every number a dot
+		$this->magento_version = implode(".",$magentoVersion);
+
+		//Get MyParcel version
+		$this->myparcel_version = (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version;
+
+		return $this;
+	}
+
     /**
      * Sets the parameters for an API call based on a string with all required request parameters and the requested API
      * method.
@@ -289,8 +316,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestString = $requestString;
         $this->requestType   = $requestType;
 
-            $header[] = $requestHeader . 'charset=utf-8';
-            $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
+	    $this->getUserAgent();
+
+        $header[] = $requestHeader . 'charset=utf-8';
+        $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
+	    $header[] = 'User-Agent: Magento/'. $this->magento_version . ' ' . 'MyParcel-Magento/'. $this->myparcel_version;
 
         $this->requestHeader   = $header;
 
