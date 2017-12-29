@@ -280,11 +280,11 @@
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
                 <only_recipient_active>1</only_recipient_active>
                 <only_recipient_title>Niet bij de buren bezorgen</only_recipient_title>
-                <only_recipient_fee>0.33</only_recipient_fee>
+                <only_recipient_fee>0.29</only_recipient_fee>
                 <signature_active>1</signature_active>
                 <signature_title>Handtekening voor ontvangst</signature_title>
-                <signature_fee>0.42</signature_fee>
-                <signature_and_only_recipient_fee>0.51</signature_and_only_recipient_fee>
+                <signature_fee>0.36</signature_fee>
+                <signature_and_only_recipient_fee>0.44</signature_and_only_recipient_fee>
             </delivery>
             <mailbox>
                 <mailbox_with_other_options>1</mailbox_with_other_options>
@@ -304,7 +304,7 @@
             </pickup>
             <pickup_express>
                 <pickup_express_active>1</pickup_express_active>
-                <pickup_express_fee>1.51</pickup_express_fee>
+                <pickup_express_fee>1.38</pickup_express_fee>
             </pickup_express>
             <pickup_belgium>
                 <pickup_belgium_active>1</pickup_belgium_active>
