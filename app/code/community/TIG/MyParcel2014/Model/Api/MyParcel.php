@@ -72,7 +72,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Shipment v2 endpoint active from x number of orders
      */
-    const SHIPMENT_V2_ACTIVE_FROM = 50;
+    const SHIPMENT_V2_ACTIVE_FROM = 25;
 
     /**
      * @var string
@@ -289,12 +289,31 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestString = $requestString;
         $this->requestType   = $requestType;
 
-            $header[] = $requestHeader . 'charset=utf-8';
-            $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
-
+        $header[] = $requestHeader . 'charset=utf-8';
+        $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
+        $header[] = 'User-Agent:'. $this->_getUserAgent();
+        
         $this->requestHeader   = $header;
 
         return $this;
+    }
+
+    /**
+     * Get the Magento version and MyParcel version
+     *
+     * @return string
+     */
+    protected function _getUserAgent()
+    {
+        //Get Magento and MyParcel versions
+        $userAgents = [
+            'Magento/'. Mage::getVersion(),
+            'MyParcel-Magento/'. (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version
+        ];
+
+        $userAgent = implode(' ', $userAgents);
+
+        return $userAgent;
     }
 
     /**
