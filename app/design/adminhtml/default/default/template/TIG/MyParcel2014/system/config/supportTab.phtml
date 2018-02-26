@@ -37,8 +37,8 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 ?>
-<?php $_helper = Mage::helper('tig_myparcel'); ?>
-<?php $_version = (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version; ?>
+<?php $_helper = Mage::helper('myparcel_be'); ?>
+<?php $_version = (string) Mage::getConfig()->getModuleConfig("MyParcel_MyParcelBE")->version; ?>
 <tr>
     <td>
         <h2 class="content-heading"><?php echo $_helper->__('MyParcel version %s', $_version);?></h2>
@@ -92,7 +92,7 @@
                                 </td>
                                 <td rowspan="3">
                                     <a class="logo_image" href="http://www.myparcel.nl" target="_blank">
-                                        <img src="<?php echo $this->getSkinUrl('images/TIG/MyParcel2014/logo_myparcel.png'); ?>" alt="" />
+                                        <img src="<?php echo $this->getSkinUrl('images/MyParcel/MyParcelBE/logo_myparcel.png'); ?>" alt="" />
                                     </a>
                                 </td>
                             </tr>

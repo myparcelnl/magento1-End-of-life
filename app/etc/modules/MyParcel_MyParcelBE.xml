@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MyParcel_MyParcelBE>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Sales/>
+                <Mage_Shipping/>
+                <Mage_Adminhtml/>
+            </depends>
+        </MyParcel_MyParcelBE>
+    </modules>
+</config>

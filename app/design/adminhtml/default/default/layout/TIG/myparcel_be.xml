@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *                  ___________       __            __
+ *                  \__    ___/____ _/  |_ _____   |  |
+ *                    |    |  /  _ \\   __\\__  \  |  |
+ *                    |    | |  |_| ||  |   / __ \_|  |__
+ *                    |____|  \____/ |__|  (____  /|____/
+ *                                              \/
+ *          ___          __                                   __
+ *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
+ *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
+ *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
+ *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
+ *                  \/                           \/
+ *                  ________
+ *                 /  _____/_______   ____   __ __ ______
+ *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
+ *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
+ *                 \______  /|__|    \____/ |____/ |   __/
+ *                        \/                       |__|
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Creative Commons License.
+ * It is available through the world-wide-web at this URL:
+ * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to servicedesk@tig.nl so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future. If you wish to customize this module for your
+ * needs please contact servicedesk@tig.nl for more information.
+ *
+ * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
+ * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ */
+-->
+<layout>
+    <adminhtml_system_config_edit>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <file>js/MyParcel/MyParcelBE/jquery-myparcel.min.js</file>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_css</type>
+                <name>css/MyParcel/MyParcelBE/system_config_edit_1_7_1.css</name>
+            </action>
+        </reference>
+        <reference name="head">
+            <action method="addItem">
+                <type>skin_js</type>
+                <name>js/MyParcel/MyParcelBE/jscolor/jscolor.js</name>
+            </action>
+        </reference>
+    </adminhtml_system_config_edit>
+
+    <adminhtml_sales_order_address>
+        <reference name="content">
+            <block type="core/template"
+                   name="myparcel_be_address_warning"
+                   template="MyParcel/MyParcelBE/sales/order/address/warning.phtml"/>
+        </reference>
+    </adminhtml_sales_order_address>
+
+    <adminhtml_sales_order_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addCss">
+                <name>css/MyParcel/MyParcelBE/prototype_windows_themes_magento.css</name>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="core/template"
+                   name="myparcel_be_order_index"
+                   template="MyParcel/MyParcelBE/sales/order/mass_actions.phtml"/>
+        </reference>
+    </adminhtml_sales_order_index>
+
+    <adminhtml_sales_order_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addCss">
+                <name>css/MyParcel/MyParcelBE/prototype_windows_themes_magento.css</name>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="myparcel_be/adminhtml_sales_order_view_shippingInfo"
+                   name="myparcel_be_order_view_shipping_info"
+                   template="MyParcel/MyParcelBE/sales/order/view/shipping_info.phtml"/>
+        </reference>
+    </adminhtml_sales_order_view>
+
+    <adminhtml_sales_shipment_index>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addCss">
+                <name>css/MyParcel/MyParcelBE/prototype_windows_themes_magento.css</name>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="core/template"
+                   name="myparcel_be_order_index"
+                   template="MyParcel/MyParcelBE/sales/order/shipment/mass_actions.phtml"/>
+        </reference>
+    </adminhtml_sales_shipment_index>
+
+    <adminhtml_sales_order_shipment_new>
+        <reference name="head">
+            <action method="addCss">
+                <name>css/MyParcel/MyParcelBE/styles.css</name>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="myparcel_be/adminhtml_sales_order_shipment_create_consignmentOptions"
+                   name="myparcel_be_shipment_create_consignment_options"
+                   template="MyParcel/MyParcelBE/sales/order/shipment/create/consignment_options.phtml"/>
+        </reference>
+    </adminhtml_sales_order_shipment_new>
+
+    <adminhtml_sales_order_shipment_view>
+        <reference name="head">
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+            <action method="addCss">
+                <name>css/MyParcel/MyParcelBE/prototype_windows_themes_magento.css</name>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="myparcel_be/adminhtml_sales_order_shipment_shippingInfo"
+                   name="myparcel_be_order_shipment_shipping_info"
+                   template="MyParcel/MyParcelBE/sales/order/shipment/shipping_info.phtml"/>
+        </reference>
+    </adminhtml_sales_order_shipment_view>
+</layout>

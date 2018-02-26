@@ -36,12 +36,12 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
- * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions $this
+ * @var MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions $this
  */
-/** @var $_helper TIG_MyParcel2014_Helper_Data */
+/** @var $_helper MyParcel_MyParcelBE_Helper_Data */
 $_countryNeedsCustoms       = $this->countryNeedsCustoms();
 $_storeId                   = $this->getOrderStoreId();
-$_helper                    = Mage::helper('tig_myparcel');
+$_helper                    = Mage::helper('myparcel_be');
 $_homeSelected              = $this->getIsHomeSelected();
 $_signatureSelected         = $this->getIsSignatureOnReceipt();
 $_returnNoAnswerSelected    = $this->getIsReturnOnNoAnswer();
@@ -73,15 +73,15 @@ if(true == $_isPakjegemak){
 
 
 ?>
-<div id="tig_myparcel_consignment_options">
+<div id="myparcel_be_consignment_options">
     <p>
-        <label for="tig_myparcel_create_consignment" class="normal"><strong>Maak MyParcel zending aan</strong></label>
-        <input id="tig_myparcel_create_consignment" type="checkbox" value="1" name="tig_myparcel[create_consignment]" checked="true" />
+        <label for="myparcel_be_create_consignment" class="normal"><strong>Maak MyParcel zending aan</strong></label>
+        <input id="myparcel_be_create_consignment" type="checkbox" value="1" name="myparcel_be[create_consignment]" checked="true" />
     </p>
-    <div id="tig_myparcel_form_container">
+    <div id="myparcel_be_form_container">
             <p>
-                <label for="tig_myparcel_shipment_type" class="normal" ><?php echo $this->__('Shipment type');?></label>
-                <select id="tig_myparcel_shipment_type" name="tig_myparcel[shipment_type]">
+                <label for="myparcel_be_shipment_type" class="normal" ><?php echo $this->__('Shipment type');?></label>
+                <select id="myparcel_be_shipment_type" name="myparcel_be[shipment_type]">
                     <option value="normal" <?php echo $type == 1 ? 'selected="selected"' : '';?>><?php echo $this->__('Normal'); ?></option>
                     <?php if ($this->getDestinationCountry() == 'NL'): ?>
                     <option value="letter_box" <?php echo $_disabled;?> <?php echo $type == 2 ? 'selected="selected"' : '';?>><?php echo $this->__('Letter box'); ?></option>
@@ -92,24 +92,24 @@ if(true == $_isPakjegemak){
         <div id="myparcel_consignment_options">
             <?php if ($this->getDestinationCountry() == 'NL'): ?>
                 <p>
-                    <label for="tig_myparcel_home_address_only" class="normal"><?php echo $this->__('Home address only');?></label>
-                    <input id="tig_myparcel_home_address_only" type="checkbox" value="1" name="tig_myparcel[home_address_only]" <?php echo $_homeSelected;?> />
+                    <label for="myparcel_be_home_address_only" class="normal"><?php echo $this->__('Home address only');?></label>
+                    <input id="myparcel_be_home_address_only" type="checkbox" value="1" name="myparcel_be[home_address_only]" <?php echo $_homeSelected;?> />
                 </p>
                 <p>
-                    <label for="tig_myparcel_signature_on_receipt" class="normal"><?php echo $this->__('Signature on receipt');?></label>
-                    <input id="tig_myparcel_signature_on_receipt" type="checkbox" value="1" name="tig_myparcel[signature_on_receipt]" <?php echo $_signatureSelected;?> />
+                    <label for="myparcel_be_signature_on_receipt" class="normal"><?php echo $this->__('Signature on receipt');?></label>
+                    <input id="myparcel_be_signature_on_receipt" type="checkbox" value="1" name="myparcel_be[signature_on_receipt]" <?php echo $_signatureSelected;?> />
                 </p>
                 <p>
-                    <label for="tig_myparcel_return_if_no_answer" class="normal"><?php echo $this->__('Return if no answer');?></label>
-                    <input id="tig_myparcel_return_if_no_answer" type="checkbox" value="1" name="tig_myparcel[return_if_no_answer]" <?php echo $_returnNoAnswerSelected;?> />
+                    <label for="myparcel_be_return_if_no_answer" class="normal"><?php echo $this->__('Return if no answer');?></label>
+                    <input id="myparcel_be_return_if_no_answer" type="checkbox" value="1" name="myparcel_be[return_if_no_answer]" <?php echo $_returnNoAnswerSelected;?> />
                 </p>
                 <p>
-                    <label for="tig_myparcel_xl" class="normal"><?php echo $this->__('Large package');?></label>
-                    <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
+                    <label for="myparcel_be_xl" class="normal"><?php echo $this->__('Large package');?></label>
+                    <input id="myparcel_be_xl" type="checkbox" value="1" name="myparcel_be[is_xl]" <?php echo $_isXlSelected;?> />
                 </p>
                 <p>
-                    <label for="tig_myparcel_insured" class="normal">(<?php echo $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?php echo $this->__('Insured up to:');?> </label>
-                    <select id="tig_myparcel_insured_amount" name="tig_myparcel[insured_amount]" >
+                    <label for="myparcel_be_insured" class="normal">(<?php echo $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?php echo $this->__('Insured up to:');?> </label>
+                    <select id="myparcel_be_insured_amount" name="myparcel_be[insured_amount]" >
                         <option value="50" <?php echo $_insuredUpTo == 50 ? 'selected="selected"' : '';?>>&euro; 50</option>
                         <option value="250" <?php echo $_insuredUpTo == 250 ? 'selected="selected"' : '';?>>&euro; 250</option>
                         <option value="500" <?php echo $_insuredUpTo == 500 && $_insuredUpTo < 1000 ? 'selected="selected"' : '';?>>&euro; 500</option>
@@ -118,14 +118,14 @@ if(true == $_isPakjegemak){
                             <?php $tmpInsured = $tmpInsured + 500; ?>
                         <?php endwhile; ?>
                     </select>
-                    <input id="tig_myparcel_insured" type="checkbox" value="1" name="tig_myparcel[insured]" <?php echo $_insuredSelected;?> />
+                    <input id="myparcel_be_insured" type="checkbox" value="1" name="myparcel_be[insured]" <?php echo $_insuredSelected;?> />
 
                 </p>
 
             <?php elseif($_countryNeedsCustoms): ?>
                 <p>
-                    <label for="tig_myparcel_customs_type" class="normal"><?php echo $this->__('Customs Shipment Type');?></label>
-                    <select id="tig_myparcel_customs_type" class="select required-entry" name="tig_myparcel[customs_type]">
+                    <label for="myparcel_be_customs_type" class="normal"><?php echo $this->__('Customs Shipment Type');?></label>
+                    <select id="myparcel_be_customs_type" class="select required-entry" name="myparcel_be[customs_type]">
                         <?php foreach($_customsTypeOptions as $_option):?>
                             <?php $_selected = ''; ?>
                             <?php if ($_option['value'] == $_defaultCustomsCode): ?>
@@ -139,8 +139,8 @@ if(true == $_isPakjegemak){
                     </select>
                 </p>
                 <p>
-                    <label for="tig_myparcel_customs_content_code" class="normal"><?php echo $this->__('Customs Content HS Code');?></label>
-                    <input id="tig_myparcel_customs_content_code" type="text" value="<?php echo $_defaultCustomsContentCode;?>" name="tig_myparcel[customs_content_type]" />
+                    <label for="myparcel_be_customs_content_code" class="normal"><?php echo $this->__('Customs Content HS Code');?></label>
+                    <input id="myparcel_be_customs_content_code" type="text" value="<?php echo $_defaultCustomsContentCode;?>" name="myparcel_be[customs_content_type]" />
                 </p>
                 <p>
                     <small><?php echo $this->__('Select content type for Cross Domestic products, see <a href="http://gebruikstarief.douane.nl" target="_blank">http://gebruikstarief.douane.nl</a>');?></small>
@@ -150,8 +150,8 @@ if(true == $_isPakjegemak){
                 </p>
             <?php else: ?>
                 <p>
-                    <label for="tig_myparcel_xl" class="normal"><?php echo $this->__('Large package');?></label>
-                    <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
+                    <label for="myparcel_be_xl" class="normal"><?php echo $this->__('Large package');?></label>
+                    <input id="myparcel_be_xl" type="checkbox" value="1" name="myparcel_be[is_xl]" <?php echo $_isXlSelected;?> />
                 </p>
                 <p>
                     <small><?php echo $this->__('Shipment insured up to &euro; %s purchase value', 500);?></small>
@@ -165,11 +165,11 @@ if(true == $_isPakjegemak){
     /*<![CDATA[*/
     document.observe('dom:loaded', function() {
         $$('.order-totals-bottom div.a-right')[0].insert({
-            before: $('tig_myparcel_consignment_options')
+            before: $('myparcel_be_consignment_options')
         });
 
-        var createConsignmentCheckbox = $('tig_myparcel_create_consignment');
-        var consignmentOptionsForm  = $('tig_myparcel_form_container');
+        var createConsignmentCheckbox = $('myparcel_be_create_consignment');
+        var consignmentOptionsForm  = $('myparcel_be_form_container');
 
         if(createConsignmentCheckbox.checked){
             consignmentOptionsForm.show();
@@ -183,18 +183,18 @@ if(true == $_isPakjegemak){
             }
         });
 
-        var shipmentTypeSelect = $('tig_myparcel_shipment_type');
+        var shipmentTypeSelect = $('myparcel_be_shipment_type');
         if (shipmentTypeSelect) {
             shipmentTypeSelect.observe('change', function() {
                 checkConsignment();
             })
         }
 
-        var shipmentInsuredAmountSelect = $('tig_myparcel_insured_amount');
+        var shipmentInsuredAmountSelect = $('myparcel_be_insured_amount');
         if (shipmentInsuredAmountSelect) {
             shipmentInsuredAmountSelect.observe('change', function() {
 
-                var shipmentInsuredCheck = $('tig_myparcel_insured');
+                var shipmentInsuredCheck = $('myparcel_be_insured');
                 shipmentInsuredCheck.checked = true;
 
             })

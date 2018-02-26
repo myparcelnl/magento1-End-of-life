@@ -36,10 +36,10 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
- * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo $this
+ * @var MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo $this
  */
 ?>
-<?php $helper = Mage::helper('tig_myparcel');?>
+<?php $helper = Mage::helper('myparcel_be');?>
     <script>
         /* Select MyParcel option */
         function selectMyparcel() {
@@ -255,7 +255,7 @@
                     }
 
                     if (selectedMassAction.value == 'myparcel_print_labels') {
-                        useV2Endpoint = $$('input:checked[name=order_ids]').length > <?=TIG_MyParcel2014_Model_Api_MyParcel::SHIPMENT_V2_ACTIVE_FROM;?>;
+                        useV2Endpoint = $$('input:checked[name=order_ids]').length > <?=MyParcel_MyParcelBE_Model_Api_MyParcel::SHIPMENT_V2_ACTIVE_FROM;?>;
                     } else {
                         useV2Endpoint = false;
                     }

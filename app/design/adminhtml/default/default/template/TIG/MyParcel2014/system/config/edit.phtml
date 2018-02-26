@@ -33,7 +33,7 @@
      *  getForm() - html
      */
 ?>
-<?php $helper = Mage::helper('tig_myparcel'); ?>
+<?php $helper = Mage::helper('myparcel_be'); ?>
 
 <div class="content-header">
     <table cellspacing="0">
@@ -236,7 +236,7 @@ var adminSystemConfig = {
 
 
         /** Hide and toggle MyParcel options (used by parnis.nl) */
-        $('row_tig_myparcel_checkout_toggle_options').hide();
+        $('row_myparcel_be_checkout_toggle_options').hide();
 
         var tabButtonGeneral = new Element('li', { 'id': 'js-tabButton_General', 'class': 'active' }).update("<a><?php echo $helper->__('General settings');?></a>");
         var tabButtonShippingShippingMethods = new Element('li', { 'id': 'js-tabButton_ShippingMethods' }).update("<a><?php echo $helper->__('Checkout settings');?></a>");
@@ -252,21 +252,21 @@ var adminSystemConfig = {
         // General content
         $$('.entry-edit').last().insert('<fieldset id="configGeneralContent"></fieldset>');
         var configGeneralContent = $('configGeneralContent');
-        configGeneralContent.insert($('tig_myparcel_api-head').up(1));
-        configGeneralContent.insert($('tig_myparcel_general-head').up(1));
-        configGeneralContent.insert($('tig_myparcel_shipment-head').up(1));
+        configGeneralContent.insert($('myparcel_be_api-head').up(1));
+        configGeneralContent.insert($('myparcel_be_general-head').up(1));
+        configGeneralContent.insert($('myparcel_be_shipment-head').up(1));
 
         // Checkout options content
         $$('.entry-edit').last().insert('<fieldset id="configShippingMethodsContent" style="display:none;"></fieldset>');
         var configShippingMethodsContent = $('configShippingMethodsContent');
-        configShippingMethodsContent.insert($('tig_myparcel_checkout-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_delivery-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_mailbox-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_morningdelivery-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_eveningdelivery-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_pickup-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_pickup_express-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_pickup_belgium-head').up(1));
+        configShippingMethodsContent.insert($('myparcel_be_checkout-head').up(1));
+        configShippingMethodsContent.insert($('myparcel_be_delivery-head').up(1));
+        configShippingMethodsContent.insert($('myparcel_be_mailbox-head').up(1));
+        configShippingMethodsContent.insert($('myparcel_be_morningdelivery-head').up(1));
+        configShippingMethodsContent.insert($('myparcel_be_eveningdelivery-head').up(1));
+        configShippingMethodsContent.insert($('myparcel_be_pickup-head').up(1));
+        configShippingMethodsContent.insert($('myparcel_be_pickup_express-head').up(1));
+        configShippingMethodsContent.insert($('myparcel_be_pickup_belgium-head').up(1));
 
         tabButtonGeneral.observe('click', respondToClick);
         tabButtonShippingShippingMethods.observe('click', respondToClick);
