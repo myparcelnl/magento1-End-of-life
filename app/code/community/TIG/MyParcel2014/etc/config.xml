@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <MyParcel_MyParcelBE>
+        <TIG_MyParcel2014>
             <version>1.14.6</version>
-        </MyParcel_MyParcelBE>
+        </TIG_MyParcel2014>
     </modules>
     <global>
         <models>
