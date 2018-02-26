@@ -36,12 +36,12 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminhtml_Controller_Action
+class MyParcel_MyParcelBE_MyparcelAdminhtml_ShipmentController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Used module name in current adminhtml controller.
      */
-    protected $_usedModuleName = 'TIG_MyParcel2014';
+    protected $_usedModuleName = 'MyParcel_MyParcelBE';
 
     /**
      * @var array
@@ -53,7 +53,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('admin/tig_myparcel');
+        return Mage::getSingleton('admin/session')->isAllowed('admin/myparcel_be');
     }
 
     /**
@@ -103,7 +103,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      *
      * @return array
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     protected function _getShipmentIds()
     {
@@ -113,7 +113,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          * Check if a shipment was selected.
          */
         if (!is_array($shipmentIds) || empty($shipmentIds)) {
-            throw new TIG_MyParcel2014_Exception(
+            throw new MyParcel_MyParcelBE_Exception(
                 $this->__('Please select one or more shipments.'),
                 'MYPA-0001'
             );
@@ -127,7 +127,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      *
      * @return array
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     protected function _getOrderIds()
     {
@@ -145,7 +145,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
              * Check if an order was selected.
              */
             if (!is_array($orderIds) || empty($orderIds)) {
-                throw new TIG_MyParcel2014_Exception(
+                throw new MyParcel_MyParcelBE_Exception(
                     $this->__('Please select one or more orders.'),
                     'MYPA-0002'
                 );
@@ -163,7 +163,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      */
     public function massCreateShipmentsAction()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         try {
             $orderIds = $this->_getOrderIds();
@@ -175,7 +175,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             foreach ($orderIds as $orderId) {
                 try {
                     $this->_createShipment($orderId);
-                } catch (TIG_MyParcel2014_Exception $e) {
+                } catch (MyParcel_MyParcelBE_Exception $e) {
                     $helper->logException($e);
                     $this->addWarning(
                         array(
@@ -197,7 +197,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                     $errors++;
                 }
             }
-        } catch (TIG_MyParcel2014_Exception $e) {
+        } catch (MyParcel_MyParcelBE_Exception $e) {
             $helper->logException($e);
             $helper->addExceptionSessionMessage('adminhtml/session', $e);
 
@@ -251,10 +251,10 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      */
     public function createConsignmentAction()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         //get post variables
-        $selectedConsignmentOptions = $this->getRequest()->getPost('tig_myparcel');
+        $selectedConsignmentOptions = $this->getRequest()->getPost('myparcel_be');
         $shipmentId                 = $this->getRequest()->getPost('shipment_id');
 
         $error            = false;
@@ -264,16 +264,16 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         try{
 
             if(!empty($shipmentId)){
-                /** @var TIG_MyParcel2014_Model_Shipment $myParcelShipment */
-                $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->setShipmentId($shipmentId);
+                /** @var MyParcel_MyParcelBE_Model_Shipment $myParcelShipment */
+                $myParcelShipment = Mage::getModel('myparcel_be/shipment')->setShipmentId($shipmentId);
 
             }else{
-                throw new TIG_MyParcel2014_Exception(
+                throw new MyParcel_MyParcelBE_Exception(
                     $helper->__('Please select one or more shipments.'),
                     'MYPA-0001'
                 );
             }
-        }catch (TIG_MyParcel2014_Exception $e) {
+        }catch (MyParcel_MyParcelBE_Exception $e) {
             $error = true;
             $helper->logException($e);
             $helper->addExceptionSessionMessage('adminhtml/session', $e);
@@ -294,14 +294,14 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             try {
                 /** @var Mage_Sales_Model_Order_Shipment $shipment */
                 $shipment = $myParcelShipment->getShipment();
-                if($helper->getPgAddress($shipment->getOrder()) && ($shipmentType != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL && $shipmentType != 'default')){
+                if($helper->getPgAddress($shipment->getOrder()) && ($shipmentType != MyParcel_MyParcelBE_Model_Shipment::TYPE_NORMAL && $shipmentType != 'default')){
                     $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
-                    throw new TIG_MyParcel2014_Exception(
+                    throw new MyParcel_MyParcelBE_Exception(
                         $helper->__('The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target="_blank" href="%s">View shipment</a>',$shipment_url),
                         'MYPA-0023'
                     );
                 }
-            } catch(TIG_MyParcel2014_Exception $e) {
+            } catch(MyParcel_MyParcelBE_Exception $e) {
                 $error = true;
                 $helper->logException($e);
                 $helper->addExceptionSessionMessage('adminhtml/session', $e);
@@ -311,14 +311,14 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             }
 
             //if not the normal shipment-type, no extra options are needed, so reset the consignment options
-            if ($shipmentType != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL) {
+            if ($shipmentType != MyParcel_MyParcelBE_Model_Shipment::TYPE_NORMAL) {
                 $selectedConsignmentOptions = array(
                     'shipment_type' => $shipmentType
                 );
             }
 
             //register the consignment options
-            Mage::register('tig_myparcel_consignment_options', $selectedConsignmentOptions);
+            Mage::register('myparcel_be_consignment_options', $selectedConsignmentOptions);
 
             /**
              * consignment options are set, try if we can create a myparcel consignment
@@ -329,7 +329,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 if ($barcode) {
                     $myParcelShipment->addTrackingCodeToShipment($barcode);
                 }
-            }catch (TIG_MyParcel2014_Exception $e) {
+            }catch (MyParcel_MyParcelBE_Exception $e) {
                 $error = true;
                 $helper->logException($e);
                 $helper->addExceptionSessionMessage('adminhtml/session', $e);
@@ -361,11 +361,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      *
      * @return $this
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     public function massPrintLabelsAction()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         $orderIds = $this->_getOrderIds();
 
         $shipmentCollection = Mage::getResourceModel('sales/order_shipment_collection')
@@ -375,7 +375,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         $shipmentIds      = $shipmentCollection->getColumnValues('entity_id');
         $shipmentOrderIds = $shipmentCollection->getColumnValues('order_id');
 
-        Mage::register('tig_myparcel_consignment_options', array(
+        Mage::register('myparcel_be_consignment_options', array(
             'create_consignment' => '1',
             'type_consignment' => $this->getRequest()->getParam('type_consignment'),
         ));
@@ -395,7 +395,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                  */
                 try {
                     $newShipments[] = $this->_createShipment($orderId, true);
-                } catch (TIG_MyParcel2014_Exception $e) {
+                } catch (MyParcel_MyParcelBE_Exception $e) {
                     $helper->logException($e);
 
                     $helper->addSessionMessage(
@@ -440,7 +440,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         /**
          * Get the labels from CIF.
          *
-         * @var TIG_MyParcel2014_Model_Shipment $shipment
+         * @var MyParcel_MyParcelBE_Model_Shipment $shipment
          */
         $consignmentIds = array();
 
@@ -451,23 +451,23 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             try {
                 if (!$shipment->hasConsignmentId()) {
 
-                    if($helper->getPgAddress($shipment->getOrder()) && $type != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL && $type != 'default'){
+                    if($helper->getPgAddress($shipment->getOrder()) && $type != MyParcel_MyParcelBE_Model_Shipment::TYPE_NORMAL && $type != 'default'){
                         $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
-                        throw new TIG_MyParcel2014_Exception(
+                        throw new MyParcel_MyParcelBE_Exception(
                             $helper->__('The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target="_blank" href="%s">View shipment</a>',$shipment_url),
                             'MYPA-0023'
                         );
                     }
 
                     $consignmentOptions = array('shipment_type' => $type);
-                    if (Mage::registry('tig_myparcel_consignment_options')) {
+                    if (Mage::registry('myparcel_be_consignment_options')) {
                         $consignmentOptions = array_merge(
                             $consignmentOptions,
-                            Mage::registry('tig_myparcel_consignment_options')
+                            Mage::registry('myparcel_be_consignment_options')
                         );
-                        Mage::unregister('tig_myparcel_consignment_options');
+                        Mage::unregister('myparcel_be_consignment_options');
                     }
-                    Mage::register('tig_myparcel_consignment_options', $consignmentOptions);
+                    Mage::register('myparcel_be_consignment_options', $consignmentOptions);
                     $shipment->setShipmentId($shipment->getShipment()->getId())
                         ->setConsignmentOptions($consignmentOptions)
                         ->createConsignment()
@@ -494,11 +494,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
 
         $storeId = $shipment->getOrder()->getStoreId();
         /**
-         * @var $api TIG_MyParcel2014_Model_Api_MyParcel
+         * @var $api MyParcel_MyParcelBE_Model_Api_MyParcel
          */
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
         $perpage = $helper->getConfig('print_orientation');
-        $api     = Mage::getModel('tig_myparcel/api_myParcel');
+        $api     = Mage::getModel('myparcel_be/api_myParcel');
         $api->setStoreId($storeId)
             ->createSetupPdfsRequest($consignmentIds, $start, $perpage)
             ->sendRequest('GET');
@@ -520,11 +520,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          * Load the shipments and check if they are valid.
          * returns an array with shipment objects
          *
-         * @var TIG_MyParcel2014_Model_Shipment $shipment
+         * @var MyParcel_MyParcelBE_Model_Shipment $shipment
          */
         $shipments = $this->_loadAndCheckShipments($shipmentIds, true, false);
 
-        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $apiInfo    = Mage::getModel('myparcel_be/api_myParcel');
         $apiInfo    ->setStoreId($storeId);
         $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
 
@@ -546,11 +546,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      *
      * @return $this
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     public function massPrintShipmentLabelsAction()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         $shipmentIds = $this->_getShipmentIds();
 
         $shipmentCollection = Mage::getResourceModel('sales/order_shipment_collection')
@@ -559,7 +559,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
 
         $shipmentIds      = $shipmentCollection->getColumnValues('entity_id');
 
-        Mage::register('tig_myparcel_consignment_options', array(
+        Mage::register('myparcel_be_consignment_options', array(
             'create_consignment' => '1',
             'type_consignment' => $this->getRequest()->getParam('type_consignment'),
         ));
@@ -573,7 +573,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         /**
          * Get the labels from CIF.
          *
-         * @var TIG_MyParcel2014_Model_Shipment $shipment
+         * @var MyParcel_MyParcelBE_Model_Shipment $shipment
          */
         $consignmentIds = array();
         foreach ($shipments as $shipment) {
@@ -581,23 +581,23 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 if (!$shipment->hasConsignmentId()) {
                     $type = $this->getRequest()->getParam('type_consignment');
 
-                    if($helper->getPgAddress($shipment->getOrder()) && $type != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL && $type != 'default'){
+                    if($helper->getPgAddress($shipment->getOrder()) && $type != MyParcel_MyParcelBE_Model_Shipment::TYPE_NORMAL && $type != 'default'){
                         $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
-                        throw new TIG_MyParcel2014_Exception(
+                        throw new MyParcel_MyParcelBE_Exception(
                             $helper->__('The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target="_blank" href="%s">View shipment</a>',$shipment_url),
                             'MYPA-0023'
                         );
                     }
 
                     $consignmentOptions = array('shipment_type' => $type);
-                    if (Mage::registry('tig_myparcel_consignment_options')) {
+                    if (Mage::registry('myparcel_be_consignment_options')) {
                         $consignmentOptions = array_merge(
                             $consignmentOptions,
-                            Mage::registry('tig_myparcel_consignment_options')
+                            Mage::registry('myparcel_be_consignment_options')
                         );
-                        Mage::unregister('tig_myparcel_consignment_options');
+                        Mage::unregister('myparcel_be_consignment_options');
                     }
-                    Mage::register('tig_myparcel_consignment_options', $consignmentOptions);
+                    Mage::register('myparcel_be_consignment_options', $consignmentOptions);
                     $shipment->setShipmentId($shipment->getShipment()->getId())
                         ->setConsignmentOptions($consignmentOptions)
                         ->createConsignment()
@@ -624,8 +624,8 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
 
         $storeId = $shipment->getOrder()->getStoreId();
 
-        /** @var $api TIG_MyParcel2014_Model_Api_MyParcel */
-        $api     = Mage::getModel('tig_myparcel/api_myParcel');
+        /** @var $api MyParcel_MyParcelBE_Model_Api_MyParcel */
+        $api     = Mage::getModel('myparcel_be/api_myParcel');
         $api->setStoreId($storeId);
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
         $perpage = $helper->getConfig('print_orientation');
@@ -659,9 +659,9 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
     public function sendReturnMailAction()
     {
         /**
-         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+         * @var MyParcel_MyParcelBE_Model_Api_MyParcel $api
          */
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         $error = null;
         $message = &$error;
         $request = $this->getRequest();
@@ -688,7 +688,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 )
             );
 
-            $api = Mage::getModel('tig_myparcel/api_myParcel');
+            $api = Mage::getModel('myparcel_be/api_myParcel');
             $response = $api->sendUnrelatedRetourmailRequest($data)
                 ->sendRequest()
                 ->getRequestResponse();
@@ -709,7 +709,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
 
     /**
      * @return Mage_Core_Controller_Varien_Action
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     public function printPackingSlipAction(){
 
@@ -747,7 +747,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
     /**
      * Check if label pdf exists
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     public function fileExistsAction()
     {
@@ -755,9 +755,9 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         $url = $request->getParam('url');
 
         /**
-         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+         * @var MyParcel_MyParcelBE_Model_Api_MyParcel $api
          */
-        $api = Mage::getModel('tig_myparcel/api_myParcel');
+        $api = Mage::getModel('myparcel_be/api_myParcel');
         $response = $api->createFileExistsRequest($url)
             ->sendRequest('GET', false)
             ->getRequestResponse();
@@ -772,13 +772,13 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      *
      * @param array|int $shipmentIds
      * @param boolean   $loadMyParcelShipments Flag that determines whether the shipments will be loaded as
-     *                                         Mage_Sales_Model_Shipment or TIG_MyParcel2014_Model_Shipment objects.
+     *                                         Mage_Sales_Model_Shipment or MyParcel_MyParcelBE_Model_Shipment objects.
      * @param boolean   $throwException        Flag whether an exception should be thrown when loading the shipment fails.
      * @param bool $keyIsConsignmentId         When creating a new shipment there is no consignment_id. Other times it
      *                                         is necessary to use consignment_id as the key.
      *
      * @return array
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     protected function _loadAndCheckShipments($shipmentIds, $loadMyParcelShipments = false, $throwException = true, $keyIsConsignmentId = true)
     {
@@ -791,12 +791,12 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             /**
              * Load the shipment.
              *
-             * @var Mage_Sales_Model_Order_Shipment|TIG_MyParcel2014_Model_Shipment|boolean $shipment
+             * @var Mage_Sales_Model_Order_Shipment|MyParcel_MyParcelBE_Model_Shipment|boolean $shipment
              */
             $shipment = $this->_loadShipment($shipmentId, $loadMyParcelShipments);
 
             if (!$shipment && $throwException) {
-                throw new TIG_MyParcel2014_Exception(
+                throw new MyParcel_MyParcelBE_Exception(
                     $this->__(
                         'This action is not available for shipment #%s, because it was not shipped using MyParcel.',
                         $shipmentId
@@ -834,7 +834,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      * @param int     $shipmentId
      * @param boolean $loadMyParcelShipment
      *
-     * @return boolean|Mage_Sales_Model_Order_Shipment|TIG_MyParcel2014_Model_Shipment
+     * @return boolean|Mage_Sales_Model_Order_Shipment|MyParcel_MyParcelBE_Model_Shipment
      */
     protected function _loadShipment($shipmentId, $loadMyParcelShipment)
     {
@@ -850,7 +850,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             $shippingMethod = $shipment->getOrder()->getShippingMethod();
         } else {
             /**
-             * @var TIG_MyParcel2014_Model_Shipment $shipment
+             * @var MyParcel_MyParcelBE_Model_Shipment $shipment
              */
             $shipment = $this->_getMyParcelShipment($shipmentId);
             if (!$shipment || !$shipment->getId()) {
@@ -863,7 +863,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         /**
          * Check if the shipping method used is allowed
          */
-        if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod) || $shipment->getShipment()->getOrder()->getIsVirtual()) {
+        if (!Mage::helper('myparcel_be')->shippingMethodIsMyParcel($shippingMethod) || $shipment->getShipment()->getOrder()->getIsVirtual()) {
             return false;
         }
 
@@ -875,11 +875,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      *
      * @param int $shipmentId
      *
-     * @return TIG_MyParcel2014_Model_Shipment
+     * @return MyParcel_MyParcelBE_Model_Shipment
      */
     protected function _getMyParcelShipment($shipmentId)
     {
-        $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
+        $myParcelShipment = Mage::getModel('myparcel_be/shipment')->load($shipmentId, 'shipment_id');
 
         return $myParcelShipment;
     }
@@ -890,10 +890,10 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      * @param int $orderId
      * @param boolean $returnShipment
      *
-     * @return int|TIG_MyParcel2014_Exception
+     * @return int|MyParcel_MyParcelBE_Exception
      *
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     protected function _createShipment($orderId, $returnShipment = false)
     {
@@ -903,14 +903,14 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         $order = Mage::getModel('sales/order')->load($orderId);
 
         if($order->isCanceled()){
-            throw new TIG_MyParcel2014_Exception(
+            throw new MyParcel_MyParcelBE_Exception(
                 $this->__('Order %s cannot be shipped, because it is cancelled.', $order->getIncrementId()),
                 'MYPA-0004'
             );
         }
 
         if (!$order->canShip()) {
-            throw new TIG_MyParcel2014_Exception(
+            throw new MyParcel_MyParcelBE_Exception(
                 $this->__('Order #%s cannot be shipped at this time.', $order->getIncrementId()),
                 'MYPA-0004'
             );
@@ -941,9 +941,9 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
     {
 
         /**
-         * @var TIG_MyParcel2014_Helper_Data $helper
+         * @var MyParcel_MyParcelBE_Helper_Data $helper
          */
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         if ($helper->getConfig('automatically_next_status', 'shipment') === '1') {
             $shipment->getOrder()->setIsInProcess(true);
         }
@@ -992,11 +992,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
      * @param string $headerText
      *
      * @return $this
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     protected function _addWarningMessages($warnings, $headerText = '')
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         /**
          * Create a warning message to display to the merchant.

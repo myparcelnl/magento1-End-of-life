@@ -37,7 +37,7 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-class TIG_MyParcel2014_Model_System_Config_Source_Customs
+class MyParcel_MyParcelBE_Model_System_Config_Source_Customs
 {
     /**
      * Source model for customs setting.
@@ -46,7 +46,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_Customs
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $array = array(
              array(

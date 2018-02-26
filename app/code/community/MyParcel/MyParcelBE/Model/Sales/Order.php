@@ -10,14 +10,14 @@
  *  @license    http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
     if (file_exists(Mage::getBaseDir() . '/app/code/community/MDN/AdvancedStock/Model/Sales/Order.php') && class_exists('MDN_AdvancedStock_Model_Sales_Order')) {
-        class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends MDN_AdvancedStock_Model_Sales_Order { }
+        class MyParcel_MyParcelBE_Model_Sales_Order_OverrideCheck extends MDN_AdvancedStock_Model_Sales_Order { }
     } else if (file_exists(Mage::getBaseDir() . '/app/code/community/Emagicone/Mobassistantconnector/Model/Sales/Order.php') && class_exists('Emagicone_Mobassistantconnector_Model_Order')) {
-        class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Emagicone_Mobassistantconnector_Model_Order { }
+        class MyParcel_MyParcelBE_Model_Sales_Order_OverrideCheck extends Emagicone_Mobassistantconnector_Model_Order { }
     } else {
-        class TIG_MyParcel2014_Model_Sales_Order_OverrideCheck extends Mage_Sales_Model_Order { }
+        class MyParcel_MyParcelBE_Model_Sales_Order_OverrideCheck extends Mage_Sales_Model_Order { }
     }
 
-    class TIG_MyParcel2014_Model_Sales_Order extends TIG_MyParcel2014_Model_Sales_Order_OverrideCheck
+    class MyParcel_MyParcelBE_Model_Sales_Order extends MyParcel_MyParcelBE_Model_Sales_Order_OverrideCheck
     {
 
         /**
@@ -26,7 +26,7 @@
          * @return Mage_Sales_Model_Order_Address
          */
         public function getShippingAddress() {
-            $helper = Mage::helper('tig_myparcel');
+            $helper = Mage::helper('myparcel_be');
             $usePgAddress = $helper->getConfig('pakjegemak_use_shipment_address') === '1';
 
             $parentFunctions = debug_backtrace();

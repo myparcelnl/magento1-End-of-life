@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Model_System_Config_Source_StreetField
+class MyParcel_MyParcelBE_Model_System_Config_Source_StreetField
 {
     /**
      * XML path to community edition address lines configuration option
@@ -59,7 +59,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_StreetField
             return $this->_options;
         }
 
-        if (Mage::helper('tig_myparcel')->isEnterprise()) {
+        if (Mage::helper('myparcel_be')->isEnterprise()) {
             $array = $this->_getEnterpriseOptions();
 
             $this->_options = $array;
@@ -80,7 +80,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_StreetField
     protected function _getCommunityOptions()
     {
         $request = Mage::app()->getRequest();
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         /**
          * Get the allowed number of address lines based on the current scope
@@ -125,7 +125,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_StreetField
      */
     protected function _getEnterpriseOptions()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         $lineCount = Mage::helper('customer/address')->getStreetLines();
 
         /**

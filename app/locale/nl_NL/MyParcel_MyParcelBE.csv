@@ -1,0 +1,324 @@
+MyParcel_MyParcelBE::Enabled,Geactiveerd
+MyParcel_MyParcelBE::Title,Titel
+MyParcel_MyParcelBE::Method Name,Methode naam
+MyParcel_MyParcelBE::Rate Type,Tarief type
+MyParcel_MyParcelBE::Type,Type
+MyParcel_MyParcelBE::Price,Prijs
+MyParcel_MyParcelBE::PostNL location active,PostNL locatie actief
+MyParcel_MyParcelBE::PostNL location fee,PostNL locatie afhandelingskosten
+MyParcel_MyParcelBE::Condition,Voorwaarde
+MyParcel_MyParcelBE::Calculate Handling Fee,Verzendkosten berekeningswijze
+MyParcel_MyParcelBE::Handling Fee,Afhandelingskosten
+MyParcel_MyParcelBE::Ship to Applicable Countries,Verzend naar beschikbare landen
+MyParcel_MyParcelBE::Ship to Specific Countries,Verzend naar specifieke landen
+MyParcel_MyParcelBE::Sort Order,Sorteer bestelling
+MyParcel_MyParcelBE::Default Shipment Settings,Standaard verzendinstellingen
+MyParcel_MyParcelBE::Home address only,Alleen huisadres
+MyParcel_MyParcelBE::Signature on receipt,Handtekening voor ontvangst
+MyParcel_MyParcelBE::Return if no answer,Retour bij niet aanwezig
+MyParcel_MyParcelBE::Large package,Groot pakket
+MyParcel_MyParcelBE::Insured up to &euro; 50,Verzekerd tot &euro; 50
+MyParcel_MyParcelBE::For NL shipping only,Alleen voor Nederlandse verzendingen
+MyParcel_MyParcelBE::Insured up to &euro; 250,Verzekerd tot &euro; 250
+"MyParcel_MyParcelBE::For NL shipping only, shipments outside the EU insured default is &euro; 200","Alleen voor Nederlandse verzendingen, zendingen naar landen buiten de EU zijn standaard verzekerd tot &euro; 200"
+MyParcel_MyParcelBE::Insured up to &euro; 500,Verzekerd tot &euro; 500
+"MyParcel_MyParcelBE::For NL shipping only, shipments inside the EU insured default is &euro; 500","Alleen voor Nederlandse verzendingen, zendingen naar landen binnen de EU zijn standaard verzekerd tot &euro; 500"
+MyParcel_MyParcelBE::Automatically next status,Automatisch volgende status
+MyParcel_MyParcelBE::Turn the order automatically to the next status after creating a label,Zet de status van een order automatisch naar de volgende status bij het aanmaken van een label
+MyParcel_MyParcelBE::Customs Shipment Type,Douane verzend type
+MyParcel_MyParcelBE::Customs Content HS Code,Douane goederen HS code
+"MyParcel_MyParcelBE::Default content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>". HS codes can also be connected to categories. The data you enter here will be used as default.,"Standaard goederen type voor Cross Domestic producten, zie <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a> voor de juiste HS code. Maximaal 4 karakters. HS codes kan ook gekoppeld worden per categorie. De gegevens die je hier invoert zal als standaard waarde gebruikt worden."
+MyParcel_MyParcelBE::Edit options,Opties bewerken
+"MyParcel_MyParcelBE::Fill in your preferences for a shipment. These settings will only apply for the mass actions in the order grid. When creating a single shipment, these settings can be changed manually.<br/>These settings will activate based on the order total amount. When shipping outside of the EU you can set default values for customs type and customs goods HS code.","Vul hier uw standaard voorkeuren in voor uw verzendopties. Deze instellingen worden als default op al uw zendingen toegepast, indien van toepassing. Deze opties zijn later, per zending, uiteraard nog wel aan te passen tijdens het verwerken. <br/><br/>De opties ""Alleen huisadres"", ""Handtekening bij ontvangst"", ""Retour bij niet aanwezig"" en de verschillende verzekeringen worden actief op basis van het totale order bedrag. Bijvoorbeeld, als u bij ""alleen huisadres"" 50 invult, dan wordt voor alle zendingen voor orders vanaf &euro; 50 standaard de instelling ""alleen huisadres"" aangevinkt. Of als u bij ""Verzekerd tot &euro; 250,-"" het getal 150 invult, dan worden alle orders vanaf &euro; 150 standaard verzekerd voor &euro; 250,- inkoopwaarde.<br/><br/>Indien u zendingen naar landen buiten de EU verstuurt, kunt u optioneel voor deze zendingen een standaard waarde invullen bij het Douane verzendtype en de Douane goederen HS code. Deze waardes kunt u nog aanpassen wanneer u uw zending verwerkt."
+MyParcel_MyParcelBE::Retourlink e-mail Template,Retourlink e-mail Template
+MyParcel_MyParcelBE::PLACEHOLDER,PLACEHOLDER
+MyParcel_MyParcelBE::Track&amp;Trace email template,Track&amp;Trace e-mail Template
+"MyParcel_MyParcelBE::You can create a new transactional e-mail where the variables {{var tracktrace_url}} and {{var retourlabel_url}} are available. TIP: You can base them on the Order Update template, because {{var order}} is also available.","U kunt een nieuwe transactionele email aanmaken en daarin {{var tracktrace_url}} en {{var retourlabel_url}} gebruiken."
+MyParcel_MyParcelBE::Print Orientation,Print ori&euml;ntatie
+MyParcel_MyParcelBE::Select a standard orientation for printing labels.,Selecteer een standaard print ori&euml;ntatie voor het printen van labels.
+MyParcel_MyParcelBE::Enable test modus,Activeer test modus
+MyParcel_MyParcelBE::Enable to test the extension,Activeer om test verzendingen te kunnen maken
+MyParcel_MyParcelBE::Selecting 'No' will overrule all individual settings.,"Wanneer ""nee"" is geselecteerd worden alle individuele instellingen overruled."
+MyParcel_MyParcelBE::General settings,Algemene instellingen
+MyParcel_MyParcelBE::Basic settings,Basis instellingen
+MyParcel_MyParcelBE::Checkout settings,Checkout instellingen
+MyParcel_MyParcelBE::Cut-off time,Het laatste bestelmoment
+"MyParcel_MyParcelBE::If a request is made for the delivery options between Friday after, and Monday before, cut-off time then Tuesday will be shown as the next possible delivery date.","Als een bestelling tussen vrijdag na, en maandag voor, het opgegeven bestelmoment wordt gedaan dan zal dinsdag worden getoond als eerstvolgende afleverdag."
+MyParcel_MyParcelBE::Numbers of days,Aantal dagen vooruit
+MyParcel_MyParcelBE::day,dag
+MyParcel_MyParcelBE::days,dagen
+MyParcel_MyParcelBE::Hide days,Dagen verbergen
+MyParcel_MyParcelBE::Drop-off days,Verzenddagen
+"MyParcel_MyParcelBE::Monday","Maandag"
+MyParcel_MyParcelBE::Tuesday,Dinsdag
+MyParcel_MyParcelBE::Wednesday,Woensdag
+MyParcel_MyParcelBE::Thursday,Donderdag
+MyParcel_MyParcelBE::Friday,Vrijdag
+MyParcel_MyParcelBE::Saturday,Zaterdag
+MyParcel_MyParcelBE::Monday delivery,Maandagbezorging
+MyParcel_MyParcelBE::Note: Monday delivery is only possible when the package is delivered before 15.00 on Saturday at the designated PostNL locations. Click <a href="https://blog.myparcel.nl/maandagbezorging" target="_blank">here</a> for more information concerning Monday delivery and the locations.,Let op: Maandaglevering is alleen mogelijk wanneer zaterdag het pakket voor 15.00 wordt geleverd bij één van de hiervoor bestemde PostNL locaties. Klik <a href="https://blog.myparcel.nl/maandagbezorging" target="_blank">hier</a> voor de locaties en meer informatie omtrent de maandaglevering.
+MyParcel_MyParcelBE::Monday delivery cut-off time,Laatste bestelmoment voor maandagbezorging
+"MyParcel_MyParcelBE::If a request is made before this time on Saturday, Monday will be shown as the next possible delivery date. ","Als een bestelling voor dit tijdstip op zaterdag wordt gedaan zal maandag als eerstvolgende afleverdag worden getoond."
+MyParcel_MyParcelBE::Dropoff-delay,Vertraging
+"MyParcel_MyParcelBE::This options allows you to set the number of days it takes you to pick, pack and hand in your parcels at PostNL when ordered before the cutoff time.","Stel hier het aantal dagen in die je nodig hebt om het product (te ontvangen,) te verpakken en aan te bieden bij PostNL, vanaf het moment dat de bestelling is geplaatst."
+MyParcel_MyParcelBE::No delay,Geen vertraging
+MyParcel_MyParcelBE::Base color,Basis kleur
+MyParcel_MyParcelBE::Color for selected items,Kleur voor geselecteerde items
+MyParcel_MyParcelBE::Add style to the checkout,Voeg een css file toe aan de checkout
+MyParcel_MyParcelBE::Font size,Lettertypegrootte
+MyParcel_MyParcelBE::Leave blank to automatically determine the font size,Laat leeg om de lettertypegrootte automatisch te bepalen
+MyParcel_MyParcelBE::Delivery,Bezorging
+MyParcel_MyParcelBE::Delivery title,Bezorging titel
+MyParcel_MyParcelBE::To determine the base price you have to navigate in the menu to <a id=""shipping_method_link"">Shipping Methods</a>.,Om de basisprijs te bepalen moet je navigeren naar <a id=""shipping_method_link"">Verzendmethodes</a>
+MyParcel_MyParcelBE::Deliver the package only at address of the intended recipient,Lever het pakket alleen aan het adres van de beoogde ontvanger.
+MyParcel_MyParcelBE::Home address only title,Alleen huisadres titel
+MyParcel_MyParcelBE::Home address only fee,Alleen huisadres prijs
+MyParcel_MyParcelBE::Signature on receipt title,Handtekening voor ontvangst titel
+MyParcel_MyParcelBE::Signature on receipt fee,Handtekening voor ontvangst prijs
+MyParcel_MyParcelBE::Home address only and signature on receipt together fee,De prijs van handtekening voor ontvangst en alleen huisadres samen
+MyParcel_MyParcelBE::If both have been selected this price will be added to the regular shipping price. Leave empty for not using it.,Als beide geselecteerd zijn zal deze prijs bij de normale verzendkosten worden opgeteld. Laat leeg om dit niet te gebruiken.
+MyParcel_MyParcelBE::Morning delivery,Ochtendlevering
+MyParcel_MyParcelBE::Morning delivery active,Ochtendlevering actief
+MyParcel_MyParcelBE::Morning delivery fee,Ochtendlevering prijs
+MyParcel_MyParcelBE::Evening delivery,Avondlevering
+MyParcel_MyParcelBE::Evening delivery active,Avondlevering actief
+MyParcel_MyParcelBE::Evening delivery fee,Avondlevering prijs
+MyParcel_MyParcelBE::Pickup at PostNL location,Ophalen bij PostNL locatie
+MyParcel_MyParcelBE::Pickup active,Ophalen actief
+MyParcel_MyParcelBE::Pickup title,Ophalen titel
+MyParcel_MyParcelBE::Pickup fee,Ophalen prijs
+MyParcel_MyParcelBE::Pickup Express at PostNL location,Extra vroeg ophalen bij PostNL locatie
+MyParcel_MyParcelBE::Pickup Express active,Extra vroeg ophalen actief
+MyParcel_MyParcelBE::Pickup Express fee,Extra vroeg ophalen prijs
+MyParcel_MyParcelBE::Pickup at Belgium PostNL location,Ophalen bij een Belgische PostNL locatie
+MyParcel_MyParcelBE::Pickup Belgium active,Ophalen België actief
+MyParcel_MyParcelBE::Pickup Belgium title,Ophalen België titel
+MyParcel_MyParcelBE::Pickup Belgium fee,Ophalen België prijs
+MyParcel_MyParcelBE::API Key,API Key,
+MyParcel_MyParcelBE::The API Key given by MyParcel.,Stel hier de API key in die is ontvangen vanuit MyParcel
+MyParcel_MyParcelBE::API Username,API Gebruikersnaam
+MyParcel_MyParcelBE::Your MyParcel username.,Vul hier de gebruikersnaam in voor het MyParcel platform
+MyParcel_MyParcelBE::To get your personal API credentials you should contact MyParcel.,Neem contact op met MyParcel om de API gegevens te ontvangen.
+MyParcel_MyParcelBE::API settings,API Instellingen
+MyParcel_MyParcelBE::"Wrong API key. Go to MyParcel settings to set the API key.","Verkeerde API key. Ga naar de instellingen van de MyParcel plugin om de juiste API key in te vullen."
+MyParcel_MyParcelBE::Version &amp; Support,Versie &amp; Support
+MyParcel_MyParcelBE::The log files cannot be downloaded.,De logbestanden kunnen niet gedownload worden.
+MyParcel_MyParcelBE::An error occurred while processing this action.,Er is een fout opgetreden tijdens het verwerken van deze actie.
+MyParcel_MyParcelBE::The shipments were successfully created.,De verzendingen zijn succesvol aangemaakt
+MyParcel_MyParcelBE::None of the shipments could be created. Please check the error messages for more details.,Geen van de verzendingen konden aangemaakt worden. Controleer de foutmeldingen in de logbestanden voor details.
+MyParcel_MyParcelBE::Please select one or more shipments.,Selecteer &eacute;&eacute;n of meerdere verzendingen.
+MyParcel_MyParcelBE::Please select one or more orders.,Selecteer &eacute;&eacute;n of meerdere orders.
+MyParcel_MyParcelBE::MyParcel replied with the following warnings:,MyParcel heeft geantwoord met de volgende waarschuwingen:
+MyParcel_MyParcelBE::The following shipments or orders could not be processed:,De volgende verzendingen konden niet verwerkt worden:
+MyParcel_MyParcelBE::Order #%s cannot be shipped at this time.,Order #%s kan niet verzonden worden op dit moment
+MyParcel_MyParcelBE::Invalid full street supplied: %s.,Invalide volledige straatnaam opgegeven: %s.
+MyParcel_MyParcelBE::Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice of MyParcel.,Adres is te lang. Maak het bezorgadres korter dan 40 tekens. Klik op verzenden (in de order detailpagina) om een concept aan te maken. En bewerk de zending vervolgens in de backoffice van MyParcel.
+MyParcel_MyParcelBE::Something went wrong with splitting up address %s.,Er is iets fout gegaan met het opsplitsen van adres %s. Voeg het adres handmatig toe in de backoffice van MyParcel.
+MyParcel_MyParcelBE::Something went wrong with splitting up housenumber %s.,Er is iets fout gegaan met het opsplitsen van huisnummer %s. Voeg het adres handmatig toe in de backoffice van MyParcel.
+MyParcel_MyParcelBE::Invalid housnumber supplied: %s.,Invalide huisnummer opgegeven: %s
+MyParcel_MyParcelBE::Invalid session requested.,Invalide sessie opgevraagd
+MyParcel_MyParcelBE::Invalid message type requested: %s.,Invalide bericht-type opgevraagd: %s
+MyParcel_MyParcelBE::No message supplied.,Geen bericht meegegeven
+MyParcel_MyParcelBE::No message type supplied.,Geen bericht-type meegegeven
+MyParcel_MyParcelBE::Click here for more information from the TiG knowledgebase.,Klik hier voor meer informatie van de TIG kennisbank.
+MyParcel_MyParcelBE::An error occurred while processing your request: ,Er is een fout opgetreden tijdens het verwerken van dit verzoek:
+MyParcel_MyParcelBE::The createConsignment action is currently unavailable.,De createConsigment actie is tijdelijk niet beschikbaar
+MyParcel_MyParcelBE::Invalid createConsignment response.,Invalide createConsignment antwoord
+MyParcel_MyParcelBE::Streetname is to long: %s.,Straatnaam is te lang: %s (gebruikt maximaal 40 letters)
+MyParcel_MyParcelBE::Shipping status,Verzend status
+MyParcel_MyParcelBE::MyParcel - Create Shipments,MyParcel - Cre&euml;er verzendingen
+MyParcel_MyParcelBE::MyParcel - Print shipping labels,MyParcel - Print verzend labels
+MyParcel_MyParcelBE::Download log files,Download log bestanden
+MyParcel_MyParcelBE::Unknown rate type specified: %s.,Onbekend tarief type opgegeven: %s.
+MyParcel_MyParcelBE::Flat,Plat
+MyParcel_MyParcelBE::Table,Tabel
+MyParcel_MyParcelBE::Invalid PakjeGemak address.,Ongeldig PostNL locatie adres.
+MyParcel_MyParcelBE::Invalid phone number.,Invalide telefoonnummer.
+MyParcel_MyParcelBE::Invalid housenumber extension.,Invalide huisnummer extensie.
+MyParcel_MyParcelBE::A4,A4
+MyParcel_MyParcelBE::A6,A6
+MyParcel_MyParcelBE::Commercial Goods,Commerciele goederen
+MyParcel_MyParcelBE::Commercial Sample,Commercieel Proef
+MyParcel_MyParcelBE::Documents,Documenten
+MyParcel_MyParcelBE::Gift,Gift
+MyParcel_MyParcelBE::Returned Goods,Retour goederen
+MyParcel_MyParcelBE::Yes,Ja
+MyParcel_MyParcelBE::No,Nee
+MyParcel_MyParcelBE::Myparcel Consignment Options,MyParcel Verzend Opties
+MyParcel_MyParcelBE::Insured amount,Verzekerd bedrag
+MyParcel_MyParcelBE::Insured,Verzekerd
+MyParcel_MyParcelBE::MyParcel version %s,MyParcel versie %s
+MyParcel_MyParcelBE::Magento &amp; 3rd party version compatibility,Magento &amp; derde partijen ondersteuning
+MyParcel_MyParcelBE::Magento Community Edition version,Magento Community Edition versie
+MyParcel_MyParcelBE::Magento Enterprise Edition version,Magento Enterprise Edition versie
+MyParcel_MyParcelBE::Idev's OneStepCheckout version,Idev's OneStepCheckout versie
+MyParcel_MyParcelBE::IWD's OnePageCheckout version,IWD's OnePageCheckout versie
+MyParcel_MyParcelBE::Support,Ondersteuning
+MyParcel_MyParcelBE::The extension is developed by Total Internet Group.,Deze extensie is ontwikkeld door Total Internet Group.
+MyParcel_MyParcelBE::MyParcel account questions and information,MyParcel account vragen en informatie
+"MyParcel_MyParcelBE::For questions related to your MyParcel account, configuration problems, extension conflicts and bugs, please contact MyParcel.","Voor vragen gerelateerd aan uw MyParcel account, configuratie problemen, extensie conflicten en bugs, neemt u contact op met MyParcel."
+MyParcel_MyParcelBE::Phone,Telefoon
+MyParcel_MyParcelBE::Online knowledgebase,Online kennisbank
+MyParcel_MyParcelBE::Request help directly,Vraag direct hulp
+MyParcel_MyParcelBE::Email,E-mail
+MyParcel_MyParcelBE::Documentation,Documentatie
+MyParcel_MyParcelBE::A list of documents regarding the extension.,Een lijst met document aangaande de extensie.
+MyParcel_MyParcelBE::View the installation and configuration manual.,Bekijk de installatie en configuratie handleiding.
+MyParcel_MyParcelBE::Installation and configuration manual,Installatie en configuratie handleiding
+MyParcel_MyParcelBE::View the user manual.,Bekijk de gebruikers handleiding
+MyParcel_MyParcelBE::User manual,Gebruikers handleiding
+MyParcel_MyParcelBE::View the complete changelog of the extension.,Bekijk de volledige release notes van de extensie
+MyParcel_MyParcelBE::Latest stable release,Laatste stabiele versie
+MyParcel_MyParcelBE::Full changelog,Volledige release notes
+MyParcel_MyParcelBE::MyParcel PgAddress class missing.,MyParcel PgAddress class mist
+MyParcel_MyParcelBE::Select a transactional e-mail template to send the retourlink,Selecteer een transactionele e-mail template om de retourlink te verzenden.
+MyParcel_MyParcelBE::Select a transactional e-mail template to send the barcode,Selecteer een transactionele e-mail template om de Track&amp;Trace code te versturen
+MyParcel_MyParcelBE::You can create a new transactional e-mail where the variables {{var retourlink}} is available.,"Maak een transactionele e-mail aan, daarin zal de variabele {{var retourlink}} beschikbaar zijn om te retourlink te verzenden."
+MyParcel_MyParcelBE::Unable to send track and trace email for shipment #,Versturen van track & trace e-mail mislukt voor zending #
+MyParcel_MyParcelBE::Track&amp;Trace e-mail is sent: %s,Track & Trace e-mail is verzonden: %s
+MyParcel_MyParcelBE::Credit Consignment,Crediteer zending
+MyParcel_MyParcelBE::Mail return label,Mail retourlabel
+MyParcel_MyParcelBE::Retour label mailed,Retour label is gemaild naar de klant
+MyParcel_MyParcelBE::This only works for Dutch addresses,Dit werkt alleen voor nederlandse adressen
+MyParcel_MyParcelBE::Name client,Naam klant
+MyParcel_MyParcelBE::Email client,Email klant
+MyParcel_MyParcelBE::Label description,Eigen kenmerk
+MyParcel_MyParcelBE::You did not specify a name,Je hebt geen naam opgeven
+MyParcel_MyParcelBE::You did not specify a email,Je hebt geen email opgeven
+MyParcel_MyParcelBE::Mail send to,Mail verzonden naar
+"MyParcel_MyParcelBE::Credit has not been created, check MyParcel backend for details","Credit is niet aangemaakt, zie MyParcel backend voor meer informatie."
+MyParcel_MyParcelBE::Consignment %s is credited at MyParcel,Zending %s is gecrediteerd bij MyParcel.
+"MyParcel_MyParcelBE::Select 'no' if you have problems with addresses on the labels","Selecteer 'nee' als u problemen heeft met adressen op de labels."
+MyParcel_MyParcelBE::Split street parts,Deel straatnaam velden op
+MyParcel_MyParcelBE::Streetname field,Straatnaam veld
+MyParcel_MyParcelBE::Housenr. field,Huisnummer veld
+MyParcel_MyParcelBE::Split house number parts,Deel huisnummervelden op
+MyParcel_MyParcelBE::Housenr. extension field,Huisnr. extensie veld
+MyParcel_MyParcelBE::Street line #%s,Adresregel #%s
+MyParcel_MyParcelBE::The weight in Magento is specified in gram instead of kg,Het gewicht in Magento is opgegeven in gram i.p.v. kg
+MyParcel_MyParcelBE::Select 'Yes' if the weight is not properly picked up by the MyParcel plugin,Selecteer 'Ja' als het gewicht niet goed wordt opgepakt door de MyParcel plugin
+MyParcel_MyParcelBE::This will be added to the regular shipping price,Dit zal bij de normale verzendkosten worden opgeteld
+MyParcel_MyParcelBE::Default shipment type for Cross Domestic shipments,Standaard verzend inhoud voor Cross Domestic verzendingen
+"MyParcel_MyParcelBE::When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.","Wanneer het adres gewijzigd wordt, bent u genoodzaakt om de gekoppelde MyParcel verzendingen te crediteren en nieuwe MyParcel verzendingen aan te maken."
+"MyParcel_MyParcelBE::To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","Klik <a target=""_blank"" href=""%s"">hier</a> om de handleiding van de MyParcel Magento extensie te bekijken."
+MyParcel_MyParcelBE::When using the extension please note:,Aandachtspunten bij het gebruik van deze extensie:
+MyParcel_MyParcelBE::To be able to configure the extension you need to possess and use an active MyParcel account.,U dient een actief MyParcel account te hebben om de extensie te kunnen configureren.
+"MyParcel_MyParcelBE::During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension.",Indien u de oude MyParcel extensie gebruikt kan deze actief blijven in de overgangsfase. Wel dient u PakjeGemak in de oude MyParcel extensie uit te schakelen.
+MyParcel_MyParcelBE::We cannot guarantee perfect functionality of the MyParcel extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact MyParcel.<br><br>Supported extensions:,"Indien u de extensie wilt gebruiken op een niet-ondersteunde versie of editie van Magento, of als u de extensie wilt gebruiken samen met een 3rd party extensie die niet ondersteund wordt, kunnen wij niet garanderen dat de MyParcel extensie feilloos zal functioneren. Voor vragen kunt u contact opnemen met MyParcel.<br><br>Ondersteunde extensies:"
+MyParcel_MyParcelBE::Installation and configuration instructions,Installatie en configuratie handleiding
+MyParcel_MyParcelBE::Overview articles in knowledge base,Meest gestelde vragen
+MyParcel_MyParcelBE::Questions and information about your MyParcel account,MyParcel account vragen en informatie
+"MyParcel_MyParcelBE::Shipments will not be delivered at the neighbours, only on house address.","Zendingen worden niet bij de buren aangeboden, alleen op huisadres."
+MyParcel_MyParcelBE::Shipments will not go the a pickup point but will be returned directly after multiple delivery attempts.,Zendingen gaan niet naar een afhaallocatie en komen direct retour na bezorgpogingen.
+MyParcel_MyParcelBE::Unable to save check_status cron expression: %s,Het is niet gelukt om de check_status cron expressie op te slaan: %s
+MyParcel_MyParcelBE::Some of the shipments could not be created or could not be created at MyParcel from the selected orders. See below for detailed information.,Een aantal van de geselecteerde orders is een foutmelding opgetreden tijdens het aanmaken van de verzending. Zie hieronder voor gedetailleerde informatie.
+MyParcel_MyParcelBE::Select A4 print start position,Selecteer de A4 print start positie
+"MyParcel_MyParcelBE::Select content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>","Vul de goederen code voor zendingen buiten de EU in, zie <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a> voor de bestaande codes."
+MyParcel_MyParcelBE::Create MyParcel Consignment,Cre&euml;er MyParcel verzending
+MyParcel_MyParcelBE::Orders until today,Alle orders t/m vandaag verzenden
+MyParcel_MyParcelBE::Send today,Alleen vandaag verzenden
+MyParcel_MyParcelBE::Send until tomorrow,Alle orders t/m morgen verzenden
+MyParcel_MyParcelBE::Send later,Later verzenden
+MyParcel_MyParcelBE::Old orders,Alle orders t/m gisteren
+MyParcel_MyParcelBE::Track&amp;Trace link: %s,Track&amp;Trace link: %s
+MyParcel_MyParcelBE::Is letter box parcel,Is brievenbuspakje
+MyParcel_MyParcelBE::Shipment type,Zendingtype
+MyParcel_MyParcelBE::Accordance with type consignment,Conform type zending
+MyParcel_MyParcelBE::Normal,Pakket
+MyParcel_MyParcelBE::Letter box,Brievenbuspakje
+MyParcel_MyParcelBE::Unstamped,Ongefrankeerd
+MyParcel_MyParcelBE::The MyParcel consignment is successfully created.,De MyParcel zending is succesvol aangemaakt.
+MyParcel_MyParcelBE::Choose a pickup location,Selecteer MyParcel Verzendopties
+MyParcel_MyParcelBE::Selected post office location:,Geselecteerde postkantoor locatie:
+MyParcel_MyParcelBE::Zipcode,Postcode
+MyParcel_MyParcelBE::Search by zipcode, address or city,Zoek op postcode, adres of plaats
+MyParcel_MyParcelBE::Search by zipcode and housenumber,Zoeken op postcode en huisnummer
+"MyParcel_MyParcelBE::Search by zipcode, address or city","Zoek op postcode, adres of plaats"
+"MyParcel_MyParcelBE::Search by zipcode and housenumber","Zoeken op postcode en huisnummer"
+"MyParcel_MyParcelBE::Unfortunately no locations could be found. Please check your postcode and house number combination.","Er zijn geen resultaten gevonden. Probeer een andere postcode/huisnummer combinatie en/of verwijder de huisnummertoevoeging."
+MyParcel_MyParcelBE::Housenumber,Huisnummer
+MyParcel_MyParcelBE::Search,Zoeken
+MyParcel_MyParcelBE::Nearest myparcel pickup points,Dichtstbijzijnde afhaal locaties
+MyParcel_MyParcelBE::PostNL location Method name,PostNL locatie methode naam
+MyParcel_MyParcelBE::Unpaid,Ongefrankeerd
+MyParcel_MyParcelBE::The consignment is already credited.,Deze zending is al gecrediteerd.
+MyParcel_MyParcelBE::MyParcel - Create labels,MyParcel - Cre&euml;er labels
+MyParcel_MyParcelBE::Print packing slip,Print pakbon
+MyParcel_MyParcelBE::Send,Verzenden
+MyParcel_MyParcelBE::Today,Vandaag
+MyParcel_MyParcelBE::Letterbox,Brievenbuspakje
+MyParcel_MyParcelBE::Select,Selecteer
+MyParcel_MyParcelBE::Insured up to:,Verzekeren tot:
+MyParcel_MyParcelBE::Close,Sluiten
+MyParcel_MyParcelBE::International shipments can not be sent by,Internationale zendingen kunnen niet verzonden worden met een
+MyParcel_MyParcelBE::Choose a PostNL pickup location,Kies PostNL afhaallocatie
+"MyParcel_MyParcelBE::The selected shipment-type cannot be used, Pakjegemak-shipments can only be created with the normal shipment type.","Het geselecteerde zending-type kan niet gebruikt worden, 'PostNL locatie' zendingen kunnen enkel aangemaakt worden met het normale verzend-type."
+MyParcel_MyParcelBE::Create shipments (no labels),Cre&euml;er verzendingen (geen labels)
+MyParcel_MyParcelBE::Insured up to &euro;%s,Verzekerd tot &euro;%s
+MyParcel_MyParcelBE::Total order value: &euro; %s,Totaal order bedrag: &euro; %s
+MyParcel_MyParcelBE::Shipment insured up to &euro; %s purchase value,Verzekerd tot een inkoopbedrag van € %s,-
+"MyParcel_MyParcelBE::By creating this shipment, you create a concept in MyParcel.<br>In the backoffice of MyParcel you can further customize the options.","Voor deze zending wordt een conceptzending aangemaakt.<br>In de backoffice van MyParcel is deze eventueel nog aan te passen."
+MyParcel_MyParcelBE::Post Office Address,Gekozen afhaallocatie
+"MyParcel_MyParcelBE::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","De geselecteerde zending type kan niet gebruikt worden. 'PostNL locatie' zendingen kunnen enkel aangemaakt worden middels de normale verzendtype. <br/>De Magento zending is aangemaakt zonder een MyParcel zending, selecteer een ander verzend type of ga naar de Magento zending pagina en maak daar een MyParcel zending aan. <a target=""_blank"" href=""%s"">Bekijk zending</a>"
+MyParcel_MyParcelBE::Only for dutch shipments,Alleen voor Nederlandse verzendingen
+"MyParcel_MyParcelBE::Only for dutch shipments, shipments to outside of the EU are standard ensured up to &euro 200","Alleen voor Nederlandse verzendingen, zendingen naar landen buiten de EU zijn standaard verzekerd tot &euro; 200"
+MyParcel_MyParcelBE::Always use MyParcel,Gebruik MyParcel voor alle verzendmethodes
+"MyParcel_MyParcelBE::Select 'No' in order to set the shipping methods that must be regarded as MyParcel.","Selecteer 'Nee' om de verzendmethodes in te stellen die als MyParcel beschouwd moet worden."
+MyParcel_MyParcelBE::Use shipment address for PostNL location,Voeg PostNL locatie toe aan het afleveradres
+MyParcel_MyParcelBE::Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.,Gebruik het afleveradres voor 'Ophalen op een PostNL locatie'. De klant zal het adres op het factuur zien. Stel in op 'Nee' als je bijvoorbeeld AfterPay gebruikt.
+MyParcel_MyParcelBE::Use filter in order overview,Gebruik filter in order overzicht
+"MyParcel_MyParcelBE::Select 'No' if you are using a plugin that is present in the order summary and therefore experience problems.","Selecteer 'nee' als je een plugin gebruikt die aanwezig is in het order overzicht en daardoor problemen ervaart."
+
+MyParcel_MyParcelBE::status_1,Concept
+MyParcel_MyParcelBE::status_2,Voorgemeld
+MyParcel_MyParcelBE::status_3,Aangeboden aan postNL
+MyParcel_MyParcelBE::status_4,In sorteerproces
+MyParcel_MyParcelBE::status_5,In distributie
+MyParcel_MyParcelBE::status_6,Zending bij douane
+MyParcel_MyParcelBE::status_7,Zending afgeleverd
+MyParcel_MyParcelBE::status_8,Zending op afhaallocatie
+MyParcel_MyParcelBE::status_9,Zending afgehaald op afhaallocatie
+MyParcel_MyParcelBE::status_10,Retourzending afgeleverd
+MyParcel_MyParcelBE::status_11,Retourzending op afhaallocatie
+MyParcel_MyParcelBE::status_12,Ongefrankeerd label geprint
+MyParcel_MyParcelBE::status_13,Gecrediteerd
+MyParcel_MyParcelBE::status_30,Inactief - Concept
+MyParcel_MyParcelBE::status_31,Inactief - Voorgemeld
+MyParcel_MyParcelBE::status_32,Inactief - Aangeboden bij PostNL
+MyParcel_MyParcelBE::status_33,Inactief - In sorteerprocess
+MyParcel_MyParcelBE::status_34,Inactief - In distributie
+MyParcel_MyParcelBE::status_35,Inactief - Zending bij douane
+MyParcel_MyParcelBE::status_36,Inactief - Zending afgeleverd
+MyParcel_MyParcelBE::status_37,Inactief - Zending op afhaallocatie
+MyParcel_MyParcelBE::status_38,Inactief - Zending afgehaald op afhaallocatie
+MyParcel_MyParcelBE::status_39,Inactief - Retourzending afgeleverd
+MyParcel_MyParcelBE::status_40,Inactief - Retourzending op afhaallocactie
+MyParcel_MyParcelBE::status_99,Inactief - Onbekende status
+
+"All Allowed Countries","Alle toegestane landen"
+"Specific Countries","Specifieke landen"
+"The configuration has been saved.","De configuratie is opgeslagen."
+"Weight vs. Destination","Gewicht vs. Bestemming"
+"Price vs. Destination","Prijs vs. Bestemming"
+"# of Items vs. Destination","# Items vs. Bestemming"
+"Fixed","Vast"
+"Percent","Percentage"
+"MyParcel_MyParcelBE::There are no log files to be downloaded.","Er zijn geen log files om te downloaden."
+MyParcel_MyParcelBE::PostNL location minimum order total enabled,PostNL locatie minimum totaal bedrag actief
+"MyParcel_MyParcelBE::PostNL location minimum order total, incl. BTW","PostNL locatie minimum totaal bedrag, incl. BTW"
+MyParcel_MyParcelBE::Mailbox title,Brievenbuspakje titel
+MyParcel_MyParcelBE::Leave blank to automate mailbox packets only in the backend,Laat leeg om brievenbuspakjes alleen in de backend te automatiseren
+MyParcel_MyParcelBE::Mailbox weight,Brievenbuspakje gewicht
+MyParcel_MyParcelBE::Mailbox with other options,Brievenbuspakje tonen met andere opties
+"MyParcel_MyParcelBE::Besides assigning weights to all products, you can also specify a volume of each product.","Om deze functie optimaal te gebruiken, stel je eerst het gewicht of volume in van jouw producten."
+MyParcel_MyParcelBE::Mailbox fee,Brievenbuspakje prijs
+MyParcel_MyParcelBE::Enter a basic price for a mailbox. The regular price will not affect this price.,Vul een totaalprijs in voor een brievenbuspakje.
+MyParcel_MyParcelBE::Automate mailbox package,Brievenbuspakje automatiseren
+"MyParcel_MyParcelBE::PostNL location will not be visible if the subtotal of an order is below this value","'Ophalen op een PostNL locatie' zal niet zichtbaar zijn als het bedrag van een bestelling onder deze waarde valt"
+
+MyParcel_MyParcelBE::PostNL location:,PostNL locatie:
+MyParcel_MyParcelBE::deliver:,bezorgen:
+MyParcel_MyParcelBE::TYPE_morning,Ochtendlevering
+MyParcel_MyParcelBE::TYPE_standard,Middaglevering
+MyParcel_MyParcelBE::TYPE_night,Avondlevering
+MyParcel_MyParcelBE::TYPE_retailexpress,Extra vroeg ophalen

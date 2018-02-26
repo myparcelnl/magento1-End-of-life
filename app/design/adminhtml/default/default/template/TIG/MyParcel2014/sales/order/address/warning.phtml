@@ -36,15 +36,15 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
- * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo $this
+ * @var MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo $this
  */
 ?>
-<?php $_helper = Mage::helper('tig_myparcel'); ?>
-<li id="tig_myparcel_address_warning"><?php echo $_helper->__('When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.');?></li>
+<?php $_helper = Mage::helper('myparcel_be'); ?>
+<li id="myparcel_be_address_warning"><?php echo $_helper->__('When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.');?></li>
 <script type="text/javascript">
     /*<![CDATA[*/
     $$('ul.messages li.notice-msg ul')[0].insert({
-        bottom: $('tig_myparcel_address_warning')
+        bottom: $('myparcel_be_address_warning')
     });
     /*]]>*/
 </script>

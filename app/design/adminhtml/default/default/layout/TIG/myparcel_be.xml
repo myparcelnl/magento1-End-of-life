@@ -43,19 +43,19 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+                <file>js/MyParcel/MyParcelBE/jquery-myparcel.min.js</file>
             </action>
         </reference>
         <reference name="head">
             <action method="addItem">
                 <type>skin_css</type>
-                <name>css/TIG/MyParcel2014/system_config_edit_1_7_1.css</name>
+                <name>css/MyParcel/MyParcelBE/system_config_edit_1_7_1.css</name>
             </action>
         </reference>
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <name>js/TIG/MyParcel2014/jscolor/jscolor.js</name>
+                <name>js/MyParcel/MyParcelBE/jscolor/jscolor.js</name>
             </action>
         </reference>
     </adminhtml_system_config_edit>
@@ -63,8 +63,8 @@
     <adminhtml_sales_order_address>
         <reference name="content">
             <block type="core/template"
-                   name="tig_myparcel_address_warning"
-                   template="TIG/MyParcel2014/sales/order/address/warning.phtml"/>
+                   name="myparcel_be_address_warning"
+                   template="MyParcel/MyParcelBE/sales/order/address/warning.phtml"/>
         </reference>
     </adminhtml_sales_order_address>
 
@@ -75,13 +75,13 @@
                 <name>prototype/windows/themes/default.css</name>
             </action>
             <action method="addCss">
-                <name>css/TIG/MyParcel2014/prototype_windows_themes_magento.css</name>
+                <name>css/MyParcel/MyParcelBE/prototype_windows_themes_magento.css</name>
             </action>
         </reference>
         <reference name="before_body_end">
             <block type="core/template"
-                   name="tig_myparcel_order_index"
-                   template="TIG/MyParcel2014/sales/order/mass_actions.phtml"/>
+                   name="myparcel_be_order_index"
+                   template="MyParcel/MyParcelBE/sales/order/mass_actions.phtml"/>
         </reference>
     </adminhtml_sales_order_index>
 
@@ -92,13 +92,13 @@
                 <name>prototype/windows/themes/default.css</name>
             </action>
             <action method="addCss">
-                <name>css/TIG/MyParcel2014/prototype_windows_themes_magento.css</name>
+                <name>css/MyParcel/MyParcelBE/prototype_windows_themes_magento.css</name>
             </action>
         </reference>
         <reference name="content">
-            <block type="tig_myparcel/adminhtml_sales_order_view_shippingInfo"
-                   name="tig_myparcel_order_view_shipping_info"
-                   template="TIG/MyParcel2014/sales/order/view/shipping_info.phtml"/>
+            <block type="myparcel_be/adminhtml_sales_order_view_shippingInfo"
+                   name="myparcel_be_order_view_shipping_info"
+                   template="MyParcel/MyParcelBE/sales/order/view/shipping_info.phtml"/>
         </reference>
     </adminhtml_sales_order_view>
 
@@ -109,26 +109,26 @@
                 <name>prototype/windows/themes/default.css</name>
             </action>
             <action method="addCss">
-                <name>css/TIG/MyParcel2014/prototype_windows_themes_magento.css</name>
+                <name>css/MyParcel/MyParcelBE/prototype_windows_themes_magento.css</name>
             </action>
         </reference>
         <reference name="before_body_end">
             <block type="core/template"
-                   name="tig_myparcel_order_index"
-                   template="TIG/MyParcel2014/sales/order/shipment/mass_actions.phtml"/>
+                   name="myparcel_be_order_index"
+                   template="MyParcel/MyParcelBE/sales/order/shipment/mass_actions.phtml"/>
         </reference>
     </adminhtml_sales_shipment_index>
 
     <adminhtml_sales_order_shipment_new>
         <reference name="head">
             <action method="addCss">
-                <name>css/TIG/MyParcel2014/styles.css</name>
+                <name>css/MyParcel/MyParcelBE/styles.css</name>
             </action>
         </reference>
         <reference name="before_body_end">
-            <block type="tig_myparcel/adminhtml_sales_order_shipment_create_consignmentOptions"
-                   name="tig_myparcel_shipment_create_consignment_options"
-                   template="TIG/MyParcel2014/sales/order/shipment/create/consignment_options.phtml"/>
+            <block type="myparcel_be/adminhtml_sales_order_shipment_create_consignmentOptions"
+                   name="myparcel_be_shipment_create_consignment_options"
+                   template="MyParcel/MyParcelBE/sales/order/shipment/create/consignment_options.phtml"/>
         </reference>
     </adminhtml_sales_order_shipment_new>
 
@@ -139,13 +139,13 @@
                 <name>prototype/windows/themes/default.css</name>
             </action>
             <action method="addCss">
-                <name>css/TIG/MyParcel2014/prototype_windows_themes_magento.css</name>
+                <name>css/MyParcel/MyParcelBE/prototype_windows_themes_magento.css</name>
             </action>
         </reference>
         <reference name="before_body_end">
-            <block type="tig_myparcel/adminhtml_sales_order_shipment_shippingInfo"
-                   name="tig_myparcel_order_shipment_shipping_info"
-                   template="TIG/MyParcel2014/sales/order/shipment/shipping_info.phtml"/>
+            <block type="myparcel_be/adminhtml_sales_order_shipment_shippingInfo"
+                   name="myparcel_be_order_shipment_shipping_info"
+                   template="MyParcel/MyParcelBE/sales/order/shipment/shipping_info.phtml"/>
         </reference>
     </adminhtml_sales_order_shipment_view>
 </layout>

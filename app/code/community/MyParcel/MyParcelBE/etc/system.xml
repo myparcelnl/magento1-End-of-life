@@ -12,16 +12,16 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <active translate="label" module="tig_myparcel">
+                        <active translate="label" module="myparcel_be">
                             <label>Enabled</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </active>
-                        <title translate="label" module="tig_myparcel">
+                        <title translate="label" module="myparcel_be">
                             <label>Title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
@@ -29,7 +29,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </title>
-                        <name translate="label" module="tig_myparcel">
+                        <name translate="label" module="myparcel_be">
                             <label>Method Name</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
@@ -37,17 +37,17 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </name>
-                        <rate_type translate="label" module="tig_myparcel">
+                        <rate_type translate="label" module="myparcel_be">
                             <label>Rate Type</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/carrier_system_config_source_rateType</source_model>
+                            <source_model>myparcel_be/carrier_system_config_source_rateType</source_model>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </rate_type>
                         <!-- flat rate settings -->
-                        <type translate="label" module="tig_myparcel">
+                        <type translate="label" module="myparcel_be">
                             <label>Type</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_shipping_flatrate</source_model>
@@ -59,7 +59,7 @@
                                 <rate_type>flat</rate_type>
                             </depends>
                         </type>
-                        <price translate="label" module="tig_myparcel">
+                        <price translate="label" module="myparcel_be">
                             <label>Price</label>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
@@ -72,7 +72,7 @@
                             </depends>
                         </price>
                         <!-- tablerates settings -->
-                        <condition_name translate="label" module="tig_myparcel">
+                        <condition_name translate="label" module="myparcel_be">
                             <label>Condition</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_shipping_tablerate</source_model>
@@ -85,7 +85,7 @@
                             </depends>
                         </condition_name>
                         <!-- handling fee's -->
-                        <handling_type translate="label" module="tig_myparcel">
+                        <handling_type translate="label" module="myparcel_be">
                             <label>Calculate Handling Fee</label>
                             <frontend_type>select</frontend_type>
                             <source_model>shipping/source_handlingType</source_model>
@@ -94,7 +94,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </handling_type>
-                        <handling_fee translate="label" module="tig_myparcel">
+                        <handling_fee translate="label" module="myparcel_be">
                             <label>Handling Fee</label>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
@@ -104,7 +104,7 @@
                             <show_in_store>0</show_in_store>
                         </handling_fee>
                         <!-- allow specific countries -->
-                        <sallowspecific translate="label" module="tig_myparcel">
+                        <sallowspecific translate="label" module="myparcel_be">
                             <label>Ship to Applicable Countries</label>
                             <frontend_type>select</frontend_type>
                             <sort_order>140</sort_order>
@@ -114,7 +114,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </sallowspecific>
-                        <specificcountry translate="label" module="tig_myparcel">
+                        <specificcountry translate="label" module="myparcel_be">
                             <label>Ship to Specific Countries</label>
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>150</sort_order>
@@ -124,7 +124,7 @@
                             <show_in_store>0</show_in_store>
                             <can_be_empty>1</can_be_empty>
                         </specificcountry>
-                        <sort_order translate="label" module="tig_myparcel">
+                        <sort_order translate="label" module="myparcel_be">
                             <label>Sort Order</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>160</sort_order>
@@ -137,17 +137,17 @@
             </groups>
         </carriers>
         <!-- add the configuration page as seperate page to the backend -->
-        <tig_myparcel translate="label" module="tig_myparcel">
+        <myparcel_be translate="label" module="myparcel_be">
             <label>MyParcel</label>
             <tab>sales</tab>
             <frontend_type>text</frontend_type>
-            <class>tig_myparcel-tab</class>
+            <class>myparcel_be-tab</class>
             <sort_order>330</sort_order>
             <show_in_default>1</show_in_default>
             <show_in_website>1</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
-                <myparcel_support translate="label" module="tig_myparcel">
+                <myparcel_support translate="label" module="myparcel_be">
                     <label><![CDATA[Version &amp; Support]]></label>
                     <sort_order>10</sort_order>
                     <show_in_default>1</show_in_default>
@@ -156,24 +156,24 @@
                     <fields>
                         <support>
                             <sort_order>10</sort_order>
-                            <frontend_model>tig_myparcel/adminhtml_system_config_supportTab</frontend_model>
+                            <frontend_model>myparcel_be/adminhtml_system_config_supportTab</frontend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </support>
                     </fields>
                 </myparcel_support>
-                <checkout translate="label comment" module="tig_myparcel">
+                <checkout translate="label comment" module="myparcel_be">
                     <label>Basic settings</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <deliverydays_window translate="label" module="tig_myparcel">
+                        <deliverydays_window translate="label" module="myparcel_be">
                             <label>Numbers of days</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_windowDays</source_model>
+                            <source_model>myparcel_be/system_config_source_windowDays</source_model>
                             <sort_order>110</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -191,20 +191,20 @@
                         </cutoff_time>
                         <dropoff_days translate="label">
                             <label>Drop-off days</label>
-                            <comment><![CDATA[<style>#tig_myparcel_checkout_dropoff_days {height: 130px}</style>]]></comment>
+                            <comment><![CDATA[<style>#myparcel_be_checkout_dropoff_days {height: 130px}</style>]]></comment>
                             <frontend_type>multiselect</frontend_type>
                             <can_be_empty>0</can_be_empty>
-                            <source_model>tig_myparcel/system_config_source_dropOffDays</source_model>
+                            <source_model>myparcel_be/system_config_source_dropOffDays</source_model>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </dropoff_days>
-                        <monday_delivery_active translate="label comment" module="tig_myparcel">
+                        <monday_delivery_active translate="label comment" module="myparcel_be">
                             <label>Monday delivery</label>
                             <comment><![CDATA[Note: Monday delivery is only possible when the package is delivered before 15.00 on Saturday at the designated PostNL locations. Click <a href="https://blog.myparcel.nl/maandagbezorging" target="_blank">here</a> for more information concerning Monday delivery and the locations.]]></comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>135</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -223,17 +223,17 @@
                                 <monday_delivery_active>1</monday_delivery_active>
                             </depends>
                         </saturday_cutoff_time>
-                        <dropoff_delay translate="label comment" module="tig_myparcel">
+                        <dropoff_delay translate="label comment" module="myparcel_be">
                             <label>Dropoff-delay</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_delayDays</source_model>
+                            <source_model>myparcel_be/system_config_source_delayDays</source_model>
                             <comment>This options allows you to set the number of days it takes you to pick, pack and hand in your parcels at PostNL when ordered before the cutoff time.</comment>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </dropoff_delay>
-                        <base_color translate="label" module="tig_myparcel">
+                        <base_color translate="label" module="myparcel_be">
                             <label>Base color</label>
                             <frontend_type>text</frontend_type>
                             <validate>color</validate>
@@ -242,7 +242,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </base_color>
-                        <select_color translate="label" module="tig_myparcel">
+                        <select_color translate="label" module="myparcel_be">
                             <label>Color for selected items</label>
                             <frontend_type>text</frontend_type>
                             <validate>color</validate>
@@ -251,7 +251,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </select_color>
-                        <css_path translate="label" module="tig_myparcel">
+                        <css_path translate="label" module="myparcel_be">
                             <label>CSS path</label>
                             <comment>Add style to the checkout</comment>
                             <frontend_type>text</frontend_type>
@@ -260,7 +260,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </css_path>
-                        <font_size translate="label" module="tig_myparcel">
+                        <font_size translate="label" module="myparcel_be">
                             <label>Font size</label>
                             <comment>Leave blank to automatically determine the font size</comment>
                             <frontend_type>text</frontend_type>
@@ -271,11 +271,11 @@
                             <show_in_store>1</show_in_store>
                         </font_size>
                         <!-- Hide and toggle MyParcel options (used by parnis.nl) -->
-                        <toggle_options translate="label" module="tig_myparcel">
+                        <toggle_options translate="label" module="myparcel_be">
                             <label>Toggle options</label>
                             <comment>When loading the checkout hide options (used by parnis.nl)</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>300</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -283,7 +283,7 @@
                         </toggle_options>
                     </fields>
                 </checkout>
-                <delivery translate="label comment" module="tig_myparcel">
+                <delivery translate="label comment" module="myparcel_be">
                     <label>Delivery</label>
                     <comment><![CDATA[To determine the base price you have to navigate in the menu to <a id="shipping_method_link">Shipping Methods</a>.]]></comment>
                     <sort_order>25</sort_order>
@@ -292,7 +292,7 @@
                     <show_in_store>1</show_in_store>
                     <class>delivery-method</class>
                     <fields>
-                        <delivery_title translate="label" module="tig_myparcel">
+                        <delivery_title translate="label" module="myparcel_be">
                             <label>Delivery title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>150</sort_order>
@@ -300,17 +300,17 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </delivery_title>
-                        <only_recipient_active translate="label" module="tig_myparcel">
+                        <only_recipient_active translate="label" module="myparcel_be">
                             <label>Home address only</label>
                             <comment>Deliver the package only at address of the intended recipient</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>160</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </only_recipient_active>
-                        <only_recipient_title translate="label" module="tig_myparcel">
+                        <only_recipient_title translate="label" module="myparcel_be">
                             <label>Home address only title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>170</sort_order>
@@ -321,7 +321,7 @@
                                 <only_recipient_active>1</only_recipient_active>
                             </depends>
                         </only_recipient_title>
-                        <only_recipient_fee translate="label,comment" module="tig_myparcel">
+                        <only_recipient_fee translate="label,comment" module="myparcel_be">
                             <label>Home address only fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -334,16 +334,16 @@
                                 <only_recipient_active>1</only_recipient_active>
                             </depends>
                         </only_recipient_fee>
-                        <signature_active translate="label" module="tig_myparcel">
+                        <signature_active translate="label" module="myparcel_be">
                             <label>Signature on receipt</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>190</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </signature_active>
-                        <signature_title translate="label" module="tig_myparcel">
+                        <signature_title translate="label" module="myparcel_be">
                             <label>Signature on receipt title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>200</sort_order>
@@ -354,7 +354,7 @@
                                 <signature_active>1</signature_active>
                             </depends>
                         </signature_title>
-                        <signature_fee translate="label,comment" module="tig_myparcel">
+                        <signature_fee translate="label,comment" module="myparcel_be">
                             <label>Signature on receipt fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -367,7 +367,7 @@
                                 <signature_active>1</signature_active>
                             </depends>
                         </signature_fee>
-                        <signature_and_only_recipient_fee translate="label,comment" module="tig_myparcel">
+                        <signature_and_only_recipient_fee translate="label,comment" module="myparcel_be">
                             <label>Home address only and signature on receipt together fee</label>
                             <comment>If both have been selected this price will be added to the regular shipping price. Leave empty for not using it.</comment>
                             <frontend_type>text</frontend_type>
@@ -390,19 +390,19 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <mailbox_active translate="label" module="tig_myparcel">
+                        <mailbox_active translate="label" module="myparcel_be">
                             <label>Automate mailbox package</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>155</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </mailbox_active>
-                        <mailbox_with_other_options translate="label" module="tig_myparcel">
+                        <mailbox_with_other_options translate="label" module="myparcel_be">
                             <label>Mailbox with other options</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>156</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -411,7 +411,7 @@
                                 <mailbox_active>1</mailbox_active>
                             </depends>
                         </mailbox_with_other_options>
-                        <mailbox_title translate="label,comment" module="tig_myparcel">
+                        <mailbox_title translate="label,comment" module="myparcel_be">
                             <label>Mailbox title</label>
                             <comment>Leave blank to automate mailbox packets only in the backend</comment>
                             <frontend_type>text</frontend_type>
@@ -423,7 +423,7 @@
                                 <mailbox_active>1</mailbox_active>
                             </depends>
                         </mailbox_title>
-                        <mailbox_weight translate="label,comment" module="tig_myparcel">
+                        <mailbox_weight translate="label,comment" module="myparcel_be">
                             <label>Mailbox weight</label>
                             <comment>Besides assigning weights to all products, you can also specify a volume of each product.</comment>
                             <validate>validate-number</validate>
@@ -436,7 +436,7 @@
                                 <mailbox_active>1</mailbox_active>
                             </depends>
                         </mailbox_weight>
-                        <mailbox_fee translate="label,comment" module="tig_myparcel">
+                        <mailbox_fee translate="label,comment" module="myparcel_be">
                             <label>Mailbox fee</label>
                             <comment>Enter a basic price for a mailbox. The regular price will not affect this price.</comment>
                             <frontend_type>text</frontend_type>
@@ -451,23 +451,23 @@
                         </mailbox_fee>
                     </fields>
                 </mailbox>
-                <morningdelivery translate="label comment" module="tig_myparcel">
+                <morningdelivery translate="label comment" module="myparcel_be">
                     <label>Morning delivery</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <morningdelivery_active translate="label" module="tig_myparcel">
+                        <morningdelivery_active translate="label" module="myparcel_be">
                             <label>Morning delivery active</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </morningdelivery_active>
-                        <morningdelivery_fee translate="label,comment" module="tig_myparcel">
+                        <morningdelivery_fee translate="label,comment" module="myparcel_be">
                             <label>Morning delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -482,23 +482,23 @@
                         </morningdelivery_fee>
                     </fields>
                 </morningdelivery>
-                <eveningdelivery translate="label comment" module="tig_myparcel">
+                <eveningdelivery translate="label comment" module="myparcel_be">
                     <label>Evening delivery</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <eveningdelivery_active translate="label" module="tig_myparcel">
+                        <eveningdelivery_active translate="label" module="myparcel_be">
                             <label>Evening delivery active</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </eveningdelivery_active>
-                        <eveningdelivery_fee translate="label,comment" module="tig_myparcel">
+                        <eveningdelivery_fee translate="label,comment" module="myparcel_be">
                             <label>Evening delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -513,23 +513,23 @@
                         </eveningdelivery_fee>
                     </fields>
                 </eveningdelivery>
-                <pickup translate="label comment" module="tig_myparcel">
+                <pickup translate="label comment" module="myparcel_be">
                     <label>Pickup at PostNL location</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <pickup_active translate="label" module="tig_myparcel">
+                        <pickup_active translate="label" module="myparcel_be">
                             <label>Pickup active</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </pickup_active>
-                        <pickup_title translate="label" module="tig_myparcel">
+                        <pickup_title translate="label" module="myparcel_be">
                             <label>Pickup title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>105</sort_order>
@@ -540,7 +540,7 @@
                                 <pickup_active>1</pickup_active>
                             </depends>
                         </pickup_title>
-                        <pickup_fee translate="label,comment" module="tig_myparcel">
+                        <pickup_fee translate="label,comment" module="myparcel_be">
                             <label>Pickup fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -555,23 +555,23 @@
                         </pickup_fee>
                     </fields>
                 </pickup>
-                <pickup_express translate="label comment" module="tig_myparcel">
+                <pickup_express translate="label comment" module="myparcel_be">
                     <label>Pickup Express at PostNL location</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <pickup_express_active translate="label" module="tig_myparcel">
+                        <pickup_express_active translate="label" module="myparcel_be">
                             <label>Pickup Express active</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </pickup_express_active>
-                        <pickup_express_fee translate="label,comment" module="tig_myparcel">
+                        <pickup_express_fee translate="label,comment" module="myparcel_be">
                             <label>Pickup Express fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -586,23 +586,23 @@
                         </pickup_express_fee>
                     </fields>
                 </pickup_express>
-                <pickup_belgium translate="label comment" module="tig_myparcel">
+                <pickup_belgium translate="label comment" module="myparcel_be">
                     <label>Pickup at Belgium PostNL location</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <pickup_belgium_active translate="label" module="tig_myparcel">
+                        <pickup_belgium_active translate="label" module="myparcel_be">
                             <label>Pickup Belgium active</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </pickup_belgium_active>
-                        <pickup_belgium_title translate="label" module="tig_myparcel">
+                        <pickup_belgium_title translate="label" module="myparcel_be">
                             <label>Pickup Belgium title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>105</sort_order>
@@ -613,7 +613,7 @@
                                 <pickup_belgium_active>1</pickup_belgium_active>
                             </depends>
                         </pickup_belgium_title>
-                        <pickup_belgium_fee translate="label,comment" module="tig_myparcel">
+                        <pickup_belgium_fee translate="label,comment" module="myparcel_be">
                             <label>Pickup Belgium fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -628,7 +628,7 @@
                         </pickup_belgium_fee>
                     </fields>
                 </pickup_belgium>
-                <api translate="label comment" module="tig_myparcel">
+                <api translate="label comment" module="myparcel_be">
                     <label>API settings</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
@@ -657,7 +657,7 @@
                         </key>
                     </fields>
                 </api>
-                <general translate="label" module="tig_myparcel">
+                <general translate="label" module="myparcel_be">
                     <label>Basic settings</label>
                     <sort_order>30</sort_order>
                     <show_in_default>1</show_in_default>
@@ -668,7 +668,7 @@
                             <label>Print Orientation</label>
                             <comment>Select a standard orientation for printing labels.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_a4a6</source_model>
+                            <source_model>myparcel_be/system_config_source_a4a6</source_model>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -689,18 +689,18 @@
                             <label>Always use MyParcel</label>
                             <comment>Select 'No' in order to set the shipping methods that must be regarded as MyParcel.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>55</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </always_myparcel>
-                        <myparcel_shipping_methods translate="label tooltip" module="tig_myparcel">
+                        <myparcel_shipping_methods translate="label tooltip" module="myparcel_be">
                             <label>MyParcel shipping methods</label>
                             <tooltip>Please select the shipping methods that will be considered to be 'MyParcel' by this extension. Orders placed using one of these shipping methods may be processed using the MyParcel extension.</tooltip>
                             <frontend_type>multiselect</frontend_type>
                             <can_be_empty>0</can_be_empty>
-                            <source_model>tig_myparcel/system_config_source_shippingMethods</source_model>
+                            <source_model>myparcel_be/system_config_source_shippingMethods</source_model>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
@@ -713,7 +713,7 @@
                             <label>Use shipment address for PostNL location</label>
                             <comment>Use shipment address for 'Ophalen op een PostNL locatie'. The customer will see the address on the invoice. Set to 'No' if you are using AfterPay.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -723,7 +723,7 @@
                             <label>Use filter in order overview</label>
                             <comment>Select 'No' if you are using a plugin that is present in the order summary and therefore experience problems.</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>68</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -735,7 +735,7 @@
                             <comment>By enabling this, you will force connection to the MyParcel platform over unsecured http, rather than https</comment>
                             <tooltip>In some cases the SSL certification can't be validated, which can lead to problems connection to the MyParcel platform. Only use this if you are aware that all communication to MyParcel will be sent over the unsecure https protocol.</tooltip>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <depends>
@@ -744,13 +744,13 @@
                         </ssl_handshake>
                         <use_in_adminhtml>
                             <frontend_type>hidden</frontend_type>
-                            <frontend_model>tig_myparcel/adminhtml_system_config_adminSecure</frontend_model>
+                            <frontend_model>myparcel_be/adminhtml_system_config_adminSecure</frontend_model>
                             <sort_order>80</sort_order>
                             <show_in_default>1</show_in_default>
                         </use_in_adminhtml>
                     </fields>
                 </general>
-                <shipment translate="label comment" module="tig_myparcel">
+                <shipment translate="label comment" module="myparcel_be">
                     <label>Default Shipment Settings</label>
                     <sort_order>40</sort_order>
                     <show_in_default>1</show_in_default>
@@ -830,7 +830,7 @@
                             <label>Automatically next status</label>
                             <comment>Turn the order automatically to the next status after creating a label</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <source_model>myparcel_be/system_config_source_yesno</source_model>
                             <sort_order>65</sort_order>
                             <show_in_default>1</show_in_default>
                         </automatically_next_status>
@@ -838,7 +838,7 @@
                             <label>Customs Shipment Type</label>
                             <comment>Default shipment type for Cross Domestic shipments</comment>
                             <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_customs</source_model>
+                            <source_model>myparcel_be/system_config_source_customs</source_model>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -857,6 +857,6 @@
                     </fields>
                 </shipment>
             </groups>
-        </tig_myparcel>
+        </myparcel_be>
     </sections>
 </config>

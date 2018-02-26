@@ -41,7 +41,7 @@
  *
  * @method bool hasStoreId()
  */
-class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
+class MyParcel_MyParcelBE_Model_Api_MyParcel extends Varien_Object
 {
     /**
      * Supported request types.
@@ -132,13 +132,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     protected function _construct()
     {
         $storeId  = $this->getStoreId();
-        $helper   = Mage::helper('tig_myparcel');
+        $helper   = Mage::helper('myparcel_be');
         $username = $helper->getConfig('username', 'api', $storeId);
         $key      = $helper->getConfig('key', 'api', $storeId, true);
         $url      = $helper->getConfig('url');
 
         if (Mage::app()->getStore()->isCurrentlySecure()) {
-            if(!Mage::getStoreConfig('tig_myparcel/general/ssl_handshake')){
+            if(!Mage::getStoreConfig('myparcel_be/general/ssl_handshake')){
                 $url = str_replace('http://', 'https://', $url);
             }
         }
@@ -203,7 +203,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
     public function setStoreId($storeId)
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $this->storeId     = $storeId;
         $this->apiUsername = $helper->getConfig('username', 'api', $storeId);
@@ -308,7 +308,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         //Get Magento and MyParcel versions
         $userAgents = [
             'Magento/'. Mage::getVersion(),
-            'MyParcel-Magento/'. (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version
+            'MyParcel-Magento/'. (string) Mage::getConfig()->getModuleConfig("MyParcel_MyParcelBE")->version
         ];
 
         $userAgent = implode(' ', $userAgents);
@@ -323,7 +323,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param bool $checkConfig
      * @return $this|array|false|string
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     public function sendRequest($method = 'POST', $checkConfig = true)
     {
@@ -332,7 +332,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         }
 
         //instantiate the helper
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         //curl options
         $options = array(
@@ -347,7 +347,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         );
 
         //instantiate the curl adapter
-        $request = new TIG_MyParcel2014_Model_Api_Curl();
+        $request = new MyParcel_MyParcelBE_Model_Api_Curl();
         //add the options
         foreach($options as $option => $value)
         {
@@ -397,7 +397,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
             } else {
                 $pdfError = $helper->__('There was an error when set up a PDF. Please feel free to contact MyParcel.');
-                throw new TIG_MyParcel2014_Exception(
+                throw new MyParcel_MyParcelBE_Exception(
                     $pdfError . '::' . $url,
                     'MYPA-0101'
                 );
@@ -450,11 +450,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Prepares the API for processing a create consignment request.
      *
-     * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     * @param MyParcel_MyParcelBE_Model_Shipment $myParcelShipment
      *
      * @return $this
      */
-    public function createConsignmentRequest(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
+    public function createConsignmentRequest(MyParcel_MyParcelBE_Model_Shipment $myParcelShipment)
     {
         $data = $this->_getConsignmentData($myParcelShipment);
 
@@ -474,7 +474,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         if($consignmentIds){
 
-            $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+            $apiInfo    = Mage::getModel('myparcel_be/api_myParcel');
             $responseData = $apiInfo->createConsignmentsInfoRequest($consignmentIds)
                 ->sendRequest('GET')
                 ->getRequestResponse();
@@ -546,7 +546,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function createFileExistsRequest($url)
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         $this->setApiUrl($url);
         $this->setApiKey($helper->getConfig('key', 'api'));
 
@@ -562,7 +562,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     {
         $data = array(
             'webshop_version' => 'Magento ' . Mage::getVersion(),
-            'plugin_version'  => (string) Mage::getConfig()->getModuleConfig('TIG_MyParcel2014')->version,
+            'plugin_version'  => (string) Mage::getConfig()->getModuleConfig('MyParcel_MyParcelBE')->version,
             'php_version'     => phpversion(),
         );
 
@@ -665,16 +665,16 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Gets the shipping address and product code data for this shipment.
      *
-     * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     * @param MyParcel_MyParcelBE_Model_Shipment $myParcelShipment
      *
      * @return array
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
-    protected function _getConsignmentData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
+    protected function _getConsignmentData(MyParcel_MyParcelBE_Model_Shipment $myParcelShipment)
     {
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        $helper = Mage::helper('tig_myparcel');
+        /** @var MyParcel_MyParcelBE_Helper_Data $helper */
+        $helper = Mage::helper('myparcel_be');
         $order = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
         $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
@@ -724,7 +724,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             }
 
             if($data['options']['package_type'] == 2){
-                throw new TIG_MyParcel2014_Exception(
+                throw new MyParcel_MyParcelBE_Exception(
                     $helper->__('International shipments can not be sent by') . ' ' . strtolower($helper->__('Letter box')),
                     'MYPA-0027'
                 );
@@ -770,7 +770,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         $customsContentTypeItem = key_exists($i, $customsContentType) ? $customsContentType[$i] : $customsContentType[0];
                     }
                     if(!$customsContentTypeItem) {
-                        throw new TIG_MyParcel2014_Exception(
+                        throw new MyParcel_MyParcelBE_Exception(
                             $helper->__('No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.'),
                             'MYPA-0026'
                         );
@@ -831,17 +831,17 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Gets the product code parameters for this shipment.
      *
-     * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     * @param MyParcel_MyParcelBE_Model_Shipment $myParcelShipment
      *
      * @param $checkoutData
      * @return array
      */
-    protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $checkoutData)
+    protected function _getOptionsData(MyParcel_MyParcelBE_Model_Shipment $myParcelShipment, $checkoutData)
     {
         /**
-         * @var TIG_MyParcel2014_Helper_Data $helper
+         * @var MyParcel_MyParcelBE_Helper_Data $helper
          */
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         /**
          * Add the shipment type parameter.
@@ -954,11 +954,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * Get the insured amount for this shipment.
      *
-     * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     * @param MyParcel_MyParcelBE_Model_Shipment $myParcelShipment
      *
      * @return int
      */
-    protected function _getInsuredAmount(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
+    protected function _getInsuredAmount(MyParcel_MyParcelBE_Model_Shipment $myParcelShipment)
     {
         if ($myParcelShipment->getInsured()) {
             return (int) $myParcelShipment->getInsuredAmount();

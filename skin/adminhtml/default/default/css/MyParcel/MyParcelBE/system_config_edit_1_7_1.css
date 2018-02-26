@@ -1,8 +1,8 @@
-#system_config_tabs .tig_myparcel-tab { background:transparent url(../../../images/TIG/MyParcel2014/logo_myparcel_19.png) 18px 3px no-repeat !important; display:block; }
-#system_config_tabs .tig_myparcel-tab:hover { background-color:#d8e6e6 !important; border-right:1px solid #8aa5a6; }
-#system_config_tabs .tig_myparcel-tab.active { background-color:#fff !important; border-right:none !important; }
-#system_config_tabs .tig_myparcel-tab span { padding-left:44px; display:block; }
-#system_config_tabs .tig_myparcel-tab.active span { background:none; }
+#system_config_tabs .myparcel_be-tab { background:transparent url(../../../images/MyParcel/MyParcelBE/logo_myparcel_19.png) 18px 3px no-repeat !important; display:block; }
+#system_config_tabs .myparcel_be-tab:hover { background-color:#d8e6e6 !important; border-right:1px solid #8aa5a6; }
+#system_config_tabs .myparcel_be-tab.active { background-color:#fff !important; border-right:none !important; }
+#system_config_tabs .myparcel_be-tab span { padding-left:44px; display:block; }
+#system_config_tabs .myparcel_be-tab.active span { background:none; }
 
 ul#tabButtons {
     margin-top: 70px;

@@ -36,12 +36,12 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
- * @method TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid   setCollection(TIG_MyParcel2014_Model_Resource_Order_Grid_Collection $value)
- * @method TIG_MyParcel2014_Model_Resource_Order_Grid_Collection getCollection()
- * @method TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid   setBlock(Mage_Adminhtml_Block_Sales_Order_Grid $value)
+ * @method MyParcel_MyParcelBE_Model_Adminhtml_Observer_OrderGrid   setCollection(MyParcel_MyParcelBE_Model_Resource_Order_Grid_Collection $value)
+ * @method MyParcel_MyParcelBE_Model_Resource_Order_Grid_Collection getCollection()
+ * @method MyParcel_MyParcelBE_Model_Adminhtml_Observer_OrderGrid   setBlock(Mage_Adminhtml_Block_Sales_Order_Grid $value)
  * @method Mage_Adminhtml_Block_Sales_Order_Grid                 getBlock()
  */
-class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
+class MyParcel_MyParcelBE_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
 {
     /**
      * The block we want to edit.
@@ -72,11 +72,11 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
      *
      * @event adminhtml_block_html_before
      *
-     * @observer tig_myparcel_adminhtml_ordergrid
+     * @observer myparcel_be_adminhtml_ordergrid
      */
     public function modifyGrid(Varien_Event_Observer $observer)
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         /**
          * Checks if the current block is the one we want to edit.
          *
@@ -102,7 +102,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
          * replace the collection, as the default collection has a bug preventing it from being reset.
          * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
          */
-        $collection = Mage::getResourceModel('tig_myparcel/order_grid_collection');
+        $collection = Mage::getResourceModel('myparcel_be/order_grid_collection');
         $collection->setSelect($select)
             ->setPageSize($currentCollection->getPageSize())
             ->setCurPage($currentCollection->getCurPage());
@@ -129,7 +129,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
      */
     protected function _addColumns($block)
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         /**
          * Add the confirm status column.
@@ -141,7 +141,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                 array(
                     'header' => $helper->__('Shipping status'),
                     'sortable' => false,
-                    'renderer' => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
+                    'renderer' => 'myparcel_be/adminhtml_widget_grid_column_renderer_shippingStatus',
                     'type' => 'options',
                     'options' => array(
                         'tomorrow' => $helper->__('Send until tomorrow'),
@@ -160,7 +160,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                 array(
                     'header' => $helper->__('Shipping status'),
                     'sortable' => false,
-                    'renderer' => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shippingStatus',
+                    'renderer' => 'myparcel_be/adminhtml_widget_grid_column_renderer_shippingStatus',
                 ),
                 'shipping_name'
             );
@@ -220,7 +220,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
      */
     protected function _addMassaction($block)
     {
-        $helper          = Mage::helper('tig_myparcel');
+        $helper          = Mage::helper('myparcel_be');
         $adminhtmlHelper = Mage::helper('adminhtml');
 
         /**
@@ -238,9 +238,9 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                             'type'    => 'select',
                             'options' => array(
                                 'default'     => $helper->__('Accordance with type consignment'),
-                                TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
-                                TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
-                                TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
+                                MyParcel_MyParcelBE_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
+                                MyParcel_MyParcelBE_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
+                                MyParcel_MyParcelBE_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
                             ),
                         ),
                         'create_consignment' => array(
@@ -346,7 +346,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
         $cond = $column->getFilter()->getCondition();
         if ($field && isset($cond)) {
             /**
-             * @var TIG_MyParcel2014_Model_Resource_Order_Grid_Collection $collection
+             * @var MyParcel_MyParcelBE_Model_Resource_Order_Grid_Collection $collection
              */
             $collection = $this->getCollection();
             $collection->addFieldToFilter($field , $cond);

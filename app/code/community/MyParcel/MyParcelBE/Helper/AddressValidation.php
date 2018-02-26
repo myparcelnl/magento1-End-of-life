@@ -36,16 +36,16 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_Data
+class MyParcel_MyParcelBE_Helper_AddressValidation extends MyParcel_MyParcelBE_Helper_Data
 {
     /**
      * Constants containing XML paths to cif address configuration options
      */
-    const XPATH_SPLIT_STREET                = 'tig_myparcel/shipment/split_street';
-    const XPATH_STREETNAME_FIELD            = 'tig_myparcel/shipment/streetname_field';
-    const XPATH_HOUSENUMBER_FIELD           = 'tig_myparcel/shipment/housenr_field';
-    const XPATH_SPLIT_HOUSENUMBER           = 'tig_myparcel/shipment/split_housenr';
-    const XPATH_HOUSENUMBER_EXTENSION_FIELD = 'tig_myparcel/shipment/housenr_extension_field';
+    const XPATH_SPLIT_STREET                = 'myparcel_be/shipment/split_street';
+    const XPATH_STREETNAME_FIELD            = 'myparcel_be/shipment/streetname_field';
+    const XPATH_HOUSENUMBER_FIELD           = 'myparcel_be/shipment/housenr_field';
+    const XPATH_SPLIT_HOUSENUMBER           = 'myparcel_be/shipment/split_housenr';
+    const XPATH_HOUSENUMBER_EXTENSION_FIELD = 'myparcel_be/shipment/housenr_extension_field';
 
     /**
      * Gets the address field number used for the streetname field.
@@ -125,8 +125,8 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
      */
     public function getQuoteAddress(Mage_Sales_Model_Quote $quote)
     {
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        $helper = Mage::helper('tig_myparcel');
+        /** @var MyParcel_MyParcelBE_Helper_Data $helper */
+        $helper = Mage::helper('myparcel_be');
 
         $address = array();
         $sameAsBilling = $quote->getShippingAddress()->getData('same_as_billing') == '1' ? true : false;

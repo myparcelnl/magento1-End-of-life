@@ -36,13 +36,13 @@
  * @copyright   Copyright (c) 2015 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Model_Observer_SaveShipment
+class MyParcel_MyParcelBE_Model_Observer_SaveShipment
 {
     /**
      * @param Varien_Event_Observer $observer
      * @return $this
      * @event controller_action_predispatch_adminhtml_sales_order_shipment_save
-     * @observer tig_myparcel_shipment_save
+     * @observer myparcel_be_shipment_save
      */
     public function registerConsignmentOption(Varien_Event_Observer $observer)
     {
@@ -52,11 +52,11 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
          * @var Mage_Core_Controller_Varien_Front $controller
          */
         $controller                 = $observer->getControllerAction();
-        $selectedConsignmentOptions = $controller->getRequest()->getParam('tig_myparcel', array());
+        $selectedConsignmentOptions = $controller->getRequest()->getParam('myparcel_be', array());
 
         if (!empty($selectedConsignmentOptions['shipment_type'])) {
             $shipmentType = $selectedConsignmentOptions['shipment_type'];
-            if ($shipmentType != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL) {
+            if ($shipmentType != MyParcel_MyParcelBE_Model_Shipment::TYPE_NORMAL) {
                 if(isset($selectedConsignmentOptions['create_consignment'])){
                     $selectedConsignmentOptions = array(
                         'shipment_type' => $shipmentType,
@@ -77,7 +77,7 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
             if(!isset($selectedConsignmentOptions['create_consignment'])){
                 return $this;
             }
-            Mage::register('tig_myparcel_consignment_options', $selectedConsignmentOptions);
+            Mage::register('myparcel_be_consignment_options', $selectedConsignmentOptions);
         }
 
         return $this;
@@ -91,11 +91,11 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
      * @return $this
      * @throws Exception
      * @event sales_order_shipment_save_after
-     * @observer tig_myparcel_shipment_save_after
+     * @observer myparcel_be_shipment_save_after
      */
     public function saveConsignmentOption(Varien_Event_Observer $observer)
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         /**
          * @var Mage_Sales_Model_Order_Shipment $shipment
@@ -120,7 +120,7 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
         /**
          * check if a new consignment must me made
          */
-        $registryOptions = Mage::registry('tig_myparcel_consignment_options');
+        $registryOptions = Mage::registry('myparcel_be_consignment_options');
         if(empty($registryOptions) || !isset($registryOptions['create_consignment'])){
             return $this;
         }
@@ -130,7 +130,7 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
          */
         if (false !== $helper->getPgAddress($shipment->getOrder())
             && (!isset($registryOptions['shipment_type']) ||
-                $registryOptions['shipment_type'] != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL
+                $registryOptions['shipment_type'] != MyParcel_MyParcelBE_Model_Shipment::TYPE_NORMAL
             )
         )
         {
@@ -138,16 +138,16 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
         }
 
         /**
-         * @var TIG_MyParcel2014_Model_Shipment $myParcelShipment
+         * @var MyParcel_MyParcelBE_Model_Shipment $myParcelShipment
          */
-        $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipment->getId());
+        $myParcelShipment = Mage::getModel('myparcel_be/shipment')->load($shipment->getId());
 
         $consignmentOptions = $registryOptions;
-        if (Mage::registry('tig_myparcel_consignment_options')) {
-            $consignmentOptions = array_merge($consignmentOptions, Mage::registry('tig_myparcel_consignment_options'));
-            Mage::unregister('tig_myparcel_consignment_options');
+        if (Mage::registry('myparcel_be_consignment_options')) {
+            $consignmentOptions = array_merge($consignmentOptions, Mage::registry('myparcel_be_consignment_options'));
+            Mage::unregister('myparcel_be_consignment_options');
         }
-        Mage::register('tig_myparcel_consignment_options', $consignmentOptions);
+        Mage::register('myparcel_be_consignment_options', $consignmentOptions);
 
         $myParcelShipment->setShipmentId($shipment->getId())
                          ->setConsignmentOptions()
@@ -156,7 +156,7 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
 
         $barcode = $myParcelShipment->getBarcode();
         if ($barcode) {
-            $carrierCode = TIG_MyParcel2014_Model_Shipment::MYPARCEL_CARRIER_CODE;
+            $carrierCode = MyParcel_MyParcelBE_Model_Shipment::MYPARCEL_CARRIER_CODE;
 
             $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/name', $shipment->getStoreId());
             //if the other carrier-method is used, get the title

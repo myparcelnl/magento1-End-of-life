@@ -37,7 +37,7 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-class TIG_MyParcel2014_Model_System_Config_Source_Yesno
+class MyParcel_MyParcelBE_Model_System_Config_Source_Yesno
 {
     /**
      * Source model for yes / no setting.
@@ -46,7 +46,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_Yesno
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $array = array(
              array(

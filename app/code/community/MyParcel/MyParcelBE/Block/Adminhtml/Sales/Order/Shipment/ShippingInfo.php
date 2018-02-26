@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends Mage_Adminhtml_Block_Template
+class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends Mage_Adminhtml_Block_Template
 {
     /**
      * @var Mage_Sales_Model_Order_Shipment
@@ -44,7 +44,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
     protected $_shipment;
 
     /**
-     * @var TIG_MyParcel2014_Model_Shipment
+     * @var MyParcel_MyParcelBE_Model_Shipment
      */
     protected $_myParcelShipment;
 
@@ -52,7 +52,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
     {
         $shipmentId = $this->getRequest()->getParam('shipment_id');
         $this->_shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
-        $this->_myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
+        $this->_myParcelShipment = Mage::getModel('myparcel_be/shipment')->load($shipmentId, 'shipment_id');
     }
 
     /**
@@ -64,7 +64,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
      */
     protected function _toHtml()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         if (!$this->_shipment
             || !$helper->shippingMethodIsMyParcel($this->_shipment->getOrder()->getShippingMethod())
@@ -83,7 +83,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
     public function getPgAddressHtml()
     {
         $res = array();
-        $pgAddress = Mage::helper('tig_myparcel')->getPgAddress($this->_shipment->getOrder());
+        $pgAddress = Mage::helper('myparcel_be')->getPgAddress($this->_shipment->getOrder());
 
         if($pgAddress)
         {
@@ -104,13 +104,13 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
 
     public function getCreditText()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         return $helper->__('Credit Consignment');
     }
 
     public function getRetourlinkText()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         return $helper->__('Mail return label');
     }
 
@@ -181,7 +181,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
     public function countryNeedsCustoms()
     {
         $shipment = $this->getShipment();
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $shippingAddress = $shipment->getShippingAddress();
 
@@ -232,12 +232,12 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
      */
     public function getCustomsTypeOptions()
     {
-        return Mage::getModel('tig_myparcel/system_config_source_customs')->toOptionArray();
+        return Mage::getModel('myparcel_be/system_config_source_customs')->toOptionArray();
     }
 
     public function getIsSelected($shipmentOption)
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         $storeId = $this->getOrderStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
@@ -281,7 +281,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
     public function getIsInsured()
     {
         //load helper, store id and orderTotal
-        $helper            = Mage::helper('tig_myparcel');
+        $helper            = Mage::helper('myparcel_be');
         $storeId           = $this->getOrderStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
@@ -366,7 +366,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends
      */
     public function getIsPakjeGemak()
     {
-        $helper   = Mage::helper('tig_myparcel');
+        $helper   = Mage::helper('myparcel_be');
         $shipment = Mage::registry('current_shipment');
 
         if($helper->getPgAddress($shipment->getOrder())){

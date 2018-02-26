@@ -36,12 +36,12 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
- * @method TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid   setCollection(TIG_MyParcel2014_Model_Resource_Shipment_Grid_Collection $value)
- * @method TIG_MyParcel2014_Model_Resource_Shipment_Grid_Collection getCollection()
- * @method TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid   setBlock(Mage_Adminhtml_Block_Sales_Shipment_Grid $block)
+ * @method MyParcel_MyParcelBE_Model_Adminhtml_Observer_ShipmentGrid   setCollection(MyParcel_MyParcelBE_Model_Resource_Shipment_Grid_Collection $value)
+ * @method MyParcel_MyParcelBE_Model_Resource_Shipment_Grid_Collection getCollection()
+ * @method MyParcel_MyParcelBE_Model_Adminhtml_Observer_ShipmentGrid   setBlock(Mage_Adminhtml_Block_Sales_Shipment_Grid $block)
  * @method Mage_Adminhtml_Block_Sales_Shipment_Grid             getBlock()
  */
-class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Object
+class MyParcel_MyParcelBE_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Object
 {
     /**
      * The block we want to edit.
@@ -72,7 +72,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
      *
      * @event adminhtml_block_html_before
      *
-     * @observer tig_myparcel_adminhtml_shipmentgrid
+     * @observer myparcel_be_adminhtml_shipmentgrid
      */
     public function modifyGrid(Varien_Event_Observer $observer)
     {
@@ -99,7 +99,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
          * replace the collection, as the default collection has a bug preventing it from being reset.
          * Without being able to reset it, we can't edit it. Therefore we are forced to replace it altogether.
          */
-        $collection = Mage::getResourceModel('tig_myparcel/shipment_grid_collection');
+        $collection = Mage::getResourceModel('myparcel_be/shipment_grid_collection');
         $collection->setSelect($select)
                    ->setPageSize($currentCollection->getPageSize())
                    ->setCurPage($currentCollection->getCurPage());
@@ -121,7 +121,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
     /**
      * Adds additional joins to the collection that will be used by newly added columns.
      *
-     * @param TIG_MyParcel2014_Model_Resource_Shipment_Grid_Collection $collection
+     * @param MyParcel_MyParcelBE_Model_Resource_Shipment_Grid_Collection $collection
      *
      * @return $this
      */
@@ -177,12 +177,12 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
         );
 
         /**
-         * Join tig_myparcel_shipment table.
+         * Join myparcel_be_shipment table.
          */
         $select->joinLeft(
-            array('tig_myparcel_shipment' => $resource->getTableName('tig_myparcel/shipment')),
-            'main_table.entity_id=tig_myparcel_shipment.shipment_id',
-            array('status' => 'tig_myparcel_shipment.status', 'barcode' => 'tig_myparcel_shipment.barcode')
+            array('myparcel_be_shipment' => $resource->getTableName('myparcel_be/shipment')),
+            'main_table.entity_id=myparcel_be_shipment.shipment_id',
+            array('status' => 'myparcel_be_shipment.status', 'barcode' => 'myparcel_be_shipment.barcode')
         );
 
         return $this;
@@ -241,7 +241,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
      */
     protected function _addColumns($block)
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $block->addColumnAfter(
             'shipping_status',
@@ -251,7 +251,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
                 'index'          => 'status',
                 'sortable'       => false,
                 'filter'         => false,
-                'renderer'       => 'tig_myparcel/adminhtml_widget_grid_column_renderer_shipment_shippingStatus',
+                'renderer'       => 'myparcel_be/adminhtml_widget_grid_column_renderer_shipment_shippingStatus',
             ),
             'shipping_name'
         );
@@ -338,7 +338,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
         $cond = $column->getFilter()->getCondition();
         if ($field && isset($cond)) {
             /**
-             * @var TIG_MyParcel2014_Model_Resource_Shipment_Grid_Collection $collection
+             * @var MyParcel_MyParcelBE_Model_Resource_Shipment_Grid_Collection $collection
              */
             $collection = $this->getCollection();
             $collection->addFieldToFilter($field , $cond);
@@ -397,7 +397,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
      */
     protected function _addMassaction($block)
     {
-        $helper          = Mage::helper('tig_myparcel');
+        $helper          = Mage::helper('myparcel_be');
         $adminhtmlHelper = Mage::helper('adminhtml');
 
         /**
@@ -414,9 +414,9 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
                             'name'    => 'type_consignment',
                             'type'    => 'select',
                             'options' => array(
-                                TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
-                                TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
-                                TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
+                                MyParcel_MyParcelBE_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
+                                MyParcel_MyParcelBE_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
+                                MyParcel_MyParcelBE_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
                             ),
                         ),
                         'create_consignment' => array(

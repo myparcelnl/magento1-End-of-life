@@ -1,95 +1,95 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <TIG_MyParcel2014>
+        <MyParcel_MyParcelBE>
             <version>1.14.6</version>
-        </TIG_MyParcel2014>
+        </MyParcel_MyParcelBE>
     </modules>
     <global>
         <models>
-            <tig_myparcel>
-                <class>TIG_MyParcel2014_Model</class>
-                <resourceModel>tig_myparcel_resource</resourceModel>
-            </tig_myparcel>
-            <tig_myparcel_resource>
-                <class>TIG_MyParcel2014_Model_Resource</class>
+            <myparcel_be>
+                <class>MyParcel_MyParcelBE_Model</class>
+                <resourceModel>myparcel_be_resource</resourceModel>
+            </myparcel_be>
+            <myparcel_be_resource>
+                <class>MyParcel_MyParcelBE_Model_Resource</class>
                 <entities>
                     <shipment>
-                        <table>tig_myparcel_shipment</table>
+                        <table>myparcel_be_shipment</table>
                     </shipment>
                 </entities>
-            </tig_myparcel_resource>
+            </myparcel_be_resource>
             <sales>
                 <rewrite>
-                    <order>TIG_MyParcel2014_Model_Sales_Order</order>
+                    <order>MyParcel_MyParcelBE_Model_Sales_Order</order>
                 </rewrite>
             </sales>
             <checkout>
                 <rewrite>
-                    <type_onepage>TIG_MyParcel2014_Model_Type_OnePage</type_onepage>
+                    <type_onepage>MyParcel_MyParcelBE_Model_Type_OnePage</type_onepage>
                 </rewrite>
             </checkout>
         </models>
         <blocks>
-            <tig_myparcel>
-                <class>TIG_MyParcel2014_Block</class>
-            </tig_myparcel>
+            <myparcel_be>
+                <class>MyParcel_MyParcelBE_Block</class>
+            </myparcel_be>
             <adminhtml>
                 <rewrite>
                     <!-- Only update status if cronjob is not active -->
-                    <!-- <sales_order_grid>TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Grid</sales_order_grid> -->
-                    <sales_shipment_grid>TIG_MyParcel2014_Block_Adminhtml_Sales_Shipment_Grid</sales_shipment_grid>
+                    <!-- <sales_order_grid>MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Grid</sales_order_grid> -->
+                    <sales_shipment_grid>MyParcel_MyParcelBE_Block_Adminhtml_Sales_Shipment_Grid</sales_shipment_grid>
                 </rewrite>
             </adminhtml>
         </blocks>
         <helpers>
-            <tig_myparcel>
-                <class>TIG_MyParcel2014_Helper</class>
-            </tig_myparcel>
+            <myparcel_be>
+                <class>MyParcel_MyParcelBE_Helper</class>
+            </myparcel_be>
         </helpers>
        <resources>
-            <tig_myparcel_setup>
+            <myparcel_be_setup>
                 <setup>
-                    <module>TIG_MyParcel2014</module>
-                    <class>TIG_MyParcel2014_Model_Resource_Setup</class>
+                    <module>MyParcel_MyParcelBE</module>
+                    <class>MyParcel_MyParcelBE_Model_Resource_Setup</class>
                 </setup>
-            </tig_myparcel_setup>
+            </myparcel_be_setup>
         </resources>
         <events>
             <checkout_controller_onepage_save_shipping_method>
                 <observers>
-                    <tig_myparcel_shipping_method_save_after>
+                    <myparcel_be_shipping_method_save_after>
                         <type>model</type>
-                        <class>tig_myparcel/observer_saveShippingMethod</class>
+                        <class>myparcel_be/observer_saveShippingMethod</class>
                         <method>saveExtaOptions</method>
-                    </tig_myparcel_shipping_method_save_after>
+                    </myparcel_be_shipping_method_save_after>
                 </observers>
             </checkout_controller_onepage_save_shipping_method>
             <sales_order_shipment_save_after>
                 <observers>
-                    <tig_myparcel_shipment_save_after>
+                    <myparcel_be_shipment_save_after>
                         <type>model</type>
-                        <class>tig_myparcel/observer_saveShipment</class>
+                        <class>myparcel_be/observer_saveShipment</class>
                         <method>saveConsignmentOption</method>
-                    </tig_myparcel_shipment_save_after>
+                    </myparcel_be_shipment_save_after>
                 </observers>
             </sales_order_shipment_save_after>
             <sales_order_place_after>
                 <observers>
-                    <tig_myparcel_copy_pg_address>
+                    <myparcel_be_copy_pg_address>
                         <type>model</type>
-                        <class>tig_myparcel/observer_savePgAddress</class>
+                        <class>myparcel_be/observer_savePgAddress</class>
                         <method>copyAddressToOrder</method>
-                    </tig_myparcel_copy_pg_address>
+                    </myparcel_be_copy_pg_address>
                 </observers>
             </sales_order_place_after>
             <controller_action_postdispatch_adminhtml_system_config_save>
                 <observers>
-                    <tig_myparcel_save_config>
+                    <myparcel_be_save_config>
                         <type>model</type>
-                        <class>tig_myparcel/observer_saveConfig</class>
+                        <class>myparcel_be/observer_saveConfig</class>
                         <method>registerConfig</method>
-                    </tig_myparcel_save_config>
+                    </myparcel_be_save_config>
                 </observers>
             </controller_action_postdispatch_adminhtml_system_config_save>
         </events>
@@ -99,7 +99,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <myparcel_admin after="Mage_Adminhtml">TIG_MyParcel2014</myparcel_admin>
+                        <myparcel_admin after="Mage_Adminhtml">MyParcel_MyParcelBE</myparcel_admin>
                     </modules>
                 </args>
             </adminhtml>
@@ -108,18 +108,18 @@
     <adminhtml>
         <layout>
             <updates>
-                <tig_myparcel>
-                    <file>TIG/tig_myparcel.xml</file>
-                </tig_myparcel>
+                <myparcel_be>
+                    <file>TIG/myparcel_be.xml</file>
+                </myparcel_be>
             </updates>
         </layout>
         <translate>
             <modules>
-                <TIG_MyParcel2014>
+                <MyParcel_MyParcelBE>
                     <files>
-                        <default>TIG_MyParcel2014.csv</default>
+                        <default>MyParcel_MyParcelBE.csv</default>
                     </files>
-                </TIG_MyParcel2014>
+                </MyParcel_MyParcelBE>
             </modules>
         </translate>
         <events>
@@ -128,7 +128,7 @@
                     <!-- Add 'download logs' button to system > config -->
                     <myparcel_add_download_log_button>
                         <type>model</type>
-                        <class>tig_myparcel/adminhtml_observer_systemConfig</class>
+                        <class>myparcel_be/adminhtml_observer_systemConfig</class>
                         <method>addDownloadLogButton</method>
                     </myparcel_add_download_log_button>
                 </observers>
@@ -136,36 +136,36 @@
             <controller_action_predispatch_adminhtml_sales_order_shipment_save>
                 <observers>
                     <!-- Registers the myparcel consignment options the user selected on the sales_order_shipment_new page -->
-                    <tig_myparcel_shipment_save>
+                    <myparcel_be_shipment_save>
                         <type>model</type>
-                        <class>tig_myparcel/observer_saveShipment</class>
+                        <class>myparcel_be/observer_saveShipment</class>
                         <method>registerConsignmentOption</method>
-                    </tig_myparcel_shipment_save>
+                    </myparcel_be_shipment_save>
                 </observers>
             </controller_action_predispatch_adminhtml_sales_order_shipment_save>
             <adminhtml_block_html_before>
                 <observers>
                     <!-- Adds a massaction the grid that allows merchants to print shipping labels for selected orders-->
-                    <tig_myparcel_adminhtml_ordergrid>
+                    <myparcel_be_adminhtml_ordergrid>
                         <type>singleton</type>
-                        <class>tig_myparcel/adminhtml_observer_orderGrid</class>
+                        <class>myparcel_be/adminhtml_observer_orderGrid</class>
                         <method>modifyGrid</method>
-                    </tig_myparcel_adminhtml_ordergrid>
+                    </myparcel_be_adminhtml_ordergrid>
                     <!-- Adds a column with shipping status to the shipment grid -->
-                    <tig_myparcel_adminhtml_shipmentgrid>
+                    <myparcel_be_adminhtml_shipmentgrid>
                         <type>singleton</type>
-                        <class>tig_myparcel/adminhtml_observer_shipmentGrid</class>
+                        <class>myparcel_be/adminhtml_observer_shipmentGrid</class>
                         <method>modifyGrid</method>
-                    </tig_myparcel_adminhtml_shipmentgrid>
+                    </myparcel_be_adminhtml_shipmentgrid>
                 </observers>
             </adminhtml_block_html_before>
             <adminhtml_widget_container_html_before>
                 <observers>
-                    <tig_myparcel_adminhtml_view_shipment>
-                        <class>tig_myparcel/adminhtml_observer_viewShipment</class>
+                    <myparcel_be_adminhtml_view_shipment>
+                        <class>myparcel_be/adminhtml_observer_viewShipment</class>
                         <type>singleton</type>
                         <method>adminhtmlWidgetContainerHtmlBefore</method>
-                    </tig_myparcel_adminhtml_view_shipment>
+                    </myparcel_be_adminhtml_view_shipment>
                 </observers>
             </adminhtml_widget_container_html_before>
         </events>
@@ -176,36 +176,36 @@
             <myparcel_checkout>/myparcel2014/checkout</myparcel_checkout>
         </secure_url>
         <routers>
-            <tig_myparcel>
+            <myparcel_be>
                 <use>standard</use>
                 <args>
-                    <module>TIG_MyParcel2014</module>
+                    <module>MyParcel_MyParcelBE</module>
                     <frontName>myparcel2014</frontName>
                 </args>
-            </tig_myparcel>
+            </myparcel_be>
             <opc>
                 <args>
 
                     <modules>
-                        <TIG_MyParcel2014 before="IWD_Opc">TIG_MyParcel2014</TIG_MyParcel2014>
+                        <MyParcel_MyParcelBE before="IWD_Opc">MyParcel_MyParcelBE</MyParcel_MyParcelBE>
                     </modules>
                 </args>
             </opc>
         </routers>
         <layout>
             <updates>
-                <tig_myparcel>
-                    <file>TIG/tig_myparcel.xml</file>
-                </tig_myparcel>
+                <myparcel_be>
+                    <file>TIG/myparcel_be.xml</file>
+                </myparcel_be>
             </updates>
         </layout>
         <translate>
             <modules>
-                <TIG_MyParcel2014>
+                <MyParcel_MyParcelBE>
                     <files>
-                        <default>TIG_MyParcel2014.csv</default>
+                        <default>MyParcel_MyParcelBE.csv</default>
                     </files>
-                </TIG_MyParcel2014>
+                </MyParcel_MyParcelBE>
             </modules>
         </translate>
     </frontend>
@@ -213,12 +213,12 @@
     <crontab>
         <jobs>
             <!-- checks the statusses of all consignments that do not have the status "is_final" -->
-            <tig_myparcel_check_status>
+            <myparcel_be_check_status>
                 <!-- the cron expression is generated at installation -->
                 <run>
-                    <model>tig_myparcel/observer_cron::checkStatus</model>
+                    <model>myparcel_be/observer_cron::checkStatus</model>
                 </run>
-            </tig_myparcel_check_status>
+            </myparcel_be_check_status>
         </jobs>
     </crontab>
 
@@ -226,7 +226,7 @@
         <carriers>
             <myparcel>
                 <active>0</active>
-                <model>tig_myparcel/carrier_myParcel</model>
+                <model>myparcel_be/carrier_myParcel</model>
                 <title>Verzenden met MyParcel</title>
                 <name>MyParcel</name>
                 <rate_type>flat</rate_type>
@@ -238,7 +238,7 @@
                 <sallowspecific>0</sallowspecific>
             </myparcel>
         </carriers>
-        <tig_myparcel>
+        <myparcel_be>
             <api>
                 <username/>
                 <key/>
@@ -250,7 +250,7 @@
                 <print_orientation>A4</print_orientation>
                 <always_myparcel>1</always_myparcel>
                 <pakjegemak_use_shipment_address>1</pakjegemak_use_shipment_address>
-                <myparcel_shipping_methods>tig_myparcel_flatrate,myparcel_flatrate,tig_myparcel_tablerate,myparcel_tablerate,tig_myparcel_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
+                <myparcel_shipping_methods>myparcel_be_flatrate,myparcel_flatrate,myparcel_be_tablerate,myparcel_tablerate,myparcel_be_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
                 <use_filter>0</use_filter>
                 <ssl_handshake>0</ssl_handshake>
             </general>
@@ -311,22 +311,22 @@
                 <pickup_belgium_title>Ophalen bij een PostNL locatie</pickup_belgium_title>
                 <pickup_belgium_fee>0</pickup_belgium_fee>
             </pickup_belgium>
-        </tig_myparcel>
+        </myparcel_be>
     </default>
 
-    <!-- Custom TiG config values -->
-    <tig>
+    <!-- Custom config values -->
+    <myparcel_be>
         <!-- Version compatibility per Magento edition as well as PHP version compatibility -->
         <compatibility>
-            <tig_myparcel>
+            <myparcel_be>
                 <community>1.6,1.7,1.8,1.9</community>
                 <php>5.3,5.4</php>
-            </tig_myparcel>
+            </myparcel_be>
         </compatibility>
 
         <!-- Stability of this release -->
         <stability>
-            <tig_myparcel>develop</tig_myparcel>
+            <myparcel_be>develop</myparcel_be>
         </stability>
 
         <!-- A list of possible error codes recognized by this extension. Each error has a default message, a link to
@@ -466,5 +466,5 @@
                 <type>error</type>
             </MYPA-0027>
         </errors>
-    </tig>
+    </myparcel_be>
 </config>

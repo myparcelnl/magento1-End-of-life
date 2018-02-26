@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Model_Adminhtml_Support_Logs
+class MyParcel_MyParcelBE_Model_Adminhtml_Support_Logs
 {
     /**
      * Max size for individual log files and the total size of all logs (in bytes).
@@ -131,7 +131,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Support_Logs
 
 
         $zipPath = $logFolder
-            . 'TIG_MyParcel2014-logs-'
+            . 'MyParcel_MyParcelBE-logs-'
             . date('Ymd-His', Mage::getSingleton('core/date')->timestamp())
             . '.zip';
 
@@ -156,7 +156,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Support_Logs
      */
     protected function getLogFileNames()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         if(!in_array($helper::MYPARCEL_EXCEPTION_LOG_FILE, $this->logFiles)
             && !in_array($helper::MYPARCEL_DEBUG_LOG_FILE, $this->logFiles)

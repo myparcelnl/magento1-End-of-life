@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatus
+class MyParcel_MyParcelBE_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatus
     extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
 {
     /**
@@ -59,12 +59,12 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
      */
     public function render(Varien_Object $row)
     {
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        $helper = $this->helper('tig_myparcel');
+        /** @var MyParcel_MyParcelBE_Helper_Data $helper */
+        $helper = $this->helper('myparcel_be');
         $html = '';
 
         $order = Mage::getModel('sales/order')->load($row->getId());
-        $myParcelShipments = Mage::getModel('tig_myparcel/shipment')
+        $myParcelShipments = Mage::getModel('myparcel_be/shipment')
             ->getCollection()
             ->addFieldToFilter('order_id', $row->getId());
 
@@ -95,7 +95,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                 'postcode' => $postcode,
             );
 
-            /** @var TIG_MyParcel2014_Model_Shipment $myParcelShipment */
+            /** @var MyParcel_MyParcelBE_Model_Shipment $myParcelShipment */
             $i = 0;
             foreach ($myParcelShipments as $myParcelShipment) {
 

@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2015 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Block_Checkout_Progress extends Mage_Checkout_Block_Onepage_Progress
+class MyParcel_MyParcelBE_Block_Checkout_Progress extends Mage_Checkout_Block_Onepage_Progress
 {
     /**
      * @return string|false

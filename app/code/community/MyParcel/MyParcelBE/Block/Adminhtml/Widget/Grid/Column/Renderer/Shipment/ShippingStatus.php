@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_Shipment_ShippingStatus
+class MyParcel_MyParcelBE_Block_Adminhtml_Widget_Grid_Column_Renderer_Shipment_ShippingStatus
     extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Text
 {
     /**
@@ -62,7 +62,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_Shipment_Ship
          * The shipment was not shipped using MyParcel
          */
         $shippingMethod = $row->getData(self::SHIPPING_METHOD_COLUMN);
-        if (!Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod)) {
+        if (!Mage::helper('myparcel_be')->shippingMethodIsMyParcel($shippingMethod)) {
             return '';
         }
 
@@ -86,7 +86,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_Shipment_Ship
 
         $barcode = $row->getData(self::BARCODE_COLUMN);
             if (!empty($barcode)) {
-                $barcodeUrl = Mage::helper('tig_myparcel')->getBarcodeUrl($barcode, $destinationData, false, true);
+                $barcodeUrl = Mage::helper('myparcel_be')->getBarcodeUrl($barcode, $destinationData, false, true);
                 $barcodeHtml = "<a href='{$barcodeUrl}' target='_blank'>{$barcode}</a> - <small>" . $this->__('status_' . $value) . "</small>";
 
             } else {

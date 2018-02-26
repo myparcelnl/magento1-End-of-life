@@ -36,19 +36,19 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Model_Resource_Setup extends Mage_Catalog_Model_Resource_Setup
+class MyParcel_MyParcelBE_Model_Resource_Setup extends Mage_Catalog_Model_Resource_Setup
 {
     /**
      * Cron expression and cron model definitions for statistics update cron
      */
-    const UPDATE_STATISTICS_CRON_STRING_PATH = 'crontab/jobs/tig_myparcel_check_status/schedule/cron_expr';
-    const UPDATE_STATISTICS_CRON_MODEL_PATH  = 'crontab/jobs/tig_myparcel_check_status/run/model';
+    const UPDATE_STATISTICS_CRON_STRING_PATH = 'crontab/jobs/myparcel_be_check_status/schedule/cron_expr';
+    const UPDATE_STATISTICS_CRON_MODEL_PATH  = 'crontab/jobs/myparcel_be_check_status/run/model';
 
     /**
      * Generates a semi-random cron expression for the update statistics cron. This is done to spread out the number of
      * calls across each day.
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      *
      * @return $this
      */
@@ -79,8 +79,8 @@ class TIG_MyParcel2014_Model_Resource_Setup extends Mage_Catalog_Model_Resource_
                 ->setPath(self::UPDATE_STATISTICS_CRON_MODEL_PATH)
                 ->save();
         } catch (Exception $e) {
-            throw new TIG_MyParcel2014_Exception(
-                Mage::helper('tig_myparcel')->__('Unable to save check_status cron expression: %s', $cronExpr),
+            throw new MyParcel_MyParcelBE_Exception(
+                Mage::helper('myparcel_be')->__('Unable to save check_status cron expression: %s', $cronExpr),
                 'MYPA-0022',
                 $e
             );
@@ -125,11 +125,11 @@ class TIG_MyParcel2014_Model_Resource_Setup extends Mage_Catalog_Model_Resource_
                         )
                     );
                 } catch (Exception $e) {
-                    Mage::helper('tig_myparcel')->logException($e);
+                    Mage::helper('myparcel_be')->logException($e);
                 }
             }
         } catch (Exception $e) {
-            Mage::helper('tig_myparcel')->logException($e);
+            Mage::helper('myparcel_be')->logException($e);
         }
 
         return $this;

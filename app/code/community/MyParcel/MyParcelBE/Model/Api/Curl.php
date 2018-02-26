@@ -31,7 +31,7 @@
  * @package     Varien_Http
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class TIG_MyParcel2014_Model_Api_Curl implements Zend_Http_Client_Adapter_Interface
+class MyParcel_MyParcelBE_Model_Api_Curl implements Zend_Http_Client_Adapter_Interface
 {
     /**
      * Parameters array

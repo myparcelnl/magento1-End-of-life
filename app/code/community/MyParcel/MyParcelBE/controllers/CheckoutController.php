@@ -37,15 +37,15 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Action
+class MyParcel_MyParcelBE_CheckoutController extends Mage_Core_Controller_Front_Action
 {
     /**
      * Generate data in json format for checkout
      */
     public function infoAction()
     {
-        /** @var TIG_MyParcel2014_Helper_AddressValidation $helper */
-        $helper = Mage::helper('tig_myparcel/addressValidation');
+        /** @var MyParcel_MyParcelBE_Helper_AddressValidation $helper */
+        $helper = Mage::helper('myparcel_be/addressValidation');
         /**
          * @var Mage_Sales_Model_Quote $quote
          * @var Mage_Sales_Model_Quote_Item $item
@@ -138,7 +138,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $data['pickupExpress'] = (object)$pickupExpress;
 
         $info = array(
-            'version' => (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version,
+            'version' => (string) Mage::getConfig()->getModuleConfig("MyParcel_MyParcelBE")->version,
             'data' => (object)$data
         );
 
@@ -151,10 +151,10 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
     {
         /**
          * @var Mage_Sales_Model_Quote $quote
-         * @var TIG_MyParcel2014_Helper_Data $helper
+         * @var MyParcel_MyParcelBE_Helper_Data $helper
          */
         $quote = Mage::getModel('checkout/cart')->getQuote();
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $packageType = $helper->getPackageType($quote->getItemsCollection(), 'NL', false, false, true);
 
@@ -168,7 +168,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         }
         $mailBoxPrice = '&#8364; ' . str_replace('.', ',', $mailBoxPrice);
 
-        require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_checkout_options.phtml');
+        require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/MyParcel/MyParcelBE/checkout/mypa_checkout_options.phtml');
         exit;
     }
 
@@ -177,7 +177,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
      */
     public function save_shipping_methodAction()
     {
-        Mage::getModel('tig_myparcel/checkout_service')->saveMyParcelShippingMethod();
+        Mage::getModel('myparcel_be/checkout_service')->saveMyParcelShippingMethod();
     }
 
     /**
@@ -185,7 +185,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
      */
     public function cronAction()
     {
-        $cronController = new TIG_MyParcel2014_Model_Observer_Cron;
+        $cronController = new MyParcel_MyParcelBE_Model_Observer_Cron;
         $cronController->checkStatus();
     }
 

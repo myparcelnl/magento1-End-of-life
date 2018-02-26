@@ -3,7 +3,7 @@
     <default>
         <reference name="before_body_end">
             <block type="core/template" name="myparcel_checkout_base_url"
-                   template="TIG/MyParcel2014/checkout/baseUrl.phtml"/>
+                   template="MyParcel/MyParcelBE/checkout/baseUrl.phtml"/>
         </reference>
     </default>
 
@@ -12,23 +12,23 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+                <file>js/MyParcel/MyParcelBE/jquery-myparcel.min.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/checkout.js</file>
+                <file>js/MyParcel/MyParcelBE/checkout.js</file>
             </action>
         </reference>
         <reference name="checkout.onepage.shipping_method.available">
             <action method="setTemplate">
-                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+                <template>MyParcel/MyParcelBE/checkout/onepage/shipping_method/available.phtml</template>
             </action>
         </reference>
     </checkout_onepage_index>
     <checkout_onepage_shippingmethod>
         <reference name="root">
             <action method="setTemplate">
-                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+                <template>MyParcel/MyParcelBE/checkout/onepage/shipping_method/available.phtml</template>
             </action>
         </reference>
     </checkout_onepage_shippingmethod>
@@ -38,21 +38,21 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+                <file>js/MyParcel/MyParcelBE/jquery-myparcel.min.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/checkout_type/opc_index_index.js</file>
+                <file>js/MyParcel/MyParcelBE/checkout_type/opc_index_index.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/checkout.js</file>
+                <file>js/MyParcel/MyParcelBE/checkout.js</file>
             </action>
         </reference>
 
         <reference name="checkout.onepage.shipping_method.available">
             <action method="setTemplate">
-                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+                <template>MyParcel/MyParcelBE/checkout/onepage/shipping_method/available.phtml</template>
             </action>
         </reference>
     </opc_index_index>
@@ -63,27 +63,27 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/jquery-myparcel.min.js</file>
+                <file>js/MyParcel/MyParcelBE/jquery-myparcel.min.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/checkout_type/onestepcheckout_index_index.js</file>
+                <file>js/MyParcel/MyParcelBE/checkout_type/onestepcheckout_index_index.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/checkout.js</file>
+                <file>js/MyParcel/MyParcelBE/checkout.js</file>
             </action>
         </reference>
         <reference name="choose-shipping-method">
             <action method="setTemplate">
-                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+                <template>MyParcel/MyParcelBE/checkout/onepage/shipping_method/available.phtml</template>
             </action>
         </reference>
     </onestepcheckout_index_index>
     <onestepcheckout_ajax_save_billing>
         <reference name="choose-shipping-method">
             <action method="setTemplate">
-                <template>TIG/MyParcel2014/checkout/onepage/shipping_method/available.phtml</template>
+                <template>MyParcel/MyParcelBE/checkout/onepage/shipping_method/available.phtml</template>
             </action>
         </reference>
     </onestepcheckout_ajax_save_billing>
@@ -94,20 +94,20 @@
         <reference name="head">
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/MutationObserver.js</file>
+                <file>js/MyParcel/MyParcelBE/MutationObserver.js</file>
             </action>
             <action method="addItem">
                 <type>skin_js</type>
-                <file>js/TIG/MyParcel2014/checkout.js</file>
+                <file>js/MyParcel/MyParcelBE/checkout.js</file>
             </action>
             <action method="addItem">
                 <type>skin_css</type>
-                <file>css/TIG/MyParcel2014/checkout.css</file>
+                <file>css/MyParcel/MyParcelBE/checkout.css</file>
             </action>
         </reference>
         <reference name="before_body_end">
-            <block type="tig_myparcel/checkout_js" name="myparcel_checkout_js"
-                   template="TIG/MyParcel2014/checkout/threesixty_checkout/js.phtml"/>
+            <block type="myparcel_be/checkout_js" name="myparcel_checkout_js"
+                   template="MyParcel/MyParcelBE/checkout/threesixty_checkout/js.phtml"/>
         </reference>
     </checkout_index_index>-->
 </layout>

@@ -37,9 +37,9 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
  * @method boolean hasQuote()
- * @method TIG_MyParcel2014_Model_Observer_SavePgAddress setQuote(Mage_Sales_Model_Quote $quote)
+ * @method MyParcel_MyParcelBE_Model_Observer_SavePgAddress setQuote(Mage_Sales_Model_Quote $quote)
  */
-class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
+class MyParcel_MyParcelBE_Model_Observer_SavePgAddress extends Varien_Object
 {
     /**
      * Get the current quote.
@@ -69,16 +69,16 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
      *
      * @event sales_order_place_after
      *
-     * @observer tig_myparcel_copy_pg_address
+     * @observer myparcel_be_copy_pg_address
      */
     public function copyAddressToOrder(Varien_Event_Observer $observer)
     {
         /**
          * @var Mage_Sales_Model_Order $order
-         * @var TIG_MyParcel2014_Helper_Data $helper
+         * @var MyParcel_MyParcelBE_Helper_Data $helper
          */
         $order  = $observer->getEvent()->getOrder();
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         /**
          * @var Mage_Sales_Model_Quote $quote
@@ -133,11 +133,11 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
          */
         $pakjeGemakAddress = $helper->getPgAddress($quote);
         if($myParcelData === null || !key_exists('location', $myParcelData) || !$pakjeGemakAddress){
-            Mage::getModel('tig_myparcel/checkout_service')->removePgAddress($quote);
+            Mage::getModel('myparcel_be/checkout_service')->removePgAddress($quote);
             return $this;
         }
 
-        Mage::getModel('tig_myparcel/checkout_service')->copyAddressToOrder($order, $pakjeGemakAddress);
+        Mage::getModel('myparcel_be/checkout_service')->copyAddressToOrder($order, $pakjeGemakAddress);
         return $this;
     }
 

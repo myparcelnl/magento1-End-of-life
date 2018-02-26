@@ -1,10 +1,10 @@
 <?php
 
-class TIG_MyParcel2014_Model_Resource_Shipment extends Mage_Core_Model_Resource_Db_Abstract
+class MyParcel_MyParcelBE_Model_Resource_Shipment extends Mage_Core_Model_Resource_Db_Abstract
 {
     public function _construct()
     {
-        $this->_init('tig_myparcel/shipment','entity_id');
+        $this->_init('myparcel_be/shipment','entity_id');
     }
 
     /**

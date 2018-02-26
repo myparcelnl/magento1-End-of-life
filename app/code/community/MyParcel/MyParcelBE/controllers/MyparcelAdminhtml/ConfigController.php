@@ -1,13 +1,13 @@
 <?php
 
-class TIG_MyParcel2014_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml_Controller_Action
+class MyParcel_MyParcelBE_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * @return bool
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('admin/tig_myparcel');
+        return Mage::getSingleton('admin/session')->isAllowed('admin/myparcel_be');
     }
 
     /**
@@ -17,27 +17,27 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml
      */
     public function downloadLogsAction()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         /**
          * Get a zip file containing all valid MyParcel logs.
          */
         try
         {
-            $zip = Mage::getModel('tig_myparcel/adminhtml_support_logs')->downloadLogs();
+            $zip = Mage::getModel('myparcel_be/adminhtml_support_logs')->downloadLogs();
         }
         catch (Exception $e)
         {
             Mage::getSingleton('core/session')->addError($helper->__('The log files cannot be downloaded.'));
 
-            $this->_redirect('adminhtml/system_config/edit', array('section' => 'tig_myparcel'));
+            $this->_redirect('adminhtml/system_config/edit', array('section' => 'myparcel_be'));
             return $this;
         }
         if(empty($zip))
         {
             Mage::getSingleton('core/session')->addError($helper->__('There are no log files to be downloaded.'));
 
-            $this->_redirect('adminhtml/system_config/edit', array('section' => 'tig_myparcel'));
+            $this->_redirect('adminhtml/system_config/edit', array('section' => 'myparcel_be'));
             return $this;
         }
 
@@ -60,22 +60,22 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml
 
     public function generateRetourmailAction()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         //get Params
         $shipmentId = $this->getRequest()->getParam('shipment_id');
 
         /**
-         * @var TIG_MyParcel2014_Model_Shipment $myparcelShipment
+         * @var MyParcel_MyParcelBE_Model_Shipment $myparcelShipment
          * @var Mage_Sales_Model_Order_Shipment $shipment
          */
-        $myparcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
+        $myparcelShipment = Mage::getModel('myparcel_be/shipment')->load($shipmentId, 'shipment_id');
         $shipment         = Mage::getModel('sales/order_shipment')->load($shipmentId);
 
         $consignmentId = $myparcelShipment->getConsignmentId();
 
         /**
-         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+         * @var MyParcel_MyParcelBE_Model_Api_MyParcel $api
          */
         $api      = $myparcelShipment->getApi();
         $response = $api->createRetourmailRequest($shipment, $consignmentId)
@@ -107,22 +107,22 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ConfigController extends Mage_Adminhtml
 
     public function generateRetourlinkAction()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         //get Params
         $shipmentId = $this->getRequest()->getParam('shipment_id');
 
         /**
-         * @var TIG_MyParcel2014_Model_Shipment $myparcelShipment
+         * @var MyParcel_MyParcelBE_Model_Shipment $myparcelShipment
          * @var Mage_Sales_Model_Order_Shipment $shipment
          */
-        $myparcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
+        $myparcelShipment = Mage::getModel('myparcel_be/shipment')->load($shipmentId, 'shipment_id');
         $shipment         = Mage::getModel('sales/order_shipment')->load($shipmentId);
 
         $consignmentId = $myparcelShipment->getConsignmentId();
 
         /**
-         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+         * @var MyParcel_MyParcelBE_Model_Api_MyParcel $api
          */
         $api      = $myparcelShipment->getApi();
         $response = $api->createRetourlinkRequest($consignmentId)

@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Block_Adminhtml_System_Config_SupportTab
+class MyParcel_MyParcelBE_Block_Adminhtml_System_Config_SupportTab
     extends Mage_Adminhtml_Block_Abstract
     implements Varien_Data_Form_Element_Renderer_Interface
 {
@@ -44,13 +44,13 @@ class TIG_MyParcel2014_Block_Adminhtml_System_Config_SupportTab
     /**
      * Css files loaded for MyParcel's system > config section
      */
-    const SYSTEM_CONFIG_EDIT_CSS_FILE = 'css/TIG/MyParcel2014/system_config_edit_myparcel.css';
-    const MAGENTO_16_CSS_FILE         = 'css/TIG/MyParcel2014/system_config_edit_myparcel_magento16.css';
+    const SYSTEM_CONFIG_EDIT_CSS_FILE = 'css/MyParcel/MyParcelBE/system_config_edit_myparcel.css';
+    const MAGENTO_16_CSS_FILE         = 'css/MyParcel/MyParcelBE/system_config_edit_myparcel_magento16.css';
 
     /**
      * @var string
      */
-    protected $_template = 'TIG/MyParcel2014/system/config/supportTab.phtml';
+    protected $_template = 'MyParcel/MyParcelBE/system/config/supportTab.phtml';
 
     protected function _prepareLayout()
     {
@@ -61,7 +61,7 @@ class TIG_MyParcel2014_Block_Adminhtml_System_Config_SupportTab
         /**
          * For Magento 1.6 and 1.11 we need to add another css file.
          */
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         $isEnterprise = $helper->isEnterprise();
 
         /**

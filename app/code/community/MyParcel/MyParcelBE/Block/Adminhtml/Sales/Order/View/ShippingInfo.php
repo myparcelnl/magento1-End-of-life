@@ -36,15 +36,15 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mage_Adminhtml_Block_Abstract
+class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mage_Adminhtml_Block_Abstract
 {
     /**
-     * @var Mage_Sales_Model_Order|TIG_MyParcel2014_Model_Sales_Order
+     * @var Mage_Sales_Model_Order|MyParcel_MyParcelBE_Model_Sales_Order
      */
     protected $_order;
 
     /**
-     * @var TIG_MyParcel2014_Helper_Data
+     * @var MyParcel_MyParcelBE_Helper_Data
      */
     protected $_helper;
     protected $_myParcelShipments;
@@ -53,9 +53,9 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
     {
         $orderId = $this->getRequest()->getParam('order_id');
         $this->_order = Mage::getModel('sales/order')->load($orderId);
-        $this->_helper = Mage::helper('tig_myparcel');
+        $this->_helper = Mage::helper('myparcel_be');
 
-        $this->_myParcelShipments = Mage::getModel('tig_myparcel/shipment')
+        $this->_myParcelShipments = Mage::getModel('myparcel_be/shipment')
             ->getCollection()
             ->addFieldToFilter('order_id', $this->_order->getId());
     }
@@ -131,7 +131,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
     public function getCurrentOrderOptionsHtml()
     {
         $optionsHtml = '';
-        /** @var $myParcelShipment TIG_MyParcel2014_Model_Shipment */
+        /** @var $myParcelShipment MyParcel_MyParcelBE_Model_Shipment */
         foreach ($this->_myParcelShipments as $myParcelShipment) {
             $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
             $editUrl = "https://backoffice.myparcel.nl/shipmentform?shipment=" . $myParcelShipment->getConsignmentId();

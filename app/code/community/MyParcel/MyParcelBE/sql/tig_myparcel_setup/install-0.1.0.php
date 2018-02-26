@@ -43,10 +43,10 @@ $installer = $this;
 $installer->startSetup();
 
 //add tables
-$tableName = $installer->getTable('tig_myparcel/shipment');
+$tableName = $installer->getTable('myparcel_be/shipment');
 
 if (!$conn->isTableExists($tableName)) {
-    $tigMyparcelShipmentTable = $installer->getConnection()
+    $myparcelShipmentTable = $installer->getConnection()
         ->newTable($tableName)
         /**
          * Entity ID
@@ -161,21 +161,21 @@ if (!$conn->isTableExists($tableName)) {
             'unsigned' => true,
             'default'  => 0,
         ), 'Is Credit')
-        ->addIndex($installer->getIdxName('tig_myparcel/shipment', array('shipment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        ->addIndex($installer->getIdxName('myparcel_be/shipment', array('shipment_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
             array('shipment_id'),
             array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE))
-        ->addIndex($installer->getIdxName('tig_myparcel/shipment', array('order_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
+        ->addIndex($installer->getIdxName('myparcel_be/shipment', array('order_id'), Varien_Db_Adapter_Interface::INDEX_TYPE_UNIQUE),
             array('order_id'),
             array('type' => Varien_Db_Adapter_Interface::INDEX_TYPE_INDEX))
-        ->addForeignKey($installer->getFkName('tig_myparcel/shipment', 'shipment_id', 'sales/shipment', 'entity_id'),
+        ->addForeignKey($installer->getFkName('myparcel_be/shipment', 'shipment_id', 'sales/shipment', 'entity_id'),
             'shipment_id', $installer->getTable('sales/shipment'), 'entity_id',
             Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
-        ->addForeignKey($installer->getFkName('tig_myparcel/shipment', 'order_id', 'sales/order', 'entity_id'),
+        ->addForeignKey($installer->getFkName('myparcel_be/shipment', 'order_id', 'sales/order', 'entity_id'),
             'order_id', $installer->getTable('sales/order'), 'entity_id',
             Varien_Db_Ddl_Table::ACTION_SET_NULL, Varien_Db_Ddl_Table::ACTION_CASCADE)
         ->setComment('TIG MyParcel Shipment');
 
-    $installer->getConnection()->createTable($tigMyparcelShipmentTable);
+    $installer->getConnection()->createTable($myparcelShipmentTable);
 }
 
 $installer->endSetup();

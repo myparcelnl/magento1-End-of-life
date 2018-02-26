@@ -71,29 +71,29 @@
  * @method string getShipmentType()
  * @method int    getIsXL()
  *
- * @method TIG_MyParcel2014_Model_Shipment setShipmentId(int $value)
- * @method TIG_MyParcel2014_Model_Shipment setOrderId(int $value)
- * @method TIG_MyParcel2014_Model_Shipment setTrackId(int $value)
- * @method TIG_MyParcel2014_Model_Shipment setConsignmentId(int $value)
- * @method TIG_MyParcel2014_Model_Shipment setCreatedAt(string $value)
- * @method TIG_MyParcel2014_Model_Shipment setUpdatedAt(string $value)
- * @method TIG_MyParcel2014_Model_Shipment setStatus(string $value)
- * @method TIG_MyParcel2014_Model_Shipment setBarcode(string $value)
- * @method TIG_MyParcel2014_Model_Shipment setIsFinal(int $value)
- * @method TIG_MyParcel2014_Model_Shipment setShipment(Mage_Sales_Model_Order_Shipment $value)
- * @method TIG_MyParcel2014_Model_Shipment setOrder(Mage_Sales_Model_Order $value)
- * @method TIG_MyParcel2014_Model_Shipment setShippingAddress(Mage_Sales_Model_Order_Address $value)
- * @method TIG_MyParcel2014_Model_Shipment setApi(TIG_MyParcel2014_Model_Api_MyParcel $value)
- * @method TIG_MyParcel2014_Model_Shipment setShipmentIncrementId(string $value)
- * @method TIG_MyParcel2014_Model_Shipment setBarcodeSend(int $value)
- * @method TIG_MyParcel2014_Model_Shipment setRetourlink(string $value)
- * @method TIG_MyParcel2014_Model_Shipment setIsCredit(int $value)
- * @method TIG_MyParcel2014_Model_Shipment setCustomsContentType(int $value)
- * @method TIG_MyParcel2014_Model_Shipment setShipmentType(string $value)
- * @method TIG_MyParcel2014_Model_Shipment setIsXl(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setShipmentId(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setOrderId(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setTrackId(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setConsignmentId(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setCreatedAt(string $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setUpdatedAt(string $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setStatus(string $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setBarcode(string $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setIsFinal(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setShipment(Mage_Sales_Model_Order_Shipment $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setOrder(Mage_Sales_Model_Order $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setShippingAddress(Mage_Sales_Model_Order_Address $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setApi(MyParcel_MyParcelBE_Model_Api_MyParcel $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setShipmentIncrementId(string $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setBarcodeSend(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setRetourlink(string $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setIsCredit(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setCustomsContentType(int $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setShipmentType(string $value)
+ * @method MyParcel_MyParcelBE_Model_Shipment setIsXl(int $value)
  *
  */
-class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
+class MyParcel_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
 {
     /**
      * Carrier code used by MyParcel.
@@ -112,7 +112,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     const TYPE_NORMAL       = 'normal';
     const TYPE_UNPAID       = 'unstamped';
 
-    /** @var TIG_MyParcel2014_Helper_Data $helper */
+    /** @var MyParcel_MyParcelBE_Helper_Data $helper */
     public $helper;
 
     /**
@@ -120,8 +120,8 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function _construct()
     {
-        $this->_init('tig_myparcel/shipment');
-        $this->helper = Mage::helper('tig_myparcel');
+        $this->_init('myparcel_be/shipment');
+        $this->helper = Mage::helper('myparcel_be');
     }
 
     /**
@@ -267,7 +267,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     /**
      * Gets the MyParcel API object.
      *
-     * @return TIG_MyParcel2014_Model_Api_MyParcel
+     * @return MyParcel_MyParcelBE_Model_Api_MyParcel
      */
     public function getApi()
     {
@@ -276,7 +276,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         }
 
         $storeId = $this->getShipment()->getStoreId();
-        $api     = Mage::getModel('tig_myparcel/api_myParcel',array('store_id' => $storeId));
+        $api     = Mage::getModel('myparcel_be/api_myParcel',array('store_id' => $storeId));
 
         $this->setApi($api);
         return $api;
@@ -523,7 +523,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         /**
          * If any consignment options were set in the registry, those will be added as well.
          */
-        $filteredOptions = $registryOptions = Mage::registry('tig_myparcel_consignment_options');
+        $filteredOptions = $registryOptions = Mage::registry('myparcel_be_consignment_options');
         $hasExtraOptions = $this->helper->shippingHasExtraOptions($this->getShipment()->getOrder()->getShippingMethod());
 
         unset($filteredOptions['create_consignment']);
@@ -602,13 +602,13 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      *
      * @returns $this
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     public function createConsignment()
     {
         $storeId = $this->getOrder()->getStoreId();
         if (!$this->canCreateConsignment()) {
-            throw new TIG_MyParcel2014_Exception(
+            throw new MyParcel_MyParcelBE_Exception(
                 $this->helper->__('The createConsignment action is currently unavailable.'),
                 'MYPA-0011'
             );
@@ -617,7 +617,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         /**
          * Send the createConsignment request using the MyParcel API.
          *
-         * @var TIG_MyParcel2014_Model_Api_MyParcel $api
+         * @var MyParcel_MyParcelBE_Model_Api_MyParcel $api
          */
         $api = $this->getApi();
         $response = $api->createConsignmentRequest($this)
@@ -634,7 +634,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             || !isset($aResponse->data)
             || !is_numeric($aResponse->data->ids[0]->id)
         ) {
-            throw new TIG_MyParcel2014_Exception(
+            throw new MyParcel_MyParcelBE_Exception(
                 $this->helper->__('Invalid createConsignment response: %s', $api->getRequestErrorDetail()),
                 'MYPA-0012'
             );
@@ -645,7 +645,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
          */
         $consignmentId = (int) $aResponse->data->ids[0]->id;
 
-        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $apiInfo    = Mage::getModel('myparcel_be/api_myParcel');
         $responseShipments = $apiInfo->getConsignmentsInfoData(array($consignmentId));
 
         $responseShipment = $responseShipments[0];
@@ -733,14 +733,14 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      *
      * @return $this
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     public function addTrackingCodeToShipment($trackAndTraceCode)
     {
         $shipment = $this->getShipment();
 
         if (!$shipment || !$trackAndTraceCode) {
-            throw new TIG_MyParcel2014_Exception(
+            throw new MyParcel_MyParcelBE_Exception(
                 $this->helper->__(
                     'Unable to add tracking info: no track&amp;trace code or shipment available.'
                 ),

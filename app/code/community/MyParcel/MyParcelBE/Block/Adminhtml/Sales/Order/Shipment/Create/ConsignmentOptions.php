@@ -58,7 +58,7 @@ class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_Consignmen
     {
         $shipment = Mage::registry('current_shipment');
 
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         if (!$shipment
             || !$helper->shippingMethodIsMyParcel($shipment->getOrder()->getShippingMethod())
             || $this->getShipment()->getOrder()->getIsVirtual()
@@ -162,7 +162,7 @@ class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_Consignmen
      */
     public function countryNeedsCustoms()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $countryCode = $this->getDestinationCountry();
 
@@ -189,7 +189,7 @@ class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_Consignmen
      */
     public function getCustomsTypeOptions()
     {
-        return Mage::getModel('tig_myparcel/system_config_source_customs')->toOptionArray();
+        return Mage::getModel('myparcel_be/system_config_source_customs')->toOptionArray();
     }
 
     /**
@@ -199,7 +199,7 @@ class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_Consignmen
      */
     public function getIsSelected($shipmentOption)
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
         $storeId = $this->getOrderStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
@@ -271,7 +271,7 @@ class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_Consignmen
     {
 
         //load helper, store id and orderTotal
-        $helper            = Mage::helper('tig_myparcel');
+        $helper            = Mage::helper('myparcel_be');
         $storeId           = $this->getOrderStoreId();
         $orderTotalShipped = $this->getOrderTotal();
 
@@ -339,7 +339,7 @@ class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_Consignmen
      */
     public function getIsPakjeGemak()
     {
-        $helper   = Mage::helper('tig_myparcel');
+        $helper   = Mage::helper('myparcel_be');
         $shipment = Mage::registry('current_shipment');
 
         if($helper->getPgAddress($shipment->getOrder())){
@@ -356,10 +356,10 @@ class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_Consignmen
     public function hasExtraOptions()
     {
         /**
-         * @var \TIG_MyParcel2014_Helper_Data $helper
-         * @var \TIG_MyParcel2014_Model_Shipment $shipment
+         * @var \MyParcel_MyParcelBE_Helper_Data $helper
+         * @var \MyParcel_MyParcelBE_Model_Shipment $shipment
          */
-        $helper   = Mage::helper('tig_myparcel');
+        $helper   = Mage::helper('myparcel_be');
         $shipment = Mage::registry('current_shipment');
 
         if($helper->shippingHasExtraOptions($shipment->getOrder()->getShippingMethod())){

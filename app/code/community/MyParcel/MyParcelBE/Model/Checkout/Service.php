@@ -37,7 +37,7 @@
  * @copyright   Copyright (c) 2015 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Model_Checkout_Service
+class MyParcel_MyParcelBE_Model_Checkout_Service
 {
     /**
      * Save in checkout MyParcel shipping method
@@ -47,7 +47,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
         $request = Mage::app()->getRequest();
         if($request->isPost()){
 
-            $addressHelper = Mage::helper('tig_myparcel/addressValidation');
+            $addressHelper = Mage::helper('myparcel_be/addressValidation');
             /** @var $quote Mage_Sales_Model_Quote */
             $quote = Mage::getModel('checkout/cart')->getQuote();
 
@@ -111,8 +111,8 @@ class TIG_MyParcel2014_Model_Checkout_Service
      */
     public function savePgAddress($data, Mage_Sales_Model_Quote $quote)
     {
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        $helper = Mage::helper('tig_myparcel');
+        /** @var MyParcel_MyParcelBE_Helper_Data $helper */
+        $helper = Mage::helper('myparcel_be');
 
         /**
          * Delete old pg address
@@ -219,7 +219,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
 
                 /** @var Mage_Sales_Model_Quote_Address $address */
                 foreach ($addresses as $address) {
-                    if ($address->getAddressType() == TIG_MyParcel2014_Helper_Data::PG_ADDRESS_TYPE) {
+                    if ($address->getAddressType() == MyParcel_MyParcelBE_Helper_Data::PG_ADDRESS_TYPE) {
                         $address->delete();
                     }
                 }

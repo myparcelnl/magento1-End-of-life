@@ -11,18 +11,18 @@
                         <children>
                             <config>
                                 <children>
-                                    <tig_myparcel translate="title">
+                                    <myparcel_be translate="title">
                                         <title>MyParcel</title>
                                         <sort_order>0</sort_order>
-                                    </tig_myparcel>
+                                    </myparcel_be>
                                 </children>
                             </config>
                         </children>
                     </system>
-                    <tig_myparcel>
+                    <myparcel_be>
                         <title>MyParcel</title>
                         <sort_order>300</sort_order>
-                    </tig_myparcel>
+                    </myparcel_be>
                 </children>
             </admin>
         </resources>

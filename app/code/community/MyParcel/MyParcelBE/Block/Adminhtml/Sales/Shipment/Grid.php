@@ -1,5 +1,5 @@
 <?php
-class TIG_MyParcel2014_Block_Adminhtml_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Sales_Shipment_Grid
+class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Shipment_Grid extends Mage_Adminhtml_Block_Sales_Shipment_Grid
 {
 
     /**
@@ -11,7 +11,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Shipment_Grid extends Mage_Adminhtm
     {
         /**
          * @var Mage_Sales_Model_Order_Shipment $shipment
-         * @var TIG_MyParcel2014_Model_Shipment $myParcelShipment
+         * @var MyParcel_MyParcelBE_Model_Shipment $myParcelShipment
          */
         $shipmentIds = array();
         $consignmentIds = array();
@@ -26,7 +26,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Shipment_Grid extends Mage_Adminhtm
             $shipmentIds[] = $shipment->getId();
         }
 
-        $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
+        $collection = Mage::getResourceModel('myparcel_be/shipment_collection');
         $collection->getSelect();
         $collection->addFieldToFilter('shipment_id', array('in' => array($shipmentIds)));
 
@@ -39,7 +39,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Shipment_Grid extends Mage_Adminhtm
         }
 
 
-        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $apiInfo    = Mage::getModel('myparcel_be/api_myParcel');
         $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
 
         if($responseShipments){

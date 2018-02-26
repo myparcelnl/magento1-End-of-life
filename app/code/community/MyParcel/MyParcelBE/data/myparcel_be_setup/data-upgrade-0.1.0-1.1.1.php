@@ -38,7 +38,7 @@
  */
 
 /**
- * @var TIG_MyParcel2014_Model_Resource_Setup $installer
+ * @var MyParcel_MyParcelBE_Model_Resource_Setup $installer
  */
 $installer = $this;
 

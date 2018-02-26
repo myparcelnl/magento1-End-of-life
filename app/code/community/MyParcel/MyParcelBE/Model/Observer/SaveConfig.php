@@ -37,9 +37,9 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  *
  * @method boolean hasQuote()
- * @method TIG_MyParcel2014_Model_Observer_SavePgAddress setQuote(Mage_Sales_Model_Quote $quote)
+ * @method MyParcel_MyParcelBE_Model_Observer_SavePgAddress setQuote(Mage_Sales_Model_Quote $quote)
  */
-class TIG_MyParcel2014_Model_Observer_SaveConfig extends Varien_Object
+class MyParcel_MyParcelBE_Model_Observer_SaveConfig extends Varien_Object
 {
     /**
      * Saves the verssion numbers of the extension, store and php
@@ -50,7 +50,7 @@ class TIG_MyParcel2014_Model_Observer_SaveConfig extends Varien_Object
      *
      * @event controller_action_postdispatch_adminhtml_system_config_save
      *
-     * @observer tig_myparcel_save_config
+     * @observer myparcel_be_save_config
      */
     public function registerConfig(Varien_Event_Observer $observer)
     {
@@ -62,7 +62,7 @@ class TIG_MyParcel2014_Model_Observer_SaveConfig extends Varien_Object
 
         if($section == 'myparcel')
         {
-            $api = Mage::getModel('tig_myparcel/api_myParcel');
+            $api = Mage::getModel('myparcel_be/api_myParcel');
 
             $api->createRegisterConfigRequest()->sendRequest(); // no getRequestResponse()
         }

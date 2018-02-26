@@ -37,8 +37,8 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-class TIG_MyParcel2014_Block_Adminhtml_System_Config_AdminSecure
-    extends TIG_MyParcel2014_Block_Adminhtml_System_Config_Hidden
+class MyParcel_MyParcelBE_Block_Adminhtml_System_Config_AdminSecure
+    extends MyParcel_MyParcelBE_Block_Adminhtml_System_Config_Hidden
 {
 
     protected function _getValue()

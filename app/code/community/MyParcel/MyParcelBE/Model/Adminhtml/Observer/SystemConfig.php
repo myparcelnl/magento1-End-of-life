@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Model_Adminhtml_Observer_SystemConfig
+class MyParcel_MyParcelBE_Model_Adminhtml_Observer_SystemConfig
 {
     /**
      * Adds a button to the system > config page for the MyParcel section, allowing the admin to download all Myparcel
@@ -53,7 +53,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_SystemConfig
     public function addDownloadLogButton(Varien_Event_Observer $observer)
     {
         $section = Mage::app()->getRequest()->getParam('section');
-        if ($section !== 'tig_myparcel') {
+        if ($section !== 'myparcel_be') {
             return $this;
         }
 
@@ -74,7 +74,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_SystemConfig
             return $this;
         }
 
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $onClickUrl = $configEditBlock->getUrl('adminhtml/myparcelAdminhtml_config/downloadLogs');
         $onClick = "setLocation('{$onClickUrl}')";
@@ -89,7 +89,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_SystemConfig
         );
 
         $configEditBlock->setChild('download_logs_button', $button);
-        $configEditBlock->setTemplate('TIG/MyParcel2014/system/config/edit.phtml');
+        $configEditBlock->setTemplate('MyParcel/MyParcelBE/system/config/edit.phtml');
 
         return $this;
     }

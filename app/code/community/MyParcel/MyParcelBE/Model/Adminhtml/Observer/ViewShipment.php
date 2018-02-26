@@ -37,7 +37,7 @@
  * @copyright   Copyright (c) 2015 TIG (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Object
+class MyParcel_MyParcelBE_Model_Adminhtml_Observer_ViewShipment extends Varien_Object
 {
     const RETOURMAIL_ROUTE = 'adminhtml/myparcelAdminhtml_config/generateRetourmail';
     const RETOURLINK_ROUTE = 'adminhtml/myparcelAdminhtml_config/generateRetourlink';
@@ -53,15 +53,15 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
      *
      * @event    adminhtml_widget_container_html_before
      *
-     * @observer tig_myparcel_adminhtml_view_shipment
+     * @observer myparcel_be_adminhtml_view_shipment
      */
     public function adminhtmlWidgetContainerHtmlBefore(Varien_Event_Observer $observer)
     {
         /** @var Mage_Adminhtml_Block_Widget_Container $block ; */
         $block = $observer->getBlock();
 
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        $helper = Mage::helper('tig_myparcel');
+        /** @var MyParcel_MyParcelBE_Helper_Data $helper */
+        $helper = Mage::helper('myparcel_be');
 
 
         if ($block instanceof Mage_Adminhtml_Block_Sales_Order_Shipment_View) {
@@ -77,7 +77,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ViewShipment extends Varien_Obje
                 return;
             }
 
-            $myParcelShipment = Mage::getModel('tig_myparcel/shipment')->load($shipmentId, 'shipment_id');
+            $myParcelShipment = Mage::getModel('myparcel_be/shipment')->load($shipmentId, 'shipment_id');
 
             if (!$myParcelShipment->hasConsignmentId()) {
                 $block->addButton('myparcel_create_consignment', array(

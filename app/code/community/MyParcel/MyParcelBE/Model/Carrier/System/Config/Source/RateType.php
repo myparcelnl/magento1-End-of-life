@@ -36,7 +36,7 @@
      * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
      * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
      */
-    class TIG_MyParcel2014_Model_Carrier_System_Config_Source_RateType
+    class MyParcel_MyParcelBE_Model_Carrier_System_Config_Source_RateType
     {
         /**
          * Returns an option array for rate type options
@@ -45,7 +45,7 @@
          */
         public function toOptionArray()
         {
-            $helper = Mage::helper('tig_myparcel');
+            $helper = Mage::helper('myparcel_be');
             $options = array(
                 array(
                     'value' => 'flat',

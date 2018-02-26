@@ -37,7 +37,7 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-class TIG_MyParcel2014_Model_System_Config_Source_A4a6
+class MyParcel_MyParcelBE_Model_System_Config_Source_A4a6
 {
     /**
      * Source model for A4 / A6 setting.
@@ -46,7 +46,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_A4a6
      */
     public function toOptionArray()
     {
-        $helper = Mage::helper('tig_myparcel');
+        $helper = Mage::helper('myparcel_be');
 
         $array = array(
              array(

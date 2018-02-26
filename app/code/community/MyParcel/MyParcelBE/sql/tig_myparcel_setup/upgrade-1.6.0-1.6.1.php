@@ -1,9 +1,9 @@
 <?php
 
-    /* @var $installer TIG_MyParcel2014_Model_Resource_Setup */
+    /* @var $installer MyParcel_MyParcelBE_Model_Resource_Setup */
     $installer = $this;
     $installer->startSetup();
-    $tableName = $installer->getTable('tig_myparcel/shipment');
+    $tableName = $installer->getTable('myparcel_be/shipment');
     if (!$conn->tableColumnExists($tableName, 'is_xl')) {
         $conn->addColumn(
             $tableName,

@@ -37,10 +37,10 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
 
-class TIG_MyParcel2014_Model_Observer_Cron
+class MyParcel_MyParcelBE_Model_Observer_Cron
 {
 
-    /** @var TIG_MyParcel2014_Helper_Data $helper */
+    /** @var MyParcel_MyParcelBE_Helper_Data $helper */
     public $helper;
 
     /**
@@ -48,7 +48,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
      */
     public function __construct()
     {
-        $this->helper = Mage::helper('tig_myparcel');
+        $this->helper = Mage::helper('myparcel_be');
     }
 
     /**
@@ -65,7 +65,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
     protected function _checkEUShipments()
     {
         $resource   = Mage::getSingleton('core/resource');
-        $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
+        $collection = Mage::getResourceModel('myparcel_be/shipment_collection');
 
         $collection->getSelect()->joinLeft(
             array('shipping_address' => $resource->getTableName('sales/order_address')),
@@ -86,7 +86,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
     protected function _checkCDShipments()
     {
         $resource   = Mage::getSingleton('core/resource');
-        $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
+        $collection = Mage::getResourceModel('myparcel_be/shipment_collection');
 
         $collection->getSelect()->joinLeft(
             array('shipping_address' => $resource->getTableName('sales/order_address')),
@@ -115,7 +115,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
     {
         /**
          * @var Mage_Sales_Model_Order_Shipment $shipment
-         * @var TIG_MyParcel2014_Model_Shipment $myParcelShipment
+         * @var MyParcel_MyParcelBE_Model_Shipment $myParcelShipment
          */
         $consignmentIds = array();
         $myParcelShipments = array();
@@ -129,7 +129,7 @@ class TIG_MyParcel2014_Model_Observer_Cron
         }
 
 
-        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        $apiInfo    = Mage::getModel('myparcel_be/api_myParcel');
         $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
 
         if($responseShipments){

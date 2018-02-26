@@ -39,7 +39,7 @@
  *
  */
 
-class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_Abstract
+class MyParcel_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_Abstract
     implements Mage_Shipping_Model_Carrier_Interface
 {
     /**
@@ -52,7 +52,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
      *
      * @var string
      */
-    protected $_code = TIG_MyParcel2014_Model_Shipment::MYPARCEL_CARRIER_CODE;
+    protected $_code = MyParcel_MyParcelBE_Model_Shipment::MYPARCEL_CARRIER_CODE;
 
     /**
      * Fixed price flag
@@ -67,7 +67,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
     protected $_default_condition_name = 'package_weight';
 
     /**
-     * @var TIG_MyParcel2014_Helper_Data
+     * @var MyParcel_MyParcelBE_Helper_Data
      */
     protected $helper;
 
@@ -80,7 +80,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
     {
         parent::__construct();
 
-        $this->helper = Mage::helper('tig_myparcel');
+        $this->helper = Mage::helper('myparcel_be');
         $this->allowed_methods = $this->getAllowedMethods();
     }
 
@@ -182,7 +182,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
      * @param Mage_Shipping_Model_Rate_Request $request
      *
      * @return bool|Mage_Shipping_Model_Rate_Result|mixed|null
-     * @throws TIG_MyParcel2014_Exception
+     * @throws MyParcel_MyParcelBE_Exception
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -207,7 +207,7 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
         }
 
         if (!$result) {
-            throw new TIG_MyParcel2014_Exception(
+            throw new MyParcel_MyParcelBE_Exception(
                 $this->helper->__('Unknown rate type specified: %s.', $rateType),
                 'MYPA-0014'
             );

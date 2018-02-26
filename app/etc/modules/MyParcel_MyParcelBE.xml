@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <TIG_MyParcel2014>
+        <MyParcel_MyParcelBE>
             <active>true</active>
             <codePool>community</codePool>
             <depends>
@@ -9,6 +9,6 @@
                 <Mage_Shipping/>
                 <Mage_Adminhtml/>
             </depends>
-        </TIG_MyParcel2014>
+        </MyParcel_MyParcelBE>
     </modules>
 </config>

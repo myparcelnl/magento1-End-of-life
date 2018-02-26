@@ -36,7 +36,7 @@
  * @copyright   Copyright (c) 2015 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  */
-class TIG_MyParcel2014_Model_System_Config_Source_ShippingMethods
+class MyParcel_MyParcelBE_Model_System_Config_Source_ShippingMethods
 {
     /**
      * Return an option array of carriers and shipping methods. If $isActiveOnlyFlag is set to true, only active
@@ -66,7 +66,7 @@ class TIG_MyParcel2014_Model_System_Config_Source_ShippingMethods
                     continue;
                 }
             } catch (Exception $e) {
-                Mage::helper('tig_myparcel')->logException($e);
+                Mage::helper('myparcel_be')->logException($e);
                 continue;
             }
 

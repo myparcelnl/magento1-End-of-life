@@ -17,7 +17,7 @@
  * @since       File available since Release 0.1.0
  */
 
-class TIG_MyParcel2014_Model_Type_Onepage extends Mage_Checkout_Model_Type_Onepage
+class MyParcel_MyParcelBE_Model_Type_Onepage extends Mage_Checkout_Model_Type_Onepage
 {
 
     /**
@@ -31,7 +31,7 @@ class TIG_MyParcel2014_Model_Type_Onepage extends Mage_Checkout_Model_Type_Onepa
     public function saveShippingMethod($shippingMethod)
     {
         // Save the MyParcel data in quote
-        if(Mage::getModel('tig_myparcel/checkout_service')->saveMyParcelShippingMethod() != true) {
+        if(Mage::getModel('myparcel_be/checkout_service')->saveMyParcelShippingMethod() != true) {
             return array('error' => -1, 'message' => Mage::helper('checkout')->__('Invalid shipping method.'));
         }
 

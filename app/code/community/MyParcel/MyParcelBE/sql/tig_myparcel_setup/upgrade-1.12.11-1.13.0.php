@@ -1,5 +1,5 @@
 <?php
-/* @var $installer TIG_MyParcel2014_Model_Resource_Setup */
+/* @var $installer MyParcel_MyParcelBE_Model_Resource_Setup */
 $installer = $this;
 $installer->startSetup();
 $attribute  = array(
