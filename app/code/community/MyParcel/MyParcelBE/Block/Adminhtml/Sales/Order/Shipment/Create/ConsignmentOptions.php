@@ -40,12 +40,12 @@
  * @method boolean hasShipmentBaseGrandTotal()
  * @method string  hasDestinationCountry()
  *
- * @method TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions setShipment(Mage_Sales_Model_Order_Shipment $value)
- * @method TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions setShipmentBaseGrandTotal(float $value)
- * @method TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions setDestinationCountry(string $value)
+ * @method MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions setShipment(Mage_Sales_Model_Order_Shipment $value)
+ * @method MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions setShipmentBaseGrandTotal(float $value)
+ * @method MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions setDestinationCountry(string $value)
  *
  */
-class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions extends Mage_Adminhtml_Block_Abstract
+class MyParcel_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions extends Mage_Adminhtml_Block_Abstract
 {
     /**
      * Do a few checks to see if the template should be rendered before actually rendering it.
