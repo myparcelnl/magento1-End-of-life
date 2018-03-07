@@ -414,7 +414,7 @@
             /* Show input field for housenumber */
             $('#mypa-no-options').html('Het opgegeven huisnummer in combinatie met postcode ' + window.mypa.settings.postal_code + ' wordt niet herkend. Vul hier opnieuw uw huisnummer zonder toevoeging in.<br><br><input id="mypa-new-number" type="number" /><submit id="mypa-new-number-submit">Verstuur</submit>');
             $('.mypa-overlay').removeClass('mypa-hidden');
-            externalJQuery('.myparcel_base_method').prop("checked", false).prop('disabled', true);
+            externalJQuery('.myparcel_base_method').prop("checked", false);
 
             $('#mypa-new-number-submit').click(function () {
                 var houseNumber = $('#mypa-new-number').val();
