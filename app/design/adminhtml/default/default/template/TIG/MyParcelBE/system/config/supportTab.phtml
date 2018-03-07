@@ -1,0 +1,149 @@
+<?php
+/**
+ *                  ___________       __            __
+ *                  \__    ___/____ _/  |_ _____   |  |
+ *                    |    |  /  _ \\   __\\__  \  |  |
+ *                    |    | |  |_| ||  |   / __ \_|  |__
+ *                    |____|  \____/ |__|  (____  /|____/
+ *                                              \/
+ *          ___          __                                   __
+ *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
+ *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
+ *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
+ *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
+ *                  \/                           \/
+ *                  ________
+ *                 /  _____/_______   ____   __ __ ______
+ *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
+ *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
+ *                 \______  /|__|    \____/ |____/ |   __/
+ *                        \/                       |__|
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Creative Commons License.
+ * It is available through the world-wide-web at this URL:
+ * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ * If you are unable to obtain it through the world-wide-web, please send an email
+ * to servicedesk@tig.nl so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this module to newer
+ * versions in the future. If you wish to customize this module for your
+ * needs please contact servicedesk@tig.nl for more information.
+ *
+ * @copyright   Copyright (c) 2015 TIG (http://www.tig.nl)
+ * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
+ */
+?>
+<?php $_helper = Mage::helper('tig_myparcel'); ?>
+<?php $_version = (string) Mage::getConfig()->getModuleConfig("TIG_MyParcelBE")->version; ?>
+<tr>
+    <td>
+        <h2 class="content-heading"><?php echo $_helper->__('MyParcel version %s', $_version);?></h2>
+        <table id="supportWrap" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="3">
+                    <div class="text-box">
+                        <?php $url = 'https://myparcelnl.github.io/magento1/';?>
+                        <h4><?php echo $_helper->__('To read the instructions for the MyParcel Magento extension, click <a target="_blank" href="%s">here</a>.',$url); ?></h4>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-left">
+                    <div class="text-box">
+                        <h3><?php echo $_helper->__('When using the extension please note:');?></h3>
+                        <ol>
+                            <li>
+                                <?php echo $_helper->__('To be able to configure the extension you need to possess and use an active MyParcel account.');?>
+                            </li>
+                            <li>
+                                <?php echo $_helper->__('During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension.');?>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="text-box">
+                        <h3><?php echo $_helper->__('Magento &amp; 3rd party version compatibility');?></h3>
+                        <p><?php echo $_helper->__('We cannot guarantee perfect functionality of the MyParcel extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact MyParcel.<br><br>Supported extensions:'); ?></p>
+                        <ul>
+                            <li><?php echo $_helper->__('Magento Community Edition version');?> v1.6, v1.7, v1.8 &amp; v1.9</li>
+                            <li><?php echo $_helper->__("Idev's OneStepCheckout version");?> v4.0, v4.1 &amp; v4.5</li>
+                            <li><?php echo $_helper->__("IWD's OnePageCheckout version");?> v4.2.2</li>
+                            <li><?php echo $_helper->__("Fire Checkout");?> (Support vanuit Fire Checkout)</li>
+                        </ul>
+                    </div>
+                </td>
+
+                <td class="col-faux"></td>
+
+                <td class="col-right">
+                    <div class="text-box">
+                        <h3><?php echo $_helper->__('Support');?></h3>
+                        <h4><?php echo $_helper->__('Questions and information about your MyParcel account');?></h4>
+                        <p><?php echo $_helper->__('For questions related to your MyParcel account, configuration problems, extension conflicts and bugs, please contact MyParcel.');?></p>
+                        <table class="contact tig">
+                            <tr>
+                                <td class="first"><?php echo $_helper->__('MyParcel');?>:</td>
+                                <td class="last">
+                                    <a target="_blank" href="http://www.myparcel.nl">www.myparcel.nl</a>
+                                </td>
+                                <td rowspan="3">
+                                    <a class="logo_image" href="http://www.myparcel.nl" target="_blank">
+                                        <img src="<?php echo $this->getSkinUrl('images/TIG/MyParcelBE/logo_myparcel.png'); ?>" alt="" />
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="first"><?php echo $_helper->__('Phone');?>:</td>
+                                <td class="last">023 - 30 30 315</td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <?php echo $_helper->__('Email');?>:
+                                </td>
+                                <td class="last"><a href="mailto:info@myparcel.nl">info@myparcel.nl</a></td>
+                            </tr>
+                        </table>
+                        <h3><?php echo $_helper->__('Documents');?></h3>
+                        <ul>
+                            <li>
+                                <a class="link" target="_blank" href="https://github.com/myparcelnl/magento1/releases/latest" title="<?php echo $_helper->__('Latest stable release');?>">
+                                    <?php echo $_helper->__('Latest stable release');?>
+                                </a>  <span id="current_version"></span>
+                                <script>
+                                    mypajQuery.get('https://api.github.com/repos/myparcelnl/magento1/releases/latest', function (data) {
+                                        mypajQuery('#current_version').html('(' + data.name + ')');
+                                    });
+                                </script>
+                            </li>
+                            <li>
+                                <a class="link" target="_blank" href="https://github.com/myparcelnl/magento1/releases" title="<?php echo $_helper->__('Full changelog');?>">
+                                    <?php echo $_helper->__('Full changelog');?>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link" target="_blank" href="https://myparcelnl.github.io/magento1/" title="<?php echo $_helper->__('Installation and configuration instructions');?>">
+                                    <?php echo $_helper->__('Installation and configuration instructions');?>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link" target="_blank" href="https://myparcelnl.github.io/magento1/#6" title="<?php echo $_helper->__('Overview articles in knowledge base');?>">
+                                    <?php echo $_helper->__('Overview articles in knowledge base');?>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link" target="_blank" href="https://backoffice.myparcel.nl/settings" title="<?php echo $_helper->__('MyParcel backoffice');?>">
+                                    <?php echo $_helper->__('MyParcel backoffice');?>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
