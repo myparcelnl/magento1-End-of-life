@@ -497,29 +497,8 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </signature_on_receipt>
-                        <insured_50 translate="label comment">
-                            <label><![CDATA[Insured up to &euro; 50]]></label>
-                            <comment>Only for dutch shipments</comment>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
-                            <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </insured_50>
-                        <insured_250 translate="label">
-                            <label><![CDATA[Insured up to &euro; 250]]></label>
-                            <comment><![CDATA[For NL shipping only, shipments outside the EU insured default is &euro; 200]]></comment>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number validate-zero-or-greater</validate>
-                            <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </insured_250>
                         <insured_500 translate="label comment">
                             <label><![CDATA[Insured up to &euro; 500]]></label>
-                            <comment><![CDATA[For NL shipping only, shipments inside the EU insured default is &euro; 500]]></comment>
                             <frontend_type>text</frontend_type>
                             <validate>validate-number validate-zero-or-greater</validate>
                             <sort_order>60</sort_order>

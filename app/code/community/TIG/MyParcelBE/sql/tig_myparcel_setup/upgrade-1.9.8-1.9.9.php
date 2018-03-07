@@ -1,6 +1,10 @@
 <?php
 /* @var $installer TIG_MyParcelBE_Model_Resource_Setup */
-$installer = $this;
+/*
+ * Only for MyParcel NL
+ *
+ *
+ * $installer = $this;
 $installer->startSetup();
 $attribute  = array(
     'type'          =>  'int',
