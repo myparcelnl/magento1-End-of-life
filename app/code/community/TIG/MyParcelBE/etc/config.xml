@@ -255,11 +255,8 @@
                 <ssl_handshake>0</ssl_handshake>
             </general>
             <shipment>
-                <home_address_only>0</home_address_only>
                 <signature_on_receipt>0</signature_on_receipt>
-                <return_if_no_answer>0</return_if_no_answer>
                 <automatically_next_status>1</automatically_next_status>
-                <is_xl>0</is_xl>
                 <insured_50>0</insured_50>
                 <insured_250>0</insured_250>
                 <insured_500>0</insured_500>
@@ -278,39 +275,15 @@
             </checkout>
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
-                <only_recipient_active>1</only_recipient_active>
-                <only_recipient_title>Niet bij de buren bezorgen</only_recipient_title>
-                <only_recipient_fee>0.29</only_recipient_fee>
                 <signature_active>1</signature_active>
                 <signature_title>Handtekening voor ontvangst</signature_title>
                 <signature_fee>0.36</signature_fee>
-                <signature_and_only_recipient_fee>0.44</signature_and_only_recipient_fee>
             </delivery>
-            <mailbox>
-                <mailbox_with_other_options>1</mailbox_with_other_options>
-            </mailbox>
-            <morningdelivery>
-                <morningdelivery_active>1</morningdelivery_active>
-                <morningdelivery_fee>12.10</morningdelivery_fee>
-            </morningdelivery>
-            <eveningdelivery>
-                <eveningdelivery_active>1</eveningdelivery_active>
-                <eveningdelivery_fee>1.51</eveningdelivery_fee>
-            </eveningdelivery>
             <pickup>
                 <pickup_active>1</pickup_active>
                 <pickup_title>Ophalen bij een PostNL locatie</pickup_title>
                 <pickup_fee>0</pickup_fee>
             </pickup>
-            <pickup_express>
-                <pickup_express_active>1</pickup_express_active>
-                <pickup_express_fee>1.38</pickup_express_fee>
-            </pickup_express>
-            <pickup_belgium>
-                <pickup_belgium_active>1</pickup_belgium_active>
-                <pickup_belgium_title>Ophalen bij een PostNL locatie</pickup_belgium_title>
-                <pickup_belgium_fee>0</pickup_belgium_fee>
-            </pickup_belgium>
         </tig_myparcel>
     </default>
 
