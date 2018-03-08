@@ -1,38 +1,19 @@
 <?php
 
 /**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Creative Commons License.
  * It is available through the world-wide-web at this URL:
  * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
+ * to support@myparcel.nl so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade this module to newer
  * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
+ * needs please contact support@myparcel.nl for more information.
  *
  * @copyright   Copyright (c) 2013 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
@@ -505,31 +486,17 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
      * @param bool   $hasExtraOptions
      * @param bool   $isFrontend If mailbox title is empty, don't show the mailbox option
      *
+     * @todo remove parameters from MyParcelNL
+     * 
      * @return int|string               package = 1, mailbox = 2, letter = 3
      */
     public function getPackageType($items, $country, $getAdminTitle = false, $hasExtraOptions = false, $isFrontend = false)
     {
-        $country = $country === false ? 'NL' : $country;
-        $mailboxActive = $this->getConfig('mailbox_active', 'mailbox') == '' ? false : true;
-
-        if ($mailboxActive) {
-
-            $hideMailboxInFrontend = $this->getConfig('mailbox_title', 'mailbox') == '' && $isFrontend ? true : false;
-            if ($hasExtraOptions || $hideMailboxInFrontend == true) {
-                $type = 1;
-            } else {
-                $fitInLetterbox = $this->fitInLetterbox($items);
-                $type = $fitInLetterbox && $country == 'NL' ? 2 : 1;
-            }
-        } else {
-            $type = 1;
-        }
-
         if ($getAdminTitle) {
-            return $type == 1 ? $this->__('Normal') : $this->__('Letter box');
+            return $this->__('Normal');
         }
 
-        return $type;
+        return 1;
     }
 
     /**
@@ -558,49 +525,7 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
 
         return true;
     }
-
-    /**
-     * @param Mage_Sales_Model_Entity_Quote_Item_Collection|Mage_Sales_Model_Entity_Order_Item_Collection $items
-     *
-     * @return bool
-     */
-    private function fitInLetterbox($items)
-    {
-        if ($this->getConfig('mailbox_active', 'mailbox') == '0')
-            return false;
-
-        $mailboxWeight = (float)$this->getConfig('mailbox_weight', 'mailbox');
-        $itemWeight = 0;
-
-        foreach ($items as $item) {
-            $qty = $item->getQty();
-            $qty = $qty == null ? $item->getData('qty_ordered') : $qty;
-            if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
-                /** @var Mage_Sales_Model_Order_Item $item */
-                $id = $item->getProductId();
-            } else {
-                /** @var Mage_Sales_Model_Quote_Address_Item $item */
-                $id = $item->getProduct()->getId();
-            }
-            $itemAttributeVolume = Mage::getModel('catalog/product')
-                ->load($id)
-                ->getData('myparcel_mailbox_volume');
-
-            $itemVolume = (float)$itemAttributeVolume * $qty;
-
-            if ($itemVolume > 0) {
-                $itemWeight += $itemVolume / 100 * $mailboxWeight;
-            } else {
-                $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($id);
-                if (empty($parentIds)) {
-                    $itemWeight += $item->getWeight() * $qty;
-                }
-            }
-        }
-
-        return $itemWeight <= $mailboxWeight ? true : false;
-    }
-
+    
     /**
      * Get multiple HS codes from categories or default settings
      *
@@ -1179,47 +1104,15 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getExtraPrice($method, $price)
     {
-        $onlyRecipientFee = (float)$this->getConfig('only_recipient_fee', 'delivery');
         $signatureFee = (float)$this->getConfig('signature_fee', 'delivery');
-        $morningFee = (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
-        $eveningFee = (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
-        $signatureAndOnlyRecipient = (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
         $pickupFee = (float)$this->getConfig('pickup_fee', 'pickup');
-        $pickupExpressFee = (float)$this->getConfig('pickup_express_fee', 'pickup_express');
-        $mailboxFee = (float)$this->getConfig('mailbox_fee', 'mailbox');
 
         switch ($method) {
             case ('delivery_signature'):
                 $price += $signatureFee;
                 break;
-            case ('delivery_only_recipient'):
-                $price += $onlyRecipientFee;
-                break;
-            case ('delivery_signature_and_only_recipient_fee'):
-                $price += $signatureAndOnlyRecipient;
-                break;
-            case ('morning'):
-                $price += $morningFee;
-                break;
-            case ('morning_signature'):
-                $price += $morningFee;
-                $price += $signatureFee;
-                break;
-            case ('evening'):
-                $price += $eveningFee;
-                break;
-            case ('evening_signature'):
-                $price += $eveningFee;
-                $price += $signatureFee;
-                break;
             case ('pickup'):
                 $price += $pickupFee;
-                break;
-            case ('pickup_express'):
-                $price += $pickupExpressFee;
-                break;
-            case ('mailbox'):
-                $price = $mailboxFee;
                 break;
         }
 
@@ -1283,20 +1176,5 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
             'CZ',
             'IE',
         );
-    }
-
-
-    /**
-     * @return bool
-     */
-    private function _isFree()
-    {
-        $quote = Mage::getModel('checkout/cart')->getQuote();
-        foreach ($quote->getItemsCollection() as $item) {
-            if ($item->getData('free_shipping') == '1') {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -216,11 +216,9 @@ TIG_MyParcelBE::Send until tomorrow,Alle orders t/m morgen verzenden
 TIG_MyParcelBE::Send later,Later verzenden
 TIG_MyParcelBE::Old orders,Alle orders t/m gisteren
 TIG_MyParcelBE::Track&amp;Trace link: %s,Track&amp;Trace link: %s
-TIG_MyParcelBE::Is letter box parcel,Is brievenbuspakje
 TIG_MyParcelBE::Shipment type,Zendingtype
 TIG_MyParcelBE::Accordance with type consignment,Conform type zending
 TIG_MyParcelBE::Normal,Pakket
-TIG_MyParcelBE::Letter box,Brievenbuspakje
 TIG_MyParcelBE::Unstamped,Ongefrankeerd
 TIG_MyParcelBE::The MyParcel consignment is successfully created.,De MyParcel zending is succesvol aangemaakt.
 TIG_MyParcelBE::Choose a pickup location,Selecteer MyParcel Verzendopties
@@ -241,7 +239,6 @@ TIG_MyParcelBE::MyParcel - Create labels,MyParcel - Cre&euml;er labels
 TIG_MyParcelBE::Print packing slip,Print pakbon
 TIG_MyParcelBE::Send,Verzenden
 TIG_MyParcelBE::Today,Vandaag
-TIG_MyParcelBE::Letterbox,Brievenbuspakje
 TIG_MyParcelBE::Select,Selecteer
 TIG_MyParcelBE::Insured up to:,Verzekeren tot:
 TIG_MyParcelBE::Close,Sluiten
@@ -301,7 +298,6 @@ TIG_MyParcelBE::status_99,Inactief - Onbekende status
 "TIG_MyParcelBE::There are no log files to be downloaded.","Er zijn geen log files om te downloaden."
 TIG_MyParcelBE::PostNL location minimum order total enabled,PostNL locatie minimum totaal bedrag actief
 "TIG_MyParcelBE::PostNL location minimum order total, incl. BTW","PostNL locatie minimum totaal bedrag, incl. BTW"
-TIG_MyParcelBE::Leave blank to automate mailbox packets only in the backend,Laat leeg om brievenbuspakjes alleen in de backend te automatiseren
 "TIG_MyParcelBE::Besides assigning weights to all products, you can also specify a volume of each product.","Om deze functie optimaal te gebruiken, stel je eerst het gewicht of volume in van jouw producten."
 "TIG_MyParcelBE::PostNL location will not be visible if the subtotal of an order is below this value","'Ophalen op een PostNL locatie' zal niet zichtbaar zijn als het bedrag van een bestelling onder deze waarde valt"
 

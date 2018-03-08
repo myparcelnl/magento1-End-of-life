@@ -1,37 +1,18 @@
 <?php
 /**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Creative Commons License.
  * It is available through the world-wide-web at this URL:
  * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
+ * to support@myparcel.nl so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade this module to newer
  * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
+ * needs please contact support@myparcel.nl for more information.
  *
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
@@ -847,14 +828,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
          * Add the shipment type parameter.
          */
         switch ($myParcelShipment->getShipmentType()) {
-            case $myParcelShipment::TYPE_LETTER_BOX:
-                /* Use mailbox only if no option is selected */
-                if ($helper->shippingMethodIsPakjegemak($myParcelShipment->getOrder()->getShippingMethod())) {
-                    $packageType = 1;
-                } else {
-                    $packageType = 2;
-                }
-                break;
             case $myParcelShipment::TYPE_UNPAID:
                 $packageType = 3;
                 break;
@@ -866,40 +839,19 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
 
         $data = array(
             'package_type'          => $packageType,
-            'large_format'          => (int)$myParcelShipment->isXL(),
-            'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
-            'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
             'label_description' => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
         if ($checkoutData !== null) {
 
             if (key_exists('time', $checkoutData) && key_exists('price_comment', $checkoutData['time'][0]) && $checkoutData['time'][0]['price_comment'] !== null) {
-                switch ($checkoutData['time'][0]['price_comment']) {
-                    case 'morning':
-                        $data['delivery_type'] = self::TYPE_MORNING;
-                        break;
-                    case 'standard':
-                        $data['delivery_type'] = self::TYPE_STANDARD;
-                        break;
-                    case 'night':
-                        $data['delivery_type'] = self::TYPE_NIGHT;
-                        break;
-                }
+                $data['delivery_type'] = self::TYPE_STANDARD;
             } elseif (key_exists('price_comment', $checkoutData) && $checkoutData['price_comment'] !== null) {
-                switch ($checkoutData['price_comment']) {
-                    case 'retail':
-                        $data['delivery_type'] = self::TYPE_RETAIL;
-                        break;
-                    case 'retailexpress':
-                        $data['delivery_type'] = self::TYPE_RETAIL_EXPRESS;
-                        break;
-                }
+                $data['delivery_type'] = self::TYPE_RETAIL;
             }
 
             if (key_exists('date', $checkoutData) && $checkoutData['date'] !== null) {
-
 
                 $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
                 $currentDateTime = $currentDate = new dateTime();
@@ -924,11 +876,9 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
             $data['insurance']['currency'] = 'EUR';
         }
 
-		if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL' || $data['package_type'] == 2) {
-			// strip all Dutch domestic options if shipment is not NL or package_type is mailbox
-			unset($data['only_recipient']);
+		if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
+			// strip all Dutch domestic options if shipment is not NL
 			unset($data['signature']);
-			unset($data['return']);
 			unset($data['delivery_date']);
 		}
 

@@ -1,37 +1,18 @@
 <?php
 /**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Creative Commons License.
  * It is available through the world-wide-web at this URL:
  * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
+ * to support@myparcel.nl so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade this module to newer
  * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
+ * needs please contact support@myparcel.nl for more information.
  *
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
@@ -170,7 +151,6 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
             'pickup_express' => $helper->getConfig('pickup_title', 'pickup') . ' (' . strtolower($helper->__('TYPE_retailexpress')) . ')',
             'flatrate' => $this->getConfigData('name') . ' flat',
             'tablerate' => $this->getConfigData('name') . ' table',
-            'mailbox' => $helper->getConfig('mailbox_title', 'mailbox'),
         );
 
         return $methods;
@@ -183,6 +163,7 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
      *
      * @return bool|Mage_Shipping_Model_Rate_Result|mixed|null
      * @throws TIG_MyParcelBE_Exception
+     * @throws Mage_Core_Model_Store_Exception
      */
     public function collectRates(Mage_Shipping_Model_Rate_Request $request)
     {
@@ -192,9 +173,6 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
         }
 
         $rateType = Mage::getStoreConfig(self::XML_PATH_RATE_TYPE, Mage::app()->getStore()->getId());
-        $items = $request->getAllItems();
-
-        $packageType = $this->helper->getPackageType($items, $request->getDestCountryId(), false, false, true);
 
         $result = false;
 
@@ -219,15 +197,6 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
 
         if ($request->getDestCountryId() == 'NL') {
             $this->addShippingRate($result, 'delivery', 'signature', 'delivery_signature');
-            $this->addShippingRate($result, 'delivery', 'only_recipient', 'delivery_only_recipient');
-            $this->addShippingRate($result, 'delivery', 'signature_and_only_recipient_fee', 'delivery_signature_and_only_recipient_fee');
-            $this->addShippingRate($result, 'morningdelivery', 'morningdelivery', 'morning');
-            $this->addShippingRate($result, 'morningdelivery', 'morningdelivery', 'morning_signature');
-            $this->addShippingRate($result, 'eveningdelivery', 'eveningdelivery', 'evening');
-            $this->addShippingRate($result, 'eveningdelivery', 'eveningdelivery', 'evening_signature');
-            $this->addShippingRate($result, 'pickup_express', 'pickup_express', 'pickup_express');
-            if ($packageType == 2)
-                $this->addShippingRate($result, 'mailbox', 'mailbox', 'mailbox');
         }
 
         return $result;
