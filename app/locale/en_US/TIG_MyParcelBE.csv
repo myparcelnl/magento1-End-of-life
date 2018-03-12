@@ -143,10 +143,8 @@ TIG_MyParcelBE::Select A4 print start position,Select A4 print start position
 "TIG_MyParcelBE::Select content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>","Select content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>"
 TIG_MyParcelBE::Create MyParcel Consignment,Create MyParcel Consignment
 TIG_MyParcelBE::Track&amp;Trace link: %s,Track&amp;Trace link: %s
-TIG_MyParcelBE::Is letter box parcel,Is letter box parcel
 TIG_MyParcelBE::Shipment type,Shipment type
 TIG_MyParcelBE::Normal,Normal
-TIG_MyParcelBE::Letter box,Letter box
 TIG_MyParcelBE::Unstamped,Unstamped
 TIG_MyParcelBE::The MyParcel consignment is successfully created.,The MyParcel consignment is successfully created.
 TIG_MyParcelBE::Choose a pickup location,Choose a pickup location

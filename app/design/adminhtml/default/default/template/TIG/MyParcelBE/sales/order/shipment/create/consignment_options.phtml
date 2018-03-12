@@ -80,9 +80,6 @@ if(true == $_isPakjegemak){
                 <label for="tig_myparcel_shipment_type" class="normal" ><?php echo $this->__('Shipment type');?></label>
                 <select id="tig_myparcel_shipment_type" name="tig_myparcel[shipment_type]">
                     <option value="normal" <?php echo $type == 1 ? 'selected="selected"' : '';?>><?php echo $this->__('Normal'); ?></option>
-                    <?php if ($this->getDestinationCountry() == 'NL'): ?>
-                    <option value="letter_box" <?php echo $_disabled;?> <?php echo $type == 2 ? 'selected="selected"' : '';?>><?php echo $this->__('Letter box'); ?></option>
-                    <?php endif; ?>
                     <option value="unstamped" <?php echo $_disabled;?> ><?php echo $this->__('Unpaid'); ?></option>
                 </select>
             </p>

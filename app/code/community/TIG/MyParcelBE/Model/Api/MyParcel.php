@@ -309,10 +309,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
      */
     public function sendRequest($method = 'POST', $checkConfig = true)
     {
-        if (!$this->_checkConfigForRequest() && $checkConfig) {
-            return false;
-        }
-
         //instantiate the helper
         $helper = Mage::helper('tig_myparcel');
 
@@ -337,7 +333,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
         }
 
         $header = $this->requestHeader;
-
         //do the curl request
         if($method == 'POST'){
 
@@ -703,13 +698,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
             $customsContentType = null;
             if($myParcelShipment->getCustomsContentType()){
                 $customsContentType = explode(',', $myParcelShipment->getCustomsContentType());
-            }
-
-            if($data['options']['package_type'] == 2){
-                throw new TIG_MyParcelBE_Exception(
-                    $helper->__('International shipments can not be sent by') . ' ' . strtolower($helper->__('Letter box')),
-                    'MYPA-0027'
-                );
             }
 
             $data['customs_declaration']                        = array();
