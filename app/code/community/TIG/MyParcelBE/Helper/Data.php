@@ -1150,22 +1150,7 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
     public function getReturnCountries()
     {
         return array(
-            'NL',
-            'DE',
-            'EE',
-            'FI',
-            'FR',
-            'GR',
-            'GB',
-            'IT',
-            'LU',
-            'MT',
-            'AT',
-            'SI',
-            'SK',
-            'ES',
-            'CZ',
-            'IE',
+            TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC,
         );
     }
 }
