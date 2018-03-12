@@ -38,11 +38,8 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
     /**
      * Consignment types
      */
-    const TYPE_MORNING             = 1;
     const TYPE_STANDARD            = 2;
-    const TYPE_NIGHT               = 3;
     const TYPE_RETAIL              = 4;
-    const TYPE_RETAIL_EXPRESS      = 5;
 
     /**
      * API headers
@@ -671,11 +668,11 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
             'options'    => $this->_getOptionsData($myParcelShipment, $checkoutData),
         );
 
-        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
-            $phone           = $order->getBillingAddress()->getTelephone();
-            if ($phone)
-                $data['recipient']['phone'] = $phone;
+        $phone           = $order->getBillingAddress()->getTelephone();
+        if ($phone)
+            $data['recipient']['phone'] = $phone;
 
+        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
             unset($streetData['fullStreet']);
             $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
             unset($data['recipient']['number']);

@@ -138,19 +138,11 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
         $helper = $this->helper;
 
         $deliveryTitle = $helper->getConfig('delivery_title', 'delivery');
-        $onlyRecipientTitle = strtolower($helper->getConfig('only_recipient_title', 'delivery'));
         $signatureTitle = strtolower($helper->getConfig('signature_title', 'delivery'));
 
         $methods = array(
             'delivery_signature' => $deliveryTitle . ' (' . $signatureTitle . ')',
-            'delivery_only_recipient' => $deliveryTitle . ' (' . $onlyRecipientTitle . ')',
-            'delivery_signature_and_only_recipient_fee' => $deliveryTitle . ' (' . $onlyRecipientTitle . ' + ' . $signatureTitle . ')',
-            'morning' => $helper->__('TYPE_morning'),
-            'morning_signature' => $helper->__('TYPE_morning') . ' (' . $signatureTitle . ')',
-            'evening' => $helper->__('TYPE_night'),
-            'evening_signature' => $helper->__('TYPE_night') . ' (' . $signatureTitle . ')',
             'pickup' => $helper->getConfig('pickup_title', 'pickup'),
-            'pickup_express' => $helper->getConfig('pickup_title', 'pickup') . ' (' . strtolower($helper->__('TYPE_retailexpress')) . ')',
             'flatrate' => $this->getConfigData('name') . ' flat',
             'tablerate' => $this->getConfigData('name') . ' table',
         );
@@ -193,11 +185,11 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
             );
         }
 
-        if ($request->getDestCountryId() == 'NL' || $request->getDestCountryId() == 'BE') {
+        if ($request->getDestCountryId() == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC) {
             $this->addShippingRate($result, 'pickup', 'pickup', 'pickup');
         }
 
-        if ($request->getDestCountryId() == 'NL') {
+        if ($request->getDestCountryId() == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC) {
             $this->addShippingRate($result, 'delivery', 'signature', 'delivery_signature');
         }
 
@@ -219,11 +211,7 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
 
         if (
             $helper->getConfig($settingAlias . '_active', $settingGroup) == "1" ||
-            (
-                $settingAlias == 'signature_and_only_recipient_fee' &&
-                $helper->getConfig('only_recipient_active', 'delivery') == "1" &&
-                $helper->getConfig('signature_active', 'delivery') == "1"
-            )
+            $helper->getConfig('signature_active', 'delivery') == "1"
         ) {
 
             $currentRate = current($result->getRatesByCarrier($this->_code));

@@ -34,7 +34,7 @@ class TIG_MyParcelBE_Model_Checkout_Service
 
             $address = $addressHelper->getQuoteAddress($quote);
 
-            if ($address['country'] !== 'NL' && $address['country'] !== 'BE'){
+            if ($address['country'] !== TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC){
                 $quote->setMyparcelData(null)->save();
                 return true;
             }

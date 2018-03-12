@@ -80,7 +80,7 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mage_
 
             $hasExtraOptions = $this->_helper->shippingHasExtraOptions($this->_order->getShippingMethod());
             // Get package type
-            $html .= $this->_helper->getPackageType($this->_order->getAllVisibleItems(), $this->_order->getShippingAddress()->getCountryId(), true, $hasExtraOptions) . ' ';
+            $html .= $this->_helper->getPackageType(true) . ' ';
 
             if(is_array($data) && key_exists('date', $data)){
 

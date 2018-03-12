@@ -208,7 +208,7 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup' || $method == $myParcelCode . '_pickup_express') {
+        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup') {
             return true;
         }
 
@@ -307,6 +307,8 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
 
         /**
          * Get the dutch track & trace URL for dutch shipments or for the admin.
+         *
+         * @todo get bpost url
          */
         if ($forceNl
             || (!empty($countryCode)
@@ -362,7 +364,7 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
 
         $fullStreet = $address->getStreetFull();
 
-        if ($address->getCountry() != 'NL' && $address->getCountry() != 'BE') {
+        if ($address->getCountry() != 'BE') {
 
             $fullStreet = $this->_getInternationalFullStreet($address);
             $streetData = array(
@@ -471,17 +473,12 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param        $items
-     * @param string $country
-     * @param bool   $getAdminTitle
-     * @param bool   $hasExtraOptions
-     * @param bool   $isFrontend If mailbox title is empty, don't show the mailbox option
-     *
-     * @todo remove parameters from MyParcelNL
-     * 
+     * @param bool $getAdminTitle
      * @return int|string               package = 1, mailbox = 2, letter = 3
+     * @todo remove parameters from MyParcelNL
+     *
      */
-    public function getPackageType($items, $country, $getAdminTitle = false, $hasExtraOptions = false, $isFrontend = false)
+    public function getPackageType($getAdminTitle = false)
     {
         if ($getAdminTitle) {
             return $this->__('Normal');
