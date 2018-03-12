@@ -236,9 +236,6 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
             if ($myParcelShipment->getHomeAddressOnly() == '1')
                 $options[] = $this->__('Signature on receipt');
 
-            if ($myParcelShipment->getReturnIfNoAnswer() == '1')
-                $options[] = $this->__('Return if no answer');
-
             if ($myParcelShipment->getInsuredAmount() > 0)
                 $options[] = $this->__('Insured up to &euro;%s', $myParcelShipment->getInsuredAmount());
 

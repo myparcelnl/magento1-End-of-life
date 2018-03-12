@@ -15,7 +15,6 @@ TIG_MyParcelBE::Sort Order,Sorteer bestelling
 TIG_MyParcelBE::Default Shipment Settings,Standaard verzendinstellingen
 TIG_MyParcelBE::Home address only,Alleen huisadres
 TIG_MyParcelBE::Signature on receipt,Handtekening voor ontvangst
-TIG_MyParcelBE::Return if no answer,Retour bij niet aanwezig
 TIG_MyParcelBE::Large package,Groot pakket
 TIG_MyParcelBE::Insured up to &euro; 500,Verzekerd tot &euro; 500
 TIG_MyParcelBE::Automatically next status,Automatisch volgende status

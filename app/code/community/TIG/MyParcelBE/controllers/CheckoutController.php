@@ -77,7 +77,7 @@ class TIG_MyParcelBE_CheckoutController extends Mage_Core_Controller_Front_Actio
             $general['deliverydays_window'] = 1;
         }
         $general['dropoff_days'] =                  str_replace(',', ';', $helper->getConfig('dropoff_days', 'checkout'));
-        $general['saterday_delivery_active'] =      $helper->getConfig('saterday_delivery_active', 'checkout') == "1" ? true : false;
+        $general['saturday_delivery_active'] =      $helper->getConfig('saturday_delivery_active', 'checkout') == "1" ? true : false;
         $general['saturday_delivery_fee'] =         $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('saturday_delivery_fee', 'checkout'), $quote));
         $general['dropoff_delay'] =                 $helper->getConfig('dropoff_delay', 'checkout');
         $general['base_color'] =                    $helper->getConfig('base_color', 'checkout');

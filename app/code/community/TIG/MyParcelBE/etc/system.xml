@@ -200,42 +200,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </dropoff_days>
-                        <saterday_delivery_active translate="label comment" module="tig_myparcel">
-                            <label>Saturday delivery</label>
-                            <comment><![CDATA[Note: Saturday delivery is only possible when the package is delivered before 15.00 on Saturday at the designated PostNL locations. Click <a href="https://blog.myparcel.nl/maandagbezorging" target="_blank">here</a> for more information concerning Saturday delivery and the locations.]]></comment>
-                            <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
-                            <sort_order>135</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </saterday_delivery_active>
-                        <saturday_cutoff_time translate="label comment">
-                            <label>Saturday delivery cut-off time</label>
-                            <comment>If a request is made before this time on Saturday, Monday will be shown as the next possible delivery date. </comment>
-                            <frontend_type>time</frontend_type>
-                            <sort_order>136</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <validate>validate-select</validate>
-                            <depends>
-                                <saterday_delivery_active>1</saterday_delivery_active>
-                            </depends>
-                        </saturday_cutoff_time>
-                        <saturday_fee translate="label,comment" module="tig_myparcel">
-                            <label>Saturday delivery fee</label>
-                            <comment>This will be added to the regular shipping price</comment>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number</validate>
-                            <sort_order>210</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <depends>
-                                <saturday_active>1</saturday_active>
-                            </depends>
-                        </saturday_fee>
                         <dropoff_delay translate="label comment" module="tig_myparcel">
                             <label>Dropoff-delay</label>
                             <frontend_type>select</frontend_type>
@@ -264,6 +228,28 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </select_color>
+                        <saturday_delivery_active translate="label comment" module="tig_myparcel">
+                            <label>Saturday delivery</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>176</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </saturday_delivery_active>
+                        <saturday_delivery_fee translate="label,comment" module="tig_myparcel">
+                            <label>Saturday delivery fee</label>
+                            <comment>This will be added to the regular shipping price</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>177</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <saturday_delivery_active>1</saturday_delivery_active>
+                            </depends>
+                        </saturday_delivery_fee>
                         <!-- Hide and toggle MyParcel options (used by parnis.nl) -->
                         <toggle_options translate="label" module="tig_myparcel">
                             <label>Toggle options</label>
