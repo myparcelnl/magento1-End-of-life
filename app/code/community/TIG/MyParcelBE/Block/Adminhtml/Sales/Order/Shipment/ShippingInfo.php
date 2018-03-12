@@ -234,15 +234,6 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends M
     /**
      * @return string
      */
-    public function getIsHomeSelected()
-    {
-        return $this->getIsSelected('home_address_only');
-
-    }
-
-    /**
-     * @return string
-     */
     public function getIsSignatureOnReceipt()
     {
         return $this->getIsSelected('signature_on_receipt');

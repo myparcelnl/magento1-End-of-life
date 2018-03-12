@@ -58,14 +58,6 @@ class TIG_MyParcelBE_Model_Checkout_Service
                      */
                     $this->savePgAddress($data, $quote);
                 } else {
-                    /**
-                     * not pickup
-                     */
-                    $return = $request->getPost('mypa-recipient-only', '') === 'on' ? 1 : false;
-                    if ($return) {
-                        $data['home_address_only'] = true;
-                    }
-
                     $signed = $request->getPost('mypa-signed', '') === 'on' ? 1 : false;
                     if ($signed) {
                         $data['signed'] = true;

@@ -82,13 +82,6 @@ if (!$conn->isTableExists($tableName)) {
         ->addColumn('barcode', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
         ), 'Barcode')
         /**
-         * Whether the shipment should only be delivered to the stated address.
-         */
-        ->addColumn('home_address_only', Varien_Db_Ddl_Table::TYPE_BOOLEAN, false, array(
-            'unsigned' => true,
-            'default'  => '0',
-        ), 'Home address only')
-        /**
          * Whether a signature is required on delivery.
          */
         ->addColumn('signature_on_receipt', Varien_Db_Ddl_Table::TYPE_BOOLEAN, false, array(

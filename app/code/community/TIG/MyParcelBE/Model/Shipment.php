@@ -32,7 +32,6 @@
  * @method boolean hasShipmentIncrementId()
  * @method boolean hasBarcodeSend()
  * @method boolean hasShipmentType()
- * @method boolean hasIsXl()
  *
  * @method string getShipmentId()
  * @method string getTrackId()
@@ -42,15 +41,12 @@
  * @method string getStatus()
  * @method string getBarcode()
  * @method string getIsFinal()
- * @method int    getHomeAddressOnly()
  * @method int    getSignatureOnReceipt()
- * @method int    getReturnIfNoAnswer()
  * @method int    getInsured()
  * @method int    getInsuredAmount()
  * @method int    getBarcodeSend()
  * @method int    getCustomsContentType()
  * @method string getShipmentType()
- * @method int    getIsXL()
  *
  * @method TIG_MyParcelBE_Model_Shipment setShipmentId(int $value)
  * @method TIG_MyParcelBE_Model_Shipment setOrderId(int $value)
@@ -71,7 +67,6 @@
  * @method TIG_MyParcelBE_Model_Shipment setIsCredit(int $value)
  * @method TIG_MyParcelBE_Model_Shipment setCustomsContentType(int $value)
  * @method TIG_MyParcelBE_Model_Shipment setShipmentType(string $value)
- * @method TIG_MyParcelBE_Model_Shipment setIsXl(int $value)
  *
  */
 class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
@@ -263,20 +258,6 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
         return $api;
     }
 
-    public function isHomeAddressOnly()
-    {
-
-        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
-        if($checkoutData !== null) {
-            $aData = json_decode($checkoutData, true);
-            if(key_exists('home_address_only', $aData) && $aData['home_address_only']){
-                return 1;
-            }
-        }
-
-        return $this->getHomeAddressOnly();
-    }
-
     public function isSignatureOnReceipt()
     {
 
@@ -289,61 +270,6 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
         }
 
         return $this->getSignatureOnReceipt();
-    }
-
-    public function isXL()
-    {
-        $consignmentOption = 'is_xl';
-        $orderIsXl = $this->getIsXL();
-
-        if($orderIsXl === null) {
-            $storeId = $this->getOrder()->getStoreId();
-            $orderTotalShipped = $this->getOrderTotal();
-
-            $configValue = $this->helper->getConfig($consignmentOption, 'shipment', $storeId);
-            if (!empty($configValue) && $configValue > 0) {
-                if ($orderTotalShipped >= $configValue) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } else {
-                return 0;
-            }
-        } else {
-            if($orderIsXl == '1') {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getHomeAddressOnlyOption()
-    {
-        $consignmentOption = 'home_address_only';
-
-        $storeId = $this->getOrder()->getStoreId();
-        $orderTotalShipped = $this->getOrderTotal();
-
-        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
-        if(!empty($configValue) && $configValue > 0){
-            if($orderTotalShipped >= $configValue){
-                return array(
-                    'option' => $consignmentOption,
-                    'selected' => 1,
-                );
-            }
-        }
-        return array(
-            'option' => $consignmentOption,
-            'selected' => 0,
-        );
-
     }
 
     /**
@@ -368,31 +294,6 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
         return array(
             'option' => $consignmentOption,
             'selected' => 0,
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function getXlOption()
-    {
-        $consignmentOption = 'is_xl';
-
-        $storeId = $this->getOrder()->getStoreId();
-        $orderTotalShipped = $this->getOrderTotal();
-
-        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
-        if(!empty($configValue) && $configValue > 0){
-            if($orderTotalShipped >= $configValue){
-                return array(
-                    'option' => $consignmentOption,
-                    'selected' => 1,
-                );
-            }
-        }
-        return array(
-            'option' => $consignmentOption,
-            'selected' => null,
         );
     }
 
@@ -476,16 +377,10 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function calculateConsignmentOptions()
     {
-        $homeAddressOnly     = $this->getHomeAddressOnlyOption();
         $signatureOnReceipt = $this->getSignatureOnReceiptOption();
-        $returnIfNoAnswer    = $this->getReturnIfNoAnswerOption();
-        $xl                  = $this->getXlOption();
         $insured             = $this->getInsuredOption();
 
-        $this->setDataUsingMethod($homeAddressOnly['option'], $homeAddressOnly['selected']);
         $this->setDataUsingMethod($signatureOnReceipt['option'], $signatureOnReceipt['selected']);
-        $this->setDataUsingMethod($returnIfNoAnswer['option'], $returnIfNoAnswer['selected']);
-        $this->setDataUsingMethod($xl['option'], $xl['selected']);
         $this->setDataUsingMethod($insured['option'], $insured['selected']);
         $this->setDataUsingMethod('insured_amount', $insured['insured_amount']);
 

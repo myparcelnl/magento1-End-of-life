@@ -196,24 +196,6 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOpti
     /**
      * @return string
      */
-    public function getIsHomeSelected()
-    {
-        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
-        if($checkoutData !== null) {
-            $aData = json_decode($checkoutData, true);
-            if(key_exists('home_address_only', $aData) && $aData['home_address_only']){
-                return 'checked="checked"';
-            } else {
-                return $this->getIsSelected('home_address_only');
-            }
-        } else {
-            return $this->getIsSelected('home_address_only');
-        }
-    }
-
-    /**
-     * @return string
-     */
     public function getIsSignatureOnReceipt()
     {
         $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
@@ -235,14 +217,6 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOpti
     public function getIsReturnOnNoAnswer()
     {
         return $this->getIsSelected('return_if_no_answer');
-    }
-
-    /**
-     * @return string
-     */
-    public function getIsXl()
-    {
-        return $this->getIsSelected('is_xl');
     }
 
     /**

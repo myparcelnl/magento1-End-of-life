@@ -230,17 +230,11 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($myParcelShipment->getShipmentType() == 'normal') {
 
-            if ($myParcelShipment->getHomeAddressOnly() == '1')
-                $options[] = $this->__('Home address only');
-
-            if ($myParcelShipment->getHomeAddressOnly() == '1')
+            if ($myParcelShipment->isSignatureOnReceipt() == '1')
                 $options[] = $this->__('Signature on receipt');
 
             if ($myParcelShipment->getInsuredAmount() > 0)
                 $options[] = $this->__('Insured up to &euro;%s', $myParcelShipment->getInsuredAmount());
-
-            if ($myParcelShipment->getIsXL() == '1')
-                $options[] = $this->__('Large package');
 
         }
 
