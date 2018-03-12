@@ -42,10 +42,7 @@
 $_countryNeedsCustoms       = $this->countryNeedsCustoms();
 $_storeId                   = $this->getOrderStoreId();
 $_helper                    = Mage::helper('tig_myparcel');
-$_homeSelected              = $this->getIsHomeSelected();
 $_signatureSelected         = $this->getIsSignatureOnReceipt();
-$_returnNoAnswerSelected    = $this->getIsReturnOnNoAnswer();
-$_isXlSelected              = $this->getIsXl();
 $_insured                   = $this->getIsInsured();
 $_isPakjegemak              = $this->getIsPakjeGemak();
 $_insuredSelected           = '';
@@ -90,15 +87,15 @@ if(true == $_isPakjegemak){
                 </select>
             </p>
         <div id="myparcel_consignment_options">
+            <p>
+                <label for="tig_myparcel_insured" class="normal">(<?php echo $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?php echo $this->__('Insured up to') . ' ' . TIG_MyParcelBE_Model_Api_MyParcel::INSURED_AMOUNT;?> </label>
+                <input id="tig_myparcel_insured" type="checkbox" value="1" name="tig_myparcel[insured]" <?php echo $_insuredSelected;?> />
+
+            </p>
             <?php if ($this->getDestinationCountry() == 'NL'): ?>
                 <p>
                     <label for="tig_myparcel_signature_on_receipt" class="normal"><?php echo $this->__('Signature on receipt');?></label>
                     <input id="tig_myparcel_signature_on_receipt" type="checkbox" value="1" name="tig_myparcel[signature_on_receipt]" <?php echo $_signatureSelected;?> />
-                </p>
-                <p>
-                    <label for="tig_myparcel_insured" class="normal">(<?php echo $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?php echo $this->__('Insured up to') . ' ' . TIG_MyParcelBE_Model_Api_MyParcel::INSURED_AMOUNT;?> </label>
-                    <input id="tig_myparcel_insured" type="checkbox" value="1" name="tig_myparcel[insured]" <?php echo $_insuredSelected;?> />
-
                 </p>
 
             <?php elseif($_countryNeedsCustoms): ?>
