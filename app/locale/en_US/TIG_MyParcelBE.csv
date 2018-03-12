@@ -15,7 +15,6 @@ TIG_MyParcelBE::Sort Order,Sort Order
 TIG_MyParcelBE::Default Shipment Settings,Default Shipment Settings
 TIG_MyParcelBE::Home address only,Home address only
 TIG_MyParcelBE::Signature on receipt,Signature on receipt
-TIG_MyParcelBE::Return if no answer,Return if no answer
 TIG_MyParcelBE::Large package,Large package
 TIG_MyParcelBE::Insured up to &euro; 50,Insured up to &euro; 50
 TIG_MyParcelBE::For NL shipping only,For NL shipping only

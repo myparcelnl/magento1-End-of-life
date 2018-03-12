@@ -96,13 +96,6 @@ if (!$conn->isTableExists($tableName)) {
             'default'  => '0',
         ), 'Signature on receipt')
         /**
-         * Whether the shipment should be returned if no one is home.
-         */
-        ->addColumn('return_if_no_answer', Varien_Db_Ddl_Table::TYPE_BOOLEAN, false, array(
-            'unsigned' => true,
-            'default'  => '0',
-        ), 'Return if no answer')
-        /**
          * Whether the shipment is insured.
          */
         ->addColumn('insured', Varien_Db_Ddl_Table::TYPE_BOOLEAN, false, array(
