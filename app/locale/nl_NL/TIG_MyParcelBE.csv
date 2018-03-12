@@ -50,8 +50,7 @@ TIG_MyParcelBE::Wednesday,Woensdag
 TIG_MyParcelBE::Thursday,Donderdag
 TIG_MyParcelBE::Friday,Vrijdag
 TIG_MyParcelBE::Saturday,Zaterdag
-TIG_MyParcelBE::Monday delivery,Maandagbezorging
-TIG_MyParcelBE::Note: Monday delivery is only possible when the package is delivered before 15.00 on Saturday at the designated PostNL locations. Click <a href="https://blog.myparcel.nl/maandagbezorging" target="_blank">here</a> for more information concerning Monday delivery and the locations.,Let op: Maandaglevering is alleen mogelijk wanneer zaterdag het pakket voor 15.00 wordt geleverd bij één van de hiervoor bestemde PostNL locaties. Klik <a href="https://blog.myparcel.nl/maandagbezorging" target="_blank">hier</a> voor de locaties en meer informatie omtrent de maandaglevering.
+TIG_MyParcelBE::Saturday delivery,Zaterdagbezorging
 TIG_MyParcelBE::Monday delivery cut-off time,Laatste bestelmoment voor maandagbezorging
 "TIG_MyParcelBE::If a request is made before this time on Saturday, Monday will be shown as the next possible delivery date. ","Als een bestelling voor dit tijdstip op zaterdag wordt gedaan zal maandag als eerstvolgende afleverdag worden getoond."
 TIG_MyParcelBE::Dropoff-delay,Vertraging
