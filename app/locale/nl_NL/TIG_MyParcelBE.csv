@@ -15,7 +15,6 @@ TIG_MyParcelBE::Sort Order,Sorteer bestelling
 TIG_MyParcelBE::Default Shipment Settings,Standaard verzendinstellingen
 TIG_MyParcelBE::Home address only,Alleen huisadres
 TIG_MyParcelBE::Signature on receipt,Handtekening voor ontvangst
-TIG_MyParcelBE::Large package,Groot pakket
 TIG_MyParcelBE::Insured up to &euro; 500,Verzekerd tot &euro; 500
 TIG_MyParcelBE::Automatically next status,Automatisch volgende status
 TIG_MyParcelBE::Turn the order automatically to the next status after creating a label,Zet de status van een order automatisch naar de volgende status bij het aanmaken van een label
@@ -238,7 +237,7 @@ TIG_MyParcelBE::Print packing slip,Print pakbon
 TIG_MyParcelBE::Send,Verzenden
 TIG_MyParcelBE::Today,Vandaag
 TIG_MyParcelBE::Select,Selecteer
-TIG_MyParcelBE::Insured up to:,Verzekeren tot:
+TIG_MyParcelBE::Insured up to,Verzekeren tot
 TIG_MyParcelBE::Close,Sluiten
 TIG_MyParcelBE::International shipments can not be sent by,Internationale zendingen kunnen niet verzonden worden met een
 TIG_MyParcelBE::Choose a PostNL pickup location,Kies PostNL afhaallocatie

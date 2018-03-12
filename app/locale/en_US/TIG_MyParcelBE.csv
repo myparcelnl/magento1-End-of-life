@@ -15,11 +15,6 @@ TIG_MyParcelBE::Sort Order,Sort Order
 TIG_MyParcelBE::Default Shipment Settings,Default Shipment Settings
 TIG_MyParcelBE::Home address only,Home address only
 TIG_MyParcelBE::Signature on receipt,Signature on receipt
-TIG_MyParcelBE::Large package,Large package
-TIG_MyParcelBE::Insured up to &euro; 50,Insured up to &euro; 50
-TIG_MyParcelBE::For NL shipping only,For NL shipping only
-TIG_MyParcelBE::Insured up to &euro; 250,Insured up to &euro; 250
-"TIG_MyParcelBE::For NL shipping only, shipments outside the EU insured default is &euro; 200","For NL shipping only, shipments outside the EU insured default is &euro; 200"
 TIG_MyParcelBE::Insured up to &euro; 500,Insured up to &euro; 500
 "TIG_MyParcelBE::For NL shipping only, shipments inside the EU insured default is &euro; 500","For NL shipping only, shipments inside the EU insured default is &euro; 500"
 TIG_MyParcelBE::Customs Shipment Type,Customs Shipment Type
@@ -164,7 +159,6 @@ TIG_MyParcelBE::PostNL location Method Name,PostNL location Method Name
 TIG_MyParcelBE::Unpaid,Unpaid
 TIG_MyParcelBE::The consignment is already credited.,The consignment is already credited.
 TIG_MyParcelBE::MyParcel - Create labels,MyParcel - Create labels
-TIG_MyParcelBE::Letterbox,Letterbox
 TIG_MyParcelBE::Select,Select
 TIG_MyParcelBE::Insured up to:,Insured up to:
 TIG_MyParcelBE::Close,Close

@@ -258,24 +258,16 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends M
         $orderTotalShipped = $this->getOrderTotal();
 
         //get the insured values
-        $insuredType50     = $helper->getConfig('insured_50',  'shipment', $storeId);
-        $insuredType250    = $helper->getConfig('insured_250', 'shipment', $storeId);
         $insuredType500    = $helper->getConfig('insured_500', 'shipment', $storeId);
 
         //check if the values are not empty/zero
-        $insuredType50     = (!empty($insuredType50) && $insuredType50 > 0)? $insuredType50 : false;
-        $insuredType250    = (!empty($insuredType250) && $insuredType250 > 0)? $insuredType250 : false;
         $insuredType500    = (!empty($insuredType500) && $insuredType500 > 0)? $insuredType500 : false;
 
         //if nothing is filled in, then set the default values, but do not pre-select
         $selected = 'checked="checked"';
         if(
-            false === $insuredType50 &&
-            false === $insuredType250 &&
             false === $insuredType500
         ){
-            $insuredType50  = 50;
-            $insuredType250 = 250;
             $insuredType500 = 500;
             $selected = 0;
         }
@@ -283,12 +275,6 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends M
         if(false !== $insuredType500 && $orderTotalShipped > $insuredType500){
             $insuredValue = $insuredType500;
             $insuredUpTo = 500;
-        }elseif(false !== $insuredType250 && $orderTotalShipped > $insuredType250){
-            $insuredValue = $insuredType250;
-            $insuredUpTo = 250;
-        }elseif(false !== $insuredType50 && $orderTotalShipped > $insuredType50){
-            $insuredValue = $insuredType50;
-            $insuredUpTo = 50;
         }else{
             $insuredValue = 0;
             $insuredUpTo = 0;

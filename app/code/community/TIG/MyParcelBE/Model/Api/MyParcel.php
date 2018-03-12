@@ -24,6 +24,7 @@
  */
 class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
 {
+    const INSURED_AMOUNT = 500;
     /**
      * Supported request types.
      */
@@ -911,7 +912,7 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
     protected function _getInsuredAmount(TIG_MyParcelBE_Model_Shipment $myParcelShipment)
     {
         if ($myParcelShipment->getInsured()) {
-            return (int) $myParcelShipment->getInsuredAmount();
+            return self::INSURED_AMOUNT;
         }
 
         return 0;

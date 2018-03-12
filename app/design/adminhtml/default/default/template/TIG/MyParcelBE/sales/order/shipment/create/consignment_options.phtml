@@ -96,20 +96,7 @@ if(true == $_isPakjegemak){
                     <input id="tig_myparcel_signature_on_receipt" type="checkbox" value="1" name="tig_myparcel[signature_on_receipt]" <?php echo $_signatureSelected;?> />
                 </p>
                 <p>
-                    <label for="tig_myparcel_xl" class="normal"><?php echo $this->__('Large package');?></label>
-                    <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
-                </p>
-                <p>
-                    <label for="tig_myparcel_insured" class="normal">(<?php echo $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?php echo $this->__('Insured up to:');?> </label>
-                    <select id="tig_myparcel_insured_amount" name="tig_myparcel[insured_amount]" >
-                        <option value="50" <?php echo $_insuredUpTo == 50 ? 'selected="selected"' : '';?>>&euro; 50</option>
-                        <option value="250" <?php echo $_insuredUpTo == 250 ? 'selected="selected"' : '';?>>&euro; 250</option>
-                        <option value="500" <?php echo $_insuredUpTo == 500 && $_insuredUpTo < 1000 ? 'selected="selected"' : '';?>>&euro; 500</option>
-                        <?php while($tmpInsured <= 5000) :?>
-                            <option value="<?php echo $tmpInsured;?>" <?php echo $this->getOrderTotal() <= $tmpInsured && $this->getOrderTotal() > ($tmpInsured-500) ? 'selected="selected"' : ''; ?>>&euro; <?php echo $tmpInsured;?></option>
-                            <?php $tmpInsured = $tmpInsured + 500; ?>
-                        <?php endwhile; ?>
-                    </select>
+                    <label for="tig_myparcel_insured" class="normal">(<?php echo $this->__('Total order value: &euro; %s',$this->getOrderTotal());?>) <?php echo $this->__('Insured up to') . ' ' . TIG_MyParcelBE_Model_Api_MyParcel::INSURED_AMOUNT;?> </label>
                     <input id="tig_myparcel_insured" type="checkbox" value="1" name="tig_myparcel[insured]" <?php echo $_insuredSelected;?> />
 
                 </p>
@@ -138,15 +125,7 @@ if(true == $_isPakjegemak){
                     <small><?php echo $this->__('Select content type for Cross Domestic products, see <a href="http://gebruikstarief.douane.nl" target="_blank">http://gebruikstarief.douane.nl</a>');?></small>
                 </p>
                 <p>
-                    <small><?php echo $this->__('Shipment insured up to &euro; %s purchase value', 200);?></small>
-                </p>
-            <?php else: ?>
-                <p>
-                    <label for="tig_myparcel_xl" class="normal"><?php echo $this->__('Large package');?></label>
-                    <input id="tig_myparcel_xl" type="checkbox" value="1" name="tig_myparcel[is_xl]" <?php echo $_isXlSelected;?> />
-                </p>
-                <p>
-                    <small><?php echo $this->__('Shipment insured up to &euro; %s purchase value', 500);?></small>
+                    <small><?php echo $this->__('Shipment insured up to &euro; %s purchase value', TIG_MyParcelBE_Model_Api_MyParcel::INSURED_AMOUNT);?></small>
                 </p>
             <?php endif;?>
         </div>

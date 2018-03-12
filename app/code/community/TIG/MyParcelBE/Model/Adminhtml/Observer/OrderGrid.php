@@ -214,16 +214,6 @@ class TIG_MyParcelBE_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                     'label' => $helper->__('MyParcel - Create labels'),
                     'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massPrintLabels'),
                     'additional' => array(
-                        'type_consignment' => array(
-                            'name'    => 'type_consignment',
-                            'type'    => 'select',
-                            'options' => array(
-                                'default'     => $helper->__('Accordance with type consignment'),
-                                TIG_MyParcelBE_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
-                                TIG_MyParcelBE_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
-                                TIG_MyParcelBE_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
-                            ),
-                        ),
                         'create_consignment' => array(
                             'name'    => 'create_consignment',
                             'type'    => 'hidden',
