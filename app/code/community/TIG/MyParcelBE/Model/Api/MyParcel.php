@@ -336,7 +336,7 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
         //do the curl request
         if($method == 'POST'){
 
-            //curl request stringgit
+            //curl request string
             $body = $this->requestString;
 
             //complete request url
