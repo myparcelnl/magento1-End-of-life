@@ -28,6 +28,8 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
      */
     const XML_PATH_RATE_TYPE = 'carriers/myparcel/rate_type';
 
+    const LOCAL_CC = 'BE';
+
     /**
      * MyParcel Carrier code
      *
