@@ -4,7 +4,7 @@
  *  MDN_AdvancedStock_Model_Sales_Order is a fix for a MDN plugin
  *
  *
- *  @author     Reindert Vetter <info@myparcel.nl>
+ *  @author     Reindert Vetter <info@sendmyparcel.be>
  *  @copyright  2016 MyParcelNL
  *  @since      File available since Release 1.5.0
  *  @license    http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
