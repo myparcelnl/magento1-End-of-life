@@ -240,7 +240,6 @@
         </carriers>
         <tig_myparcel>
             <api>
-                <username/>
                 <key/>
             </api>
             <general>

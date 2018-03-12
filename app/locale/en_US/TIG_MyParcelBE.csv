@@ -35,8 +35,6 @@ TIG_MyParcelBE::Selecting 'No' will overrule all individual settings.,Selecting 
 TIG_MyParcelBE::General Settings,General Settings
 TIG_MyParcelBE::API Key,API Key
 TIG_MyParcelBE::The API Key given by MyParcel.,The API Key given by MyParcel.
-TIG_MyParcelBE::API Username,API Username
-TIG_MyParcelBE::Your MyParcel username.,Your MyParcel username.
 TIG_MyParcelBE::To get your personal API credentials you should contact MyParcel.,To get your personal API credentials you should contact MyParcel.
 TIG_MyParcelBE::API settings,API settings
 TIG_MyParcelBE::Version &amp; Support,Version &amp; Support
