@@ -1,38 +1,19 @@
 <?php
 
 /**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Creative Commons License.
  * It is available through the world-wide-web at this URL:
  * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
+ * to info@sendmyparcel.be so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade this module to newer
  * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
+ * needs please contact info@sendmyparcel.be for more information.
  *
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.totalinternetgroup.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
@@ -96,8 +77,8 @@ class TIG_MyParcelBE_CheckoutController extends Mage_Core_Controller_Front_Actio
             $general['deliverydays_window'] = 1;
         }
         $general['dropoff_days'] =                  str_replace(',', ';', $helper->getConfig('dropoff_days', 'checkout'));
-        $general['monday_delivery_active'] =        $helper->getConfig('monday_delivery_active', 'checkout') == "1" ? true : false;
-        $general['saturday_cutoff_time'] =          str_replace(',', ':', $helper->getConfig('saturday_cutoff_time', 'checkout'));
+        $general['saturday_delivery_active'] =      $helper->getConfig('saturday_delivery_active', 'checkout') == "1" ? true : false;
+        $general['saturday_delivery_fee'] =         $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('saturday_delivery_fee', 'checkout'), $quote));
         $general['dropoff_delay'] =                 $helper->getConfig('dropoff_delay', 'checkout');
         $general['base_color'] =                    $helper->getConfig('base_color', 'checkout');
         $general['select_color'] =                  $helper->getConfig('select_color', 'checkout');
@@ -157,16 +138,6 @@ class TIG_MyParcelBE_CheckoutController extends Mage_Core_Controller_Front_Actio
         $helper = Mage::helper('tig_myparcel');
 
         $packageType = $helper->getPackageType($quote->getItemsCollection(), 'NL', false, false, true);
-
-        /** Get mailbox Price */
-        $_excl = $this->getShippingPrice($helper->getConfig('mailbox_fee', 'mailbox'), $quote);
-        $_incl = $this->getShippingPrice($helper->getConfig('mailbox_fee', 'mailbox'), $quote, true);
-        if (Mage::helper('tax')->displayShippingBothPrices() && $_incl != $_excl) {
-            $mailBoxPrice = $_incl;
-        } else {
-            $mailBoxPrice = $_excl;
-        }
-        $mailBoxPrice = '&#8364; ' . str_replace('.', ',', $mailBoxPrice);
 
         require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcelBE/checkout/mypa_checkout_options.phtml');
         exit;

@@ -15,12 +15,6 @@ TIG_MyParcelBE::Sort Order,Sort Order
 TIG_MyParcelBE::Default Shipment Settings,Default Shipment Settings
 TIG_MyParcelBE::Home address only,Home address only
 TIG_MyParcelBE::Signature on receipt,Signature on receipt
-TIG_MyParcelBE::Return if no answer,Return if no answer
-TIG_MyParcelBE::Large package,Large package
-TIG_MyParcelBE::Insured up to &euro; 50,Insured up to &euro; 50
-TIG_MyParcelBE::For NL shipping only,For NL shipping only
-TIG_MyParcelBE::Insured up to &euro; 250,Insured up to &euro; 250
-"TIG_MyParcelBE::For NL shipping only, shipments outside the EU insured default is &euro; 200","For NL shipping only, shipments outside the EU insured default is &euro; 200"
 TIG_MyParcelBE::Insured up to &euro; 500,Insured up to &euro; 500
 "TIG_MyParcelBE::For NL shipping only, shipments inside the EU insured default is &euro; 500","For NL shipping only, shipments inside the EU insured default is &euro; 500"
 TIG_MyParcelBE::Customs Shipment Type,Customs Shipment Type
@@ -41,8 +35,6 @@ TIG_MyParcelBE::Selecting 'No' will overrule all individual settings.,Selecting 
 TIG_MyParcelBE::General Settings,General Settings
 TIG_MyParcelBE::API Key,API Key
 TIG_MyParcelBE::The API Key given by MyParcel.,The API Key given by MyParcel.
-TIG_MyParcelBE::API Username,API Username
-TIG_MyParcelBE::Your MyParcel username.,Your MyParcel username.
 TIG_MyParcelBE::To get your personal API credentials you should contact MyParcel.,To get your personal API credentials you should contact MyParcel.
 TIG_MyParcelBE::API settings,API settings
 TIG_MyParcelBE::Version &amp; Support,Version &amp; Support
@@ -149,10 +141,8 @@ TIG_MyParcelBE::Select A4 print start position,Select A4 print start position
 "TIG_MyParcelBE::Select content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>","Select content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>"
 TIG_MyParcelBE::Create MyParcel Consignment,Create MyParcel Consignment
 TIG_MyParcelBE::Track&amp;Trace link: %s,Track&amp;Trace link: %s
-TIG_MyParcelBE::Is letter box parcel,Is letter box parcel
 TIG_MyParcelBE::Shipment type,Shipment type
 TIG_MyParcelBE::Normal,Normal
-TIG_MyParcelBE::Letter box,Letter box
 TIG_MyParcelBE::Unstamped,Unstamped
 TIG_MyParcelBE::The MyParcel consignment is successfully created.,The MyParcel consignment is successfully created.
 TIG_MyParcelBE::Choose a pickup location,Choose a pickup location
@@ -165,7 +155,6 @@ TIG_MyParcelBE::PostNL location Method Name,PostNL location Method Name
 TIG_MyParcelBE::Unpaid,Unpaid
 TIG_MyParcelBE::The consignment is already credited.,The consignment is already credited.
 TIG_MyParcelBE::MyParcel - Create labels,MyParcel - Create labels
-TIG_MyParcelBE::Letterbox,Letterbox
 TIG_MyParcelBE::Select,Select
 TIG_MyParcelBE::Insured up to:,Insured up to:
 TIG_MyParcelBE::Close,Close

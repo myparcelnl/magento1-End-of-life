@@ -15,21 +15,14 @@ TIG_MyParcelBE::Sort Order,Sorteer bestelling
 TIG_MyParcelBE::Default Shipment Settings,Standaard verzendinstellingen
 TIG_MyParcelBE::Home address only,Alleen huisadres
 TIG_MyParcelBE::Signature on receipt,Handtekening voor ontvangst
-TIG_MyParcelBE::Return if no answer,Retour bij niet aanwezig
-TIG_MyParcelBE::Large package,Groot pakket
-TIG_MyParcelBE::Insured up to &euro; 50,Verzekerd tot &euro; 50
-TIG_MyParcelBE::For NL shipping only,Alleen voor Nederlandse verzendingen
-TIG_MyParcelBE::Insured up to &euro; 250,Verzekerd tot &euro; 250
-"TIG_MyParcelBE::For NL shipping only, shipments outside the EU insured default is &euro; 200","Alleen voor Nederlandse verzendingen, zendingen naar landen buiten de EU zijn standaard verzekerd tot &euro; 200"
 TIG_MyParcelBE::Insured up to &euro; 500,Verzekerd tot &euro; 500
-"TIG_MyParcelBE::For NL shipping only, shipments inside the EU insured default is &euro; 500","Alleen voor Nederlandse verzendingen, zendingen naar landen binnen de EU zijn standaard verzekerd tot &euro; 500"
 TIG_MyParcelBE::Automatically next status,Automatisch volgende status
 TIG_MyParcelBE::Turn the order automatically to the next status after creating a label,Zet de status van een order automatisch naar de volgende status bij het aanmaken van een label
 TIG_MyParcelBE::Customs Shipment Type,Douane verzend type
 TIG_MyParcelBE::Customs Content HS Code,Douane goederen HS code
 "TIG_MyParcelBE::Default content type for Cross Domestic products, see <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a>". HS codes can also be connected to categories. The data you enter here will be used as default.,"Standaard goederen type voor Cross Domestic producten, zie <a href=""http://gebruikstarief.douane.nl"" target=""_blank"">http://gebruikstarief.douane.nl</a> voor de juiste HS code. Maximaal 4 karakters. HS codes kan ook gekoppeld worden per categorie. De gegevens die je hier invoert zal als standaard waarde gebruikt worden."
 TIG_MyParcelBE::Edit options,Opties bewerken
-"TIG_MyParcelBE::Fill in your preferences for a shipment. These settings will only apply for the mass actions in the order grid. When creating a single shipment, these settings can be changed manually.<br/>These settings will activate based on the order total amount. When shipping outside of the EU you can set default values for customs type and customs goods HS code.","Vul hier uw standaard voorkeuren in voor uw verzendopties. Deze instellingen worden als default op al uw zendingen toegepast, indien van toepassing. Deze opties zijn later, per zending, uiteraard nog wel aan te passen tijdens het verwerken. <br/><br/>De opties ""Alleen huisadres"", ""Handtekening bij ontvangst"", ""Retour bij niet aanwezig"" en de verschillende verzekeringen worden actief op basis van het totale order bedrag. Bijvoorbeeld, als u bij ""alleen huisadres"" 50 invult, dan wordt voor alle zendingen voor orders vanaf &euro; 50 standaard de instelling ""alleen huisadres"" aangevinkt. Of als u bij ""Verzekerd tot &euro; 250,-"" het getal 150 invult, dan worden alle orders vanaf &euro; 150 standaard verzekerd voor &euro; 250,- inkoopwaarde.<br/><br/>Indien u zendingen naar landen buiten de EU verstuurt, kunt u optioneel voor deze zendingen een standaard waarde invullen bij het Douane verzendtype en de Douane goederen HS code. Deze waardes kunt u nog aanpassen wanneer u uw zending verwerkt."
+"TIG_MyParcelBE::Fill in your preferences for a shipment. These settings will only apply for the mass actions in the order grid. When creating a single shipment, these settings can be changed manually.<br/>These settings will activate based on the order total amount. When shipping outside of the EU you can set default values for customs type and customs goods HS code.","Vul hier uw standaard voorkeuren in voor uw verzendopties. Deze instellingen worden als default op al uw zendingen toegepast, indien van toepassing. Deze opties zijn later, per zending, uiteraard nog wel aan te passen tijdens het verwerken.<br/><br/>Indien u zendingen naar landen buiten de EU verstuurt, kunt u optioneel voor deze zendingen een standaard waarde invullen bij het Douane verzendtype en de Douane goederen HS code. Deze waardes kunt u nog aanpassen wanneer u uw zending verwerkt."
 TIG_MyParcelBE::Retourlink e-mail Template,Retourlink e-mail Template
 TIG_MyParcelBE::PLACEHOLDER,PLACEHOLDER
 TIG_MyParcelBE::Track&amp;Trace email template,Track&amp;Trace e-mail Template
@@ -55,8 +48,7 @@ TIG_MyParcelBE::Wednesday,Woensdag
 TIG_MyParcelBE::Thursday,Donderdag
 TIG_MyParcelBE::Friday,Vrijdag
 TIG_MyParcelBE::Saturday,Zaterdag
-TIG_MyParcelBE::Monday delivery,Maandagbezorging
-TIG_MyParcelBE::Note: Monday delivery is only possible when the package is delivered before 15.00 on Saturday at the designated PostNL locations. Click <a href="https://blog.myparcel.nl/maandagbezorging" target="_blank">here</a> for more information concerning Monday delivery and the locations.,Let op: Maandaglevering is alleen mogelijk wanneer zaterdag het pakket voor 15.00 wordt geleverd bij één van de hiervoor bestemde PostNL locaties. Klik <a href="https://blog.myparcel.nl/maandagbezorging" target="_blank">hier</a> voor de locaties en meer informatie omtrent de maandaglevering.
+TIG_MyParcelBE::Saturday delivery,Zaterdagbezorging
 TIG_MyParcelBE::Monday delivery cut-off time,Laatste bestelmoment voor maandagbezorging
 "TIG_MyParcelBE::If a request is made before this time on Saturday, Monday will be shown as the next possible delivery date. ","Als een bestelling voor dit tijdstip op zaterdag wordt gedaan zal maandag als eerstvolgende afleverdag worden getoond."
 TIG_MyParcelBE::Dropoff-delay,Vertraging
@@ -96,8 +88,6 @@ TIG_MyParcelBE::Pickup Belgium title,Ophalen België titel
 TIG_MyParcelBE::Pickup Belgium fee,Ophalen België prijs
 TIG_MyParcelBE::API Key,API Key,
 TIG_MyParcelBE::The API Key given by MyParcel.,Stel hier de API key in die is ontvangen vanuit MyParcel
-TIG_MyParcelBE::API Username,API Gebruikersnaam
-TIG_MyParcelBE::Your MyParcel username.,Vul hier de gebruikersnaam in voor het MyParcel platform
 TIG_MyParcelBE::To get your personal API credentials you should contact MyParcel.,Neem contact op met MyParcel om de API gegevens te ontvangen.
 TIG_MyParcelBE::API settings,API Instellingen
 TIG_MyParcelBE::"Wrong API key. Go to MyParcel settings to set the API key.","Verkeerde API key. Ga naar de instellingen van de MyParcel plugin om de juiste API key in te vullen."
@@ -221,11 +211,9 @@ TIG_MyParcelBE::Send until tomorrow,Alle orders t/m morgen verzenden
 TIG_MyParcelBE::Send later,Later verzenden
 TIG_MyParcelBE::Old orders,Alle orders t/m gisteren
 TIG_MyParcelBE::Track&amp;Trace link: %s,Track&amp;Trace link: %s
-TIG_MyParcelBE::Is letter box parcel,Is brievenbuspakje
 TIG_MyParcelBE::Shipment type,Zendingtype
 TIG_MyParcelBE::Accordance with type consignment,Conform type zending
 TIG_MyParcelBE::Normal,Pakket
-TIG_MyParcelBE::Letter box,Brievenbuspakje
 TIG_MyParcelBE::Unstamped,Ongefrankeerd
 TIG_MyParcelBE::The MyParcel consignment is successfully created.,De MyParcel zending is succesvol aangemaakt.
 TIG_MyParcelBE::Choose a pickup location,Selecteer MyParcel Verzendopties
@@ -246,9 +234,8 @@ TIG_MyParcelBE::MyParcel - Create labels,MyParcel - Cre&euml;er labels
 TIG_MyParcelBE::Print packing slip,Print pakbon
 TIG_MyParcelBE::Send,Verzenden
 TIG_MyParcelBE::Today,Vandaag
-TIG_MyParcelBE::Letterbox,Brievenbuspakje
 TIG_MyParcelBE::Select,Selecteer
-TIG_MyParcelBE::Insured up to:,Verzekeren tot:
+TIG_MyParcelBE::Insured up to,Verzekeren tot
 TIG_MyParcelBE::Close,Sluiten
 TIG_MyParcelBE::International shipments can not be sent by,Internationale zendingen kunnen niet verzonden worden met een
 TIG_MyParcelBE::Choose a PostNL pickup location,Kies PostNL afhaallocatie
@@ -306,19 +293,9 @@ TIG_MyParcelBE::status_99,Inactief - Onbekende status
 "TIG_MyParcelBE::There are no log files to be downloaded.","Er zijn geen log files om te downloaden."
 TIG_MyParcelBE::PostNL location minimum order total enabled,PostNL locatie minimum totaal bedrag actief
 "TIG_MyParcelBE::PostNL location minimum order total, incl. BTW","PostNL locatie minimum totaal bedrag, incl. BTW"
-TIG_MyParcelBE::Mailbox title,Brievenbuspakje titel
-TIG_MyParcelBE::Leave blank to automate mailbox packets only in the backend,Laat leeg om brievenbuspakjes alleen in de backend te automatiseren
-TIG_MyParcelBE::Mailbox weight,Brievenbuspakje gewicht
-TIG_MyParcelBE::Mailbox with other options,Brievenbuspakje tonen met andere opties
 "TIG_MyParcelBE::Besides assigning weights to all products, you can also specify a volume of each product.","Om deze functie optimaal te gebruiken, stel je eerst het gewicht of volume in van jouw producten."
-TIG_MyParcelBE::Mailbox fee,Brievenbuspakje prijs
-TIG_MyParcelBE::Enter a basic price for a mailbox. The regular price will not affect this price.,Vul een totaalprijs in voor een brievenbuspakje.
-TIG_MyParcelBE::Automate mailbox package,Brievenbuspakje automatiseren
 "TIG_MyParcelBE::PostNL location will not be visible if the subtotal of an order is below this value","'Ophalen op een PostNL locatie' zal niet zichtbaar zijn als het bedrag van een bestelling onder deze waarde valt"
 
 TIG_MyParcelBE::PostNL location:,PostNL locatie:
 TIG_MyParcelBE::deliver:,bezorgen:
-TIG_MyParcelBE::TYPE_morning,Ochtendlevering
 TIG_MyParcelBE::TYPE_standard,Middaglevering
-TIG_MyParcelBE::TYPE_night,Avondlevering
-TIG_MyParcelBE::TYPE_retailexpress,Extra vroeg ophalen

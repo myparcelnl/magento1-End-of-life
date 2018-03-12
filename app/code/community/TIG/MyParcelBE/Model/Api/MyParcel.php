@@ -1,37 +1,18 @@
 <?php
 /**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Creative Commons License.
  * It is available through the world-wide-web at this URL:
  * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
+ * to info@sendmyparcel.be so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade this module to newer
  * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
+ * needs please contact info@sendmyparcel.be for more information.
  *
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
@@ -43,6 +24,7 @@
  */
 class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
 {
+    const INSURED_AMOUNT = 500;
     /**
      * Supported request types.
      */
@@ -73,11 +55,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
      * Shipment v2 endpoint active from x number of orders
      */
     const SHIPMENT_V2_ACTIVE_FROM = 25;
-
-    /**
-     * @var string
-     */
-    protected $apiUsername = '';
 
     /**
      * @var string
@@ -125,7 +102,7 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
     private $labelDownloadUrl = null;
 
     /**
-     * sets the api username and api key on construct.
+     * sets the api key on construct.
      *
      * @return void
      */
@@ -133,7 +110,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
     {
         $storeId  = $this->getStoreId();
         $helper   = Mage::helper('tig_myparcel');
-        $username = $helper->getConfig('username', 'api', $storeId);
         $key      = $helper->getConfig('key', 'api', $storeId, true);
         $url      = $helper->getConfig('url');
 
@@ -143,12 +119,11 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
             }
         }
 
-        if (empty($username) && empty($key)) {
+        if (empty($key)) {
             return;
         }
 
         $this->apiUrl      = $url;
-        $this->apiUsername = $username;
         $this->apiKey      = $key;
     }
 
@@ -206,7 +181,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
         $helper = Mage::helper('tig_myparcel');
 
         $this->storeId     = $storeId;
-        $this->apiUsername = $helper->getConfig('username', 'api', $storeId);
         $this->apiKey      = $helper->getConfig('key', 'api', $storeId, true);
 
         return $this;
@@ -327,10 +301,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
      */
     public function sendRequest($method = 'POST', $checkConfig = true)
     {
-        if (!$this->_checkConfigForRequest() && $checkConfig) {
-            return false;
-        }
-
         //instantiate the helper
         $helper = Mage::helper('tig_myparcel');
 
@@ -355,7 +325,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
         }
 
         $header = $this->requestHeader;
-
         //do the curl request
         if($method == 'POST'){
 
@@ -647,7 +616,7 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
      */
     protected function _checkConfigForRequest()
     {
-        if(empty($this->apiUsername) || empty($this->apiKey)){
+        if(empty($this->apiKey)){
             return false;
         }
 
@@ -680,7 +649,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
         $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
 
         if($storeId != $this->getStoreId()){
-            $this->apiUsername = $helper->getConfig('username', 'api', $storeId);
             $this->apiKey      = $helper->getConfig('key', 'api', $storeId, true);
         }
 
@@ -721,13 +689,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
             $customsContentType = null;
             if($myParcelShipment->getCustomsContentType()){
                 $customsContentType = explode(',', $myParcelShipment->getCustomsContentType());
-            }
-
-            if($data['options']['package_type'] == 2){
-                throw new TIG_MyParcelBE_Exception(
-                    $helper->__('International shipments can not be sent by') . ' ' . strtolower($helper->__('Letter box')),
-                    'MYPA-0027'
-                );
             }
 
             $data['customs_declaration']                        = array();
@@ -847,14 +808,6 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
          * Add the shipment type parameter.
          */
         switch ($myParcelShipment->getShipmentType()) {
-            case $myParcelShipment::TYPE_LETTER_BOX:
-                /* Use mailbox only if no option is selected */
-                if ($helper->shippingMethodIsPakjegemak($myParcelShipment->getOrder()->getShippingMethod())) {
-                    $packageType = 1;
-                } else {
-                    $packageType = 2;
-                }
-                break;
             case $myParcelShipment::TYPE_UNPAID:
                 $packageType = 3;
                 break;
@@ -866,40 +819,19 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
 
         $data = array(
             'package_type'          => $packageType,
-            'large_format'          => (int)$myParcelShipment->isXL(),
-            'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
-            'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
             'label_description' => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
         if ($checkoutData !== null) {
 
             if (key_exists('time', $checkoutData) && key_exists('price_comment', $checkoutData['time'][0]) && $checkoutData['time'][0]['price_comment'] !== null) {
-                switch ($checkoutData['time'][0]['price_comment']) {
-                    case 'morning':
-                        $data['delivery_type'] = self::TYPE_MORNING;
-                        break;
-                    case 'standard':
-                        $data['delivery_type'] = self::TYPE_STANDARD;
-                        break;
-                    case 'night':
-                        $data['delivery_type'] = self::TYPE_NIGHT;
-                        break;
-                }
+                $data['delivery_type'] = self::TYPE_STANDARD;
             } elseif (key_exists('price_comment', $checkoutData) && $checkoutData['price_comment'] !== null) {
-                switch ($checkoutData['price_comment']) {
-                    case 'retail':
-                        $data['delivery_type'] = self::TYPE_RETAIL;
-                        break;
-                    case 'retailexpress':
-                        $data['delivery_type'] = self::TYPE_RETAIL_EXPRESS;
-                        break;
-                }
+                $data['delivery_type'] = self::TYPE_RETAIL;
             }
 
             if (key_exists('date', $checkoutData) && $checkoutData['date'] !== null) {
-
 
                 $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
                 $currentDateTime = $currentDate = new dateTime();
@@ -924,11 +856,9 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
             $data['insurance']['currency'] = 'EUR';
         }
 
-		if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL' || $data['package_type'] == 2) {
-			// strip all Dutch domestic options if shipment is not NL or package_type is mailbox
-			unset($data['only_recipient']);
+		if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
+			// strip all Dutch domestic options if shipment is not NL
 			unset($data['signature']);
-			unset($data['return']);
 			unset($data['delivery_date']);
 		}
 
@@ -961,7 +891,7 @@ class TIG_MyParcelBE_Model_Api_MyParcel extends Varien_Object
     protected function _getInsuredAmount(TIG_MyParcelBE_Model_Shipment $myParcelShipment)
     {
         if ($myParcelShipment->getInsured()) {
-            return (int) $myParcelShipment->getInsuredAmount();
+            return self::INSURED_AMOUNT;
         }
 
         return 0;

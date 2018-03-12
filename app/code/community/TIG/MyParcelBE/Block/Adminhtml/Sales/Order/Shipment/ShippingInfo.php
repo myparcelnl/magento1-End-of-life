@@ -1,37 +1,18 @@
 <?php
 /**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Creative Commons License.
  * It is available through the world-wide-web at this URL:
  * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
+ * to info@sendmyparcel.be so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade this module to newer
  * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
+ * needs please contact info@sendmyparcel.be for more information.
  *
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
@@ -253,15 +234,6 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends M
     /**
      * @return string
      */
-    public function getIsHomeSelected()
-    {
-        return $this->getIsSelected('home_address_only');
-
-    }
-
-    /**
-     * @return string
-     */
     public function getIsSignatureOnReceipt()
     {
         return $this->getIsSelected('signature_on_receipt');
@@ -286,24 +258,16 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends M
         $orderTotalShipped = $this->getOrderTotal();
 
         //get the insured values
-        $insuredType50     = $helper->getConfig('insured_50',  'shipment', $storeId);
-        $insuredType250    = $helper->getConfig('insured_250', 'shipment', $storeId);
         $insuredType500    = $helper->getConfig('insured_500', 'shipment', $storeId);
 
         //check if the values are not empty/zero
-        $insuredType50     = (!empty($insuredType50) && $insuredType50 > 0)? $insuredType50 : false;
-        $insuredType250    = (!empty($insuredType250) && $insuredType250 > 0)? $insuredType250 : false;
         $insuredType500    = (!empty($insuredType500) && $insuredType500 > 0)? $insuredType500 : false;
 
         //if nothing is filled in, then set the default values, but do not pre-select
         $selected = 'checked="checked"';
         if(
-            false === $insuredType50 &&
-            false === $insuredType250 &&
             false === $insuredType500
         ){
-            $insuredType50  = 50;
-            $insuredType250 = 250;
             $insuredType500 = 500;
             $selected = 0;
         }
@@ -311,12 +275,6 @@ class TIG_MyParcelBE_Block_Adminhtml_Sales_Order_Shipment_ShippingInfo extends M
         if(false !== $insuredType500 && $orderTotalShipped > $insuredType500){
             $insuredValue = $insuredType500;
             $insuredUpTo = 500;
-        }elseif(false !== $insuredType250 && $orderTotalShipped > $insuredType250){
-            $insuredValue = $insuredType250;
-            $insuredUpTo = 250;
-        }elseif(false !== $insuredType50 && $orderTotalShipped > $insuredType50){
-            $insuredValue = $insuredType50;
-            $insuredUpTo = 50;
         }else{
             $insuredValue = 0;
             $insuredUpTo = 0;

@@ -1,37 +1,18 @@
 <?php
 /**
- *                  ___________       __            __
- *                  \__    ___/____ _/  |_ _____   |  |
- *                    |    |  /  _ \\   __\\__  \  |  |
- *                    |    | |  |_| ||  |   / __ \_|  |__
- *                    |____|  \____/ |__|  (____  /|____/
- *                                              \/
- *          ___          __                                   __
- *         |   |  ____ _/  |_   ____ _______   ____    ____ _/  |_
- *         |   | /    \\   __\_/ __ \\_  __ \ /    \ _/ __ \\   __\
- *         |   ||   |  \|  |  \  ___/ |  | \/|   |  \\  ___/ |  |
- *         |___||___|  /|__|   \_____>|__|   |___|  / \_____>|__|
- *                  \/                           \/
- *                  ________
- *                 /  _____/_______   ____   __ __ ______
- *                /   \  ___\_  __ \ /  _ \ |  |  \\____ \
- *                \    \_\  \|  | \/|  |_| ||  |  /|  |_| |
- *                 \______  /|__|    \____/ |____/ |   __/
- *                        \/                       |__|
- *
  * NOTICE OF LICENSE
  *
  * This source file is subject to the Creative Commons License.
  * It is available through the world-wide-web at this URL:
  * http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
  * If you are unable to obtain it through the world-wide-web, please send an email
- * to servicedesk@tig.nl so we can send you a copy immediately.
+ * to info@sendmyparcel.be so we can send you a copy immediately.
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade this module to newer
  * versions in the future. If you wish to customize this module for your
- * needs please contact servicedesk@tig.nl for more information.
+ * needs please contact info@sendmyparcel.be for more information.
  *
  * @copyright   Copyright (c) 2014 Total Internet Group B.V. (http://www.tig.nl)
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US
@@ -51,7 +32,6 @@
  * @method boolean hasShipmentIncrementId()
  * @method boolean hasBarcodeSend()
  * @method boolean hasShipmentType()
- * @method boolean hasIsXl()
  *
  * @method string getShipmentId()
  * @method string getTrackId()
@@ -61,15 +41,12 @@
  * @method string getStatus()
  * @method string getBarcode()
  * @method string getIsFinal()
- * @method int    getHomeAddressOnly()
  * @method int    getSignatureOnReceipt()
- * @method int    getReturnIfNoAnswer()
  * @method int    getInsured()
  * @method int    getInsuredAmount()
  * @method int    getBarcodeSend()
  * @method int    getCustomsContentType()
  * @method string getShipmentType()
- * @method int    getIsXL()
  *
  * @method TIG_MyParcelBE_Model_Shipment setShipmentId(int $value)
  * @method TIG_MyParcelBE_Model_Shipment setOrderId(int $value)
@@ -90,7 +67,6 @@
  * @method TIG_MyParcelBE_Model_Shipment setIsCredit(int $value)
  * @method TIG_MyParcelBE_Model_Shipment setCustomsContentType(int $value)
  * @method TIG_MyParcelBE_Model_Shipment setShipmentType(string $value)
- * @method TIG_MyParcelBE_Model_Shipment setIsXl(int $value)
  *
  */
 class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
@@ -282,20 +258,6 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
         return $api;
     }
 
-    public function isHomeAddressOnly()
-    {
-
-        $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
-        if($checkoutData !== null) {
-            $aData = json_decode($checkoutData, true);
-            if(key_exists('home_address_only', $aData) && $aData['home_address_only']){
-                return 1;
-            }
-        }
-
-        return $this->getHomeAddressOnly();
-    }
-
     public function isSignatureOnReceipt()
     {
 
@@ -308,61 +270,6 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
         }
 
         return $this->getSignatureOnReceipt();
-    }
-
-    public function isXL()
-    {
-        $consignmentOption = 'is_xl';
-        $orderIsXl = $this->getIsXL();
-
-        if($orderIsXl === null) {
-            $storeId = $this->getOrder()->getStoreId();
-            $orderTotalShipped = $this->getOrderTotal();
-
-            $configValue = $this->helper->getConfig($consignmentOption, 'shipment', $storeId);
-            if (!empty($configValue) && $configValue > 0) {
-                if ($orderTotalShipped >= $configValue) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } else {
-                return 0;
-            }
-        } else {
-            if($orderIsXl == '1') {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-    }
-
-
-    /**
-     * @return array
-     */
-    public function getHomeAddressOnlyOption()
-    {
-        $consignmentOption = 'home_address_only';
-
-        $storeId = $this->getOrder()->getStoreId();
-        $orderTotalShipped = $this->getOrderTotal();
-
-        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
-        if(!empty($configValue) && $configValue > 0){
-            if($orderTotalShipped >= $configValue){
-                return array(
-                    'option' => $consignmentOption,
-                    'selected' => 1,
-                );
-            }
-        }
-        return array(
-            'option' => $consignmentOption,
-            'selected' => 0,
-        );
-
     }
 
     /**
@@ -387,31 +294,6 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
         return array(
             'option' => $consignmentOption,
             'selected' => 0,
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function getXlOption()
-    {
-        $consignmentOption = 'is_xl';
-
-        $storeId = $this->getOrder()->getStoreId();
-        $orderTotalShipped = $this->getOrderTotal();
-
-        $configValue = $this->helper->getConfig($consignmentOption,'shipment',$storeId);
-        if(!empty($configValue) && $configValue > 0){
-            if($orderTotalShipped >= $configValue){
-                return array(
-                    'option' => $consignmentOption,
-                    'selected' => 1,
-                );
-            }
-        }
-        return array(
-            'option' => $consignmentOption,
-            'selected' => null,
         );
     }
 
@@ -453,22 +335,14 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
         $orderTotalShipped = $this->getOrderTotal();
 
         //get the insured values
-        $insuredType50     = $helper->getConfig('insured_50','shipment',$storeId);
-        $insuredType250    = $helper->getConfig('insured_250','shipment',$storeId);
         $insuredType500    = $helper->getConfig('insured_500','shipment',$storeId);
 
         //check if the values are not empty/zero.
-        $insuredType50     = (!empty($insuredType50) && $insuredType50 > 0)? $insuredType50 : false;
-        $insuredType250    = (!empty($insuredType250) && $insuredType250 > 0)? $insuredType250 : false;
         $insuredType500    = (!empty($insuredType500) && $insuredType500 > 0)? $insuredType500 : false;
 
 
         if(false !== $insuredType500 && $orderTotalShipped > $insuredType500){
             $insuredValue = 500;
-        }elseif(false !== $insuredType250 && $orderTotalShipped > $insuredType250){
-            $insuredValue = 250;
-        }elseif(false !== $insuredType50 && $orderTotalShipped > $insuredType50){
-            $insuredValue = 50;
         }else{
             $insuredValue = 0;
         }
@@ -495,16 +369,10 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
      */
     public function calculateConsignmentOptions()
     {
-        $homeAddressOnly     = $this->getHomeAddressOnlyOption();
         $signatureOnReceipt = $this->getSignatureOnReceiptOption();
-        $returnIfNoAnswer    = $this->getReturnIfNoAnswerOption();
-        $xl                  = $this->getXlOption();
         $insured             = $this->getInsuredOption();
 
-        $this->setDataUsingMethod($homeAddressOnly['option'], $homeAddressOnly['selected']);
         $this->setDataUsingMethod($signatureOnReceipt['option'], $signatureOnReceipt['selected']);
-        $this->setDataUsingMethod($returnIfNoAnswer['option'], $returnIfNoAnswer['selected']);
-        $this->setDataUsingMethod($xl['option'], $xl['selected']);
         $this->setDataUsingMethod($insured['option'], $insured['selected']);
         $this->setDataUsingMethod('insured_amount', $insured['insured_amount']);
 
