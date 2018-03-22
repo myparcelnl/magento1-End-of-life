@@ -279,11 +279,11 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string           $barcode
      * @param mixed            $destination An array or object containing the shipment's destination data
      * @param boolean | string $lang
-     * @param boolean          $forceNl
+     * @param boolean          $forceBE
      *
      * @return string
      */
-    public function getBarcodeUrl($barcode, $destination = false, $lang = false, $forceNl = false)
+    public function getBarcodeUrl($barcode, $destination = false, $lang = false, $forceBE = false)
     {
         $countryCode = null;
         $postcode = null;
@@ -310,9 +310,9 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
          *
          * @todo get bpost url
          */
-        if ($forceNl
+        if ($forceBE
             || (!empty($countryCode)
-                && $countryCode == 'NL'
+                && $countryCode == 'BE'
             )
         ) {
             $barcodeUrl = self::POSTNL_TRACK_AND_TRACE_NL_BASE_URL
@@ -322,7 +322,7 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
              */
             if (!empty($postcode)
                 && !empty($countryCode)
-                && $countryCode == 'NL'
+                && $countryCode == 'BE'
             ) {
                 $barcodeUrl .= '&p=' . $postcode;
             } else {
