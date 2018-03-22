@@ -71,7 +71,7 @@ class TIG_MyParcelBE_CheckoutController extends Mage_Core_Controller_Front_Actio
 
         $general['base_price'] =                    $basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));
-        if ($data['address']['country'] == 'NL') {
+        if ($data['address']['country'] == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC) {
             $general['deliverydays_window'] = $helper->getConfig('deliverydays_window', 'checkout') == 'hide' ? 1 : $helper->getConfig('deliverydays_window', 'checkout');
         } else {
             $general['deliverydays_window'] = 1;
@@ -85,38 +85,17 @@ class TIG_MyParcelBE_CheckoutController extends Mage_Core_Controller_Front_Actio
         $data['general'] = (object)$general;
 
         $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
-        $delivery['only_recipient_active'] =        $helper->getConfig('only_recipient_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
-        $delivery['only_recipient_title'] =         $helper->getConfig('only_recipient_title', 'delivery');
-        $delivery['only_recipient_fee'] =           $this->getShippingPrice($helper->getConfig('only_recipient_fee', 'delivery'), $quote);
-        $delivery['signature_active'] =             $helper->getConfig('signature_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $delivery['signature_active'] =             $helper->getConfig('signature_active', 'delivery') == "1" && $data['address']['country'] == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC ? true : false;
         $delivery['signature_title'] =              $helper->getConfig('signature_title', 'delivery');
         $delivery['signature_fee'] =                $this->getShippingPrice($helper->getConfig('signature_fee', 'delivery'), $quote);
-        $delivery['signature_and_only_recipient_fee'] =                $this->getShippingPrice($helper->getConfig('signature_and_only_recipient_fee', 'delivery'), $quote);
         $data['delivery'] = (object)$delivery;
 
-        $morningDelivery['active'] =                $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
-        $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morningdelivery_fee', 'morningdelivery'), $quote));
-        $data['morningDelivery'] = (object)$morningDelivery;
-
-        $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
-        $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
-        $data['eveningDelivery'] = (object)$eveningDelivery;
-
-        if ($data['address']['country'] == 'NL') {
+        if ($data['address']['country'] == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC) {
             $pickup['active'] = $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
             $pickup['title'] = $helper->getConfig('pickup_title', 'pickup');
             $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote));
             $data['pickup'] = (object)$pickup;
-        } else if ($data['address']['country'] == 'BE') {
-            $pickup['active'] = $helper->getConfig('pickup_belgium_active', 'pickup_belgium') == "1" ? true : false;
-            $pickup['title'] = $helper->getConfig('pickup_belgium_title', 'pickup_belgium');
-            $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_belgium_fee', 'pickup_belgium'), $quote));
-            $data['pickup'] = (object)$pickup;
         }
-
-        $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" && $data['address']['country'] == 'NL' ? true : false;
-        $pickupExpress['fee'] =                     $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote));
-        $data['pickupExpress'] = (object)$pickupExpress;
 
         $info = array(
             'version' => (string) Mage::getConfig()->getModuleConfig("TIG_MyParcelBE")->version,
@@ -137,7 +116,7 @@ class TIG_MyParcelBE_CheckoutController extends Mage_Core_Controller_Front_Actio
         $quote = Mage::getModel('checkout/cart')->getQuote();
         $helper = Mage::helper('tig_myparcel');
 
-        $packageType = $helper->getPackageType($quote->getItemsCollection(), 'NL', false, false, true);
+        $packageType = $helper->getPackageType(false);
 
         require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcelBE/checkout/mypa_checkout_options.phtml');
         exit;

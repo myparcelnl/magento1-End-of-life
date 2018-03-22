@@ -402,7 +402,7 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
         }
 
         if (!key_exists('type_consignment', $registryOptions) || $registryOptions['type_consignment'] == null || $registryOptions['type_consignment'] == 'default') {
-            if ($this->helper->getPackageType($this->getShipment()->getItemsCollection(), $this->getShippingAddress()->getCountryId(), false, $hasExtraOptions) == 1) {
+            if ($this->helper->getPackageType(false) == 1) {
             	$type = self::TYPE_NORMAL;
             } else {
                 $type = self::TYPE_LETTER_BOX;
@@ -644,23 +644,6 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check if this shipment's destination is the Netherlands.
-     *
-     * @return bool
-     */
-    public function isDutchShipment()
-    {
-        $shippingAddress = $this->getShippingAddress();
-        $country = $shippingAddress->getCountryId();
-
-        if ($country == 'NL') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Checks if the given shipment type is supported by this extension.
      *
      * @param $type
@@ -674,11 +657,6 @@ class TIG_MyParcelBE_Model_Shipment extends Mage_Core_Model_Abstract
             case self::TYPE_NORMAL: //no break
             case self::TYPE_UNPAID:
                 $isValid = true;
-                break;
-            case self::TYPE_LETTER_BOX:
-                if ($this->isDutchShipment()) {
-                    $isValid = true;
-                }
                 break;
             //no default
         }
