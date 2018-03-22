@@ -208,7 +208,7 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup' || $method == $myParcelCode . '_pickup_express') {
+        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup') {
             return true;
         }
 
@@ -279,11 +279,11 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string           $barcode
      * @param mixed            $destination An array or object containing the shipment's destination data
      * @param boolean | string $lang
-     * @param boolean          $forceNl
+     * @param boolean          $forceBE
      *
      * @return string
      */
-    public function getBarcodeUrl($barcode, $destination = false, $lang = false, $forceNl = false)
+    public function getBarcodeUrl($barcode, $destination = false, $lang = false, $forceBE = false)
     {
         $countryCode = null;
         $postcode = null;
@@ -307,10 +307,12 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
 
         /**
          * Get the dutch track & trace URL for dutch shipments or for the admin.
+         *
+         * @todo get bpost url
          */
-        if ($forceNl
+        if ($forceBE
             || (!empty($countryCode)
-                && $countryCode == 'NL'
+                && $countryCode == 'BE'
             )
         ) {
             $barcodeUrl = self::POSTNL_TRACK_AND_TRACE_NL_BASE_URL
@@ -320,7 +322,7 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
              */
             if (!empty($postcode)
                 && !empty($countryCode)
-                && $countryCode == 'NL'
+                && $countryCode == 'BE'
             ) {
                 $barcodeUrl .= '&p=' . $postcode;
             } else {
@@ -362,7 +364,7 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
 
         $fullStreet = $address->getStreetFull();
 
-        if ($address->getCountry() != 'NL' && $address->getCountry() != 'BE') {
+        if ($address->getCountry() != 'BE') {
 
             $fullStreet = $this->_getInternationalFullStreet($address);
             $streetData = array(
@@ -471,17 +473,12 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * @param        $items
-     * @param string $country
-     * @param bool   $getAdminTitle
-     * @param bool   $hasExtraOptions
-     * @param bool   $isFrontend If mailbox title is empty, don't show the mailbox option
-     *
-     * @todo remove parameters from MyParcelNL
-     * 
+     * @param bool $getAdminTitle
      * @return int|string               package = 1, mailbox = 2, letter = 3
+     * @todo remove parameters from MyParcelNL
+     *
      */
-    public function getPackageType($items, $country, $getAdminTitle = false, $hasExtraOptions = false, $isFrontend = false)
+    public function getPackageType($getAdminTitle = false)
     {
         if ($getAdminTitle) {
             return $this->__('Normal');
