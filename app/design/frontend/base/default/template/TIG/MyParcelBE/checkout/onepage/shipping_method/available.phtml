@@ -38,31 +38,12 @@ $address = $helper->getQuoteAddress($this->getQuote());
 if (isset($address) && is_array($address) && key_exists('country', $address)) {
     $country = $address['country'];
 } else {
-    $country = 'NL';
+    $country = 'BE';
 }
 
-$hideDays =     $helper->getConfig('deliverydays_window', 'checkout') == '1' ? true : false;
-
-// Check if mailbox must show with other options
-if (
-    $helper->getPackageType($this->getQuote()->getItemsCollection(), $country, false, false, true) == 2 &&
-    $helper->getConfig('mailbox_with_other_options', 'mailbox') == '0'
-) {
-    $useMyParcel = false;
-    $onlyMailbox = true;
-} else {
-    $useMyParcel = ($_shippingRateGroups && ($country == 'NL' || $country == 'BE') && $helper->productIsAvailable($this->getQuote()->getItemsCollection()));
-    $onlyMailbox = false;
-}
-
-/**
- * Hide and toggle MyParcel options (used by parnis.nl). Hidden field in the settings.
- * Example: https://monosnap.com/file/gJ9DoOhbJF6p0qMit0NmjCMjNhP8rM
- */
-$toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true : false;
+$useMyParcel = ($_shippingRateGroups && $country == 'BE' && $helper->productIsAvailable($this->getQuote()->getItemsCollection()));
 ?>
 <script>
-    var myParcelToggleOptions = '<?php echo $toggleOptions;?>';
     var lastPrice = 0;
 </script>
 <?php if (!$_shippingRateGroups): ?>
@@ -83,16 +64,8 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                             <?php $lastRate = $_rate->getCode(); ?>
                             <?php $shippingCodePrice[] = "'" . $_rate->getCode() . "':" . (float)$_rate->getPrice(); ?>
                             <li style="
-                            <?php if ($code == 'myparcel') {
-                                if ($onlyMailbox) {
-                                    if ($_rate->getMethod() != 'mailbox') {
+                            <?php if ($code == 'myparcel' && $_rate->getMethod() != 'flatrate' && $_rate->getMethod() != 'tablerate') {
                                         echo 'display:none';
-                                    }
-                                } else {
-                                    if ($_rate->getMethod() != 'flatrate' && $_rate->getMethod() != 'tablerate') {
-                                        echo 'display:none';
-                                    }
-                                }
                             }
                             ?>">
                             <?php if ($_rate->getErrorMessage()): ?>
@@ -103,7 +76,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                             </ul>
                                         </li>
                                     </ul>
-                                <?php else: ?>
+                            <?php else: ?>
                                 <?php if ($_sole) : ?>
                                     <span class="no-display"><input name="shipping_method" type="radio"
                                                                     value="<?php echo $_rate->getCode() ?>"
@@ -132,7 +105,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                 <?php endif; ?>
                                     <label for="s_method_<?php echo $_rate->getCode() ?>">
                                         <?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>
-                                        <?php if ($code != 'myparcel' || !$toggleOptions):?>
+                                        <?php if ($code != 'myparcel'):?>
                                             <?php $_excl = $this->getShippingPrice($_rate->getPrice(), $this->helper('tax')->displayShippingPriceIncludingTax()); ?>
                                             <?php $_incl = $this->getShippingPrice($_rate->getPrice(), true); ?>
                                             <?php echo $_excl; ?>
@@ -149,11 +122,72 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
             </dd>
 
             <?php if ($code == 'myparcel' && $useMyParcel): ?>
-                <div id="mypa-load" style="<?php echo $toggleOptions && $_rate->getCode() !== $this->getAddressShippingMethod() ? 'display: none;' : ''; ?>">
-                    <iframe id="myparcel-iframe" src="<?php echo str_replace('/?___SID=S', '', Mage::getUrl('myparcelbe/checkout/checkout_options'));?>" frameborder="0" scrolling="auto" style="width: 100%;min-height: 200px;" >Bezig met laden...</iframe>
+                <div id="mypa-load" style="<?php echo $_rate->getCode() !== $this->getAddressShippingMethod() ? 'display: none;' : ''; ?>">
+
+                    <ul id="mypa-delivery-selector">
+                        <li id="mypa-bpost-flat-fee-delivery">
+                            <label for="mypa-deliver-date">Bezorgen op</label>
+                            <div class="full-width">
+                                <input name="mypa-deliver-or-pickup" id="mypa-deliver-pickup-deliver-bpost" value="mypa-deliver" type="radio">
+                                <input name="mypa-delivery-date" id="mypa-delivery-date-bpost" type="text" readonly>
+                                <input name="mypa-delivery-date-only" id="mypa-delivery-date-only-bpost" type="hidden">
+                            </div>
+                        </li>
+                        <div class="full-width mypa-clear"></div>
+                        <li id="mypa-bpost-saturday-delivery">
+                            <label for="mypa-deliver-date-bpost-saturday">Bezorgen op</label>
+                            <div class="full-width">
+                                <input name="mypa-deliver-or-pickup" id="mypa-deliver-pickup-deliver-bpost-saturday" value="mypa-deliver-bpost-saturday" type="radio" readonly>
+                                <input name="mypa-delivery-date-bpost-saturday" id="mypa-delivery-date-bpost-saturday" type="text">
+                                <input name="mypa-delivery-date-only-saturday" id="mypa-delivery-date-only-bpost-saturday" type="hidden">
+                                <span id="mypa-delivery-bpost-saturday-price"></span>
+                            </div>
+                        </li>
+                        <div class="full-width mypa-clear"></div>
+                        <li id="mypa-postnl-delivery">
+                            <label for="mypa-deliver-date-postnl">Bezorgen op</label>
+                            <div class="full-width">
+                                <input name="mypa-deliver-or-pickup" id="mypa-deliver-pickup-deliver" value="mypa-deliver" type="radio">
+                                <select name="mypa-delivery-date" id="mypa-delivery-date-postnl">
+                                    <option value="any">Zo snel mogelijk.</option>
+                                </select>
+                                <div id="mypa-delivery-time-postnl">
+                                    <div class="mypa-delivery-time">
+                                        <input  type="radio" name="mypa-delivery-time-postnl"  value="standard">&nbsp;
+                                        <span class="mypa-delivery-time-postnl-comment">Standaard</span>
+                                        <span class="mypa-delivery-time-postnl-time"></span>
+                                        <span class="mypa-method-price mypa-delivery-time-postnl-price mypa-postnl-standard-price"></span>
+                                    </div>
+                                    </select>
+                                </div>
+                        </li>
+                    </ul>
+                    <div class="full-width mypa-clear"></div>
+                    <ul id="mypa-delivery-selectors-be">
+                        <li>
+                            <div class="full-width">
+                                <div><input name="mypa-method-signature-selector-be" id="mypa-method-signature-selector-be" type="checkbox"></div>
+                                <label for ="mypa-method-signature-selector-be">Handtekening voor ontvangst&nbsp;<span id="mypa-price-bpost-signature"></span></label>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="full-width mypa-clear"></div>
+
+                    <ul id="mypa-pickup-location-selector">
+                        <li>
+                            <label for="mypa-pickup-location">Afhalen op locatie<span id="mypa-price-pickup"></span></label>
+                            <div class="full-width">
+
+                                <input name="mypa-deliver-or-pickup" id="mypa-deliver-pickup-pickup" value="mypa-pickup" type="radio">
+                                <select name="mypa-pickup-location" id="mypa-pickup-location">
+                                    <option value="">Geen Locatie</option>
+                                </select>
+                                <span class="mypa-method-price" id="mypa-show-location-details"><i class="fas fa-clock"></i></span>
+                            </div>
+                        </li>
+                    </ul>
                     <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
                     <input style="display: none;" type="checkbox" name='mypa-signed' id="mypa-signed">
-                    <input style="display: none;" type="checkbox" name='mypa-recipient-only' id="mypa-recipient-only">
                 </div>
             <?php endif; ?>
 
@@ -198,8 +232,6 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                 mypajQuery('#mypa-input').on('change', (function () {
                     iframeLoaded()
                 }));
-            <?php elseif ($onlyMailbox):?>
-                mypajQuery('#s_method_myparcel_mailbox').prop("checked", true);
             <?php endif; ?>
         });
     </script>
