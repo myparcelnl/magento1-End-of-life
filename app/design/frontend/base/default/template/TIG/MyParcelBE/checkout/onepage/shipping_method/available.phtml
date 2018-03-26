@@ -40,8 +40,7 @@ if (isset($address) && is_array($address) && key_exists('country', $address)) {
 } else {
     $country = 'BE';
 }
-
-$useMyParcel = ($_shippingRateGroups && $country == 'BE' && $helper->productIsAvailable($this->getQuote()->getItemsCollection()));
+$useMyParcel = ($_shippingRateGroups && $country == 'BE');
 ?>
 <script>
     var lastPrice = 0;
@@ -120,9 +119,9 @@ $useMyParcel = ($_shippingRateGroups && $country == 'BE' && $helper->productIsAv
                     <?php endforeach; ?>
                 </ul>
             </dd>
-
             <?php if ($code == 'myparcel' && $useMyParcel): ?>
-                <div id="mypa-load" style="<?php echo $_rate->getCode() !== $this->getAddressShippingMethod() ? 'display: none;' : ''; ?>">
+<!--                <div id="mypa-load" style="--><?php //echo $_rate->getCode() !== $this->getAddressShippingMethod() ? 'display: none;' : ''; ?><!--">-->
+                <div id="mypa-load">
 
                     <ul id="mypa-delivery-selector">
                         <li id="mypa-bpost-flat-fee-delivery">
@@ -225,14 +224,12 @@ $useMyParcel = ($_shippingRateGroups && $country == 'BE' && $helper->productIsAv
         });
         //]]>
     </script>
-    <script>
-        mypajQuery(document).ready(function () {
-            <?php if ($useMyParcel) : ?>
-                iframeLoaded();
-                mypajQuery('#mypa-input').on('change', (function () {
-                    iframeLoaded()
-                }));
-            <?php endif; ?>
-        });
-    </script>
+    <?php if ($useMyParcel) : ?>
+        <script>
+            console.info('available.phtml');
+            mypajQuery(document).ready(function () {
+                myParcelMethodInit();
+            });
+        </script>
+    <?php endif; ?>
 <?php endif; ?>
