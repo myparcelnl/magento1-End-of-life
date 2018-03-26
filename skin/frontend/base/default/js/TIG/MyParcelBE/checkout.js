@@ -11,7 +11,7 @@
  * @license     http://creativecommons.org/licenses/by-nc-nd/3.0/nl/deed.en_US  CC BY-NC-ND 3.0 NL
  * @link        https://github.com/myparcelbe/magento1
  */
-var myParcelConfig = {
+/*var myParcelConfig = {
     "apiBaseUrl": "https://api.myparcel.nl/",
     "countryCode": "BE",
     "carrierCode": "2",
@@ -30,7 +30,7 @@ var myParcelConfig = {
     "cutoffTime": "15:59",
     "deliverydaysWindow": "0"
 
-};
+};*/
 
 /* Text and translations */
 txtWeekDays = [
@@ -56,7 +56,6 @@ translateENtoNL = {
 (function () {
 
     myParcelMethodInit = function () {
-        console.info('myParcelMethodInit');
         MyParcel.setMagentoDataAndInit()
     };
 

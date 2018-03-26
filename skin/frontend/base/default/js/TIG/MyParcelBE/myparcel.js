@@ -1,6 +1,4 @@
 MyParcel = {
-    settings: null,
-
     /*
      * Get Settings from Magento
      */
@@ -39,22 +37,23 @@ MyParcel = {
                 if (address && address['country'] === 'BE') {
 
                     if (address['street']) {
-                        MyParcel.settings = {
-                            postal_code: address['postal_code'].replace(/ /g, ""),
-                            cc: address['country'],
+                        myParcelConfig = {
+                            apiBaseUrl: "https://api.myparcel.nl/",
+                            carrierCode: "2",
+                            postalCode: address['postal_code'].replace(/ /g, ""),
+                            countryCode: address['country'],
                             street: address['street'],
                             number: address['number'],
-                            cutoff_time: data.general['cutoff_time'],
-                            dropoff_days: data.general['dropoff_days'],
-                            monday_delivery: data.general['saterday_delivery_active'],
-                            dropoff_delay: data.general['dropoff_delay'],
-                            deliverydays_window: data.general['deliverydays_window'],
-                            exclude_delivery_type: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
-                            price: price,
-                            text: {
-                                signed: data.delivery.signature_title,
-                                only_recipient: data.delivery.only_recipient_title
-                            }
+                            cutoffTime: data.general['cutoff_time'],
+                            dropOffDays: data.general['dropoff_days'],
+                            allowBpostSaturdayDelivery: data.general['saterday_delivery_active'],
+                            priceBpostSaturdayDelivery: data.general['saterday_delivery_fee'],
+                            priceBpostAutograph: data.general['signature_fee'],
+                            dropOffDelay: data.general['dropoff_delay'],
+                            deliverydaysWindow: data.general['deliverydays_window'],
+                            excludeDeliveryType: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
+                            allowBpostAutograph:  data.delivery['signature_active'],
+                            price: price
                         };
 
                         MyParcel.init();
@@ -82,7 +81,6 @@ MyParcel = {
         if (mypajQuery(window).width() > 980) {
             isMobile = false;
         }
-
 
         /* Prices BPost */
         if (myParcelConfig.carrierCode == 2) {
@@ -625,7 +623,7 @@ MyParcel = {
         if (dateObj.getDay() == 5 && myParcelConfig.carrierCode == 2) {
             MyParcel.showBpostSaturday(dateString);
             if (typeof deliveryOptions.data.delivery[1] !== 'undefined') {
-                dateString = dateToString(deliveryOptions.data.delivery[1].date);
+                dateString = MyParcel.dateToString(deliveryOptions.data.delivery[1].date);
             }
         }
 
@@ -823,13 +821,8 @@ MyParcel = {
         MyParcel.showSpinner();
         MyParcel.clearPickUpLocations();
 
-
-        var postalCode = MyParcel.settings.postal_code;
-        var houseNumber = MyParcel.settings.number;
-        var streetName = MyParcel.settings.street;
-
         /* Don't call API unless both PC and House Number are set */
-        if (!houseNumber || !postalCode) {
+        if (!myParcelConfig.number || !myParcelConfig.postalCode) {
             MyParcel.hideSpinner();
             MyParcel.showFallBackDelivery();
             return;
@@ -838,13 +831,16 @@ MyParcel = {
         /* add streetName for Belgium */
         mypajQuery.get(myParcelConfig.apiBaseUrl + "delivery_options",
             {
-                dropoff_days: myParcelConfig.dropOffDays,
-                cutofff_time: myParcelConfig.cutoffTime,
-                street: streetName,
                 carrier: myParcelConfig.carrierCode,
+                postal_code: myParcelConfig.postalCode,
                 cc: myParcelConfig.countryCode,
-                number: houseNumber,
-                postal_code: postalCode
+                street: myParcelConfig.street,
+                number: myParcelConfig.number,
+                cutofff_time: myParcelConfig.cutoffTime,
+                dropoff_days: myParcelConfig.dropOffDays,
+                dropoff_delay: myParcelConfig.dropOffDelay,
+                deliverydays_window: myParcelConfig.deliverydaysWindow,
+                exclude_delivery_type: myParcelConfig.excludeDeliveryType
             })
             .done(function (data) {
                 if (data.errors) {
