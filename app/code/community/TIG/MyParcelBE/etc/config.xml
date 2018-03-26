@@ -246,7 +246,6 @@
                 <url>https://api.myparcel.nl/</url>
                 <active>0</active>
                 <test>0</test>
-                <saturday_>0</saturday_>
                 <print_orientation>A4</print_orientation>
                 <always_myparcel>1</always_myparcel>
                 <pakjegemak_use_shipment_address>1</pakjegemak_use_shipment_address>
@@ -270,14 +269,15 @@
                 <dropoff_delay>0</dropoff_delay>
                 <base_color>01bbc5</base_color>
                 <select_color>3399cc</select_color>
-                <saturday_delivery_active>0</saturday_delivery_active>
-                <saturday_delivery_fee>2</saturday_delivery_fee>
             </checkout>
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
                 <signature_active>1</signature_active>
                 <signature_title>Handtekening voor ontvangst</signature_title>
                 <signature_fee>0.36</signature_fee>
+                <saturday_delivery_active>0</saturday_delivery_active>
+                <saturday_delivery_title>Zaterdaglevering</saturday_delivery_title>
+                <saturday_delivery_fee>2</saturday_delivery_fee>
             </delivery>
             <pickup>
                 <pickup_active>1</pickup_active>

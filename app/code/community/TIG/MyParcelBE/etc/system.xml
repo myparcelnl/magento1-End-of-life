@@ -228,28 +228,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </select_color>
-                        <saturday_delivery_active translate="label comment" module="tig_myparcel">
-                            <label>Saturday delivery</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
-                            <sort_order>176</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </saturday_delivery_active>
-                        <saturday_delivery_fee translate="label,comment" module="tig_myparcel">
-                            <label>Saturday delivery fee</label>
-                            <comment>This will be added to the regular shipping price</comment>
-                            <frontend_type>text</frontend_type>
-                            <validate>validate-number</validate>
-                            <sort_order>177</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <depends>
-                                <saturday_delivery_active>1</saturday_delivery_active>
-                            </depends>
-                        </saturday_delivery_fee>
                         <!-- Hide and toggle MyParcel options (used by parnis.nl) -->
                         <toggle_options translate="label" module="tig_myparcel">
                             <label>Toggle options</label>
@@ -313,6 +291,39 @@
                                 <signature_active>1</signature_active>
                             </depends>
                         </signature_fee>
+                        <saturday_delivery_active translate="label comment" module="tig_myparcel">
+                            <label>Saturday delivery</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>220</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </saturday_delivery_active>
+                        <saturday_delivery_title translate="label" module="tig_myparcel">
+                            <label>Saturday delivery title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>221</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <saturday_delivery_active>1</saturday_delivery_active>
+                            </depends>
+                        </saturday_delivery_title>
+                        <saturday_delivery_fee translate="label,comment" module="tig_myparcel">
+                            <label>Saturday delivery fee</label>
+                            <comment>This will be added to the regular shipping price</comment>
+                            <frontend_type>text</frontend_type>
+                            <validate>validate-number</validate>
+                            <sort_order>222</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <saturday_delivery_active>1</saturday_delivery_active>
+                            </depends>
+                        </saturday_delivery_fee>
                     </fields>
                 </delivery>
                 <pickup translate="label comment" module="tig_myparcel">

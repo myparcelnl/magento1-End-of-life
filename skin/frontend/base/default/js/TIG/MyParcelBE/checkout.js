@@ -32,23 +32,32 @@ var myParcelConfig = {
 
 };
 
-triggerPostalCode        = '#billing:postcode';
-triggerHouseNumber	 = '#billing:street2';
-triggerHouseNumberExtra  = '#billing:street3';
-triggerStreetName	 = '#billing:street1';
+/* Text and translations */
+txtWeekDays = [
+    'Zondag',
+    'Maandag',
+    'Dinsdag',
+    'Woensdag',
+    'Donderdag',
+    'Vrijdag',
+    'Zaterdag'
+];
+
+translateENtoNL = {
+    'monday'    : 'maandag',
+    'tuesday'   : 'dindsag',
+    'wednesday' : 'woensdag',
+    'thursday'  : 'donderdag',
+    'friday'    : 'vrijdag',
+    'saturday'  : 'zaterdag',
+    'sunday'    : 'zondag'
+};
 
 (function () {
 
     myParcelMethodInit = function () {
         console.info('myParcelMethodInit');
-
-        // jQuery.when(
-            MyParcel.setMagentoDataAndInit()
-        // ).done(function () {
-        //     console.log('MyParcel.init()');
-        //     MyParcel.init();
-        //     MyParcel.bind();
-        // });
+        MyParcel.setMagentoDataAndInit()
     };
 
 })();

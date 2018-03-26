@@ -1093,10 +1093,18 @@ class TIG_MyParcelBE_Helper_Data extends Mage_Core_Helper_Abstract
     public function getExtraPrice($method, $price)
     {
         $signatureFee = (float)$this->getConfig('signature_fee', 'delivery');
+        $saturdayFee = (float)$this->getConfig('saturday_delivery_fee', 'delivery');
         $pickupFee = (float)$this->getConfig('pickup_fee', 'pickup');
 
         switch ($method) {
             case ('delivery_signature'):
+                $price += $signatureFee;
+                break;
+            case ('saturday_delivery'):
+                $price += $saturdayFee;
+                break;
+            case ('saturday_delivery_signature'):
+                $price += $saturdayFee;
                 $price += $signatureFee;
                 break;
             case ('pickup'):

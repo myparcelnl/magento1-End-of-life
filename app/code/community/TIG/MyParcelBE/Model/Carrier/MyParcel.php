@@ -139,9 +139,12 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
 
         $deliveryTitle = $helper->getConfig('delivery_title', 'delivery');
         $signatureTitle = strtolower($helper->getConfig('signature_title', 'delivery'));
+        $saturdayTitle = $helper->getConfig('saturday_delivery_title', 'delivery');
 
         $methods = array(
             'delivery_signature' => $deliveryTitle . ' (' . $signatureTitle . ')',
+            'saturday_delivery' => $saturdayTitle,
+            'saturday_delivery_signature' => $saturdayTitle . ' (' . $signatureTitle . ')',
             'pickup' => $helper->getConfig('pickup_title', 'pickup'),
             'flatrate' => $this->getConfigData('name') . ' flat',
             'tablerate' => $this->getConfigData('name') . ' table',
@@ -185,12 +188,32 @@ class TIG_MyParcelBE_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrier_
             );
         }
 
+        /*
+         * Add pickup
+         */
         if ($request->getDestCountryId() == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC) {
             $this->addShippingRate($result, 'pickup', 'pickup', 'pickup');
         }
 
+        /*
+         * Add signature
+         */
         if ($request->getDestCountryId() == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC) {
             $this->addShippingRate($result, 'delivery', 'signature', 'delivery_signature');
+        }
+
+        /*
+         * Add saturday
+         */
+        if ($request->getDestCountryId() == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC) {
+            $this->addShippingRate($result, 'delivery', 'saturday_delivery', 'saturday_delivery');
+        }
+
+        /*
+         * Add saturday signature
+         */
+        if ($request->getDestCountryId() == TIG_MyParcelBE_Model_Carrier_MyParcel::LOCAL_CC) {
+            $this->addShippingRate($result, 'delivery', 'saturday_delivery', 'saturday_delivery_signature');
         }
 
         return $result;

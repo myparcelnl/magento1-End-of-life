@@ -60,38 +60,20 @@
 #mypa-delivery-selectors-be li {
     list-style-type: none;
     padding: 2px 0px 20px 0px;
-    height: 2em;
-}
-
-#mypa-delivery-option-form label,
-#mypa-delivery-selectors-be label {
-    display: inline-block;
-    width: 80%;
-    height: 2em;
-    font-size: smaller;
 }
 
 #mypa-delivery-selectors-be div {
-    display: inline-block;
+    /*display: inline-block;*/
     margin-top: 20px;
 }
 
 #mypa-pickup-location {
     width: 80%;
 }
-#mypa-pickup-location-selector {
-    margin: 50px 0 50px 0;
-}
-
-#mypa-pre-selectors, #mypa-pickup-selector, #mypa-delivery-selectors-be {
-    border-bottom: 1px solid black;
-    border-radius: 3px;
-}
 
 #mypa-pickup-selector li{
     margin: 0;
     display: inline-block;
-    height: 60px;
     width: 100%;
     padding: 5px 0px 2px 0px;
 }
@@ -113,11 +95,7 @@
 }
 
 .full-width {
-    display: inline-block;
-    width: 100%;
-    background-color: white;
-    margin-bottom: 1px;
-    padding-bottom: 2px;
+    display: block;
 }
 
 #mypa-location-details {
