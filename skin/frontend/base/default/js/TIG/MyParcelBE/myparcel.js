@@ -46,9 +46,9 @@ MyParcel = {
                             number: address['number'],
                             cutoffTime: data.general['cutoff_time'],
                             dropOffDays: data.general['dropoff_days'],
-                            allowBpostSaturdayDelivery: data.general['saterday_delivery_active'],
-                            priceBpostSaturdayDelivery: data.general['saterday_delivery_fee'],
-                            priceBpostAutograph: data.general['signature_fee'],
+                            allowBpostSaturdayDelivery: data.general['saturday_delivery_active'],
+                            priceBpostSaturdayDelivery: data.general['saturday_delivery_fee'],
+                            priceBpostAutograph: data.delivery['signature_fee'],
                             dropOffDelay: data.general['dropoff_delay'],
                             deliverydaysWindow: data.general['deliverydays_window'],
                             excludeDeliveryType: excludeDeliveryTypes.length > 0 ? excludeDeliveryTypes.join(';') : null,
@@ -196,6 +196,8 @@ MyParcel = {
         /* External webshop triggers */
         mypajQuery('#mypa-load').on('click', function () {
 
+            mypajQuery('#mypa-signed').prop('checked', false);
+
             /**
              * Signature
              */
@@ -204,6 +206,9 @@ MyParcel = {
                 mypajQuery('#mypa-method-signature-selector-be').prop('checked')
             ) {
                 mypajQuery('#s_method_myparcel_delivery_signature').click();
+
+                mypajQuery('#mypa-signed').prop('checked', true);
+                MyParcel.addDeliveryToMagentoInput();
                 return;
             }
 
@@ -215,6 +220,9 @@ MyParcel = {
                 mypajQuery('#mypa-method-signature-selector-be').prop('checked')
             ) {
                 mypajQuery('#s_method_myparcel_saturday_delivery_signature').click();
+
+                mypajQuery('#mypa-signed').prop('checked', true);
+                MyParcel.addDeliveryToMagentoInput();
                 return;
             }
 
@@ -226,6 +234,7 @@ MyParcel = {
                 mypajQuery('#mypa-method-signature-selector-be').prop('checked') === false
             ) {
                 mypajQuery('#s_method_myparcel_saturday_delivery').click();
+                MyParcel.addDeliveryToMagentoInput();
                 return;
             }
 
@@ -234,6 +243,8 @@ MyParcel = {
              */
             if (mypajQuery('#mypa-deliver-pickup-pickup').prop('checked')) {
                 mypajQuery('#s_method_myparcel_pickup').click();
+
+                MyParcel.addPickupToMagentoInput();
                 return;
             }
 
@@ -241,7 +252,19 @@ MyParcel = {
              * Normal
              */
             mypajQuery('#s_method_myparcel_flatrate, #s_method_myparcel_flatrate').click();
+            MyParcel.addDeliveryToMagentoInput();
         });
+    },
+
+    addPickupToMagentoInput: function () {
+        var locationId = mypajQuery('#mypa-pickup-location').val();
+        var currentLocation = MyParcel.getPickupByLocationId(MyParcel.storeDeliveryOptions.data.pickup, locationId);
+        mypajQuery('#mypa-data').val(JSON.stringify(currentLocation));
+    },
+
+    addDeliveryToMagentoInput: function () {
+        var currentLocation = MyParcel.storeDeliveryOptions.data.delivery[0];
+        mypajQuery('#mypa-data').val(JSON.stringify(currentLocation));
     },
 
     /*

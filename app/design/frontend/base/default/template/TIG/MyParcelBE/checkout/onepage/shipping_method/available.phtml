@@ -165,8 +165,8 @@ $useMyParcel = ($_shippingRateGroups && $country == 'BE');
                             </div>
                         </li>
                     </ul>
-                    <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
-                    <input style="display: none;" type="checkbox" name='mypa-signed' id="mypa-signed">
+                    <input style="/*display: none;*/" id="mypa-data" name="mypa-data">
+                    <input style="/*display: none;*/" type="checkbox" name='mypa-signed' id="mypa-signed">
                 </div>
             <?php endif; ?>
 
@@ -206,7 +206,6 @@ $useMyParcel = ($_shippingRateGroups && $country == 'BE');
     </script>
     <?php if ($useMyParcel) : ?>
         <script>
-            console.info('available.phtml');
             mypajQuery(document).ready(function () {
                 myParcelMethodInit();
             });

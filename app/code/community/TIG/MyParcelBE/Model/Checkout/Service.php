@@ -44,12 +44,12 @@ class TIG_MyParcelBE_Model_Checkout_Service
              */
             if (strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
-                if ($request->getPost('mypa-post-nl-data') == null) {
+                if ($request->getPost('mypa-data') == null) {
                     $quote->setMyparcelData(null)->save();
                     return true;
                 }
 
-                $data = json_decode($request->getPost('mypa-post-nl-data', ''), true);
+                $data = json_decode($request->getPost('mypa-data', ''), true);
 
                 if (key_exists('location', $data) && $data['location'] !== null) {
 
