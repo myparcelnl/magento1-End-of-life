@@ -60,6 +60,10 @@
                 <type>skin_js</type>
                 <file>js/TIG/MyParcelBE/myparcel.js</file>
             </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <file>css/TIG/MyParcelBE/myparcel_options.css</file>
+            </action>
         </reference>
 
         <reference name="checkout.onepage.shipping_method.available">
@@ -88,6 +92,10 @@
             <action method="addItem">
                 <type>skin_js</type>
                 <file>js/TIG/MyParcelBE/myparcel.js</file>
+            </action>
+            <action method="addItem">
+                <type>skin_css</type>
+                <file>css/TIG/MyParcelBE/myparcel_options.css</file>
             </action>
         </reference>
         <reference name="choose-shipping-method">
