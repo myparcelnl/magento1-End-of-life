@@ -278,6 +278,8 @@
             </checkout>
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
+                <adres_ophalen_title>Adres ophalen...</adres_ophalen_title>
+                <bezig_met_laden_title>Bezig met laden...</bezig_met_laden_title>
                 <only_recipient_active>1</only_recipient_active>
                 <only_recipient_title>Niet bij de buren bezorgen</only_recipient_title>
                 <only_recipient_fee>0.29</only_recipient_fee>

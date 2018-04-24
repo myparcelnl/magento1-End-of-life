@@ -38,12 +38,17 @@
 <body>
     <div id="myparcel-template">
 
-        <?php require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_custom_css.php'); ?>
-
+        <?php
+            require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_custom_css.php');
+            $textAdresOphalen = $helper->getConfig('adres_ophalen_title', 'delivery');
+            $bezigMetLaden = $helper->getConfig('bezig_met_laden_title', 'delivery');
+        ?>
+        <div id="bezig_met_laden_titel"><?php echo $bezigMetLaden?></div>
         <div id='mypa-delivery-options-container'>
             <div class="mypa-overlay">
-                <span id="mypa-no-options">Adres ophalen...</span>
+                <span id="mypa-no-options"><?php echo $textAdresOphalen?></span>
             </div>
+
             <div id="mypa-slider">
                 <!-- First frame -->
                 <div id="mypa-delivery-type-selection" class="mypa-tab-container mypa-slider-pos-0">
@@ -63,17 +68,14 @@
                         </div>
                         <div id='mypa-delivery-body'>
                             <div id='mypa-delivery-row' class='mypa-row-lg'>
-                                <input id='mypa-delivery-option-check' type="radio" name="mypa-delivery-type"
-                                       checked>
-                                <label id='mypa-delivery-options-title' class='mypa-row-title'
-                                       for="mypa-delivery-option-check">
+                                <input id='mypa-delivery-option-check' type="radio" name="mypa-delivery-type" checked>
+                                <label id='mypa-delivery-options-title' class='mypa-row-title' for="mypa-delivery-option-check">
                                     <div class="mypa-checkmark mypa-main">
                                         <div class="mypa-circle mypa-circle-checked"></div>
                                         <div class="mypa-checkmark-stem"></div>
                                         <div class="mypa-checkmark-kick"></div>
                                     </div>
-                                    <span
-                                            class="mypa-highlight"><?php echo $helper->getConfig('delivery_title', 'delivery'); ?></span>
+                                    <span class="mypa-highlight"><?php echo $helper->getConfig('delivery_title', 'delivery'); ?></span>
                                     <span id="mypa-global_delivery_price" class='mypa-price' style="display:none"></span>
                                 </label>
                                 <div id='mypa-delivery-options' class='mypa-content-lg'>
@@ -82,8 +84,7 @@
                             <?php if ($packageType == 2): ?>
                                 <div id='mypa-mailbox-row' class='mypa-row-lg' style="display:none">
                                     <input type="radio" name="mypa-delivery-type" id="mypa-mailbox-location">
-                                    <label id='mypa-mailbox-options-title' class='mypa-row-title'
-                                           for="mypa-mailbox-location">
+                                    <label id='mypa-mailbox-options-title' class='mypa-row-title' for="mypa-mailbox-location">
                                         <div class="mypa-checkmark mypa-main">
                                             <div class="mypa-circle"></div>
                                             <div class="mypa-checkmark-stem"></div>
@@ -100,15 +101,13 @@
                             <?php endif;?>
                             <div id='mypa-pickup-row' class='mypa-row-lg'>
                                 <input type="radio" name="mypa-delivery-type" id="mypa-pickup-location">
-                                <label id='mypa-pickup-options-title' class='mypa-row-title'
-                                       for="mypa-pickup-location">
+                                <label id='mypa-pickup-options-title' class='mypa-row-title' for="mypa-pickup-location">
                                     <div class="mypa-checkmark mypa-main">
                                         <div class="mypa-circle"></div>
                                         <div class="mypa-checkmark-stem"></div>
                                         <div class="mypa-checkmark-kick"></div>
                                     </div>
-                                    <span
-                                            class="mypa-highlight"><?php echo $helper->getConfig('pickup_title', 'pickup'); ?></span>
+                                    <span class="mypa-highlight"><?php echo $helper->getConfig('pickup_title', 'pickup'); ?></span>
                                     <span id="mypa-global_pickup_price" class='mypa-price' style="display:none"></span>
                                 </label>
                                 <div id='mypa-pickup-options-content' class='mypa-content-lg'>
@@ -151,9 +150,7 @@
                                     <span id='mypa-back-arrow'><b>AFHALEN </b><span
                                                 class="mypa-location-time"></span></span>
                         </div>
-                        <div id="mypa-location-container">
-
-                        </div>
+                        <div id="mypa-location-container"></div>
                     </div>
                 </div>
             </div>
