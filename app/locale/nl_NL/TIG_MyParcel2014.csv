@@ -69,6 +69,8 @@ TIG_MyParcel2014::Font size,Lettertypegrootte
 TIG_MyParcel2014::Leave blank to automatically determine the font size,Laat leeg om de lettertypegrootte automatisch te bepalen
 TIG_MyParcel2014::Delivery,Bezorging
 TIG_MyParcel2014::Delivery title,Bezorging titel
+TIG_MyParcel2014::Retrieve address title,Adres ophalen titel
+TIG_MyParcel2014::Busy loading title,Bezig met laden titel
 TIG_MyParcel2014::To determine the base price you have to navigate in the menu to <a id=""shipping_method_link"">Shipping Methods</a>.,Om de basisprijs te bepalen moet je navigeren naar <a id=""shipping_method_link"">Verzendmethodes</a>
 TIG_MyParcel2014::Deliver the package only at address of the intended recipient,Lever het pakket alleen aan het adres van de beoogde ontvanger.
 TIG_MyParcel2014::Home address only title,Alleen huisadres titel
