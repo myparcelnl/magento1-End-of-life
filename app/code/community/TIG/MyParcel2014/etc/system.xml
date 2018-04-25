@@ -270,6 +270,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </font_size>
+
                         <!-- Hide and toggle MyParcel options (used by parnis.nl) -->
                         <toggle_options translate="label" module="tig_myparcel">
                             <label>Toggle options</label>
@@ -300,6 +301,22 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </delivery_title>
+                        <retrieve_address_title translate="label" module="tig_myparcel">
+                            <label>Retrieve address Titel</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>155</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </retrieve_address_title>
+                        <busy_loading_title> translate="label" module="tig_myparcel">
+                            <label>Busy loading title</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>156</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </busy_loading_title>
                         <only_recipient_active translate="label" module="tig_myparcel">
                             <label>Home address only</label>
                             <comment>Deliver the package only at address of the intended recipient</comment>

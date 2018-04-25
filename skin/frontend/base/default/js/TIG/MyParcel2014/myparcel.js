@@ -203,7 +203,8 @@
             } else {
                 cutoff_time = settings.cutoff_time != null ? settings.cutoff_time : void 0
             }
-            $('#mypa-no-options').html('Bezig met laden...');
+
+            $('#mypa-no-options').text( $( '#busy_loading_title' ).html() );
             $('.mypa-overlay').removeClass('mypa-hidden');
             $('.mypa-location').html(street);
 
