@@ -73,6 +73,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * Shipment v2 endpoint active from x number of orders
      */
     const SHIPMENT_V2_ACTIVE_FROM = 25;
+    const MAX_STREET_LENGTH = 40;
 
     /**
      * @var string
@@ -708,8 +709,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             if ($phone)
                 $data['recipient']['phone'] = $phone;
 
-            unset($streetData['fullStreet']);
-            $data['recipient']['street'] = trim(str_replace('  ', ' ', implode(' ', $streetData)));
+            $streetParts = $this->getInternationalStreetParts($streetData);
+            $data['recipient']['street'] = $streetParts[0];
+	        if (isset($streetParts[1])) {
+		        $data['recipient']['street_additional_info'] = $streetParts[1];
+	        }
             unset($data['recipient']['number']);
             unset($data['recipient']['number_suffix']);
         }
@@ -1005,4 +1009,22 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         return implode(';',$aPositions);
     }
+
+	/**
+	 * Wraps a street to max street lenth
+	 *
+	 * @param $streetData
+	 *
+	 * @return array
+	 */
+	private function getInternationalStreetParts ($streetData)
+	{
+		unset($streetData['fullStreet']);
+
+		// replace double whitespaces
+		$street = trim( str_replace( '  ', ' ', implode( ' ', $streetData ) ) );
+
+		// split street in 2 parts
+		return explode("\n", wordwrap($street, self::MAX_STREET_LENGTH));
+	}
 }
