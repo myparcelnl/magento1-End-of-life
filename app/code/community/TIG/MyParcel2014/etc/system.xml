@@ -271,7 +271,6 @@
                             <show_in_store>1</show_in_store>
                         </font_size>
 
-
                         <!-- Hide and toggle MyParcel options (used by parnis.nl) -->
                         <toggle_options translate="label" module="tig_myparcel">
                             <label>Toggle options</label>
