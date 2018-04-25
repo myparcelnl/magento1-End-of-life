@@ -419,6 +419,9 @@ div.afhalen-right:hover + .mypa-opening-hours {
     cursor: pointer;
     margin-left: 10px;
 }
+#bezig_met_laden_titel{
+    display: none;
+}
 .mypa-pickup-selector input:checked ~ .mypa-highlight {
     color:gray;
 }

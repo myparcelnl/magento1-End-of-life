@@ -60,8 +60,8 @@ window.mypa.settings = {};
                             text: {
                                 signed: data.delivery.signature_title,
                                 only_recipient: data.delivery.only_recipient_title,
-                                adres_ophalen_title: data.delivery.adres_ophalen_title,
-                                bezig_met_laden_title: data.delivery.bezig_met_laden_title
+                                retrieve_address_title: data.delivery.retrieve_address_title,
+                                busy_loading_title: data.delivery.busy_loading_title
                             }
                         });
 

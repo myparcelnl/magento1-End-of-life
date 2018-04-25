@@ -40,13 +40,13 @@
 
         <?php
             require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_custom_css.php');
-            $textAdresOphalen = $helper->getConfig('adres_ophalen_title', 'delivery');
-            $bezigMetLaden = $helper->getConfig('bezig_met_laden_title', 'delivery');
+            $retrieveAddressTitle = $helper->getConfig('retrieve_address_title', 'delivery');
+            $busyLoadingTitle = $helper->getConfig('busy_loading_title', 'delivery');
         ?>
-        <div id="bezig_met_laden_titel"><?php echo $bezigMetLaden?></div>
+        <div id="bezig_met_laden_titel"><?php echo $busyLoadingTitle?></div>
         <div id='mypa-delivery-options-container'>
             <div class="mypa-overlay">
-                <span id="mypa-no-options"><?php echo $textAdresOphalen?></span>
+                <span id="mypa-no-options"><?php echo $retrieveAddressTitle?></span>
             </div>
 
             <div id="mypa-slider">
