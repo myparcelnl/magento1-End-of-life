@@ -59,7 +59,9 @@ window.mypa.settings = {};
                             price: price,
                             text: {
                                 signed: data.delivery.signature_title,
-                                only_recipient: data.delivery.only_recipient_title
+                                only_recipient: data.delivery.only_recipient_title,
+                                retrieve_address_title: data.delivery.retrieve_address_title,
+                                busy_loading_title: data.delivery.busy_loading_title
                             }
                         });
 
