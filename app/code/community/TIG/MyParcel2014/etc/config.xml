@@ -265,6 +265,7 @@
                 <insured_500>0</insured_500>
                 <customs_type>1</customs_type>
                 <customs_hstariffnr></customs_hstariffnr>
+                <prefix_street2_international_addresses>1</prefix_street2_international_addresses>
             </shipment>
             <checkout>
                 <deliverydays_window>5</deliverydays_window>
