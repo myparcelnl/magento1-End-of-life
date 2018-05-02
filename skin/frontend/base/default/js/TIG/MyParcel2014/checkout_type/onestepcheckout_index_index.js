@@ -66,6 +66,12 @@ function getMyParcelLatestData() {
     if(mypajQuery("input[id='billing:postcode_housenumber']").length && mypajQuery("input[id='billing:postcode_housenumber']").val().length){
         data += mypajQuery("input[id='billing:postcode_housenumber']").val();
     }
+    if(mypajQuery("input[id='shipping:postcode']").length && mypajQuery("input[id='shipping:postcode']").val().length){
+        data += mypajQuery("input[id='shipping:postcode']").val();
+    }
+    if(mypajQuery("input[id='shipping:postcode_housenumber']").length && mypajQuery("input[id='shipping:postcode_housenumber']").val().length){
+        data += mypajQuery("input[id='shipping:postcode_housenumber']").val();
+    }
     if(mypajQuery("input[id='billing:housenumber']").length && mypajQuery("input[id='billing:housenumber']").val().length){
         data += mypajQuery("input[id='billing:housenumber']").val();
     }
