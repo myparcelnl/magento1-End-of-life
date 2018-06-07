@@ -419,6 +419,9 @@ div.afhalen-right:hover + .mypa-opening-hours {
     cursor: pointer;
     margin-left: 10px;
 }
+#busy_loading_title{
+    display: none;
+}
 .mypa-pickup-selector input:checked ~ .mypa-highlight {
     color:gray;
 }
