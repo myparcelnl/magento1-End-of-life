@@ -40,7 +40,8 @@ MyParcel = {
                 }
 
                 var address = data['address'];
-                if (address && address['country'] === 'NL') {
+                console.log(address);
+                if (address && (address['country'] === 'NL' || (address['country'] === 'BE'))) {
 
                     if (address['street']) {
                         myParcelConfig = {
@@ -49,7 +50,7 @@ MyParcel = {
                                 street: address['street'],
                                 number: address['number'],
                                 postalCode: address['postal_code'].replace(/ /g, ""),
-                                city: address['country']
+                                city: address['city']
                             },
                             txtWeekDays: [
                                 'Zondag',
@@ -71,7 +72,6 @@ MyParcel = {
                             },
                             config: {
                                 "apiBaseUrl": "https://api.myparcel.nl/",
-                                "countryCode": "NL",
                                 "carrier": "1",
 
                                 "priceMorningDelivery": data.morningDelivery['fee'],
@@ -103,7 +103,6 @@ MyParcel = {
 
                         MyParcel.init(myParcelConfig);
 
-                    } else {
                     }
                 }
             }

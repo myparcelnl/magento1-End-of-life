@@ -78,6 +78,12 @@ function getMyParcelLatestData() {
     if(mypajQuery("input[id='shipping:housenumber']").length && mypajQuery("input[id='shipping:housenumber']").val().length){
         data += mypajQuery("input[id='shipping:housenumber']").val();
     }
+    if(mypajQuery("input[id='billing:city']").length && mypajQuery("input[id='billing:city']").val().length){
+        data += mypajQuery("input[id='billing:housenumber']").val();
+    }
+    if(mypajQuery("input[id='shipping:city']").length && mypajQuery("input[id='shipping:city']").val().length) {
+        data += mypajQuery("input[id='shipping:city']").val();
+    }
     if($('billing:country_id').length && $('billing:country_id').getValue()){
         data += $('billing:country_id').getValue();
     }
@@ -105,10 +111,12 @@ setTimeout(function () {
         "input[id='billing:street2']",
         "input[id='billing:postcode_housenumber']",
         "input[id='billing:postcode']",
+        "input[id='billing:city']",
         "input[id='shipping:street1']",
         "input[id='shipping:street2']",
         "input[id='shipping:postcode_housenumber']",
         "input[id='shipping:postcode']",
+        "input[id='shipping:city']",
         ".validate-select"
     ].join()).on('change', function () {
         myparcelSaveBilling();

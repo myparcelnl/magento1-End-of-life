@@ -151,6 +151,8 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
 
                 $address['street'] = $streetData['fullStreet'];
                 $address['number'] = $streetData['housenumber'];
+                $address['city'] = $quote->getBillingAddress()->getCity();
+
             }
         } else {
 			$address['full_street'] = $quote->getShippingAddress()->getStreetFull();
@@ -169,6 +171,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
 
                 $address['street'] = $streetData['fullStreet'];
                 $address['number'] = $streetData['housenumber'];
+                $address['city'] = $quote->getShippingAddress()->getCity();
             }
         }
         if (Mage::getSingleton('customer/session')->isLoggedIn() && !$address['full_street']) {
@@ -190,6 +193,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
 
                 $address['street'] = $streetData['fullStreet'];
                 $address['number'] = $streetData['housenumber'];
+                $address['city'] = $tmpAddress->getCity();
             }
         }
 
