@@ -105,7 +105,11 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
             $dateTime = strtotime($aMyParcelData['date'] . ' 00:00:00');
             $dropOffDate = $helper->getDropOffDay($dateTime);
             $sDropOff = date("Y-m-d", $dropOffDate);
-            if ($helper->getConfig('deliverydays_window', 'checkout') != 'hide' && $order->getShippingAddress()->getCountryId() != 'BE') {
+
+            if ($usePgAddress = $helper->getConfig('show_delivery_date_on_invoice') === '1' &&
+                $helper->getConfig('deliverydays_window', 'checkout') != 'hide' &&
+                $order->getShippingAddress()->getCountryId() != 'BE'
+            ) {
                 $methodDescription = $order->getShippingDescription();
                 $methodDescription .= ' ' . date("d-m-Y", $dateTime);
 
