@@ -149,6 +149,9 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
             </dd>
 
             <?php if ($code == 'myparcel' && $useMyParcel): ?>
+                <input style="/*display: none;*/" id="mypa-input" name="mypa-post-nl-data">
+                <input style="/*display: none;*/" type="checkbox" name='mypa-signed' id="mypa-signed">
+                <input style="/*display: none;*/" type="checkbox" name='mypa-recipient-only' id="mypa-recipient-only">
                 <div id="mypa-load">
                     <div id="mypa-spinner"></div>
                     <div class="mypa-massage-model">
