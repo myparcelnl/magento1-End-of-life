@@ -7,8 +7,6 @@ MyParcel = {
      */
     data: {},
     currentLocation: {},
-    currentDeliveryData: {},
-
 
     DELIVERY_MORNING: 'morning',
     DELIVERY_NORMAL: 'standard',
@@ -45,7 +43,6 @@ MyParcel = {
                 }
 
                 var address = data['address'];
-                console.log(address);
                 if (address && (address['country'] === 'NL' || (address['country'] === 'BE'))) {
 
                     if (address['street']) {
@@ -270,6 +267,7 @@ MyParcel = {
         mypajQuery('#mypa-pickup-delivery, #mypa-pickup-location').on('change', function(e){
             MyParcel.setCurrentLocation();
             MyParcel.toggleDeliveryOptions();
+            MyParcel.mapExternalWebshopTriggers();
         });
 
         mypajQuery('#mypa-select-date').on('change', function(e){
@@ -314,10 +312,8 @@ MyParcel = {
          * Normal delivery
          *
          */
-        if (mypajQuery('#method-myparcel-normal').prop('checked'))
+        if (mypajQuery('#mypa-pickup-delivery').prop('checked') === false && mypajQuery('#method-myparcel-normal').prop('checked'))
         {
-            mypajQuery('#s_method_myparcel_flatrate').click();
-
             /**
              * Signature and only recipient
              */
@@ -344,6 +340,8 @@ MyParcel = {
             {
                 mypajQuery('#s_method_myparcel_delivery_only_recipient').click();
                 mypajQuery('#mypa-recipient-only').prop('checked', true);
+            } else {
+                mypajQuery('#s_method_myparcel_flatrate, #s_method_myparcel_tablerate').click();
             }
 
             MyParcel.addDeliveryToMagentoInput(MyParcel.DELIVERY_NORMAL);
@@ -378,18 +376,18 @@ MyParcel = {
          */
         if (mypajQuery('#mypa-pickup-delivery').prop('checked') || mypajQuery('#mypa-pickup-selector').prop('checked'))
         {
-            mypajQuery('#s_method_myparcel_pickup').click();
-
             /**
              * Early morning pickup
              */
             if (mypajQuery('#mypa-pickup-express-selector').prop('checked'))
             {
                 mypajQuery('#s_method_myparcel_pickup_express').click();
+                MyParcel.addPickupToMagentoInput('retailexpress');
+                return;
             }
 
-            MyParcel.addPickupToMagentoInput('retailexpress');
-            return;
+            mypajQuery('#s_method_myparcel_pickup').click();
+            MyParcel.addPickupToMagentoInput('retail');
         }
     },
 
@@ -411,27 +409,31 @@ MyParcel = {
 
         var deliveryDateId = mypajQuery('#mypa-select-date').val();
 
-        MyParcel.setCurrentDelivery(deliveryDateId, deliveryMomentOfDay, false);
+        var currentDeliveryData = MyParcel.triggerDefaultOptionDelivery(deliveryDateId, deliveryMomentOfDay);
 
-        console.log('currentDeliveryData');
-        console.log(MyParcel.currentDeliveryData);
-
-        mypajQuery('#mypa-input').val(JSON.stringify(MyParcel.currentDeliveryData));
+        if (currentDeliveryData !== null) {
+            mypajQuery('#mypa-input').val(JSON.stringify(currentDeliveryData));
+        }
     },
 
-    setCurrentDelivery: function (deliveryDateId, deliveryMomentOfDay, loop) {
+    triggerDefaultOptionDelivery: function (deliveryDateId, deliveryMomentOfDay) {
+        var dateArray = MyParcel.data.deliveryOptions.data.delivery[deliveryDateId];
+        var currentDeliveryData = null;
 
-        MyParcel.currentDeliveryData = null;
-        mypajQuery.each(MyParcel.data.deliveryOptions.data.delivery[deliveryDateId]['time'], function(key, value) {
+        mypajQuery.each(dateArray['time'], function(key, value) {
             if (value.price_comment === deliveryMomentOfDay) {
-                MyParcel.currentDeliveryData = value;
+                currentDeliveryData = jQuery.extend({}, dateArray);
+                currentDeliveryData['time'] = [value];
             }
         });
 
-        if (MyParcel.currentDeliveryData === null && loop === false) {
-            MyParcel.setCurrentDelivery(deliveryDateId, MyParcel.DELIVERY_NORMAL, true);
-            mypajQuery('#method-myparcel-normal').prop('checked', true)
+        if (currentDeliveryData === null) {
+            mypajQuery('#mypa-only-recipient-selector').prop('disabled', false).prop('checked', false);
+            mypajQuery('#method-myparcel-normal').prop('checked', true);
+            MyParcel.mapExternalWebshopTriggers();
         }
+
+        return currentDeliveryData;
     },
 
     /*
