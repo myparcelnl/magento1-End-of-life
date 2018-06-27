@@ -8,6 +8,9 @@ MyParcel = {
     data: {},
     currentLocation: {},
 
+    DELIVERY_MORNING: 'morning',
+    DELIVERY_NORMAL: 'standard',
+    DELIVERY_NIGHT: 'avond',
 
     setMagentoDataAndInit: function () {
         var ajaxOptions = {
@@ -40,7 +43,6 @@ MyParcel = {
                 }
 
                 var address = data['address'];
-                console.log(address);
                 if (address && (address['country'] === 'NL' || (address['country'] === 'BE'))) {
 
                     if (address['street']) {
@@ -185,7 +187,6 @@ MyParcel = {
             }
 
         });
-
     },
     getDeliveryTime: function (configDeliveryTitel, deliveryMoment, deliveryTitel, startTime, endTime) {
         startTime = startTime.replace(/(.*)\D\d+/, '$1');
@@ -201,9 +202,9 @@ MyParcel = {
 
     setCurrentLocation: function () {
         var locationId 			= mypajQuery('#mypa-pickup-location').val();
-        this.currentLocation 	= MyParcel.storeDeliveryOptions.data.pickup[locationId];
-    },
+        this.currentLocation 	= this.getPickupByLocationId(MyParcel.storeDeliveryOptions.data.pickup, locationId);
 
+    },
     /*
      * Bind
      *
@@ -227,7 +228,7 @@ MyParcel = {
         });
 
         /* hide default delivery options and show PostNL options */
-        mypajQuery('#mypa-deliver-pickup-pickup').on('click', function(){
+        mypajQuery('#mypa-pickup-delivery').on('click', function(){
             MyParcel.hideDelivery();
             MyParcel.showPickUpLocations();
         });
@@ -263,14 +264,176 @@ MyParcel = {
         mypajQuery('#mypa-pickup-express').hide();  /* todo: move */
 
 
-        mypajQuery('#mypa-deliver-pickup-pickup, #mypa-pickup-location').on('change', function(e){
+        mypajQuery('#mypa-pickup-delivery, #mypa-pickup-location').on('change', function(e){
             MyParcel.setCurrentLocation();
             MyParcel.toggleDeliveryOptions();
+            MyParcel.mapExternalWebshopTriggers();
         });
 
         mypajQuery('#mypa-select-date').on('change', function(e){
             MyParcel.setCurrentDeliveryOptions();
+            MyParcel.mapExternalWebshopTriggers();
         });
+
+        /* External webshop triggers */
+        mypajQuery('#mypa-load').on('click', function () {
+
+           MyParcel.mapExternalWebshopTriggers()
+        });
+    },
+
+    mapExternalWebshopTriggers: function () {
+        mypajQuery('#mypa-signed').prop('checked', false);
+        mypajQuery('#mypa-recipient-only').prop('checked', false);
+
+        /**
+         * Morning delivery
+         *
+         */
+        if (mypajQuery('#method-myparcel-delivery-morning').prop('checked'))
+        {
+            mypajQuery('#s_method_myparcel_morning').click();
+            mypajQuery('#mypa-recipient-only').prop('checked', true);
+
+            /**
+             * Signature
+             */
+            if (mypajQuery('#mypa-signature-selector').prop('checked'))
+            {
+                mypajQuery('#s_method_myparcel_morning_signature').click();
+                mypajQuery('#mypa-signed').prop('checked', true);
+            }
+
+            MyParcel.addDeliveryToMagentoInput(MyParcel.DELIVERY_MORNING);
+            return;
+        }
+
+        /**
+         * Normal delivery
+         *
+         */
+        if (mypajQuery('#mypa-pickup-delivery').prop('checked') === false && mypajQuery('#method-myparcel-normal').prop('checked'))
+        {
+            /**
+             * Signature and only recipient
+             */
+            if (mypajQuery('#mypa-signature-selector').prop('checked') && mypajQuery('#mypa-only-recipient-selector').prop('checked'))
+            {
+                mypajQuery('#s_method_myparcel_delivery_signature_and_only_recipient_fee').click();
+                mypajQuery('#mypa-signed').prop('checked', true);
+                mypajQuery('#mypa-recipient-only').prop('checked', true);
+            } else
+
+            /**
+             * Signature
+             */
+            if (mypajQuery('#mypa-signature-selector').prop('checked'))
+            {
+                mypajQuery('#s_method_myparcel_delivery_signature').click();
+                mypajQuery('#mypa-signed').prop('checked', true);
+            } else
+
+            /**
+             * Only recipient
+             */
+            if (mypajQuery('#mypa-only-recipient-selector').prop('checked'))
+            {
+                mypajQuery('#s_method_myparcel_delivery_only_recipient').click();
+                mypajQuery('#mypa-recipient-only').prop('checked', true);
+            } else {
+                mypajQuery('#s_method_myparcel_flatrate, #s_method_myparcel_tablerate').click();
+            }
+
+            MyParcel.addDeliveryToMagentoInput(MyParcel.DELIVERY_NORMAL);
+            return;
+        }
+
+        /**
+         * Evening delivery
+         *
+         */
+        if (mypajQuery('#method-myparcel-delivery-evening').prop('checked'))
+        {
+            mypajQuery('#s_method_myparcel_evening').click();
+            mypajQuery('#mypa-recipient-only').prop('checked', true);
+
+            /**
+             * Signature
+             */
+            if (mypajQuery('#mypa-signature-selector').prop('checked'))
+            {
+                mypajQuery('#s_method_myparcel_evening_signature').click();
+                mypajQuery('#mypa-signed').prop('checked', true);
+            }
+
+            MyParcel.addDeliveryToMagentoInput(MyParcel.DELIVERY_NIGHT);
+            return;
+        }
+
+        /**
+         * Pickup
+         *
+         */
+        if (mypajQuery('#mypa-pickup-delivery').prop('checked') || mypajQuery('#mypa-pickup-selector').prop('checked'))
+        {
+            /**
+             * Early morning pickup
+             */
+            if (mypajQuery('#mypa-pickup-express-selector').prop('checked'))
+            {
+                mypajQuery('#s_method_myparcel_pickup_express').click();
+                MyParcel.addPickupToMagentoInput('retailexpress');
+                return;
+            }
+
+            mypajQuery('#s_method_myparcel_pickup').click();
+            MyParcel.addPickupToMagentoInput('retail');
+        }
+    },
+
+    addPickupToMagentoInput: function (selectedPriceComment) {
+        var locationId = mypajQuery('#mypa-pickup-location').val();
+        var currentLocation = MyParcel.getPickupByLocationId(MyParcel.storeDeliveryOptions.data.pickup, locationId);
+
+        var result = jQuery.extend({}, currentLocation);
+
+        /* If retail; convert retailexpress to retail */
+        if (selectedPriceComment === "retail") {
+            result.price_comment = "retail";
+        }
+
+        mypajQuery('#mypa-input').val(JSON.stringify(result));
+    },
+
+    addDeliveryToMagentoInput: function (deliveryMomentOfDay) {
+
+        var deliveryDateId = mypajQuery('#mypa-select-date').val();
+
+        var currentDeliveryData = MyParcel.triggerDefaultOptionDelivery(deliveryDateId, deliveryMomentOfDay);
+
+        if (currentDeliveryData !== null) {
+            mypajQuery('#mypa-input').val(JSON.stringify(currentDeliveryData));
+        }
+    },
+
+    triggerDefaultOptionDelivery: function (deliveryDateId, deliveryMomentOfDay) {
+        var dateArray = MyParcel.data.deliveryOptions.data.delivery[deliveryDateId];
+        var currentDeliveryData = null;
+
+        mypajQuery.each(dateArray['time'], function(key, value) {
+            if (value.price_comment === deliveryMomentOfDay) {
+                currentDeliveryData = jQuery.extend({}, dateArray);
+                currentDeliveryData['time'] = [value];
+            }
+        });
+
+        if (currentDeliveryData === null) {
+            mypajQuery('#mypa-only-recipient-selector').prop('disabled', false).prop('checked', false);
+            mypajQuery('#method-myparcel-normal').prop('checked', true);
+            MyParcel.mapExternalWebshopTriggers();
+        }
+
+        return currentDeliveryData;
     },
 
     /*
@@ -280,7 +443,7 @@ MyParcel = {
      *
      */
     defaultCheckCheckbox: function(selectedOption){
-        if(selectedOption == 'mypa-only-recipient'){
+        if(selectedOption === 'mypa-only-recipient'){
             mypajQuery('#mypa-only-recipient-selector').prop('checked', true).prop({disabled: true});
             mypajQuery('#mypa-only-recipient-price').html(' (Inclusief)');
         } else {
@@ -298,7 +461,8 @@ MyParcel = {
 
     toggleDeliveryOptions: function()
     {
-        var isPickup	= mypajQuery('#mypa-deliver-pickup-pickup').is(':checked');
+        var isPickup	= mypajQuery('#mypa-pickup-delivery').is(':checked');
+        mypajQuery('#mypa-pickup-selector').prop('checked', true);
 
         if(isPickup && this.currentLocation.price_comment === "retailexpress"){
             mypajQuery('#mypa-pickup-express-price').html(MyParcel.getPriceHtml(this.data.config.pricePickupExpress));
@@ -555,7 +719,7 @@ MyParcel = {
             var html = "";
             mypajQuery.each(MyParcel.data.deliveryOptions.data.pickup, function (key, value) {
                 var distance = parseFloat(Math.round(value.distance) / 1000).toFixed(2);
-                html += '<option value="' + key + '">' + value.location + ', ' + value.street + ' ' + value.number + ", " + value.city + " (" + distance + " KM) </option>\n";
+                html += '<option value="' + value.location_code + '">' + value.location + ', ' + value.street + ' ' + value.number + ", " + value.city + " (" + distance + " KM) </option>\n";
             });
             mypajQuery('#mypa-pickup-location').html(html).prop("checked", true);
             mypajQuery('#mypa-pickup-location-selector, #mypa-pickup-options, #mypa-pickup').show();
@@ -583,7 +747,10 @@ MyParcel = {
     showLocationDetails: function()
     {
         var html       		= "";
-        var startTime		= this.currentLocation.start_time;
+        var locationId 		= mypajQuery('#mypa-pickup-location').val();
+
+        var currentLocation = MyParcel.getPickupByLocationId(MyParcel.storeDeliveryOptions.data.pickup, locationId);
+        var startTime = currentLocation.start_time;
 
         /* Strip seconds if present */
         if(startTime.length > 5){
@@ -615,6 +782,25 @@ MyParcel = {
             });
 
         mypajQuery('#mypa-location-details').html(html).show();
+    },
+
+    /*
+     * getPickupByLocationId
+     *
+     * Find the location by id and return the object.
+     *
+     */
+    getPickupByLocationId: function (obj, locationId) {
+        var object;
+
+        mypajQuery.each(obj, function (key, info) {
+            if (info.location_code === locationId) {
+                object = info;
+                return false;
+            };
+        });
+
+        return object;
     },
 
     /*

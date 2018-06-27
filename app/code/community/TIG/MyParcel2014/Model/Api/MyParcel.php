@@ -887,7 +887,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     case 'standard':
                         $data['delivery_type'] = self::TYPE_STANDARD;
                         break;
-                    case 'night':
+                    case 'avond':
                         $data['delivery_type'] = self::TYPE_NIGHT;
                         break;
                 }
