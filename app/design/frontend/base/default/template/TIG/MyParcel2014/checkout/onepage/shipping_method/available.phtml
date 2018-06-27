@@ -175,10 +175,16 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                                 <label id="mypa-select-delivery-titel" for="mypa-select-delivery">Bezorgen op</label>
                                             </td>
                                         </tr>
+                                        <tr id="mypa-delivery-date-select">
+                                            <td></td>
+                                            <td colspan="2">
+                                                <select name="mypa-delivery-date-select" id="mypa-select-date" title="Delivery date"></select>
+                                            </td>
+                                        </tr>
                                         <tr id="mypa-delivery-date">
                                             <td></td>
                                             <td colspan="2">
-                                                <select name="mypa-delivery-date" id="mypa-select-date" title="Delivery date"></select>
+                                                <div name="mypa-delivery-date" id="mypa-date" title="Delivery date"> </div>
                                             </td>
                                         </tr>
                                         <tr id="method-myparcel-delivery-morning-div">
