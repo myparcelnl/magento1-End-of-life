@@ -84,9 +84,13 @@ MyParcel = {
                                 "pricePickupExpress": data.pickupExpress['fee'],
                                 "priceOnlyRecipient": data.delivery['only_recipient_fee'],
 
+                                "deliveryTitel":data.delivery['delivery_title'],
+                                "pickupTitel": data.pickup['title'],
                                 "deliveryMorningTitel":"Ochtendlevering",
                                 "deliveryStandardTitel":"Standaard levering",
                                 "deliveryEveningTitel":"Avondlevering",
+                                "signatureTitel": data.delivery['signature_title'],
+                                "onlyRecipientTitel": data.delivery['only_recipient_title'],
 
                                 "allowMondayDelivery": data.general['monday_delivery_active'] ? 1 : 0,
                                 "allowMorningDelivery": data.morningDelivery['active'],
@@ -120,6 +124,20 @@ MyParcel = {
         isMobile     = true;
         if(mypajQuery( window ).width() > 980 ) {
             isMobile = false;
+        }
+
+        /* Titels of the options*/
+        if (MyParcel.data.config.deliveryTitel){
+            mypajQuery('#mypa-delivery-titel').html(MyParcel.data.config.deliveryTitel);
+        }
+        if (MyParcel.data.config.onlyRecipientTitel){
+            mypajQuery('#mypa-only-recipient-titel').html(MyParcel.data.config.onlyRecipientTitel);
+        }
+        if (MyParcel.data.config.signatureTitel){
+            mypajQuery('#mypa-signature-titel').html(MyParcel.data.config.signatureTitel);
+        }
+        if (MyParcel.data.config.pickupTitel){
+            mypajQuery('#mypa-pickup-titel').html(MyParcel.data.config.pickupTitel);
         }
 
         /* Prices */
