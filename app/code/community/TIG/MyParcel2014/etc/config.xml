@@ -279,6 +279,7 @@
             </checkout>
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
+                <standarddelivery_titel></standarddelivery_titel>
                 <retrieve_address_title>Adres ophalen...</retrieve_address_title>
                 <busy_loading_title>Bezig met laden...</busy_loading_title>
                 <only_recipient_active>1</only_recipient_active>
@@ -294,10 +295,12 @@
             </mailbox>
             <morningdelivery>
                 <morningdelivery_active>1</morningdelivery_active>
+                <morningdelivery_titel></morningdelivery_titel>
                 <morningdelivery_fee>12.10</morningdelivery_fee>
             </morningdelivery>
             <eveningdelivery>
                 <eveningdelivery_active>1</eveningdelivery_active>
+                <eveningdelivery_titel></eveningdelivery_titel>
                 <eveningdelivery_fee>1.51</eveningdelivery_fee>
             </eveningdelivery>
             <pickup>
