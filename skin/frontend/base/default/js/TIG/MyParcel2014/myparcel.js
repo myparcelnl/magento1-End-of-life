@@ -84,11 +84,15 @@ MyParcel = {
                                 "pricePickupExpress": data.pickupExpress['fee'],
                                 "priceOnlyRecipient": data.delivery['only_recipient_fee'],
 
+                                "deliveryTitel":data.delivery['delivery_title'],
                                 "deliveryMorningTitel":"Ochtendlevering",
                                 "deliveryStandardTitel":"Standaard levering",
                                 "deliveryEveningTitel":"Avondlevering",
+                                "pickupTitel": data.pickup['title'],
+                                "signatureTitel": data.delivery['signature_title'],
+                                "onlyRecipientTitel": data.delivery['only_recipient_title'],
 
-                                "allowMondayDelivery": data.general['monday_delivery_active'] ? 1 : 0,
+                                "allowMondayDelivery": data.general['monday_delivery_active'],
                                 "allowMorningDelivery": data.morningDelivery['active'],
                                 "allowEveningDelivery": data.eveningDelivery['active'],
                                 "allowSignature": data.delivery['signature_active'],
@@ -98,7 +102,8 @@ MyParcel = {
                                 "dropOffDays": data.general['dropoff_days'],
                                 "saturdayCutoffTime": data.general['saturday_cutoff_time'],
                                 "cutoffTime": data.general['cutoff_time'],
-                                "deliverydaysWindow": data.general['deliverydays_window']
+                                "deliverydaysWindow": data.general['deliverydays_window'],
+                                "dropoffDelay":data.general['dropoff_delay']
                             }
                         }
 
@@ -119,6 +124,20 @@ MyParcel = {
         isMobile     = true;
         if(mypajQuery( window ).width() > 980 ) {
             isMobile = false;
+        }
+
+        /* Titels of the options*/
+        if (MyParcel.data.config.deliveryTitel){
+            mypajQuery('#mypa-delivery-titel').html(MyParcel.data.config.deliveryTitel);
+        }
+        if (MyParcel.data.config.onlyRecipientTitel){
+            mypajQuery('#mypa-only-recipient-titel').html(MyParcel.data.config.onlyRecipientTitel);
+        }
+        if (MyParcel.data.config.signatureTitel){
+            mypajQuery('#mypa-signature-titel').html(MyParcel.data.config.signatureTitel);
+        }
+        if (MyParcel.data.config.pickupTitel){
+            mypajQuery('#mypa-pickup-titel').html(MyParcel.data.config.pickupTitel);
         }
 
         /* Prices */
@@ -163,7 +182,7 @@ MyParcel = {
         }
 
         var selectedDate 	= mypajQuery('#mypa-select-date').val();
-        var selectDateKey 	=	MyParcel.storeDeliveryOptions.data.delivery[selectedDate]['time'];
+        var selectDateKey 	= MyParcel.storeDeliveryOptions.data.delivery[selectedDate]['time'];
 
         MyParcel.hideMorningDelivery();
         MyParcel.hideEveningDelivery();
@@ -532,9 +551,7 @@ MyParcel = {
 
     hideDelivery: function()
     {
-        mypajQuery('#mypa-delivery-date').hide();
-        mypajQuery('#mypa-pre-selectors-nl').hide();
-        mypajQuery('#mypa-delivery').hide();
+        mypajQuery('#mypa-delivery-date-select, #mypa-pre-selectors-nl, #mypa-delivery, #mypa-normal-delivery').hide();
         MyParcel.hideSignature();
         MyParcel.hideOnlyRecipient();
         MyParcel.hideMorningDelivery();
@@ -553,8 +570,7 @@ MyParcel = {
     {
         mypajQuery('#mypa-pre-selectors-' +      this.data.address.cc.toLowerCase()).show();
         mypajQuery('#mypa-delivery-selectors-' + this.data.address.cc.toLowerCase()).show();
-        mypajQuery('#mypa-delivery').show();
-        mypajQuery('#mypa-delivery-date').show();
+        mypajQuery('#mypa-delivery, #mypa-normal-delivery, #mypa-delivery-date-select').show();
 
         MyParcel.hideSignature();
         if(this.data.config.allowSignature){
@@ -661,16 +677,34 @@ MyParcel = {
     showDeliveryDates: function()
     {
         var html = "";
+        var deliveryWindow = parseInt(MyParcel.data.config.deliverydaysWindow);
 
         mypajQuery.each(MyParcel.data.deliveryOptions.data.delivery, function(key, value){
             html += '<option value="' + key + '">' + MyParcel.dateToString(value.date) + ' </option>\n';
         });
-        mypajQuery('#mypa-select-date').html(html);
+
+        /* Hide the day selector when the value of the deliverydaysWindow is 0*/
+        if (deliveryWindow === 0){
+            mypajQuery('#mypa-select-date').hide();
+        }
+
+        /* When deliverydaysWindow is 1, hide the day selector and show a div to show the date */
+        if (deliveryWindow === 1){
+            mypajQuery('#mypa-select-date').hide();
+            mypajQuery('#mypa-delivery-date-text').show();
+        }
+
+        /* When deliverydaysWindow > 1, show the day selector */
+        if (deliveryWindow > 1){
+            mypajQuery('#mypa-select-date').show();
+        }
+
+        mypajQuery('#mypa-select-date, #mypa-date').html(html);
     },
 
     hideDeliveryDates: function()
     {
-        mypajQuery('#mypa-delivery-date').parent().hide();
+        mypajQuery('#mypa-delivery-date-text').parent().hide();
     },
 
     /*
@@ -718,8 +752,8 @@ MyParcel = {
 
             var html = "";
             mypajQuery.each(MyParcel.data.deliveryOptions.data.pickup, function (key, value) {
-                var distance = parseFloat(Math.round(value.distance) / 1000).toFixed(2);
-                html += '<option value="' + value.location_code + '">' + value.location + ', ' + value.street + ' ' + value.number + ", " + value.city + " (" + distance + " KM) </option>\n";
+                var distance = parseFloat(Math.round(value.distance) / 1000).toFixed(1);
+                html += '<option value="' + value.location_code + '">' + value.location + ', ' + value.street + ' ' + value.number + ", " + value.city + " (" + distance + " km) </option>\n";
             });
             mypajQuery('#mypa-pickup-location').html(html).prop("checked", true);
             mypajQuery('#mypa-pickup-location-selector, #mypa-pickup-options, #mypa-pickup').show();
@@ -905,6 +939,13 @@ MyParcel = {
             return;
         }
 
+        /* Check if the deliverydaysWindow == 0 and hide the select input*/
+        this.deliveryDaysWindow = this.data.config.deliverydaysWindow;
+
+        if(this.deliveryDaysWindow === 0){
+            this.deliveryDaysWindow = 1;
+        }
+
         /* Make the api request */
         mypajQuery.get(this.data.config.apiBaseUrl + "delivery_options",
             {
@@ -915,8 +956,9 @@ MyParcel = {
                 carrier      			:this.data.config.carrier,
                 dropoff_days			:this.data.config.dropOffDays,
                 monday_delivery			:this.data.config.allowMondayDelivery,
-                deliverydays_window		:this.data.config.deliverydaysWindow,
-                cutoff_time 			:this.data.config.cutoffTime
+                deliverydays_window		:this.deliveryDaysWindow,
+                cutoff_time 			:this.data.config.cutoffTime,
+                dropoff_delay			:this.data.config.dropoffDelay
             })
             .done(function(response){
 

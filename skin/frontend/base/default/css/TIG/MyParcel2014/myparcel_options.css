@@ -1,4 +1,3 @@
-
 /*
  * Styling delivery options
  */
@@ -172,10 +171,17 @@
     vertical-align:top;
 }
 
-.mypa-massage-model {
+.mypa-message-model {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
+}
+#mypa-delivery-date-text{
+    display: none;
+}
+
+#mypa-list-postnl-pickup option{
+    padding: 5px 0px 5px 0px;
 }
 
 @keyframes mypa-spin {

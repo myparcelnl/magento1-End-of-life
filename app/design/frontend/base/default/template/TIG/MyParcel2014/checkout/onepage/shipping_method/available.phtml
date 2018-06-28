@@ -172,13 +172,19 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                                 <input name="mypa-deliver-or-pickup" id="mypa-select-delivery" value="mypa-deliver" type="radio">
                                             </td>
                                             <td colspan="2">
-                                                <label id="mypa-select-delivery-titel" for="mypa-select-delivery">Bezorgen op</label>
+                                                <label id="mypa-select-delivery-titel" for="mypa-select-delivery"><span id="mypa-delivery-titel"></span></label>
                                             </td>
                                         </tr>
-                                        <tr id="mypa-delivery-date">
+                                        <tr id="mypa-delivery-date-select">
                                             <td></td>
                                             <td colspan="2">
-                                                <select name="mypa-delivery-date" id="mypa-select-date" title="Delivery date"></select>
+                                                <select name="mypa-delivery-date-select" id="mypa-select-date" title="Delivery date"></select>
+                                            </td>
+                                        </tr>
+                                        <tr id="mypa-delivery-date-text">
+                                            <td></td>
+                                            <td colspan="2">
+                                                <div name="mypa-delivery-date-text" id="mypa-date" title="Delivery date"></div>
                                             </td>
                                         </tr>
                                         <tr id="method-myparcel-delivery-morning-div">
@@ -227,7 +233,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                             <td></td>
                                             <td id="mypa-signature" class=" mypa-extra-delivery-options-padding-top">
                                                 <input name="myparcel-signature-selector" id="mypa-signature-selector" type="checkbox" value="myparcel-signature-selector" >
-                                                <label for="mypa-signature-selector">Handtekening</label>
+                                                <label for="mypa-signature-selector"><span id="mypa-signature-titel"></span></label>
                                             </td>
                                             <td class="mypa-extra-delivery-options-padding-top">
                                                 <span id="mypa-signature-price"></span>
@@ -237,7 +243,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                             <td></td>
                                             <td id="mypa-only-recipient">
                                                 <input name="method-myparcel-only-recipient-selector" id="mypa-only-recipient-selector" type="checkbox" value="myparcel-only-recipient-selector" >
-                                                <label for="mypa-only-recipient-selector">Alleen geadresseerde</label>
+                                                <label for="mypa-only-recipient-selector"><span id="mypa-only-recipient-titel"></span></label>
                                             </td>
                                             <td>
                                                 <span id="mypa-only-recipient-price"></span>
@@ -248,7 +254,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                                 <input name="mypa-deliver-or-pickup" id="mypa-pickup-delivery" value="mypa-pickup" type="radio">
                                             </td>
                                             <td colspan="2">
-                                                <label for="mypa-pickup-delivery">Afhalen op locatie</label>
+                                                <label for="mypa-pickup-delivery"><span id="mypa-pickup-titel"></span></label>
                                             </td>
                                         </tr>
                                         <tr id="mypa-pickup-options" class="mypa-is-pickup-element">
