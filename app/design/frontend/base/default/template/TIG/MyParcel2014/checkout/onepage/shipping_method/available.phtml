@@ -201,7 +201,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                 <tr id="mypa-delivery-option method-myparcel-normal-div">
                                     <td></td>
                                     <td>
-                                        <div id="mypa-delivery">
+                                        <div id="mypa-delivery" class="mypa-delivery-option">
                                             <input name="shipping-method" id="method-myparcel-normal" type="radio" value="myparcel-normal">
                                             <label for="method-myparcel-normal"><span id="mypa-standard-titel"></span></label>
                                         </div>
@@ -229,8 +229,10 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                 <tr class="mypa-extra-delivery-option-signature">
                                     <td></td>
                                     <td id="mypa-signature" class=" mypa-extra-delivery-options-padding-top">
-                                        <input name="myparcel-signature-selector" id="mypa-signature-selector" type="checkbox" value="myparcel-signature-selector" >
-                                        <label for="mypa-signature-selector"><span id="mypa-signature-titel"></span></label>
+                                        <div class="mypa-delivery-option">
+                                            <input name="myparcel-signature-selector" id="mypa-signature-selector" type="checkbox" value="myparcel-signature-selector" >
+                                            <label for="mypa-signature-selector"><span id="mypa-signature-titel"></span></label>
+                                        </div>
                                     </td>
                                     <td class="mypa-extra-delivery-options-padding-top">
                                         <span id="mypa-signature-price"></span>
@@ -239,8 +241,10 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                 <tr class="mypa-extra-delivery-options">
                                     <td></td>
                                     <td id="mypa-only-recipient">
-                                        <input name="method-myparcel-only-recipient-selector" id="mypa-only-recipient-selector" type="checkbox" value="myparcel-only-recipient-selector" >
-                                        <label for="mypa-only-recipient-selector"><span id="mypa-only-recipient-titel"></span></label>
+                                        <div class="mypa-delivery-option">
+                                            <input name="method-myparcel-only-recipient-selector" id="mypa-only-recipient-selector" type="checkbox" value="myparcel-only-recipient-selector" >
+                                            <label for="mypa-only-recipient-selector"><span id="mypa-only-recipient-titel"></span></label>
+                                        </div>
                                     </td>
                                     <td>
                                         <span id="mypa-only-recipient-price"></span>
