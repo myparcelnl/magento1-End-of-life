@@ -85,14 +85,14 @@ MyParcel = {
                                 "priceOnlyRecipient": data.delivery['only_recipient_fee'],
 
                                 "deliveryTitel":data.delivery['delivery_title'],
-                                "pickupTitel": data.pickup['title'],
                                 "deliveryMorningTitel":"Ochtendlevering",
                                 "deliveryStandardTitel":"Standaard levering",
                                 "deliveryEveningTitel":"Avondlevering",
+                                "pickupTitel": data.pickup['title'],
                                 "signatureTitel": data.delivery['signature_title'],
                                 "onlyRecipientTitel": data.delivery['only_recipient_title'],
 
-                                "allowMondayDelivery": data.general['monday_delivery_active'] ? 1 : 0,
+                                "allowMondayDelivery": data.general['monday_delivery_active'],
                                 "allowMorningDelivery": data.morningDelivery['active'],
                                 "allowEveningDelivery": data.eveningDelivery['active'],
                                 "allowSignature": data.delivery['signature_active'],
@@ -684,12 +684,12 @@ MyParcel = {
         });
 
         /* Hide the day selector when the value of the deliverydaysWindow is 0*/
-        if (deliveryWindow == 0){
+        if (deliveryWindow === 0){
             mypajQuery('#mypa-select-date').hide();
         }
 
         /* When deliverydaysWindow is 1, hide the day selector and show a div to show the date */
-        if (deliveryWindow == 1){
+        if (deliveryWindow === 1){
             mypajQuery('#mypa-select-date').hide();
             mypajQuery('#mypa-delivery-date-text').show();
         }
@@ -942,7 +942,7 @@ MyParcel = {
         /* Check if the deliverydaysWindow == 0 and hide the select input*/
         this.deliveryDaysWindow = this.data.config.deliverydaysWindow;
 
-        if(this.deliveryDaysWindow === '0'){
+        if(this.deliveryDaysWindow === 0){
             this.deliveryDaysWindow = 1;
         }
 
