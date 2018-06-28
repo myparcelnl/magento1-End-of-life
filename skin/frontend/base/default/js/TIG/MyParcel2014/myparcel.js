@@ -752,8 +752,8 @@ MyParcel = {
 
             var html = "";
             mypajQuery.each(MyParcel.data.deliveryOptions.data.pickup, function (key, value) {
-                var distance = parseFloat(Math.round(value.distance) / 1000).toFixed(2);
-                html += '<option value="' + value.location_code + '">' + value.location + ', ' + value.street + ' ' + value.number + ", " + value.city + " (" + distance + " KM) </option>\n";
+                var distance = parseFloat(Math.round(value.distance) / 1000).toFixed(1);
+                html += '<option value="' + value.location_code + '">' + value.location + ', ' + value.street + ' ' + value.number + ", " + value.city + " (" + distance + " km) </option>\n";
             });
             mypajQuery('#mypa-pickup-location').html(html).prop("checked", true);
             mypajQuery('#mypa-pickup-location-selector, #mypa-pickup-options, #mypa-pickup').show();
