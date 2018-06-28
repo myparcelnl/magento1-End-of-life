@@ -48,6 +48,9 @@
     margin-top: 10px;
 }
 
+#mypa-delivery-option-form {
+    display: none;
+}
 
 #mypa-delivery-option-form label{
     display: inline-block;
@@ -131,8 +134,7 @@
 }
 
 #mypa-spinner {
-    position: absolute;
-    margin: 50px 0 0 125px;
+    margin: 50px 0 50px 125px;
     border: 16px solid #f3f3f3;
     border-top: 16px solid #000;
     border-radius: 50%;
