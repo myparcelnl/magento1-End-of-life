@@ -691,7 +691,7 @@ MyParcel = {
         /* When deliverydaysWindow is 1, hide the day selector and show a div to show the date */
         if (deliveryWindow == 1){
             mypajQuery('#mypa-select-date').hide();
-            mypajQuery('#mypa-delivery-date').show();
+            mypajQuery('#mypa-delivery-date-text').show();
         }
 
         /* When deliverydaysWindow > 1, show the day selector */
@@ -704,7 +704,7 @@ MyParcel = {
 
     hideDeliveryDates: function()
     {
-        mypajQuery('#mypa-delivery-date').parent().hide();
+        mypajQuery('#mypa-delivery-date-text').parent().hide();
     },
 
     /*
