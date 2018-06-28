@@ -320,7 +320,7 @@ TIG_MyParcel2014::Automate mailbox package,Brievenbuspakje automatiseren
 
 TIG_MyParcel2014::PostNL location:,PostNL locatie:
 TIG_MyParcel2014::deliver:,bezorgen:
+TIG_MyParcel2014::TYPE_night,Avondlevering
 TIG_MyParcel2014::TYPE_morning,Ochtendlevering
 TIG_MyParcel2014::TYPE_standard,Middaglevering
-TIG_MyParcel2014::TYPE_night,Avondlevering
 TIG_MyParcel2014::TYPE_retailexpress,Extra vroeg ophalen
