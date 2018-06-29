@@ -523,7 +523,7 @@ MyParcel = {
 
     hideMessage: function()
     {
-        mypajQuery('.mypa-massage-model').hide().html(' ');
+        mypajQuery('.mypa-message-model').hide().html(' ');
         mypajQuery('#mypa-delivery-option-form').show();
     },
 
@@ -536,7 +536,7 @@ MyParcel = {
 
     showMessage: function(message)
     {
-        mypajQuery('.mypa-massage-model').show();
+        mypajQuery('.mypa-message-model').show();
         mypajQuery('#mypa-message').html(message).show();
         mypajQuery('#mypa-delivery-option-form').hide();
 
@@ -592,7 +592,7 @@ MyParcel = {
 
     showSpinner: function()
     {
-        mypajQuery('.mypa-massage-model').hide();
+        mypajQuery('.mypa-message-model').hide();
         mypajQuery('#mypa-spinner').show();
     },
 
