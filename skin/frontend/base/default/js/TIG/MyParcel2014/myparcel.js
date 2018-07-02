@@ -86,7 +86,7 @@ MyParcel = {
 
                                 "deliveryTitel":data.delivery['delivery_title'],
                                 "deliveryMorningTitel":data.morningDelivery['morningdelivery_titel'],
-                                "deliveryStandardTitel":data.delivery['standarddelivery_titel'],
+                                "deliveryStandardTitel":data.delivery['standard_delivery_titel'],
                                 "deliveryEveningTitel":data.eveningDelivery['eveningdelivery_titel'],
                                 "pickupTitel": data.pickup['title'],
                                 "signatureTitel": data.delivery['signature_title'],
