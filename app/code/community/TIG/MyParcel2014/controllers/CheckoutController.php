@@ -114,14 +114,14 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $delivery['signature_and_only_recipient_fee'] =                $this->getShippingPrice($helper->getConfig('signature_and_only_recipient_fee', 'delivery'), $quote);
         $data['delivery'] = (object)$delivery;
 
-        $morningDelivery['active'] =                $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
-        $morningDelivery['morningdelivery_titel'] = $helper->getConfig('morningdelivery_titel', 'morningdelivery');
-        $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morningdelivery_fee', 'morningdelivery'), $quote));
+        $morningDelivery['active'] =                $helper->getConfig('morning_delivery_active', 'morning_delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $morningDelivery['morning_delivery_titel'] = $helper->getConfig('morning_delivery_titel', 'morning_delivery');
+        $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morning_delivery_fee', 'morning_delivery'), $quote));
         $data['morningDelivery'] = (object)$morningDelivery;
 
-        $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
-        $eveningDelivery['eveningdelivery_titel'] = $helper->getConfig('eveningdelivery_titel', 'eveningdelivery');
-        $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
+        $eveningDelivery['active'] =                $helper->getConfig('evening_delivery_active', 'evening_delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $eveningDelivery['evening_delivery_titel'] = $helper->getConfig('evening_delivery_titel', 'evening_delivery');
+        $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('evening_delivery_fee', 'evening_delivery'), $quote));
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
         if ($data['address']['country'] == 'NL') {

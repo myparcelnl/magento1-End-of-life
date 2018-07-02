@@ -85,9 +85,9 @@ MyParcel = {
                                 "priceOnlyRecipient": data.delivery['only_recipient_fee'],
 
                                 "deliveryTitel":data.delivery['delivery_title'],
-                                "deliveryMorningTitel":data.morningDelivery['morningdelivery_titel'],
+                                "deliveryMorningTitel":data.morningDelivery['morning_delivery_titel'],
                                 "deliveryStandardTitel":data.delivery['standard_delivery_titel'],
-                                "deliveryEveningTitel":data.eveningDelivery['eveningdelivery_titel'],
+                                "deliveryEveningTitel":data.eveningDelivery['evening_delivery_titel'],
                                 "pickupTitel": data.pickup['title'],
                                 "signatureTitel": data.delivery['signature_title'],
                                 "onlyRecipientTitel": data.delivery['only_recipient_title'],
