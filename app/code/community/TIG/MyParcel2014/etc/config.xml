@@ -298,11 +298,11 @@
                 <morning_delivery_titel></morning_delivery_titel>
                 <morning_delivery_fee>12.10</morning_delivery_fee>
             </morning_delivery>
-            <evening_delivery>
-                <evening_delivery_active>1</evening_delivery_active>
-                <evening_delivery_titel></evening_delivery_titel>
-                <evening_delivery_fee>1.51</evening_delivery_fee>
-            </evening_delivery>
+            <eveningdelivery>
+                <eveningdelivery_active>1</eveningdelivery_active>
+                <eveningdelivery_titel></eveningdelivery_titel>
+                <eveningdelivery_fee>1.51</eveningdelivery_fee>
+            </eveningdelivery>
             <pickup>
                 <pickup_active>1</pickup_active>
                 <pickup_title>Ophalen bij een PostNL locatie</pickup_title>

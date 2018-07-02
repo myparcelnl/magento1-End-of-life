@@ -119,9 +119,9 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morning_delivery_fee', 'morning_delivery'), $quote));
         $data['morningDelivery'] = (object)$morningDelivery;
 
-        $eveningDelivery['active'] =                $helper->getConfig('evening_delivery_active', 'evening_delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
-        $eveningDelivery['evening_delivery_titel'] = $helper->getConfig('evening_delivery_titel', 'evening_delivery');
-        $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('evening_delivery_fee', 'evening_delivery'), $quote));
+        $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $eveningDelivery['eveningdelivery_titel'] = $helper->getConfig('eveningdelivery_titel', 'eveningdelivery');
+        $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
         if ($data['address']['country'] == 'NL') {

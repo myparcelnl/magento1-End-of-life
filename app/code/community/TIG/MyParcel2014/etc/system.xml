@@ -520,14 +520,14 @@
                         </morning_delivery_fee>
                     </fields>
                 </morning_delivery>
-                <evening_delivery translate="label comment" module="tig_myparcel">
+                <eveningdelivery translate="label comment" module="tig_myparcel">
                     <label>Evening delivery</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <evening_delivery_active translate="label" module="tig_myparcel">
+                        <eveningdelivery_active translate="label" module="tig_myparcel">
                             <label>Evening delivery active</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
@@ -535,8 +535,8 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </evening_delivery_active>
-                        <evening_delivery_titel translate="label" module="tig_myparcel">
+                        </eveningdelivery_active>
+                        <eveningdelivery_titel translate="label" module="tig_myparcel">
                             <label>Evening delivery title</label>
                             <comment>The times will be visible when nothing is filled in</comment>
                             <frontend_type>text</frontend_type>
@@ -545,10 +545,10 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <depends>
-                                <evening_delivery_active>1</evening_delivery_active>
+                                <eveningdelivery_active>1</eveningdelivery_active>
                             </depends>
-                        </evening_delivery_titel>
-                        <evening_delivery_fee translate="label,comment" module="tig_myparcel">
+                        </eveningdelivery_titel>
+                        <eveningdelivery_fee translate="label,comment" module="tig_myparcel">
                             <label>Evening delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -558,11 +558,11 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <depends>
-                                <evening_delivery_active>1</evening_delivery_active>
+                                <eveningdelivery_active>1</eveningdelivery_active>
                             </depends>
-                        </evening_delivery_fee>
+                        </eveningdelivery_fee>
                     </fields>
-                </evening_delivery>
+                </eveningdelivery>
                 <pickup translate="label comment" module="tig_myparcel">
                     <label>Pickup at PostNL location</label>
                     <sort_order>20</sort_order>
