@@ -48,6 +48,9 @@
     margin-top: 10px;
 }
 
+#mypa-delivery-option-form {
+    display: none;
+}
 
 #mypa-delivery-option-form label{
     display: inline-block;
@@ -131,8 +134,7 @@
 }
 
 #mypa-spinner {
-    position: absolute;
-    margin: 50px 0 0 125px;
+    margin: 50px 0 50px 125px;
     border: 16px solid #f3f3f3;
     border-top: 16px solid #000;
     border-radius: 50%;
@@ -158,13 +160,13 @@
 .mypa-delivery-option-table {
     width: 100%;
 }
-.mypa-delivery-option-table input {
-    vertical-align:top;
-}
 
 .mypa-delivery-option-table tr td:first-child {
     white-space: nowrap;
-    width: 1px;
+    width: 20px;
+}
+.mypa-delivery-option input{
+    width: 20px;
 }
 .mypa-delivery-option-table tr td:last-child {
     white-space: nowrap;

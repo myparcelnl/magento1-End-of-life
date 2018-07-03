@@ -85,9 +85,9 @@ MyParcel = {
                                 "priceOnlyRecipient": data.delivery['only_recipient_fee'],
 
                                 "deliveryTitel":data.delivery['delivery_title'],
-                                "deliveryMorningTitel":"Ochtendlevering",
-                                "deliveryStandardTitel":"Standaard levering",
-                                "deliveryEveningTitel":"Avondlevering",
+                                "deliveryMorningTitel":data.morningDelivery['morning_delivery_titel'],
+                                "deliveryStandardTitel":data.delivery['standard_delivery_titel'],
+                                "deliveryEveningTitel":data.eveningDelivery['eveningdelivery_titel'],
                                 "pickupTitel": data.pickup['title'],
                                 "signatureTitel": data.delivery['signature_title'],
                                 "onlyRecipientTitel": data.delivery['only_recipient_title'],
@@ -523,7 +523,7 @@ MyParcel = {
 
     hideMessage: function()
     {
-        mypajQuery('.mypa-massage-model').hide().html(' ');
+        mypajQuery('.mypa-message-model').hide().html(' ');
         mypajQuery('#mypa-delivery-option-form').show();
     },
 
@@ -536,7 +536,7 @@ MyParcel = {
 
     showMessage: function(message)
     {
-        mypajQuery('.mypa-massage-model').show();
+        mypajQuery('.mypa-message-model').show();
         mypajQuery('#mypa-message').html(message).show();
         mypajQuery('#mypa-delivery-option-form').hide();
 
@@ -592,7 +592,7 @@ MyParcel = {
 
     showSpinner: function()
     {
-        mypajQuery('.mypa-massage-model').hide();
+        mypajQuery('.mypa-message-model').hide();
         mypajQuery('#mypa-spinner').show();
     },
 
