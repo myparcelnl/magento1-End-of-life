@@ -309,7 +309,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </retrieve_address_title>
-                        <busy_loading_title> translate="label" module="tig_myparcel">
+                        <busy_loading_title translate="label" module="tig_myparcel">
                             <label>Busy loading title</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>156</sort_order>
@@ -317,6 +317,15 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </busy_loading_title>
+                        <standard_delivery_titel translate="label" module="tig_myparcel">
+                            <label>Standard delivery title</label>
+                            <comment>The times will be visible when nothing is filled in</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>158</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </standard_delivery_titel>
                         <only_recipient_active translate="label" module="tig_myparcel">
                             <label>Home address only</label>
                             <comment>Deliver the package only at address of the intended recipient</comment>
@@ -456,14 +465,14 @@
                         </mailbox_fee>
                     </fields>
                 </mailbox>
-                <morningdelivery translate="label comment" module="tig_myparcel">
+                <morning_delivery translate="label comment" module="tig_myparcel">
                     <label>Morning delivery</label>
                     <sort_order>20</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <fields>
-                        <morningdelivery_active translate="label" module="tig_myparcel">
+                        <morning_delivery_active translate="label" module="tig_myparcel">
                             <label>Morning delivery active</label>
                             <frontend_type>select</frontend_type>
                             <source_model>tig_myparcel/system_config_source_yesno</source_model>
@@ -471,8 +480,20 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </morningdelivery_active>
-                        <morningdelivery_fee translate="label,comment" module="tig_myparcel">
+                        </morning_delivery_active>
+                        <morning_delivery_titel translate="label" module="tig_myparcel">
+                            <label>Morning delivery title</label>
+                            <comment>The times will be visible when nothing is filled in</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <morning_delivery_active>1</morning_delivery_active>
+                            </depends>
+                        </morning_delivery_titel>
+                        <morning_delivery_fee translate="label,comment" module="tig_myparcel">
                             <label>Morning delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>
                             <frontend_type>text</frontend_type>
@@ -482,11 +503,11 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                             <depends>
-                                <morningdelivery_active>1</morningdelivery_active>
+                                <morning_delivery_active>1</morning_delivery_active>
                             </depends>
-                        </morningdelivery_fee>
+                        </morning_delivery_fee>
                     </fields>
-                </morningdelivery>
+                </morning_delivery>
                 <eveningdelivery translate="label comment" module="tig_myparcel">
                     <label>Evening delivery</label>
                     <sort_order>20</sort_order>
@@ -503,6 +524,18 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </eveningdelivery_active>
+                        <eveningdelivery_titel translate="label" module="tig_myparcel">
+                            <label>Evening delivery title</label>
+                            <comment>The times will be visible when nothing is filled in</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>105</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <eveningdelivery_active>1</eveningdelivery_active>
+                            </depends>
+                        </eveningdelivery_titel>
                         <eveningdelivery_fee translate="label,comment" module="tig_myparcel">
                             <label>Evening delivery fee</label>
                             <comment>This will be added to the regular shipping price</comment>

@@ -207,5 +207,5 @@ TIG_MyParcel2014::status_99,Inactive - Unknown
 TIG_MyParcel2014::PostNL location:,to PostNL location:
 TIG_MyParcel2014::deliver:,deliver:
 TIG_MyParcel2014::TYPE_morning,Morning
-TIG_MyParcel2014::TYPE_avond,Avondlevering
+TIG_MyParcel2014::TYPE_night,Avondlevering
 TIG_MyParcel2014::TYPE_retailexpress,Extra vroeg ophalen
