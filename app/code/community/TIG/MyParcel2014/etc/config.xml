@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.16.0</version>
+            <version>1.17.0</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -250,7 +250,6 @@
                 <print_orientation>A4</print_orientation>
                 <always_myparcel>1</always_myparcel>
                 <pakjegemak_use_shipment_address>1</pakjegemak_use_shipment_address>
-                <show_delivery_date_on_invoice>1</show_delivery_date_on_invoice>
                 <myparcel_shipping_methods>tig_myparcel_flatrate,myparcel_flatrate,tig_myparcel_tablerate,myparcel_tablerate,tig_myparcel_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
                 <use_filter>0</use_filter>
                 <ssl_handshake>0</ssl_handshake>
@@ -280,6 +279,7 @@
             </checkout>
             <delivery>
                 <delivery_title>Thuis of op het werk bezorgd</delivery_title>
+                <standard_delivery_titel></standard_delivery_titel>
                 <retrieve_address_title>Adres ophalen...</retrieve_address_title>
                 <busy_loading_title>Bezig met laden...</busy_loading_title>
                 <only_recipient_active>1</only_recipient_active>
@@ -293,12 +293,14 @@
             <mailbox>
                 <mailbox_with_other_options>1</mailbox_with_other_options>
             </mailbox>
-            <morningdelivery>
-                <morningdelivery_active>1</morningdelivery_active>
-                <morningdelivery_fee>12.10</morningdelivery_fee>
-            </morningdelivery>
+            <morning_delivery>
+                <morning_delivery_active>1</morning_delivery_active>
+                <morning_delivery_titel></morning_delivery_titel>
+                <morning_delivery_fee>12.10</morning_delivery_fee>
+            </morning_delivery>
             <eveningdelivery>
                 <eveningdelivery_active>1</eveningdelivery_active>
+                <eveningdelivery_titel></eveningdelivery_titel>
                 <eveningdelivery_fee>1.51</eveningdelivery_fee>
             </eveningdelivery>
             <pickup>

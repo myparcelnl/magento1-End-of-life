@@ -113,6 +113,9 @@ MyParcel = {
     init: function(externalData)
     {
         this.data = externalData;
+        if (mypajQuery('#s_method_myparcel_mailbox').length > 0) {
+            return;
+        }
 
         isMobile     = true;
         if(mypajQuery( window ).width() > 980 ) {
