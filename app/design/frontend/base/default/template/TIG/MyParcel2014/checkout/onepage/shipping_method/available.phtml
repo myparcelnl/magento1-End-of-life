@@ -150,8 +150,6 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
 
             <?php if ($code == 'myparcel' && $useMyParcel): ?>
                 <input style="display: none;" id="mypa-input" name="mypa-post-nl-data">
-                <input style="display: none;" type="checkbox" name='mypa-signed' id="mypa-signed">
-                <input style="display: none;" type="checkbox" name='mypa-recipient-only' id="mypa-recipient-only">
                 <div id="mypa-load">
                     <div id="mypa-spinner"></div>
                     <div class="mypa-message-model">
@@ -161,8 +159,8 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                         <div id="mypa-delivery-option-form">
                             <table class="mypa-delivery-option-table">
                                 <tbody>
-                                <tr id="mypa-send-per-carrier">
-                                    <td id="mypa-txt-send-per-carrier" colspan="3">Bezorgopties</td>
+                                <tr>
+                                    <td id="mypa-send-per-carrier" colspan="3">Bezorgopties</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -194,11 +192,11 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                     </td>
                                     <td>
                                         <div class="mypa-delivery-option">
-                                            <span id="mypa-morning-delivery"></span>
+                                            <label for="method-myparcel-delivery-morning"><span id="mypa-morning-delivery"></span></label>
                                         </div>
                                     </td>
                                 </tr>
-                                <tr id="mypa-delivery-option method-myparcel-normal-div">
+                                <tr>
                                     <td></td>
                                     <td>
                                         <div id="mypa-delivery" class="mypa-delivery-option">
@@ -208,7 +206,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                     </td>
                                     <td>
                                         <div class="mypa-delivery-option">
-                                            <span id="mypa-normal-delivery"></span>
+                                            <label for="method-myparcel-normal"><span id="mypa-normal-delivery"></span></label>
                                         </div>
                                     </td>
                                 </tr>
@@ -222,32 +220,32 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                     </td>
                                     <td>
                                         <div class="mypa-delivery-option">
-                                            <span id="mypa-evening-delivery"> </span>
+                                            <label for="method-myparcel-delivery-evening"><span id="mypa-evening-delivery"></span></label>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr class="mypa-extra-delivery-option-signature">
                                     <td></td>
-                                    <td id="mypa-signature" class=" mypa-extra-delivery-options-padding-top">
+                                    <td id="mypa-signature" class="mypa-extra-delivery-options-padding-top">
                                         <div class="mypa-delivery-option">
                                             <input name="myparcel-signature-selector" id="mypa-signature-selector" type="checkbox" value="myparcel-signature-selector" >
                                             <label for="mypa-signature-selector"><span id="mypa-signature-titel"></span></label>
                                         </div>
                                     </td>
                                     <td class="mypa-extra-delivery-options-padding-top">
-                                        <span id="mypa-signature-price"></span>
+                                        <label for="mypa-signature-selector"><span id="mypa-signature-price"></span></label>
                                     </td>
                                 </tr>
-                                <tr class="mypa-extra-delivery-options">
+                                <tr>
                                     <td></td>
-                                    <td id="mypa-only-recipient">
+                                    <td id="mypa-only-recipient" class="mypa-extra-delivery-options-padding-bottom">
                                         <div class="mypa-delivery-option">
                                             <input name="method-myparcel-only-recipient-selector" id="mypa-only-recipient-selector" type="checkbox" value="myparcel-only-recipient-selector" >
                                             <label for="mypa-only-recipient-selector"><span id="mypa-only-recipient-titel"></span></label>
                                         </div>
                                     </td>
                                     <td>
-                                        <span id="mypa-only-recipient-price"></span>
+                                        <label for="mypa-only-recipient-selector"><span id="mypa-only-recipient-price"></span></label>
                                     </td>
                                 </tr>
                                 <tr id="mypa-pickup-location-selector" class="mypa-is-pickup-element">
@@ -274,7 +272,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                         <label for="mypa-pickup-selector">Ophalen vanaf 15:00</label>
                                     </td>
                                     <td>
-                                        <span id="mypa-pickup-price"></span>
+                                        <label for="mypa-pickup-selector"><span id="mypa-pickup-price"></span></label>
                                     </td>
                                 </tr>
                                 <tr id="mypa-pickup-express" class="mypa-is-pickup-element">
@@ -284,7 +282,7 @@ $toggleOptions = $helper->getConfig('toggle_options', 'checkout') == '1' ? true 
                                         <label for="mypa-pickup-express-selector">Ophalen vanaf 09:00</label>
                                     </td>
                                     <td>
-                                        <span id="mypa-pickup-express-price"></span>
+                                        <label for="mypa-pickup-express-selector"><span id="mypa-pickup-express-price"></span></label>
                                     </td>
                                 </tr>
 
