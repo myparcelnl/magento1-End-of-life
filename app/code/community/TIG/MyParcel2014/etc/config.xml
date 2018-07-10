@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.16.0</version>
+            <version>1.17.0</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -250,7 +250,6 @@
                 <print_orientation>A4</print_orientation>
                 <always_myparcel>1</always_myparcel>
                 <pakjegemak_use_shipment_address>1</pakjegemak_use_shipment_address>
-                <show_delivery_date_on_invoice>1</show_delivery_date_on_invoice>
                 <myparcel_shipping_methods>tig_myparcel_flatrate,myparcel_flatrate,tig_myparcel_tablerate,myparcel_tablerate,tig_myparcel_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
                 <use_filter>0</use_filter>
                 <ssl_handshake>0</ssl_handshake>
