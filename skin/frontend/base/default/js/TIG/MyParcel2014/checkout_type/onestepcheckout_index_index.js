@@ -46,7 +46,7 @@ function myparcelSaveBilling() {
                 latestData = currentData;
             }
         }
-        , 300);
+        , 1000);
 }
 
 function getMyParcelLatestData() {
