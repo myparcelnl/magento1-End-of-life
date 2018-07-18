@@ -322,6 +322,11 @@ MyParcel = {
         MyParcel.DELIVERY_ONLY_RECIPIENT = 0;
         MyParcel.removeStyleFromPrice();
 
+        if (typeof MyParcel.data.deliveryOptions === 'undefined') {
+            console.info('MyParcel.data.deliveryOptions not found');
+            return;
+        }
+
         /**
          * Morning delivery
          *
