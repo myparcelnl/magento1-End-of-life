@@ -21,6 +21,16 @@ MyParcel = {
 
                 data = response.data;
 
+                var address = data['address'];
+
+                if (!address || !address['number']) {
+
+                    MyParcel.showMessage(
+                        '<h3>Adres gegevens zijn niet ingevuld</h3>'
+                    );
+                    return;
+                }
+
                 price = [];
 
                 price['default'] = '&#8364; ' + data.general['base_price'].toFixed(2).replace(".", ",");
@@ -567,6 +577,7 @@ MyParcel = {
 
     showMessage: function(message)
     {
+        MyParcel.hideSpinner();
         mypajQuery('.mypa-message-model').show();
         mypajQuery('#mypa-message').html(message).show();
         mypajQuery('#mypa-delivery-option-form').hide();
@@ -967,10 +978,11 @@ MyParcel = {
         var number 			= this.data.address.number;
         var city 			= this.data.address.city;
 
-        if (postalCode == '' || number == ''){
+        if (!number || !postalCode){
             MyParcel.showMessage(
                 '<h3>Adres gegevens zijn niet ingevuld</h3>'
             );
+            return;
         }
         if (cc === "BE") {
             var numberExtra 	= this.data.address.numberExtra;
@@ -979,12 +991,6 @@ MyParcel = {
 
         if(numberExtra){
             number = number + numberExtra;
-        }
-
-        /* Don't call API unless both Postcode and House Number are set */
-        if(!number || !postalCode) {
-            MyParcel.showFallBackDelivery();
-            return;
         }
 
         /* Check if the deliverydaysWindow == 0 and hide the select input*/
