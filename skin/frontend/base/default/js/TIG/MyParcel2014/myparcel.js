@@ -26,7 +26,7 @@ MyParcel = {
                 if (!address || !address['number']) {
 
                     MyParcel.showMessage(
-                        '<h3>Adres gegevens zijn niet ingevuld</h3>'
+                        '<h3>Adresgegevens zijn niet ingevuld</h3>'
                     );
                     return;
                 }
