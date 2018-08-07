@@ -593,7 +593,7 @@ MyParcel = {
     showSpinner: function()
     {
         mypajQuery('.mypa-message-model').hide();
-        mypajQuery('#mypa-spinner').show();
+        mypajQuery('#mypa-spinner-model').show();
     },
 
 
@@ -606,7 +606,7 @@ MyParcel = {
 
     hideSpinner: function()
     {
-        mypajQuery('#mypa-spinner').hide();
+        mypajQuery('#mypa-spinner-model').hide();
     },
 
     showMorningDelivery: function()
