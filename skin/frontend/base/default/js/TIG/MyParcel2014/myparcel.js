@@ -551,7 +551,7 @@ MyParcel = {
 
     hideDelivery: function()
     {
-        mypajQuery('#mypa-delivery-date-select, #mypa-pre-selectors-nl, #mypa-delivery, #mypa-normal-delivery').hide();
+        mypajQuery('#mypa-delivery-date-select, #mypa-pre-selectors-nl, #mypa-delivery-date-text, #mypa-delivery, #mypa-normal-delivery').hide();
         MyParcel.hideSignature();
         MyParcel.hideOnlyRecipient();
         MyParcel.hideMorningDelivery();
@@ -704,7 +704,7 @@ MyParcel = {
 
     hideDeliveryDates: function()
     {
-        mypajQuery('#mypa-delivery-date-text').parent().hide();
+        mypajQuery('#mypa-delivery-date-text').hide();
     },
 
     /*
@@ -880,14 +880,14 @@ MyParcel = {
     showRetry: function()
     {
         MyParcel.showMessage(
-            '<h3>Huisnummer/postcode combinatie onbekend</h3>' +
+            '<h4>Huisnummer/postcode combinatie onbekend</h4>' +
             '<div class="mypa-full-width mypa-error">'+
             '<label for="mypa-error-postcode">Postcode</label>' +
             '<input type="text" name="mypa-error-postcode" id="mypa-error-postcode" value="'+ MyParcel.data.address.postalCode +'">' +
             '</div><div class="mypa-full-width mypa-error">' +
             '<label for="mypa-error-number">Huisnummer</label>' +
             '<input type="text" name="mypa-error-number" id="mypa-error-number" value="'+ MyParcel.data.address.number +'">' +
-            '<br><button id="mypa-error-try-again">Opnieuw</button>' +
+            '<br><div id="mypa-error-try-again" class="button btn">Opnieuw</div>' +
             '</div>'
         );
 
@@ -942,7 +942,7 @@ MyParcel = {
         /* Check if the deliverydaysWindow == 0 and hide the select input*/
         this.deliveryDaysWindow = this.data.config.deliverydaysWindow;
 
-        if(this.deliveryDaysWindow === 0){
+        if(this.deliveryDaysWindow <= 0){
             this.deliveryDaysWindow = 1;
         }
 
