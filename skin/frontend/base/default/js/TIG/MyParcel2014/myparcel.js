@@ -7,6 +7,7 @@ MyParcel = {
      */
     data: {},
     currentLocation: {},
+    magentoRequest: null,
 
     DELIVERY_MORNING: 'morning',
     DELIVERY_NORMAL: 'standard',
@@ -43,6 +44,14 @@ MyParcel = {
                 }
 
                 var address = data['address'];
+
+                if (null === address['full_street'] || address['postal_code'] === '' || address['number'] === ''){
+                    MyParcel.showMessage(
+                        '<h3>Adres is nog niet volledig</h3>'
+                    );
+                    return;
+                }
+
                 if (address && (address['country'] === 'NL' || (address['country'] === 'BE'))) {
 
                     if (address['street']) {
@@ -105,7 +114,7 @@ MyParcel = {
                                 "deliverydaysWindow": data.general['deliverydays_window'],
                                 "dropoffDelay":data.general['dropoff_delay']
                             }
-                        }
+                        };
 
 
                         MyParcel.init(myParcelConfig);
@@ -114,7 +123,11 @@ MyParcel = {
                 }
             }
         };
-        jQuery.ajax(ajaxOptions);
+
+        if (null !== MyParcel.magentoRequest) {
+            MyParcel.magentoRequest.abort();
+        }
+        MyParcel.magentoRequest = jQuery.ajax(ajaxOptions);
     },
 
     init: function(externalData)
@@ -523,7 +536,7 @@ MyParcel = {
 
     hideMessage: function()
     {
-        mypajQuery('.mypa-message-model').hide().html(' ');
+        mypajQuery('.mypa-message-model').hide();
         mypajQuery('#mypa-delivery-option-form').show();
     },
 
@@ -539,6 +552,7 @@ MyParcel = {
         mypajQuery('.mypa-message-model').show();
         mypajQuery('#mypa-message').html(message).show();
         mypajQuery('#mypa-delivery-option-form').hide();
+        MyParcel.hideSpinner();
 
     },
 
@@ -748,7 +762,7 @@ MyParcel = {
 
     showPickUpLocations: function()
     {
-        if(MyParcel.data.config.allowPickupPoints) {
+        if (MyParcel.data.config.allowPickupPoints && typeof MyParcel.data.deliveryOptions !== 'undefined') {
 
             var html = "";
             mypajQuery.each(MyParcel.data.deliveryOptions.data.pickup, function (key, value) {
