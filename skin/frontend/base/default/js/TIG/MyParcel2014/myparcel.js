@@ -435,6 +435,9 @@ MyParcel = {
         }
 
         mypajQuery('#mypa-input').val(JSON.stringify(result));
+        if (typeof window.mypa != 'undefined') {
+            window.mypa.fn.fnCheckout.saveShippingMethod();
+        }
     },
 
     addDeliveryToMagentoInput: function (deliveryMomentOfDay) {
@@ -445,6 +448,9 @@ MyParcel = {
 
         if (currentDeliveryData !== null) {
             mypajQuery('#mypa-input').val(JSON.stringify(currentDeliveryData));
+        }
+        if (typeof window.mypa != 'undefined') {
+            window.mypa.fn.fnCheckout.saveShippingMethod();
         }
     },
 
