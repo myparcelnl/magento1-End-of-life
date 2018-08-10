@@ -7,6 +7,7 @@ MyParcel = {
      */
     data: {},
     currentLocation: {},
+    magentoRequest: null,
 
     DELIVERY_MORNING: 'morning',
     DELIVERY_NORMAL: 'standard',
@@ -55,6 +56,14 @@ MyParcel = {
                 }
 
                 var address = data['address'];
+
+                if (null === address['full_street'] || address['postal_code'] === '' || address['number'] === ''){
+                    MyParcel.showMessage(
+                        '<h3>Adres is nog niet volledig</h3>'
+                    );
+                    return;
+                }
+
                 if (address && (address['country'] === 'NL' || (address['country'] === 'BE'))) {
 
                     if (address['street']) {
@@ -117,7 +126,7 @@ MyParcel = {
                                 "deliverydaysWindow": data.general['deliverydays_window'],
                                 "dropoffDelay":data.general['dropoff_delay']
                             }
-                        }
+                        };
 
 
                         MyParcel.init(myParcelConfig);
@@ -126,7 +135,11 @@ MyParcel = {
                 }
             }
         };
-        jQuery.ajax(ajaxOptions);
+
+        if (null !== MyParcel.magentoRequest) {
+            MyParcel.magentoRequest.abort();
+        }
+        MyParcel.magentoRequest = jQuery.ajax(ajaxOptions);
     },
 
     init: function(externalData)
@@ -458,6 +471,9 @@ MyParcel = {
         }
 
         mypajQuery('#mypa-input').val(JSON.stringify(result));
+        if (typeof window.mypa != 'undefined') {
+            window.mypa.fn.fnCheckout.saveShippingMethod();
+        }
     },
 
     addStyleToPrice: function (chosenDelivery) {
@@ -478,6 +494,9 @@ MyParcel = {
             currentDeliveryData.signed = MyParcel.DELIVERY_SIGNED;
             currentDeliveryData.only_recipient = MyParcel.DELIVERY_ONLY_RECIPIENT
             mypajQuery('#mypa-input').val(JSON.stringify(currentDeliveryData));
+        }
+        if (typeof window.mypa != 'undefined') {
+            window.mypa.fn.fnCheckout.saveShippingMethod();
         }
     },
 
@@ -569,7 +588,7 @@ MyParcel = {
 
     hideMessage: function()
     {
-        mypajQuery('.mypa-message-model').hide().html(' ');
+        mypajQuery('.mypa-message-model').hide();
         mypajQuery('#mypa-delivery-option-form').show();
     },
 
@@ -586,6 +605,7 @@ MyParcel = {
         mypajQuery('.mypa-message-model').show();
         mypajQuery('#mypa-message').html(message).show();
         mypajQuery('#mypa-delivery-option-form').hide();
+        MyParcel.hideSpinner();
 
     },
 
@@ -638,7 +658,7 @@ MyParcel = {
     showSpinner: function()
     {
         mypajQuery('.mypa-message-model').hide();
-        mypajQuery('#mypa-spinner').show();
+        mypajQuery('#mypa-spinner-model').show();
     },
 
 
@@ -651,7 +671,7 @@ MyParcel = {
 
     hideSpinner: function()
     {
-        mypajQuery('#mypa-spinner').hide();
+        mypajQuery('#mypa-spinner-model').hide();
     },
 
     showMorningDelivery: function()
@@ -765,7 +785,7 @@ MyParcel = {
 
     hideDeliveryDates: function()
     {
-        mypajQuery('#mypa-delivery-date-text').parent().hide();
+        mypajQuery('#mypa-delivery-date-text').hide();
     },
 
     /*
@@ -809,7 +829,7 @@ MyParcel = {
 
     showPickUpLocations: function()
     {
-        if(MyParcel.data.config.allowPickupPoints) {
+        if (MyParcel.data.config.allowPickupPoints && typeof MyParcel.data.deliveryOptions !== 'undefined') {
 
             var html = "";
             mypajQuery.each(MyParcel.data.deliveryOptions.data.pickup, function (key, value) {
@@ -944,14 +964,14 @@ MyParcel = {
     showRetry: function()
     {
         MyParcel.showMessage(
-            '<h3>Huisnummer/postcode combinatie onbekend</h3>' +
+            '<h4>Huisnummer/postcode combinatie onbekend</h4>' +
             '<div class="mypa-full-width mypa-error">'+
             '<label for="mypa-error-postcode">Postcode</label>' +
             '<input type="text" name="mypa-error-postcode" id="mypa-error-postcode" value="'+ MyParcel.data.address.postalCode +'">' +
             '</div><div class="mypa-full-width mypa-error">' +
             '<label for="mypa-error-number">Huisnummer</label>' +
             '<input type="text" name="mypa-error-number" id="mypa-error-number" value="'+ MyParcel.data.address.number +'">' +
-            '<br><div id="mypa-error-try-again">Opnieuw</div>' +
+            '<br><div id="mypa-error-try-again" class="button btn">Opnieuw</div>' +
             '</div>'
         );
 
@@ -1001,7 +1021,7 @@ MyParcel = {
         /* Check if the deliverydaysWindow == 0 and hide the select input*/
         this.deliveryDaysWindow = this.data.config.deliverydaysWindow;
 
-        if(this.deliveryDaysWindow === 0){
+        if(this.deliveryDaysWindow <= 0){
             this.deliveryDaysWindow = 1;
         }
 

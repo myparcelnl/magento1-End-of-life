@@ -10,7 +10,8 @@ var fnCheckout = {
         var frm = mypajQuery('form');
         clearTimeout(timeout);
         timeout = setTimeout(function () {
-            if (xhr && xhr.readyState != 4) {
+            window.stop();
+            if (xhr) {
                 xhr.abort();
             }
             xhr = mypajQuery.ajax({
@@ -45,8 +46,7 @@ function myparcelSaveBilling() {
                 get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
                 latestData = currentData;
             }
-        }
-        , 1000);
+    }, 2000);
 }
 
 function getMyParcelLatestData() {
@@ -121,4 +121,4 @@ setTimeout(function () {
     ].join()).on('change', function () {
         myparcelSaveBilling();
     });
-}, 2000);
+}, 1000);

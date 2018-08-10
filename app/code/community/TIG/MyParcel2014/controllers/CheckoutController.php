@@ -39,6 +39,9 @@
  */
 class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Action
 {
+    const CC_BE = 'BE';
+    const CC_NL = 'NL';
+
     /**
      * Generate data in json format for checkout
      */
@@ -124,19 +127,18 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
-        if ($data['address']['country'] == 'NL') {
-            $pickup['active'] = $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
-            $pickup['title'] = $helper->getConfig('pickup_title', 'pickup');
-            $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote));
-            $data['pickup'] = (object)$pickup;
-        } else if ($data['address']['country'] == 'BE') {
+        if ($data['address']['country'] == self::CC_BE) {
             $pickup['active'] = $helper->getConfig('pickup_belgium_active', 'pickup_belgium') == "1" ? true : false;
             $pickup['title'] = $helper->getConfig('pickup_belgium_title', 'pickup_belgium');
             $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_belgium_fee', 'pickup_belgium'), $quote));
-            $data['pickup'] = (object)$pickup;
+        } else {
+            $pickup['active'] = $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
+            $pickup['title'] = $helper->getConfig('pickup_title', 'pickup');
+            $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote));
         }
+        $data['pickup'] = (object)$pickup;
 
-        $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" && $data['address']['country'] == self::CC_NL ? true : false;
         $pickupExpress['fee'] =                     $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote));
         $data['pickupExpress'] = (object)$pickupExpress;
 

@@ -12,10 +12,6 @@
     background-color: transparent;
 }
 
-#mypa-txt-send-per-carrier {
-    line-height: 2;
-}
-
 #mypa-delivery-option-form fieldset, form, ul, li, select {
     padding: 0;
     margin: 0;
@@ -51,6 +47,7 @@
 #mypa-delivery-option-form label{
     display: inline-block;
     width: 80%;
+    margin: 0;
 }
 #mypa-error-try-again{
     margin-top: 18px;
@@ -129,6 +126,11 @@
     float: left;
 }
 
+.mypa-openings-titel{
+    width: 200px;
+    height: auto;
+}
+
 .mypa-pickup-location-details-day {
     display: inline-block;
     width: 30%;
@@ -180,7 +182,6 @@
 .mypa-delivery-option-table tr {
     height: 20px;
 }
-
 .mypa-delivery-option-table tr td:first-child {
     white-space: nowrap;
     width: 20px !important;
@@ -192,12 +193,20 @@
     white-space: nowrap;
     vertical-align:top;
 }
-
 .mypa-postnl-logo{
     width: 100px;
-    height: 110px;
     float: right;
-    margin: 35px 34px 0 0;
+    margin: 45px 8px 0 0;
+}
+.mypa-message-model {
+    padding: 20px 0 20px 20px;
+    border: 1px solid black;
+    border-radius: 3px;
+    min-width: 300px;
+    max-width: 400px;
+    margin: 5px;
+    display: none;
+    background-color: white;
 }
 
 #mypa-delivery-date-text{
@@ -206,6 +215,34 @@
 
 #mypa-list-postnl-pickup option{
     padding: 5px 0px 5px 0px;
+}
+.mypa-bold-price{
+    font-weight: bold;
+}
+
+#mypa-spinner-model {
+    position: relative;
+    display: table;
+    margin: auto auto;
+}
+
+#mypa-spinner-model svg{
+    position: absolute;
+    top: 19%;
+    left: 22%;
+    width: 62%;
+}
+
+#mypa-spinner {
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 90px;
+    border-top: 3px solid #ff8c00;
+    border-radius: 100%;
+    border-top-color: #ff8c00;
+    animation: mypa-spin 1.2s linear infinite;
+
 }
 
 .mypa-bold-price{
@@ -235,4 +272,23 @@
 @keyframes mypa-spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+@media only screen and (max-width: 400px) {
+
+    .mypa-delivery-option-table tr {
+        height: 30px !important;
+    }
+    .mypa-postnl-logo{
+        float: none;
+        margin: 0 100% 0 0;
+
+    }
+    .mypa-extra-delivery-options-padding-top {
+        padding: 15px 0px 10px 0px;
+    }
+
+    .mypa-pickup-location-details-location, .mypa-pickup-location-details-phone, .mypa-pickup-location-details-city, .mypa-pickup-location-details-time {
+        width: 90%;
+    }
 }
