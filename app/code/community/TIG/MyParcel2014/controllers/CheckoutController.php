@@ -106,8 +106,14 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $general['select_color'] =                  $helper->getConfig('select_color', 'checkout');
         $data['general'] = (object)$general;
 
-        $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
-        $delivery['standard_delivery_titel'] =      $helper->getConfig('standard_delivery_titel', 'delivery');
+        if ($data['address']['country'] == self::CC_BE) {
+            $delivery['delivery_title'] =               $helper->getConfig('belgium_delivery_title', 'belgium_delivery');
+            $delivery['standard_delivery_titel'] =      $helper->getConfig('belgium_standard_delivery_titel', 'belgium_delivery');
+        } else {
+            $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
+            $delivery['standard_delivery_titel'] =      $helper->getConfig('standard_delivery_titel', 'delivery');
+        }
+
         $delivery['only_recipient_active'] =        $helper->getConfig('only_recipient_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
         $delivery['only_recipient_title'] =         $helper->getConfig('only_recipient_title', 'delivery');
         $delivery['only_recipient_fee'] =           $this->getShippingPrice($helper->getConfig('only_recipient_fee', 'delivery'), $quote);
