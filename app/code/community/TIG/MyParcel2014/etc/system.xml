@@ -626,7 +626,7 @@
                 </pickup_express>
                 <belgium_delivery translate="label comment" module="tig_myparcel">
                     <label>Belgium Delivery</label>
-                    <sort_order>20</sort_order>
+                    <sort_order>21</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
