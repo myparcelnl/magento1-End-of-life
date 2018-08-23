@@ -312,6 +312,10 @@
                 <pickup_express_active>1</pickup_express_active>
                 <pickup_express_fee>1.38</pickup_express_fee>
             </pickup_express>
+            <belgium_delivery>
+                <belgium_delivery_title>Bezorgen</belgium_delivery_title>
+                <belgium_standard_delivery_titel>Standaard levering</belgium_standard_delivery_titel>
+            </belgium_delivery>
             <pickup_belgium>
                 <pickup_belgium_active>1</pickup_belgium_active>
                 <pickup_belgium_title>Ophalen bij een PostNL locatie</pickup_belgium_title>

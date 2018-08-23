@@ -124,10 +124,12 @@ MyParcel = {
                                 "saturdayCutoffTime": data.general['saturday_cutoff_time'],
                                 "cutoffTime": data.general['cutoff_time'],
                                 "deliverydaysWindow": data.general['deliverydays_window'],
-                                "dropoffDelay":data.general['dropoff_delay']
+                                "dropoffDelay":data.general['dropoff_delay'],
+
+                                "BelgiumDeliveryTitel": data.delivery['belgium_delivery_title'],
+                                "BelgiumDeliveryStandardTitel": data.delivery['belgium_delivery_title'],
                             }
                         };
-
 
                         MyParcel.init(myParcelConfig);
 
@@ -645,6 +647,11 @@ MyParcel = {
         MyParcel.hideOnlyRecipient();
         if(this.data.config.allowOnlyRecipient){
             MyParcel.showOnlyRecipient();
+        }
+
+        if(MyParcel.data.address.cc === 'BE'){
+            mypajQuery('#mypa-delivery-titel').html(MyParcel.data.config.BelgiumdeliveryTitel);
+            mypajQuery('#mypa-delivery-date-text,#mypa-delivery-date-select').hide();
         }
     },
 
