@@ -183,7 +183,6 @@ MyParcel = {
 
         /* Engage defaults */
         MyParcel.hideDelivery();
-        mypajQuery('#method-myparcel-normal').click();
 
         MyParcel.bind();
     },
@@ -1079,7 +1078,7 @@ MyParcel = {
                 MyParcel.showFallBackDelivery();
             })
             .always(function(){
-                mypajQuery('#mypa-select-delivery').click();
+                mypajQuery('#mypa-select-delivery, #method-myparcel-normal').click();
             });
     }
 }
