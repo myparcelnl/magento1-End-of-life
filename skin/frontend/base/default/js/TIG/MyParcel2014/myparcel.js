@@ -1079,6 +1079,7 @@ MyParcel = {
             })
             .always(function(){
                 mypajQuery('#mypa-select-delivery, #method-myparcel-normal').click();
+                MyParcel.mapExternalWebshopTriggers();
             });
     }
 }
