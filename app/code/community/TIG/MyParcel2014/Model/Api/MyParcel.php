@@ -846,6 +846,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
          * @var TIG_MyParcel2014_Helper_Data $helper
          */
         $helper = Mage::helper('tig_myparcel');
+        $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
 
         /**
          * Add the shipment type parameter.
@@ -874,7 +875,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
-            'label_description'         => $myParcelShipment->getOrder()->getIncrementId(),
+            'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
+            'age_check'             => (int)$addressValidation->hasAgeCheck(),
         );
 
         if ($checkoutData !== null) {
