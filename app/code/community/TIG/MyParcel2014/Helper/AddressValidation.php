@@ -205,4 +205,8 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
 
         $street = preg_replace("/[\n\r]/", " ", $street);
     }
+
+    public function hasAgeCheck() {
+        return $this->getConfig( 'age_check', 'delivery' ) == "1";
+    }
 }
