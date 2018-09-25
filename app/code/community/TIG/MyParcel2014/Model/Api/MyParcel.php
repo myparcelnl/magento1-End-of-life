@@ -874,33 +874,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
-            'label_description' => $myParcelShipment->getOrder()->getIncrementId(),
+            'label_description'         => $myParcelShipment->getOrder()->getIncrementId(),
         );
 
         if ($checkoutData !== null) {
 
-            if (key_exists('time', $checkoutData) && key_exists('price_comment', $checkoutData['time'][0]) && $checkoutData['time'][0]['price_comment'] !== null) {
-                switch ($checkoutData['time'][0]['price_comment']) {
-                    case 'morning':
-                        $data['delivery_type'] = self::TYPE_MORNING;
-                        break;
-                    case 'standard':
-                        $data['delivery_type'] = self::TYPE_STANDARD;
-                        break;
-                    case 'night':
-                        $data['delivery_type'] = self::TYPE_NIGHT;
-                        break;
-                }
-            } elseif (key_exists('price_comment', $checkoutData) && $checkoutData['price_comment'] !== null) {
-                switch ($checkoutData['price_comment']) {
-                    case 'retail':
-                        $data['delivery_type'] = self::TYPE_RETAIL;
-                        break;
-                    case 'retailexpress':
-                        $data['delivery_type'] = self::TYPE_RETAIL_EXPRESS;
-                        break;
-                }
-            }
+            $data = $helper->getDeliveryType( $checkoutData, $data );
 
             if (key_exists('date', $checkoutData) && $checkoutData['date'] !== null) {
 

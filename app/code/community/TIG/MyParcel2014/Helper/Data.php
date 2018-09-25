@@ -534,6 +534,49 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * @param array $checkoutData
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function getDeliveryType( $checkoutData, $data ) {
+        $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
+
+        if ( key_exists( 'time', $checkoutData ) && key_exists( 'price_comment', $checkoutData['time'][0] ) && $checkoutData['time'][0]['price_comment'] !== null ) {
+            switch ( $checkoutData['time'][0]['price_comment'] ) {
+                case 'morning':
+                    if ($addressValidation->hasAgeCheck() == false) {
+                        $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_MORNING;
+                        return $data;
+                    }
+                case 'standard':
+                    $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_STANDARD;
+                    return $data;
+                case 'night':
+                    if ($addressValidation->hasAgeCheck() == false) {
+                        $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_NIGHT;
+                        return $data;
+                    }
+            }
+        }
+
+        if ( key_exists( 'price_comment', $checkoutData ) && $checkoutData['price_comment'] !== null ) {
+            switch ( $checkoutData['price_comment'] ) {
+                case 'retail':
+                    $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_RETAIL;
+                    return $data;
+                case 'retailexpress':
+                    $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_RETAIL_EXPRESS;
+                    return $data;
+            }
+        }
+
+        $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_STANDARD;
+
+        return $data;
+    }
+
+    /**
      * @param $items
      *
      * @return bool
