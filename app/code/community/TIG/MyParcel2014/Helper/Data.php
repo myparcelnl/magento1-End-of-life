@@ -243,16 +243,17 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCurrentOptionsHtml($myParcelShipment)
     {
+        $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
         $options = array(
             $this->__(ucfirst(str_replace('_', ' ', $myParcelShipment->getShipmentType()))),
         );
 
         if ($myParcelShipment->getShipmentType() == 'normal') {
 
-            if ($myParcelShipment->getHomeAddressOnly() == '1')
+            if ($myParcelShipment->getHomeAddressOnly() == '1' && $addressValidation->hasAgeCheck() == false)
                 $options[] = $this->__('Home address only');
 
-            if ($myParcelShipment->getHomeAddressOnly() == '1')
+            if ($myParcelShipment->getSignatureOnReceipt() == '1' && $addressValidation->hasAgeCheck() == false)
                 $options[] = $this->__('Signature on receipt');
 
             if ($myParcelShipment->getReturnIfNoAnswer() == '1')
