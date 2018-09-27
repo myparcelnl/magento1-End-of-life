@@ -22,7 +22,12 @@ var fnCheckout = {
             window.setTimeout(checkPendingRequest, 200);
         }, 500);
     },
-    'hideLoader': function () {}
+    'hideLoader': function () {},
+    'paymentRefresh': function () {
+        setTimeout(function () {
+            paymentrefresh(BASE_URL + 'onestepcheckout/ajax/set_methods_separate');
+        }, 500);
+    }
 };
 window.mypa.fn.fnCheckout = fnCheckout;
 
