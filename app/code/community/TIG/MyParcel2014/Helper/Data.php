@@ -250,10 +250,11 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         if ($myParcelShipment->getShipmentType() == 'normal') {
 
-            if ($myParcelShipment->getHomeAddressOnly() == '1' && $addressValidation->hasAgeCheck() == false)
+            $storeId = $myParcelShipment->getOrder()->getStoreId();
+            if ( $myParcelShipment->getHomeAddressOnly() == '1' && $addressValidation->hasAgeCheck( $storeId ) == false)
                 $options[] = $this->__('Home address only');
 
-            if ($myParcelShipment->getSignatureOnReceipt() == '1' && $addressValidation->hasAgeCheck() == false)
+            if ($myParcelShipment->getSignatureOnReceipt() == '1' && $addressValidation->hasAgeCheck( $storeId ) == false)
                 $options[] = $this->__('Signature on receipt');
 
             if ($myParcelShipment->getReturnIfNoAnswer() == '1')
@@ -536,16 +537,17 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * @param array $checkoutData
      * @param array $data
+     * @param Mage_Sales_Model_Order $order
      *
      * @return mixed
      */
-    public function getDeliveryType( $checkoutData, $data ) {
+    public function getDeliveryType( $checkoutData, $data, $order ) {
         $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
 
         if ( key_exists( 'time', $checkoutData ) && key_exists( 'price_comment', $checkoutData['time'][0] ) && $checkoutData['time'][0]['price_comment'] !== null ) {
             switch ( $checkoutData['time'][0]['price_comment'] ) {
                 case 'morning':
-                    if ($addressValidation->hasAgeCheck() == false) {
+                    if ($addressValidation->hasAgeCheck($order->getStoreId()) == false) {
                         $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_MORNING;
                         return $data;
                     }
@@ -553,7 +555,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                     $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_STANDARD;
                     return $data;
                 case 'night':
-                    if ($addressValidation->hasAgeCheck() == false) {
+                    if ($addressValidation->hasAgeCheck($order->getStoreId()) == false) {
                         $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_NIGHT;
                         return $data;
                     }

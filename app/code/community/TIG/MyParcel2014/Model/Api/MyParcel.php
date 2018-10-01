@@ -851,10 +851,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         /**
          * Add the shipment type parameter.
          */
+        $order = $myParcelShipment->getOrder();
         switch ($myParcelShipment->getShipmentType()) {
             case $myParcelShipment::TYPE_LETTER_BOX:
                 /* Use mailbox only if no option is selected */
-                if ($helper->shippingMethodIsPakjegemak($myParcelShipment->getOrder()->getShippingMethod())) {
+                if ($helper->shippingMethodIsPakjegemak( $order->getShippingMethod())) {
                     $packageType = 1;
                 } else {
                     $packageType = 2;
@@ -875,13 +876,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
-            'label_description'     => $myParcelShipment->getOrder()->getIncrementId(),
-            'age_check'             => (int)$addressValidation->hasAgeCheck(),
+            'label_description'     => $order->getIncrementId(),
+            'age_check'             => (int)$addressValidation->hasAgeCheck($order->getStoreId()),
         );
 
         if ($checkoutData !== null) {
 
-            $data = $helper->getDeliveryType( $checkoutData, $data );
+            $data = $helper->getDeliveryType( $checkoutData, $data, $order );
 
             if (key_exists('date', $checkoutData) && $checkoutData['date'] !== null) {
 

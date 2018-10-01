@@ -207,9 +207,11 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
     }
 
     /**
+     * @param null $storeId
+     *
      * @return bool
      */
-    public function hasAgeCheck() {
-        return $this->getConfig( 'age_check', 'delivery' ) == "1";
+    public function hasAgeCheck($storeId = null) {
+        return $this->getConfig( 'age_check', 'delivery' , $storeId) == "1";
     }
 }

@@ -290,7 +290,8 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
     public function isHomeAddressOnly()
     {
-        if ($this->helper_address_validation->hasAgeCheck()) {
+        $storeId = $this->getShipment()->getOrder()->getStoreId();
+        if ($this->helper_address_validation->hasAgeCheck($storeId)) {
             return 1;
         }
 
@@ -307,7 +308,8 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
     public function isSignatureOnReceipt()
     {
-        if ($this->helper_address_validation->hasAgeCheck()) {
+        $storeId = $this->getShipment()->getOrder()->getStoreId();
+        if ($this->helper_address_validation->hasAgeCheck($storeId)) {
             return 1;
         }
 
