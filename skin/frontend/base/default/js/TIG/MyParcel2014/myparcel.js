@@ -1080,6 +1080,10 @@ MyParcel = {
             .always(function(){
                 mypajQuery('#mypa-select-delivery, #method-myparcel-normal').click();
                 MyParcel.mapExternalWebshopTriggers();
+
+                if (typeof window.mypa != 'undefined') {
+                    window.mypa.fn.fnCheckout.paymentRefresh();
+                }
             });
     }
 }

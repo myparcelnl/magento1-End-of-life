@@ -11,7 +11,8 @@ var fnCheckout =
     },
     'hideLoader': function(){
         IWD.OPC.Checkout.hideLoader();
-    }
+    },
+    'paymentRefresh': function () {}
 };
 window.mypa.fn.fnCheckout  = fnCheckout;
 
