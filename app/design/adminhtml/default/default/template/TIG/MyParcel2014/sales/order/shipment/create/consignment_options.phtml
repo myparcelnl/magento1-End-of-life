@@ -38,6 +38,8 @@
  *
  * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions $this
  */
+$addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
+
 /** @var $_helper TIG_MyParcel2014_Helper_Data */
 $_countryNeedsCustoms       = $this->countryNeedsCustoms();
 $_storeId                   = $this->getOrderStoreId();
@@ -91,14 +93,16 @@ if(true == $_isPakjegemak){
             </p>
         <div id="myparcel_consignment_options">
             <?php if ($this->getDestinationCountry() == 'NL'): ?>
-                <p>
-                    <label for="tig_myparcel_home_address_only" class="normal"><?php echo $this->__('Home address only');?></label>
-                    <input id="tig_myparcel_home_address_only" type="checkbox" value="1" name="tig_myparcel[home_address_only]" <?php echo $_homeSelected;?> />
-                </p>
-                <p>
-                    <label for="tig_myparcel_signature_on_receipt" class="normal"><?php echo $this->__('Signature on receipt');?></label>
-                    <input id="tig_myparcel_signature_on_receipt" type="checkbox" value="1" name="tig_myparcel[signature_on_receipt]" <?php echo $_signatureSelected;?> />
-                </p>
+                <?php if ($addressValidation->hasAgeCheck($_storeId) == false):?>
+                    <p>
+                        <label for="tig_myparcel_home_address_only" class="normal"><?php echo $this->__('Home address only');?></label>
+                        <input id="tig_myparcel_home_address_only" type="checkbox" value="1" name="tig_myparcel[home_address_only]" <?php echo $_homeSelected;?> />
+                    </p>
+                    <p>
+                        <label for="tig_myparcel_signature_on_receipt" class="normal"><?php echo $this->__('Signature on receipt');?></label>
+                        <input id="tig_myparcel_signature_on_receipt" type="checkbox" value="1" name="tig_myparcel[signature_on_receipt]" <?php echo $_signatureSelected;?> />
+                    </p>
+                <?php endif; ?>
                 <p>
                     <label for="tig_myparcel_return_if_no_answer" class="normal"><?php echo $this->__('Return if no answer');?></label>
                     <input id="tig_myparcel_return_if_no_answer" type="checkbox" value="1" name="tig_myparcel[return_if_no_answer]" <?php echo $_returnNoAnswerSelected;?> />
