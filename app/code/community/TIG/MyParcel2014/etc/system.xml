@@ -299,6 +299,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </busy_loading_title>
+                        <age_check translate="label" module="tig_myparcel">
+                            <label>Age check 18+</label>
+                            <comment>The age 18+ check is intended for parcel shipments for which the recipient must show 18+ by means of a proof of identity. With this shipping option "Signature for receipt" and "Delivery only at recipient" are included. The age 18+ is further excluded from the delivery options morning and evening delivery.</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>159</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </age_check>
                         <standard_delivery_titel translate="label" module="tig_myparcel">
                             <label>Standard delivery title</label>
                             <comment>The times will be visible when nothing is filled in</comment>
@@ -317,6 +327,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <depends>
+                                <age_check>0</age_check>
+                            </depends>
                         </only_recipient_active>
                         <only_recipient_title translate="label" module="tig_myparcel">
                             <label>Home address only title</label>
@@ -327,6 +340,7 @@
                             <show_in_store>1</show_in_store>
                             <depends>
                                 <only_recipient_active>1</only_recipient_active>
+                                <age_check>0</age_check>
                             </depends>
                         </only_recipient_title>
                         <only_recipient_fee translate="label,comment" module="tig_myparcel">
@@ -340,6 +354,7 @@
                             <show_in_store>1</show_in_store>
                             <depends>
                                 <only_recipient_active>1</only_recipient_active>
+                                <age_check>0</age_check>
                             </depends>
                         </only_recipient_fee>
                         <signature_active translate="label" module="tig_myparcel">
@@ -350,6 +365,9 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
+                            <depends>
+                                <age_check>0</age_check>
+                            </depends>
                         </signature_active>
                         <signature_title translate="label" module="tig_myparcel">
                             <label>Signature on receipt title</label>
@@ -360,6 +378,7 @@
                             <show_in_store>1</show_in_store>
                             <depends>
                                 <signature_active>1</signature_active>
+                                <age_check>0</age_check>
                             </depends>
                         </signature_title>
                         <signature_fee translate="label,comment" module="tig_myparcel">
@@ -373,6 +392,7 @@
                             <show_in_store>1</show_in_store>
                             <depends>
                                 <signature_active>1</signature_active>
+                                <age_check>0</age_check>
                             </depends>
                         </signature_fee>
                         <signature_and_only_recipient_fee translate="label,comment" module="tig_myparcel">
@@ -387,6 +407,7 @@
                             <depends>
                                 <signature_active>1</signature_active>
                                 <only_recipient_active>1</only_recipient_active>
+                                <age_check>0</age_check>
                             </depends>
                         </signature_and_only_recipient_fee>
                     </fields>
@@ -519,6 +540,19 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </eveningdelivery_active>
+                        <eveningdelivery_not_active_holder translate="label" module="tig_myparcel">
+                            <label>Evening delivery active</label>
+                            <comment>Not possible if age check is active</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>tig_myparcel/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <depends>
+                                <age_check>1</age_check>
+                            </depends>
+                        </eveningdelivery_not_active_holder>
                         <eveningdelivery_titel translate="label" module="tig_myparcel">
                             <label>Evening delivery title</label>
                             <comment>The times will be visible when nothing is filled in</comment>
