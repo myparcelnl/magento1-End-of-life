@@ -113,22 +113,22 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
             $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
             $delivery['standard_delivery_titel'] =      $helper->getConfig('standard_delivery_titel', 'delivery');
         }
-      
-        $delivery['only_recipient_active'] =        $helper->hasAgeCheck() == false && $helper->getConfig('only_recipient_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+
+        $delivery['only_recipient_active'] =        $helper->getConfig('only_recipient_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
         $delivery['only_recipient_title'] =         $helper->getConfig('only_recipient_title', 'delivery');
         $delivery['only_recipient_fee'] =           $this->getShippingPrice($helper->getConfig('only_recipient_fee', 'delivery'), $quote);
-        $delivery['signature_active'] =             $helper->hasAgeCheck() == false && $helper->getConfig('signature_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $delivery['signature_active'] =             $helper->getConfig('signature_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
         $delivery['signature_title'] =              $helper->getConfig('signature_title', 'delivery');
         $delivery['signature_fee'] =                $this->getShippingPrice($helper->getConfig('signature_fee', 'delivery'), $quote);
         $delivery['signature_and_only_recipient_fee'] =                $this->getShippingPrice($helper->getConfig('signature_and_only_recipient_fee', 'delivery'), $quote);
         $data['delivery'] = (object)$delivery;
 
-        $morningDelivery['active'] =                $helper->hasAgeCheck() == false && $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $morningDelivery['active'] =                $helper->getConfig('morning_delivery_active', 'morning_delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
         $morningDelivery['morning_delivery_titel'] = $helper->getConfig('morning_delivery_titel', 'morning_delivery');
-        $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morningdelivery_fee', 'morning_delivery'), $quote));
+        $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morning_delivery_fee', 'morning_delivery'), $quote));
         $data['morningDelivery'] = (object)$morningDelivery;
-       
-        $eveningDelivery['active'] =                $helper->hasAgeCheck() == false && $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+
+        $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
         $eveningDelivery['eveningdelivery_titel'] = $helper->getConfig('eveningdelivery_titel', 'eveningdelivery');
         $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
         $data['eveningDelivery'] = (object)$eveningDelivery;
