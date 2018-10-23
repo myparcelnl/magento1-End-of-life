@@ -116,12 +116,18 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     public $helper;
 
     /**
+     * @var TIG_MyParcel2014_Helper_AddressValidation
+     */
+    private $helper_address_validation;
+
+    /**
      * Initialize the shipment
      */
     public function _construct()
     {
         $this->_init('tig_myparcel/shipment');
         $this->helper = Mage::helper('tig_myparcel');
+        $this->helper_address_validation = new TIG_MyParcel2014_Helper_AddressValidation;
     }
 
     /**
@@ -284,6 +290,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
     public function isHomeAddressOnly()
     {
+        $storeId = $this->getShipment()->getOrder()->getStoreId();
+        if ($this->helper_address_validation->hasAgeCheck($storeId)) {
+            return 1;
+        }
 
         $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
         if($checkoutData !== null) {
@@ -298,6 +308,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
     public function isSignatureOnReceipt()
     {
+        $storeId = $this->getShipment()->getOrder()->getStoreId();
+        if ($this->helper_address_validation->hasAgeCheck($storeId)) {
+            return 1;
+        }
 
         $checkoutData = $this->getShipment()->getOrder()->getMyparcelData();
         if($checkoutData !== null) {

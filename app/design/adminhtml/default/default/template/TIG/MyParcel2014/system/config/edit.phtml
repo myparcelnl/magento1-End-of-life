@@ -297,6 +297,30 @@ var adminSystemConfig = {
         }
 
 
+        this.updateDependsAgeCheck();
+        /** age check */
+        $('tig_myparcel_delivery_age_check').observe('change', this.updateDependsAgeCheck);
+
+    },
+    updateDependsAgeCheck: function () {
+        var active = $('tig_myparcel_delivery_age_check').value;
+        if (active == 1) {
+            $('row_tig_myparcel_morningdelivery_morning_delivery_not_active_holder').style.display = "table-row";
+            $('row_tig_myparcel_morningdelivery_morning_delivery_active').style.display = "none";
+            $('row_tig_myparcel_morningdelivery_morning_delivery_fee').style.display = "none";
+            $('row_tig_myparcel_eveningdelivery_eveningdelivery_not_active_holder').style.display = "table-row";
+            $('row_tig_myparcel_eveningdelivery_eveningdelivery_active').style.display = "none";
+            $('row_tig_myparcel_eveningdelivery_eveningdelivery_fee').style.display = "none";
+
+            return;
+        }
+
+        $('row_tig_myparcel_morningdelivery_morning_delivery_not_active_holder').style.display = "none";
+        $('row_tig_myparcel_morningdelivery_morning_delivery_active').style.display = "table-row";
+        $('row_tig_myparcel_morningdelivery_morning_delivery_fee').style.display = "table-row";
+        $('row_tig_myparcel_eveningdelivery_eveningdelivery_not_active_holder').style.display = "none";
+        $('row_tig_myparcel_eveningdelivery_eveningdelivery_active').style.display = "table-row";
+        $('row_tig_myparcel_eveningdelivery_eveningdelivery_fee').style.display = "table-row";
     }
 };
 
