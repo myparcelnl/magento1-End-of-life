@@ -10,7 +10,8 @@ var fnCheckout = {
         var frm = mypajQuery('form');
         clearTimeout(timeout);
         timeout = setTimeout(function () {
-            if (xhr && xhr.readyState != 4) {
+            window.stop();
+            if (xhr) {
                 xhr.abort();
             }
             xhr = mypajQuery.ajax({
@@ -21,7 +22,12 @@ var fnCheckout = {
             window.setTimeout(checkPendingRequest, 200);
         }, 500);
     },
-    'hideLoader': function () {}
+    'hideLoader': function () {},
+    'paymentRefresh': function () {
+        setTimeout(function () {
+            paymentrefresh(BASE_URL + 'onestepcheckout/ajax/set_methods_separate');
+        }, 500);
+    }
 };
 window.mypa.fn.fnCheckout = fnCheckout;
 
@@ -45,8 +51,7 @@ function myparcelSaveBilling() {
                 get_save_billing_function(BASE_URL + 'onestepcheckout/ajax/save_billing', BASE_URL + 'onestepcheckout/ajax/set_methods_separate', true, true)();
                 latestData = currentData;
             }
-        }
-        , 300);
+    }, 2000);
 }
 
 function getMyParcelLatestData() {
@@ -78,6 +83,12 @@ function getMyParcelLatestData() {
     if(mypajQuery("input[id='shipping:housenumber']").length && mypajQuery("input[id='shipping:housenumber']").val().length){
         data += mypajQuery("input[id='shipping:housenumber']").val();
     }
+    if(mypajQuery("input[id='billing:city']").length && mypajQuery("input[id='billing:city']").val().length){
+        data += mypajQuery("input[id='billing:housenumber']").val();
+    }
+    if(mypajQuery("input[id='shipping:city']").length && mypajQuery("input[id='shipping:city']").val().length) {
+        data += mypajQuery("input[id='shipping:city']").val();
+    }
     if($('billing:country_id').length && $('billing:country_id').getValue()){
         data += $('billing:country_id').getValue();
     }
@@ -105,12 +116,14 @@ setTimeout(function () {
         "input[id='billing:street2']",
         "input[id='billing:postcode_housenumber']",
         "input[id='billing:postcode']",
+        "input[id='billing:city']",
         "input[id='shipping:street1']",
         "input[id='shipping:street2']",
         "input[id='shipping:postcode_housenumber']",
         "input[id='shipping:postcode']",
+        "input[id='shipping:city']",
         ".validate-select"
     ].join()).on('change', function () {
         myparcelSaveBilling();
     });
-}, 2000);
+}, 1000);

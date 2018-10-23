@@ -213,6 +213,11 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             );
         }
 
+        if ($packageType == 2) {
+            $this->addShippingRate( $result, 'mailbox', 'mailbox', 'mailbox' );
+            return $result;
+        }
+
         if ($request->getDestCountryId() == 'NL' || $request->getDestCountryId() == 'BE') {
             $this->addShippingRate($result, 'pickup', 'pickup', 'pickup');
         }
@@ -221,13 +226,11 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             $this->addShippingRate($result, 'delivery', 'signature', 'delivery_signature');
             $this->addShippingRate($result, 'delivery', 'only_recipient', 'delivery_only_recipient');
             $this->addShippingRate($result, 'delivery', 'signature_and_only_recipient_fee', 'delivery_signature_and_only_recipient_fee');
-            $this->addShippingRate($result, 'morningdelivery', 'morningdelivery', 'morning');
-            $this->addShippingRate($result, 'morningdelivery', 'morningdelivery', 'morning_signature');
+            $this->addShippingRate($result, 'morning_delivery', 'morning_delivery', 'morning');
+            $this->addShippingRate($result, 'morning_delivery', 'morning_delivery', 'morning_signature');
             $this->addShippingRate($result, 'eveningdelivery', 'eveningdelivery', 'evening');
             $this->addShippingRate($result, 'eveningdelivery', 'eveningdelivery', 'evening_signature');
             $this->addShippingRate($result, 'pickup_express', 'pickup_express', 'pickup_express');
-            if ($packageType == 2)
-                $this->addShippingRate($result, 'mailbox', 'mailbox', 'mailbox');
         }
 
         return $result;

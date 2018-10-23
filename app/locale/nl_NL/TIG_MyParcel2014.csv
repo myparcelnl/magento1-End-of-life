@@ -62,8 +62,6 @@ TIG_MyParcel2014::Monday delivery cut-off time,Laatste bestelmoment voor maandag
 TIG_MyParcel2014::Dropoff-delay,Vertraging
 "TIG_MyParcel2014::This options allows you to set the number of days it takes you to pick, pack and hand in your parcels at PostNL when ordered before the cutoff time.","Stel hier het aantal dagen in die je nodig hebt om het product (te ontvangen,) te verpakken en aan te bieden bij PostNL, vanaf het moment dat de bestelling is geplaatst."
 TIG_MyParcel2014::No delay,Geen vertraging
-TIG_MyParcel2014::Base color,Basis kleur
-TIG_MyParcel2014::Color for selected items,Kleur voor geselecteerde items
 TIG_MyParcel2014::Add style to the checkout,Voeg een css file toe aan de checkout
 TIG_MyParcel2014::Font size,Lettertypegrootte
 TIG_MyParcel2014::Leave blank to automatically determine the font size,Laat leeg om de lettertypegrootte automatisch te bepalen
@@ -71,6 +69,7 @@ TIG_MyParcel2014::Delivery,Bezorging
 TIG_MyParcel2014::Delivery title,Bezorging titel
 TIG_MyParcel2014::Retrieve address title,Adres ophalen titel
 TIG_MyParcel2014::Busy loading title,Bezig met laden titel
+TIG_MyParcel2014::Standard delivery title, Standaardlevering titel
 TIG_MyParcel2014::To determine the base price you have to navigate in the menu to <a id=""shipping_method_link"">Shipping Methods</a>.,Om de basisprijs te bepalen moet je navigeren naar <a id=""shipping_method_link"">Verzendmethodes</a>
 TIG_MyParcel2014::Deliver the package only at address of the intended recipient,Lever het pakket alleen aan het adres van de beoogde ontvanger.
 TIG_MyParcel2014::Home address only title,Alleen huisadres titel
@@ -81,9 +80,11 @@ TIG_MyParcel2014::Home address only and signature on receipt together fee,De pri
 TIG_MyParcel2014::If both have been selected this price will be added to the regular shipping price. Leave empty for not using it.,Als beide geselecteerd zijn zal deze prijs bij de normale verzendkosten worden opgeteld. Laat leeg om dit niet te gebruiken.
 TIG_MyParcel2014::Morning delivery,Ochtendlevering
 TIG_MyParcel2014::Morning delivery active,Ochtendlevering actief
+TIG_MyParcel2014::Morning delivery title, Ochtendlevering titel
 TIG_MyParcel2014::Morning delivery fee,Ochtendlevering prijs
 TIG_MyParcel2014::Evening delivery,Avondlevering
 TIG_MyParcel2014::Evening delivery active,Avondlevering actief
+TIG_MyParcel2014::Evening delivery title, Avondlevering titel
 TIG_MyParcel2014::Evening delivery fee,Avondlevering prijs
 TIG_MyParcel2014::Pickup at PostNL location,Ophalen bij PostNL locatie
 TIG_MyParcel2014::Pickup active,Ophalen actief
@@ -322,7 +323,7 @@ TIG_MyParcel2014::Automate mailbox package,Brievenbuspakje automatiseren
 
 TIG_MyParcel2014::PostNL location:,PostNL locatie:
 TIG_MyParcel2014::deliver:,bezorgen:
+TIG_MyParcel2014::TYPE_night,Avondlevering
 TIG_MyParcel2014::TYPE_morning,Ochtendlevering
 TIG_MyParcel2014::TYPE_standard,Middaglevering
-TIG_MyParcel2014::TYPE_night,Avondlevering
 TIG_MyParcel2014::TYPE_retailexpress,Extra vroeg ophalen

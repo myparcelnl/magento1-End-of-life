@@ -39,6 +39,9 @@
  */
 class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Action
 {
+    const CC_BE = 'BE';
+    const CC_NL = 'NL';
+
     /**
      * Generate data in json format for checkout
      */
@@ -91,19 +94,26 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $general['base_price'] =                    $basePrice;
         $general['cutoff_time'] =                   str_replace(',', ':', $helper->getConfig('cutoff_time', 'checkout'));
         if ($data['address']['country'] == 'NL') {
-            $general['deliverydays_window'] = $helper->getConfig('deliverydays_window', 'checkout') == 'hide' ? 1 : $helper->getConfig('deliverydays_window', 'checkout');
+            $general['deliverydays_window'] = (int)$helper->getConfig('deliverydays_window', 'checkout') == 'hide' ? 0 : $helper->getConfig('deliverydays_window', 'checkout');
         } else {
             $general['deliverydays_window'] = 1;
         }
         $general['dropoff_days'] =                  str_replace(',', ';', $helper->getConfig('dropoff_days', 'checkout'));
-        $general['monday_delivery_active'] =        $helper->getConfig('monday_delivery_active', 'checkout') == "1" ? true : false;
+        $general['monday_delivery_active'] =        (int)$helper->getConfig('monday_delivery_active', 'checkout');
         $general['saturday_cutoff_time'] =          str_replace(',', ':', $helper->getConfig('saturday_cutoff_time', 'checkout'));
         $general['dropoff_delay'] =                 $helper->getConfig('dropoff_delay', 'checkout');
         $general['base_color'] =                    $helper->getConfig('base_color', 'checkout');
         $general['select_color'] =                  $helper->getConfig('select_color', 'checkout');
         $data['general'] = (object)$general;
 
-        $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
+        if ($data['address']['country'] == self::CC_BE) {
+            $delivery['delivery_title'] =               $helper->getConfig('belgium_delivery_title', 'belgium_delivery');
+            $delivery['standard_delivery_titel'] =      $helper->getConfig('belgium_standard_delivery_titel', 'belgium_delivery');
+        } else {
+            $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
+            $delivery['standard_delivery_titel'] =      $helper->getConfig('standard_delivery_titel', 'delivery');
+        }
+      
         $delivery['only_recipient_active'] =        $helper->hasAgeCheck() == false && $helper->getConfig('only_recipient_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
         $delivery['only_recipient_title'] =         $helper->getConfig('only_recipient_title', 'delivery');
         $delivery['only_recipient_fee'] =           $this->getShippingPrice($helper->getConfig('only_recipient_fee', 'delivery'), $quote);
@@ -114,26 +124,27 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $data['delivery'] = (object)$delivery;
 
         $morningDelivery['active'] =                $helper->hasAgeCheck() == false && $helper->getConfig('morningdelivery_active', 'morningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
-        $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morningdelivery_fee', 'morningdelivery'), $quote));
+        $morningDelivery['morning_delivery_titel'] = $helper->getConfig('morning_delivery_titel', 'morning_delivery');
+        $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morningdelivery_fee', 'morning_delivery'), $quote));
         $data['morningDelivery'] = (object)$morningDelivery;
-
+       
         $eveningDelivery['active'] =                $helper->hasAgeCheck() == false && $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $eveningDelivery['eveningdelivery_titel'] = $helper->getConfig('eveningdelivery_titel', 'eveningdelivery');
         $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
         $data['eveningDelivery'] = (object)$eveningDelivery;
 
-        if ($data['address']['country'] == 'NL') {
-            $pickup['active'] = $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
-            $pickup['title'] = $helper->getConfig('pickup_title', 'pickup');
-            $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote));
-            $data['pickup'] = (object)$pickup;
-        } else if ($data['address']['country'] == 'BE') {
+        if ($data['address']['country'] == self::CC_BE) {
             $pickup['active'] = $helper->getConfig('pickup_belgium_active', 'pickup_belgium') == "1" ? true : false;
             $pickup['title'] = $helper->getConfig('pickup_belgium_title', 'pickup_belgium');
             $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_belgium_fee', 'pickup_belgium'), $quote));
-            $data['pickup'] = (object)$pickup;
+        } else {
+            $pickup['active'] = $helper->getConfig('pickup_active', 'pickup') == "1" ? true : false;
+            $pickup['title'] = $helper->getConfig('pickup_title', 'pickup');
+            $pickup['fee'] = $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_fee', 'pickup'), $quote));
         }
+        $data['pickup'] = (object)$pickup;
 
-        $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" && $data['address']['country'] == self::CC_NL ? true : false;
         $pickupExpress['fee'] =                     $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote));
         $data['pickupExpress'] = (object)$pickupExpress;
 
@@ -146,31 +157,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         echo(json_encode($info));
         exit;
     }
-
-    public function checkout_optionsAction()
-    {
-        /**
-         * @var Mage_Sales_Model_Quote $quote
-         * @var TIG_MyParcel2014_Helper_Data $helper
-         */
-        $quote = Mage::getModel('checkout/cart')->getQuote();
-        $helper = Mage::helper('tig_myparcel');
-
-        $packageType = $helper->getPackageType($quote->getItemsCollection(), 'NL', false, false, true);
-
-        /** Get mailbox Price */
-        $_excl = $this->getShippingPrice($helper->getConfig('mailbox_fee', 'mailbox'), $quote);
-        $_incl = $this->getShippingPrice($helper->getConfig('mailbox_fee', 'mailbox'), $quote, true);
-        if (Mage::helper('tax')->displayShippingBothPrices() && $_incl != $_excl) {
-            $mailBoxPrice = $_incl;
-        } else {
-            $mailBoxPrice = $_excl;
-        }
-        $mailBoxPrice = '&#8364; ' . str_replace('.', ',', $mailBoxPrice);
-
-        require(Mage::getBaseDir('app') . DS . 'design/frontend/base/default/template/TIG/MyParcel2014/checkout/mypa_checkout_options.phtml');
-        exit;
-    }
+    
 
     /**
      * Save the MyParcel data in quote

@@ -1229,7 +1229,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     {
         $onlyRecipientFee = (float)$this->getConfig('only_recipient_fee', 'delivery');
         $signatureFee = (float)$this->getConfig('signature_fee', 'delivery');
-        $morningFee = (float)$this->getConfig('morningdelivery_fee', 'morningdelivery');
+        $morningFee = (float)$this->getConfig('morning_delivery_fee', 'morning_delivery');
         $eveningFee = (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
         $signatureAndOnlyRecipient = (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
         $pickupFee = (float)$this->getConfig('pickup_fee', 'pickup');
