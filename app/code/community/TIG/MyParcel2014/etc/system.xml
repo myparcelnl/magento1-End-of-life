@@ -497,7 +497,6 @@
                                 <age_check>1</age_check>
                             </depends>
                         </morning_delivery_not_active_holder>
-                        </morning_delivery_active>
                         <morning_delivery_titel translate="label" module="tig_myparcel">
                             <label>Morning delivery title</label>
                             <comment>The times will be visible when nothing is filled in</comment>
