@@ -123,12 +123,12 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         $delivery['signature_and_only_recipient_fee'] =                $this->getShippingPrice($helper->getConfig('signature_and_only_recipient_fee', 'delivery'), $quote);
         $data['delivery'] = (object)$delivery;
 
-        $morningDelivery['active'] =                $helper->getConfig('morning_delivery_active', 'morning_delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $morningDelivery['active'] =                $helper->getConfig('morning_delivery_active', 'morning_delivery') == "1" && $helper->getConfig('age_check', 'delivery') != "1" && $data['address']['country'] == 'NL' ? true : false;
         $morningDelivery['morning_delivery_titel'] = $helper->getConfig('morning_delivery_titel', 'morning_delivery');
         $morningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('morning_delivery_fee', 'morning_delivery'), $quote));
         $data['morningDelivery'] = (object)$morningDelivery;
 
-        $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
+        $eveningDelivery['active'] =                $helper->getConfig('eveningdelivery_active', 'eveningdelivery') == "1" && $helper->getConfig('age_check', 'delivery') != "1" &&  $data['address']['country'] == 'NL' ? true : false;
         $eveningDelivery['eveningdelivery_titel'] = $helper->getConfig('eveningdelivery_titel', 'eveningdelivery');
         $eveningDelivery['fee'] =                   $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('eveningdelivery_fee', 'eveningdelivery'), $quote));
         $data['eveningDelivery'] = (object)$eveningDelivery;
