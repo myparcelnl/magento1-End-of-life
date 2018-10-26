@@ -131,6 +131,7 @@ TIG_MyParcel2014::Split house number parts,Split house number parts
 TIG_MyParcel2014::Housenr. extension field,Housenr. extension field
 TIG_MyParcel2014::Street line #%s,Street line #%s
 TIG_MyParcel2014::This will be added to the regular shipping price,This will be added to the regular shipping price
+TIG_MyParcel2014::Not possible if Pickup at PostNL location is not active,Not possible if Pickup at PostNL location is not active
 TIG_MyParcel2014::Default shipment type for Cross Domestic shipments,Default shipment type for Cross Domestic shipments
 "TIG_MyParcel2014::When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.","When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments."
 "TIG_MyParcel2014::To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>."
