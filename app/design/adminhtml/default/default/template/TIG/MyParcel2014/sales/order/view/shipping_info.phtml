@@ -104,7 +104,8 @@
 
 
     var form = $('sales_order_grid_massaction-form');
-    var printUrl = '<?php echo $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/printShipmentLabel', array('order_id' => $this->_order->getId()));?>';
+    var downloadUrl = '<?php echo $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/printShipmentLabel', array('order_id' => $this->_order->getId()));?>';
+    var printUrl = '<?php echo $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/myparcelAdminhtml_shipment/printShipmentLabel', array('order_id' => $this->_order->getId(), 'direct_print' => 1));?>';
 
 
     (function () {
@@ -171,27 +172,34 @@
         }
 
         // original apply method
-        function printMyParcelLabel() {
+        function printMyParcelLabel(directPrint = false) {
+            var url = downloadUrl;
+            if (directPrint == true) {
+                url = printUrl;
+            }
 
-            if (this.useAjax && printUrl) {
-                new Ajax.Request(printUrl, {
+            var parameters = this.form.serialize(true);
+            if (this.useAjax && url) {
+                new Ajax.Request(url, {
                     'method': 'post',
-                    'parameters': this.form.serialize(true),
+                    'parameters': parameters,
                     'onComplete': this.onMassactionComplete.bind(this)
                 });
-            } else if (printUrl) {
-                form.action = printUrl;
+            } else if (url) {
+                form.action = url;
                 form.submit();
             }
         }
 
-        // Create the button in de action bar to print the label
-        var printLabelButton = document.createElement('button');
-        printLabelButton.id = 'myparcel_print_labels_button';
-        printLabelButton.className = 'scalable save';
-        printLabelButton.onclick = function () {
+        /**
+         *  Create the button in de action bar to donwload the label
+         */
+        var downloadLabelButton = document.createElement('button');
+        downloadLabelButton.id = 'myparcel_download_labels_button';
+        downloadLabelButton.className = 'scalable save';
+        downloadLabelButton.onclick = function () {
 
-            <?php if(Mage::helper('tig_myparcel')->getConfig('print_orientation') != 'A4'): ?>
+            <?php if(Mage::helper('tig_myparcel')->getConfig('download_orientation') != 'A4'): ?>
             printMyParcelLabel();
             <?php else: ?>
             openMyParcelPopupWindow();
@@ -201,8 +209,26 @@
         };
 
         setTimeout(function () {
-            $$('.form-buttons').first().appendChild(printLabelButton).insert('<span>Print Label</span>');
+            $$('.form-buttons').first().appendChild(downloadLabelButton).insert('<span>Download Label</span>');
         }, 100);
+
+        /**
+         * direct print
+         */
+	    <?php if(Mage::helper('tig_myparcel')->getConfig('print_orientation') == 'A6'): ?>
+            // Create the button in de action bar to print the label
+            var printLabelButton = document.createElement('button');
+            printLabelButton.id = 'myparcel_print_labels_button';
+            printLabelButton.className = 'scalable save';
+            printLabelButton.onclick = function () {
+                printMyParcelLabel(true);
+                return false;
+            };
+
+            setTimeout(function () {
+                $$('.form-buttons').first().appendChild(printLabelButton).insert('<span>Print Label</span>');
+            }, 100);
+        <?php endif; ?>
 
         <?php if ($this->_myParcelShipments->getAllIds()):?>
         // Create the button in de action bar to print the packing slip

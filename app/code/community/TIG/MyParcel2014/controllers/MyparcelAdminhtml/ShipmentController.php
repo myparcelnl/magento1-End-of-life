@@ -497,10 +497,11 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
          * @var $api TIG_MyParcel2014_Model_Api_MyParcel
          */
         $start   = $this->getRequest()->getParam('myparcel_print_labels_start', 1);
-        $perpage = $helper->getConfig('print_orientation');
+	    $needDirectPrint = $this->getRequest()->getParam('direct_print', false);
+	    $perpage = $helper->getConfig('print_orientation');
         $api     = Mage::getModel('tig_myparcel/api_myParcel');
         $api->setStoreId($storeId)
-            ->createSetupPdfsRequest($consignmentIds, $start, $perpage)
+            ->createSetupPdfsRequest($consignmentIds, $start, $perpage, $needDirectPrint)
             ->sendRequest('GET');
 
         if ($api->getLabelDownloadUrl() == null) {

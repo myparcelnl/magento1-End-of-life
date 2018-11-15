@@ -290,7 +290,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestString = $requestString;
         $this->requestType   = $requestType;
 
-        $header[] = $requestHeader . 'charset=utf-8';
+        $header[] = 'Accept:' . $requestHeader . 'charset=utf-8';
         $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
         $header[] = 'User-Agent:'. $this->_getUserAgent();
         
@@ -512,16 +512,17 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
     }
 
-    /**
-     * Prepares the API for retrieving pdf's for an array of consignment IDs.
-     *
-     * @param array       $consignmentIds
-     * @param int|string  $start
-     * @param string      $perpage
-     *
-     * @return $this
-     */
-    public function createSetupPdfsRequest($consignmentIds = array(), $start = 1, $perpage = 'A4')
+	/**
+	 * Prepares the API for retrieving pdf's for an array of consignment IDs.
+	 *
+	 * @param array $consignmentIds
+	 * @param int|string $start
+	 * @param string $perpage
+	 *
+	 * @param bool $needDirectPrint
+	 * @return $this
+	 */
+    public function createSetupPdfsRequest($consignmentIds = array(), $start = 1, $perpage = 'A4', $needDirectPrint = false)
     {
         $positions = '';
 
@@ -532,10 +533,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $data = implode(';', $consignmentIds);
         $getParam = '/' . $data . '?format=' . $perpage . $positions;
 
+	    $header = '';
+        if ($needDirectPrint) {
+	        $header = 'application/vnd.print+json;';
+        }
+
         if ($this->useShipmentV2(count($consignmentIds))) {
             $this->_setRequestParameters($getParam, self::REQUEST_TYPE_SETUP_LABEL);
         } else {
-            $this->_setRequestParameters($getParam, self::REQUEST_TYPE_RETRIEVE_LABEL);
+            $this->_setRequestParameters($getParam, self::REQUEST_TYPE_RETRIEVE_LABEL, $header);
         }
 
         return $this;
