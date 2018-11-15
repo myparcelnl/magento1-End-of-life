@@ -252,6 +252,39 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                 )
             );
 
+        /**
+         * Add the print labels mass action.
+         */
+        $block->getMassactionBlock()
+            ->addItem(
+                'myparcel_print_direct_labels',
+                array(
+                    'label' => $helper->__('MyParcel - Print labels'),
+                    'url'   => $adminhtmlHelper->getUrl('adminhtml/myparcelAdminhtml_shipment/massPrintLabels'),
+                    'additional' => array(
+                        'type_consignment' => array(
+                            'name'    => 'type_consignment',
+                            'type'    => 'select',
+                            'options' => array(
+                                'default'     => $helper->__('Accordance with type consignment'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
+                            ),
+                        ),
+                        'create_consignment' => array(
+                            'name'    => 'create_consignment',
+                            'type'    => 'hidden',
+                            'value'   => 1,
+                        ),
+                        'direct_print' => array(
+                            'name'    => 'direct_print',
+                            'type'    => 'hidden',
+                            'value'   => 1,
+                        ),
+                    )
+                )
+            );
 
         /**
          * Add the create shipments mass action.
