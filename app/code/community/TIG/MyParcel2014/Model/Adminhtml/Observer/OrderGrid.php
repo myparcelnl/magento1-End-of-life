@@ -280,7 +280,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_OrderGrid extends Varien_Object
                         'direct_print' => array(
                             'name'    => 'direct_print',
                             'type'    => 'hidden',
-                            'value'   => 1,
+                            'value'   => 'order_grid',
                         ),
                     )
                 )

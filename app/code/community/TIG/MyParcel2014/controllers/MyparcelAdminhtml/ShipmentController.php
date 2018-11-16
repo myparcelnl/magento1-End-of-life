@@ -452,9 +452,9 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
                 if (!$shipment->hasConsignmentId()) {
 
                     if($helper->getPgAddress($shipment->getOrder()) && $type != TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL && $type != 'default'){
-                        $shipment_url = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
+                        $orderUrl = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order_shipment/view',array('shipment_id' => $shipment->getShipment()->getId()));
                         throw new TIG_MyParcel2014_Exception(
-                            $helper->__('The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target="_blank" href="%s">View shipment</a>',$shipment_url),
+                            $helper->__('The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target="_blank" href="%s">View shipment</a>',$orderUrl),
                             'MYPA-0023'
                         );
                     }
@@ -534,8 +534,12 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             $shipment->updateStatus($responseShipment);
         }
 
-        if ($needDirectPrint) {
+        if ($needDirectPrint == 'order_grid') {
             $this->_redirect('adminhtml/sales_order/index');
+        }
+        if ($needDirectPrint) {
+            $orderUrl = Mage::helper('adminhtml')->getUrl('adminhtml/sales_order/view',array('order_id' => $orderIds[0]));
+            Mage::app()->getResponse()->setRedirect($orderUrl);
         }
 
         if ($api->getLabelDownloadUrl() != null) {
