@@ -290,7 +290,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestString = $requestString;
         $this->requestType   = $requestType;
 
-        $header[] = 'Accept:' . $requestHeader . 'charset=utf-8';
+        $header[] = $requestHeader . 'charset=utf-8';
         $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
         $header[] = 'User-Agent:'. $this->_getUserAgent();
         
@@ -535,7 +535,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
 	    $header = '';
         if ($needDirectPrint) {
-	        $header = 'application/vnd.print+json;';
+	        $header = 'Accept: application/vnd.print+json;';
         }
 
         if ($this->useShipmentV2(count($consignmentIds))) {

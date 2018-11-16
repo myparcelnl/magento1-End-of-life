@@ -504,7 +504,7 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
             ->createSetupPdfsRequest($consignmentIds, $start, $perpage, $needDirectPrint)
             ->sendRequest('GET');
 
-        if ($api->getLabelDownloadUrl() == null) {
+        if ($api->getLabelDownloadUrl() == null && $needDirectPrint == false) {
             $fileName = 'MyParcel Shipping Labels '
                 . date('Ymd-His', Mage::getSingleton('core/date')->timestamp())
                 . '.pdf';
@@ -532,6 +532,10 @@ class TIG_MyParcel2014_MyparcelAdminhtml_ShipmentController extends Mage_Adminht
         foreach($responseShipments as $responseShipment){
             $shipment = $shipments[$responseShipment->id];
             $shipment->updateStatus($responseShipment);
+        }
+
+        if ($needDirectPrint) {
+            $this->_redirect('adminhtml/sales_order/index');
         }
 
         if ($api->getLabelDownloadUrl() != null) {
