@@ -89,11 +89,11 @@ function getMyParcelLatestData() {
     if(mypajQuery("input[id='shipping:city']").length && mypajQuery("input[id='shipping:city']").val().length) {
         data += mypajQuery("input[id='shipping:city']").val();
     }
-    if($('billing:country_id').length && $('billing:country_id').getValue()){
-        data += $('billing:country_id').getValue();
+    if(mypajQuery('billing:country_id').length && mypajQuery('billing:country_id').getValue()){
+        data += mypajQuery('billing:country_id').getValue();
     }
-    if($('shipping:country_id').length && $('shipping:country_id').getValue()){
-        data += $('shipping:country_id').getValue();
+    if(mypajQuery('shipping:country_id').length && mypajQuery('shipping:country_id').getValue()){
+        data += mypajQuery$('shipping:country_id').getValue();
     }
 
     return data;
