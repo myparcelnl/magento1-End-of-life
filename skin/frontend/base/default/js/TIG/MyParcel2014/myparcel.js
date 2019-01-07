@@ -98,7 +98,7 @@ MyParcel = {
                                 "carrier": "1",
 
                                 "priceMorningDelivery": data.morningDelivery['fee'],
-                                "priceNormalDelivery":  data.general['base_price'],
+                                "priceStandardDelivery":  data.general['base_price'],
                                 "priceEveningDelivery": data.eveningDelivery['fee'],
                                 "priceSignature": data.delivery['signature_fee'],
                                 "pricePickup": data.pickup['fee'],
@@ -115,6 +115,7 @@ MyParcel = {
 
                                 "allowMondayDelivery": data.general['monday_delivery_active'],
                                 "allowMorningDelivery": data.morningDelivery['active'],
+                                "allowStandardDelivery": data.delivery['standard_delivery_active'],
                                 "allowEveningDelivery": data.eveningDelivery['active'],
                                 "allowSignature": data.delivery['signature_active'],
                                 "allowOnlyRecipient": data.delivery['only_recipient_active'],
@@ -157,8 +158,10 @@ MyParcel = {
         }
 
         /* Titels of the options*/
-        if (MyParcel.data.config.deliveryTitel){
+        mypajQuery('#mypa-delivery-title').hide();
+        if (MyParcel.data.config.allowMorningDelivery || MyParcel.data.config.allowStandardDelivery || MyParcel.data.config.allowEveningDelivery){
             mypajQuery('#mypa-delivery-titel').html(MyParcel.data.config.deliveryTitel);
+            mypajQuery('#mypa-delivery-title').show();
         }
         if (MyParcel.data.config.onlyRecipientTitel){
             mypajQuery('#mypa-only-recipient-titel').html(MyParcel.data.config.onlyRecipientTitel);
@@ -173,7 +176,7 @@ MyParcel = {
         /* Prices */
         mypajQuery('#mypa-morning-delivery').html(MyParcel.getPriceHtml(this.data.config.priceMorningDelivery));
         mypajQuery('#mypa-evening-delivery').html(MyParcel.getPriceHtml(this.data.config.priceEveningDelivery));
-        mypajQuery('#mypa-normal-delivery').html(MyParcel.getPriceHtml(this.data.config.priceNormalDelivery));
+        mypajQuery('#mypa-normal-delivery').html(MyParcel.getPriceHtml(this.data.config.priceStandardDelivery));
         mypajQuery('#mypa-signature-price').html(MyParcel.getPriceHtml(this.data.config.priceSignature));
         mypajQuery('#mypa-only-recipient-price').html(MyParcel.getPriceHtml(this.data.config.priceOnlyRecipient));
         mypajQuery('#mypa-pickup-price').html(MyParcel.getPriceHtml(this.data.config.pricePickup));
@@ -185,6 +188,9 @@ MyParcel = {
         MyParcel.hideDelivery();
 
         MyParcel.bind();
+        if (MyParcel.data.config.allowMorningDelivery || MyParcel.data.config.allowStandardDelivery || MyParcel.data.config.allowEveningDelivery){
+            mypajQuery('#mypa-pickup-delivery').click();
+        }
     },
 
     getPriceHtml: function(priceOfDeliveryOption){
@@ -214,6 +220,7 @@ MyParcel = {
         var selectDateKey 	= MyParcel.storeDeliveryOptions.data.delivery[selectedDate]['time'];
 
         MyParcel.hideMorningDelivery();
+        MyParcel.hideStandardDelivery();
         MyParcel.hideEveningDelivery();
 
         mypajQuery.each(selectDateKey, function(key, value){
@@ -223,10 +230,10 @@ MyParcel = {
                 MyParcel.getDeliveryTime(morningTitel,'morning', MyParcel.data.config.deliveryMorningTitel, value['start'], value['end']);
                 MyParcel.showMorningDelivery();
             }
-            if(value['price_comment'] == 'standard'){
+            if(value['price_comment'] == 'standard' && MyParcel.data.config.allowStandardDelivery){
                 var standardTitel = MyParcel.data.config.deliveryStandardTitel;
                 MyParcel.getDeliveryTime(standardTitel,'standard', MyParcel.data.config.deliveryStandardTitel, value['start'], value['end']);
-
+                MyParcel.showStandardDelivery();
             }
             if(value['price_comment'] == 'avond' && MyParcel.data.config.allowEveningDelivery){
                 var eveningTitel = MyParcel.data.config.deliveryEveningTitel;
@@ -277,6 +284,7 @@ MyParcel = {
 
         /* hide default delivery options and show PostNL options */
         mypajQuery('#mypa-pickup-delivery').on('click', function(){
+            MyParcel.setCurrentLocation();
             MyParcel.hideDelivery();
             MyParcel.showPickUpLocations();
         });
@@ -619,10 +627,10 @@ MyParcel = {
 
     hideDelivery: function()
     {
-        MyParcel.hideNormalDelivery();
         MyParcel.hideSignature();
         MyParcel.hideOnlyRecipient();
         MyParcel.hideMorningDelivery();
+        MyParcel.hideStandardDelivery();
         MyParcel.hideEveningDelivery();
 
     },
@@ -636,7 +644,11 @@ MyParcel = {
 
     showDelivery: function()
     {
-        MyParcel.showNormalDelivery();
+
+        MyParcel.hideStandardDelivery();
+        if(this.data.config.allowStandardDelivery){
+            MyParcel.showStandardDelivery();
+        }
 
         MyParcel.hideSignature();
         if(this.data.config.allowSignature){
@@ -690,16 +702,19 @@ MyParcel = {
         mypajQuery('#method-myparcel-delivery-morning-div').hide();
     },
 
-    showNormalDelivery: function()
+
+    showStandardDelivery: function()
     {
+        mypajQuery('#method-myparcel-delivery-standard-div').show();
         mypajQuery('#mypa-pre-selectors-' +      this.data.address.cc.toLowerCase()).show();
         mypajQuery('#mypa-delivery-selectors-' + this.data.address.cc.toLowerCase()).show();
         mypajQuery('#mypa-delivery, #mypa-normal-delivery, #mypa-delivery-date-select').show();
         mypajQuery('#mypa-delivery').parent().parent().show();
     },
 
-    hideNormalDelivery: function()
+    hideStandardDelivery: function()
     {
+        mypajQuery('#method-myparcel-delivery-standard-div').hide();
         mypajQuery('#mypa-delivery-date-select, #mypa-pre-selectors-nl, #mypa-delivery, #mypa-normal-delivery').hide();
         mypajQuery('#mypa-delivery').parent().parent().hide();
 
@@ -1078,7 +1093,13 @@ MyParcel = {
                 MyParcel.showFallBackDelivery();
             })
             .always(function(){
+
                 mypajQuery('#mypa-select-delivery, #method-myparcel-normal').click();
+
+                if (!MyParcel.data.config.allowMorningDelivery && !MyParcel.data.config.allowStandardDelivery && !MyParcel.data.config.allowEveningDelivery){
+                    mypajQuery('#mypa-pickup-delivery, #mypa-pickup-selector').click();
+                }
+
                 MyParcel.mapExternalWebshopTriggers();
 
                 if (typeof window.mypa != 'undefined') {

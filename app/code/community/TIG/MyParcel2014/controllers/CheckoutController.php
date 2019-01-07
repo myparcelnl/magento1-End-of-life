@@ -113,6 +113,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
             $delivery['delivery_title'] =               $helper->getConfig('delivery_title', 'delivery');
             $delivery['standard_delivery_titel'] =      $helper->getConfig('standard_delivery_titel', 'delivery');
         }
+        $delivery['standard_delivery_active'] =        $helper->getConfig('standard_delivery_active', 'delivery') == "1";
 
         $delivery['only_recipient_active'] =        $helper->getConfig('only_recipient_active', 'delivery') == "1" && $data['address']['country'] == 'NL' ? true : false;
         $delivery['only_recipient_title'] =         $helper->getConfig('only_recipient_title', 'delivery');
