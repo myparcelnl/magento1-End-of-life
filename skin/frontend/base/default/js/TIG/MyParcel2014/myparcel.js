@@ -158,10 +158,10 @@ MyParcel = {
         }
 
         /* Titels of the options*/
-        mypajQuery('#mypa-delivery-title').hide();
+        mypajQuery('#mypa-delivery-title-section').hide();
         if (MyParcel.data.config.allowMorningDelivery || MyParcel.data.config.allowStandardDelivery || MyParcel.data.config.allowEveningDelivery){
-            mypajQuery('#mypa-delivery-titel').html(MyParcel.data.config.deliveryTitel);
-            mypajQuery('#mypa-delivery-title').show();
+            mypajQuery('#mypa-delivery-title').html(MyParcel.data.config.deliveryTitel);
+            mypajQuery('#mypa-delivery-title-section').show();
         }
         if (MyParcel.data.config.onlyRecipientTitel){
             mypajQuery('#mypa-only-recipient-titel').html(MyParcel.data.config.onlyRecipientTitel);
@@ -658,7 +658,7 @@ MyParcel = {
         }
 
         if(MyParcel.data.address.cc === 'BE'){
-            mypajQuery('#mypa-delivery-titel').html(MyParcel.data.config.BelgiumdeliveryTitel);
+            mypajQuery('#mypa-delivery-title').html(MyParcel.data.config.BelgiumdeliveryTitel);
             mypajQuery('#mypa-delivery-date-text,#mypa-delivery-date-select').hide();
         }
     },
@@ -691,18 +691,18 @@ MyParcel = {
 
     showMorningDelivery: function()
     {
-        mypajQuery('#method-myparcel-delivery-morning-div').show();
+        mypajQuery('#method-myparcel-delivery-morning-section').show();
     },
 
     hideMorningDelivery: function()
     {
-        mypajQuery('#method-myparcel-delivery-morning-div').hide();
+        mypajQuery('#method-myparcel-delivery-morning-section').hide();
     },
 
 
     showStandardDelivery: function()
     {
-        mypajQuery('#method-myparcel-delivery-standard-div').show();
+        mypajQuery('#method-myparcel-delivery-standard-section').show();
         mypajQuery('#mypa-pre-selectors-' +      this.data.address.cc.toLowerCase()).show();
         mypajQuery('#mypa-delivery-selectors-' + this.data.address.cc.toLowerCase()).show();
         mypajQuery('#mypa-delivery, #mypa-normal-delivery, #mypa-delivery-date-select').show();
@@ -711,7 +711,7 @@ MyParcel = {
 
     hideStandardDelivery: function()
     {
-        mypajQuery('#method-myparcel-delivery-standard-div').hide();
+        mypajQuery('#method-myparcel-delivery-standard-section').hide();
         mypajQuery('#mypa-delivery-date-select, #mypa-pre-selectors-nl, #mypa-delivery, #mypa-normal-delivery').hide();
         mypajQuery('#mypa-delivery').parent().parent().hide();
 
@@ -720,12 +720,12 @@ MyParcel = {
 
     showEveningDelivery: function()
     {
-        mypajQuery('#method-myparcel-delivery-evening-div').show();
+        mypajQuery('#method-myparcel-delivery-evening-section').show();
     },
 
     hideEveningDelivery: function()
     {
-        mypajQuery('#method-myparcel-delivery-evening-div').hide();
+        mypajQuery('#method-myparcel-delivery-evening-section').hide();
     },
 
     showSignature: function()
