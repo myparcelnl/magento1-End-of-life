@@ -1090,7 +1090,6 @@ MyParcel = {
                 MyParcel.showFallBackDelivery();
             })
             .always(function(){
-
                 mypajQuery('#mypa-select-delivery, #method-myparcel-normal').click();
 
                 if (!MyParcel.data.config.allowMorningDelivery && !MyParcel.data.config.allowStandardDelivery && !MyParcel.data.config.allowEveningDelivery){
