@@ -188,9 +188,6 @@ MyParcel = {
         MyParcel.hideDelivery();
 
         MyParcel.bind();
-        if (MyParcel.data.config.allowMorningDelivery || MyParcel.data.config.allowStandardDelivery || MyParcel.data.config.allowEveningDelivery){
-            mypajQuery('#mypa-pickup-delivery').click();
-        }
     },
 
     getPriceHtml: function(priceOfDeliveryOption){
