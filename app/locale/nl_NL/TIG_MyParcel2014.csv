@@ -115,9 +115,9 @@ TIG_MyParcel2014::MyParcel replied with the following warnings:,MyParcel heeft g
 TIG_MyParcel2014::The following shipments or orders could not be processed:,De volgende verzendingen konden niet verwerkt worden:
 TIG_MyParcel2014::Order #%s cannot be shipped at this time.,Order #%s kan niet verzonden worden op dit moment
 TIG_MyParcel2014::Invalid full street supplied: %s.,Invalide volledige straatnaam opgegeven: %s.
-TIG_MyParcel2014::Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice of MyParcel.,Adres is te lang. Maak het bezorgadres korter dan 40 tekens. Klik op verzenden (in de order detailpagina) om een concept aan te maken. En bewerk de zending vervolgens in de backoffice van MyParcel.
-TIG_MyParcel2014::Something went wrong with splitting up address %s.,Er is iets fout gegaan met het opsplitsen van adres %s. Voeg het adres handmatig toe in de backoffice van MyParcel.
-TIG_MyParcel2014::Something went wrong with splitting up housenumber %s.,Er is iets fout gegaan met het opsplitsen van huisnummer %s. Voeg het adres handmatig toe in de backoffice van MyParcel.
+TIG_MyParcel2014::Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice.,Adres is te lang. Maak het bezorgadres korter dan 40 tekens. Klik op verzenden (in de order detailpagina) om een concept aan te maken. En bewerk de zending vervolgens in de backoffice.
+TIG_MyParcel2014::Something went wrong with splitting up address %s.,Er is iets fout gegaan met het opsplitsen van adres %s. Voeg het adres handmatig toe in de backoffice.
+TIG_MyParcel2014::Something went wrong with splitting up housenumber %s.,Er is iets fout gegaan met het opsplitsen van huisnummer %s. Voeg het adres handmatig toe in de backoffice.
 TIG_MyParcel2014::Invalid housnumber supplied: %s.,Invalide huisnummer opgegeven: %s
 TIG_MyParcel2014::Invalid session requested.,Invalide sessie opgevraagd
 TIG_MyParcel2014::Invalid message type requested: %s.,Invalide bericht-type opgevraagd: %s
@@ -261,7 +261,7 @@ TIG_MyParcel2014::Create shipments (no labels),Cre&euml;er verzendingen (geen la
 TIG_MyParcel2014::Insured up to &euro;%s,Verzekerd tot &euro;%s
 TIG_MyParcel2014::Total order value: &euro; %s,Totaal order bedrag: &euro; %s
 TIG_MyParcel2014::Shipment insured up to &euro; %s purchase value,Verzekerd tot een inkoopbedrag van € %s,-
-"TIG_MyParcel2014::By creating this shipment, you create a concept in MyParcel.<br>In the backoffice of MyParcel you can further customize the options.","Voor deze zending wordt een conceptzending aangemaakt.<br>In de backoffice van MyParcel is deze eventueel nog aan te passen."
+"TIG_MyParcel2014::By creating this shipment, you create a concept in MyParcel.<br>In the backoffice you can further customize the options.","Voor deze zending wordt een conceptzending aangemaakt.<br>In de backoffice is deze eventueel nog aan te passen."
 TIG_MyParcel2014::Post Office Address,Gekozen afhaallocatie
 "TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","De geselecteerde zending type kan niet gebruikt worden. 'PostNL locatie' zendingen kunnen enkel aangemaakt worden middels de normale verzendtype. <br/>De Magento zending is aangemaakt zonder een MyParcel zending, selecteer een ander verzend type of ga naar de Magento zending pagina en maak daar een MyParcel zending aan. <a target=""_blank"" href=""%s"">Bekijk zending</a>"
 TIG_MyParcel2014::Only for dutch shipments,Alleen voor Nederlandse verzendingen
