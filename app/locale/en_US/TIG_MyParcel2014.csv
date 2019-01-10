@@ -40,10 +40,10 @@ TIG_MyParcel2014::Enable or disable the MyParcel module.,Enable or disable the M
 TIG_MyParcel2014::Selecting 'No' will overrule all individual settings.,Selecting 'No' will overrule all individual settings.
 TIG_MyParcel2014::General Settings,General Settings
 TIG_MyParcel2014::API Key,API Key
-TIG_MyParcel2014::The API Key given by MyParcel.,The API Key given by MyParcel.
+TIG_MyParcel2014::The API Key.,The API Key.
 TIG_MyParcel2014::API Username,API Username
-TIG_MyParcel2014::Your MyParcel username.,Your MyParcel username.
-TIG_MyParcel2014::To get your personal API credentials you should contact MyParcel.,To get your personal API credentials you should contact MyParcel.
+TIG_MyParcel2014::Your username.,Your username.
+TIG_MyParcel2014::To get your personal API credentials you should contact us.,To get your personal API credentials you should contact us.
 TIG_MyParcel2014::API settings,API settings
 TIG_MyParcel2014::Version &amp; Support,Version &amp; Support
 TIG_MyParcel2014::The log files cannot be downloaded.,The log files cannot be downloaded.
@@ -98,8 +98,8 @@ TIG_MyParcel2014::IWD's OnePageCheckout version,IWD's OnePageCheckout version
 "TIG_MyParcel2014::If you wish to use this extension on an unsupported Magento version or edition, or in combination with an unsupported 3rd party extension, we cannot guarantee the MyParcel extension will function as expected. For questions please contact the Total Internet Group servicedesk.","If you wish to use this extension on an unsupported Magento version or edition, or in combination with an unsupported 3rd party extension, we cannot guarantee the MyParcel extension will function as expected. For questions please contact the Total Internet Group servicedesk."
 TIG_MyParcel2014::Support,Support
 TIG_MyParcel2014::The extension is developed by Total Internet Group.,The extension is developed by Total Internet Group.
-TIG_MyParcel2014::MyParcel account questions and information,MyParcel account questions and information
-TIG_MyParcel2014::For questions related to your MyParcel account, configuration problems, extension conflicts and bugs, please contact MyParcel.,For questions related to your MyParcel account, configuration problems, extension conflicts and bugs, please contact MyParcel.
+TIG_MyParcel2014::Account questions and information,Account questions and information
+TIG_MyParcel2014::For questions related to your account, configuration problems, extension conflicts and bugs, please contact us.,For questions related to your account, configuration problems, extension conflicts and bugs, please contact us.
 TIG_MyParcel2014::Phone,Phone
 TIG_MyParcel2014::Online knowledgebase,Online knowledgebase
 TIG_MyParcel2014::Request help directly,Request help directly
@@ -134,14 +134,14 @@ TIG_MyParcel2014::This will be added to the regular shipping price,This will be 
 TIG_MyParcel2014::Not possible if Pickup at PostNL location is not active,Not possible if Pickup at PostNL location is not active
 TIG_MyParcel2014::Default shipment type for Cross Domestic shipments,Default shipment type for Cross Domestic shipments
 "TIG_MyParcel2014::When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.","When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments."
-"TIG_MyParcel2014::To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>."
+"TIG_MyParcel2014::To read the instructions for the Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","To read the instructions for the Magento extension, click <a target=""_blank"" href=""%s"">here</a>."
 TIG_MyParcel2014::When using the extension please note:,When using the extension please note:
-TIG_MyParcel2014::To be able to configure the extension you need to possess and use an active MyParcel account.,To be able to configure the extension you need to possess and use an active MyParcel account.
+TIG_MyParcel2014::To be able to configure the extension you need to possess and use an active account.,To be able to configure the extension you need to possess and use an active account.
 "TIG_MyParcel2014::During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension.","During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension."
-TIG_MyParcel2014::We cannot guarantee perfect functionality of the MyParcel extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact MyParcel.<br><br>Supported extensions:,We cannot guarantee perfect functionality of the MyParcel extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact MyParcel.<br><br>Supported extensions:
+TIG_MyParcel2014::We cannot guarantee perfect functionality of the extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact us.<br><br>Supported extensions:,We cannot guarantee perfect functionality of the extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact us.<br><br>Supported extensions:
 TIG_MyParcel2014::Installation and configuration instructions,Installation and configuration instructions
 TIG_MyParcel2014::Overview articles in knowledge base,View all articles in the knowledgebase
-TIG_MyParcel2014::Questions and information about your MyParcel account,Questions and information about your MyParcel account
+TIG_MyParcel2014::Questions and information about your account,Questions and information about your account
 "TIG_MyParcel2014::Shipments will not be delivered at the neighbours, only on house address.","Shipments will not be delivered at the neighbours, only on house address."
 TIG_MyParcel2014::Shipments will not go the a pickup point but will be returned directly after multiple delivery attempts.,Shipments will not go the a pickup point but will be returned directly after multiple delivery attempts.
 TIG_MyParcel2014::Unable to save check_status cron expression: %s,Unable to save check_status cron expression: %s
