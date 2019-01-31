@@ -427,7 +427,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (strlen($fullStreet) > 40 && $throwException) {
             throw new TIG_MyParcel2014_Exception(
-                $this->__('Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice of MyParcel.'),
+                $this->__('Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice.'),
                 'MYPA-0026'
             );
         }

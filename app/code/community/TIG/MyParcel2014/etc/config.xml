@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.17.3-beta.1</version>
+            <version>1.17.3-beta.2</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -260,7 +260,7 @@
                 <return_if_no_answer>0</return_if_no_answer>
                 <automatically_next_status>1</automatically_next_status>
                 <is_xl>0</is_xl>
-                <insured_50>0</insured_50>
+                <insured_100>0</insured_100>
                 <insured_250>0</insured_250>
                 <insured_500>0</insured_500>
                 <customs_type>1</customs_type>

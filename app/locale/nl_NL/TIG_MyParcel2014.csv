@@ -98,12 +98,12 @@ TIG_MyParcel2014::Pickup Belgium active,Ophalen België actief
 TIG_MyParcel2014::Pickup Belgium title,Ophalen België titel
 TIG_MyParcel2014::Pickup Belgium fee,Ophalen België prijs
 TIG_MyParcel2014::API Key,API Key,
-TIG_MyParcel2014::The API Key given by MyParcel.,Stel hier de API key in die is ontvangen vanuit MyParcel
+TIG_MyParcel2014::The API Key.,Stel hier de API key in.
 TIG_MyParcel2014::API Username,API Gebruikersnaam
-TIG_MyParcel2014::Your MyParcel username.,Vul hier de gebruikersnaam in voor het MyParcel platform
-TIG_MyParcel2014::To get your personal API credentials you should contact MyParcel.,Neem contact op met MyParcel om de API gegevens te ontvangen.
+TIG_MyParcel2014::Your username.,Vul hier de gebruikersnaam in voor het platform
+TIG_MyParcel2014::To get your personal API credentials you should contact us.,Neem contact met ons op om de API gegevens te ontvangen.
 TIG_MyParcel2014::API settings,API Instellingen
-TIG_MyParcel2014::"Wrong API key. Go to MyParcel settings to set the API key.","Verkeerde API key. Ga naar de instellingen van de MyParcel plugin om de juiste API key in te vullen."
+TIG_MyParcel2014::Wrong API key. Go to MyParcel settings to set the API key.,Verkeerde API key. Ga naar de instellingen van de MyParcel plugin om de juiste API key in te vullen.
 TIG_MyParcel2014::Version &amp; Support,Versie &amp; Support
 TIG_MyParcel2014::The log files cannot be downloaded.,De logbestanden kunnen niet gedownload worden.
 TIG_MyParcel2014::An error occurred while processing this action.,Er is een fout opgetreden tijdens het verwerken van deze actie.
@@ -115,9 +115,9 @@ TIG_MyParcel2014::MyParcel replied with the following warnings:,MyParcel heeft g
 TIG_MyParcel2014::The following shipments or orders could not be processed:,De volgende verzendingen konden niet verwerkt worden:
 TIG_MyParcel2014::Order #%s cannot be shipped at this time.,Order #%s kan niet verzonden worden op dit moment
 TIG_MyParcel2014::Invalid full street supplied: %s.,Invalide volledige straatnaam opgegeven: %s.
-TIG_MyParcel2014::Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice of MyParcel.,Adres is te lang. Maak het bezorgadres korter dan 40 tekens. Klik op verzenden (in de order detailpagina) om een concept aan te maken. En bewerk de zending vervolgens in de backoffice van MyParcel.
-TIG_MyParcel2014::Something went wrong with splitting up address %s.,Er is iets fout gegaan met het opsplitsen van adres %s. Voeg het adres handmatig toe in de backoffice van MyParcel.
-TIG_MyParcel2014::Something went wrong with splitting up housenumber %s.,Er is iets fout gegaan met het opsplitsen van huisnummer %s. Voeg het adres handmatig toe in de backoffice van MyParcel.
+TIG_MyParcel2014::Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice.,Adres is te lang. Maak het bezorgadres korter dan 40 tekens. Klik op verzenden (in de order detailpagina) om een concept aan te maken. En bewerk de zending vervolgens in de backoffice.
+TIG_MyParcel2014::Something went wrong with splitting up address %s.,Er is iets fout gegaan met het opsplitsen van adres %s. Voeg het adres handmatig toe in de backoffice.
+TIG_MyParcel2014::Something went wrong with splitting up housenumber %s.,Er is iets fout gegaan met het opsplitsen van huisnummer %s. Voeg het adres handmatig toe in de backoffice.
 TIG_MyParcel2014::Invalid housnumber supplied: %s.,Invalide huisnummer opgegeven: %s
 TIG_MyParcel2014::Invalid session requested.,Invalide sessie opgevraagd
 TIG_MyParcel2014::Invalid message type requested: %s.,Invalide bericht-type opgevraagd: %s
@@ -158,8 +158,8 @@ TIG_MyParcel2014::Idev's OneStepCheckout version,Idev's OneStepCheckout versie
 TIG_MyParcel2014::IWD's OnePageCheckout version,IWD's OnePageCheckout versie
 TIG_MyParcel2014::Support,Ondersteuning
 TIG_MyParcel2014::The extension is developed by Total Internet Group.,Deze extensie is ontwikkeld door Total Internet Group.
-TIG_MyParcel2014::MyParcel account questions and information,MyParcel account vragen en informatie
-"TIG_MyParcel2014::For questions related to your MyParcel account, configuration problems, extension conflicts and bugs, please contact MyParcel.","Voor vragen gerelateerd aan uw MyParcel account, configuratie problemen, extensie conflicten en bugs, neemt u contact op met MyParcel."
+TIG_MyParcel2014::Account questions and information,Account vragen en informatie
+"TIG_MyParcel2014::For questions related to your account, configuration problems, extension conflicts and bugs, please contact us.","Voor vragen gerelateerd aan uw account, configuratie problemen, extensie conflicten en bugs, neemt u contact op met ons."
 TIG_MyParcel2014::Phone,Telefoon
 TIG_MyParcel2014::Online knowledgebase,Online kennisbank
 TIG_MyParcel2014::Request help directly,Vraag direct hulp
@@ -204,14 +204,14 @@ TIG_MyParcel2014::This will be added to the regular shipping price,Dit zal bij d
 TIG_MyParcel2014::Not possible if Pickup at PostNL location is not active,Dit zal niet mogelijk zijn zodra ophalen bij een PostNL locatie niet geactiveerd is
 TIG_MyParcel2014::Default shipment type for Cross Domestic shipments,Standaard verzend inhoud voor Cross Domestic verzendingen
 "TIG_MyParcel2014::When changing the address, you need to cancel the current MyParcel shipment(s) linked to this order and create new MyParcel shipments.","Wanneer het adres gewijzigd wordt, bent u genoodzaakt om de gekoppelde MyParcel verzendingen te crediteren en nieuwe MyParcel verzendingen aan te maken."
-"TIG_MyParcel2014::To read the instructions for the MyParcel Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","Klik <a target=""_blank"" href=""%s"">hier</a> om de handleiding van de MyParcel Magento extensie te bekijken."
+"TIG_MyParcel2014::To read the instructions for the Magento extension, click <a target=""_blank"" href=""%s"">here</a>.","Klik <a target=""_blank"" href=""%s"">hier</a> om de handleiding van de Magento extensie te bekijken."
 TIG_MyParcel2014::When using the extension please note:,Aandachtspunten bij het gebruik van deze extensie:
-TIG_MyParcel2014::To be able to configure the extension you need to possess and use an active MyParcel account.,U dient een actief MyParcel account te hebben om de extensie te kunnen configureren.
+TIG_MyParcel2014::To be able to configure the extension you need to possess and use an active account.,U dient een actief account te hebben om de extensie te kunnen configureren.
 "TIG_MyParcel2014::During the transition phase the old Magento MyParcel extension can remain active. However, you do need to turn off PakjeGemak in the old MyParcel extension.",Indien u de oude MyParcel extensie gebruikt kan deze actief blijven in de overgangsfase. Wel dient u PakjeGemak in de oude MyParcel extensie uit te schakelen.
-TIG_MyParcel2014::We cannot guarantee perfect functionality of the MyParcel extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact MyParcel.<br><br>Supported extensions:,"Indien u de extensie wilt gebruiken op een niet-ondersteunde versie of editie van Magento, of als u de extensie wilt gebruiken samen met een 3rd party extensie die niet ondersteund wordt, kunnen wij niet garanderen dat de MyParcel extensie feilloos zal functioneren. Voor vragen kunt u contact opnemen met MyParcel.<br><br>Ondersteunde extensies:"
+TIG_MyParcel2014::We cannot guarantee perfect functionality of the extension when you intend to use the extension on a version of Magento that is not supported or when you intend to use the extension together with a 3rd part extension that is not supported. If you have any questions please contact us.<br><br>Supported extensions:,"Indien u de extensie wilt gebruiken op een niet-ondersteunde versie of editie van Magento, of als u de extensie wilt gebruiken samen met een 3rd party extensie die niet ondersteund wordt, kunnen wij niet garanderen dat de extensie feilloos zal functioneren. Voor vragen kunt u contact opnemen met ons.<br><br>Ondersteunde extensies:"
 TIG_MyParcel2014::Installation and configuration instructions,Installatie en configuratie handleiding
 TIG_MyParcel2014::Overview articles in knowledge base,Meest gestelde vragen
-TIG_MyParcel2014::Questions and information about your MyParcel account,MyParcel account vragen en informatie
+TIG_MyParcel2014::Questions and information about your account,Account vragen en informatie
 "TIG_MyParcel2014::Shipments will not be delivered at the neighbours, only on house address.","Zendingen worden niet bij de buren aangeboden, alleen op huisadres."
 TIG_MyParcel2014::Shipments will not go the a pickup point but will be returned directly after multiple delivery attempts.,Zendingen gaan niet naar een afhaallocatie en komen direct retour na bezorgpogingen.
 TIG_MyParcel2014::Unable to save check_status cron expression: %s,Het is niet gelukt om de check_status cron expressie op te slaan: %s
@@ -261,7 +261,7 @@ TIG_MyParcel2014::Create shipments (no labels),Cre&euml;er verzendingen (geen la
 TIG_MyParcel2014::Insured up to &euro;%s,Verzekerd tot &euro;%s
 TIG_MyParcel2014::Total order value: &euro; %s,Totaal order bedrag: &euro; %s
 TIG_MyParcel2014::Shipment insured up to &euro; %s purchase value,Verzekerd tot een inkoopbedrag van € %s,-
-"TIG_MyParcel2014::By creating this shipment, you create a concept in MyParcel.<br>In the backoffice of MyParcel you can further customize the options.","Voor deze zending wordt een conceptzending aangemaakt.<br>In de backoffice van MyParcel is deze eventueel nog aan te passen."
+"TIG_MyParcel2014::By creating this shipment, you create a concept in MyParcel.<br>In the backoffice you can further customize the options.","Voor deze zending wordt een conceptzending aangemaakt.<br>In de backoffice is deze eventueel nog aan te passen."
 TIG_MyParcel2014::Post Office Address,Gekozen afhaallocatie
 "TIG_MyParcel2014::The selected shipment type cannot be used. Pakjegemak shipments can only be created with the normal shipment type.<br/> The Magento shipment has been created without a MyParcel shipment, select a different shipment type or go to the shipment page to create a single MyParcel shipment. <a target=""_blank"" href=""%s"">View shipment</a>","De geselecteerde zending type kan niet gebruikt worden. 'PostNL locatie' zendingen kunnen enkel aangemaakt worden middels de normale verzendtype. <br/>De Magento zending is aangemaakt zonder een MyParcel zending, selecteer een ander verzend type of ga naar de Magento zending pagina en maak daar een MyParcel zending aan. <a target=""_blank"" href=""%s"">Bekijk zending</a>"
 TIG_MyParcel2014::Only for dutch shipments,Alleen voor Nederlandse verzendingen
