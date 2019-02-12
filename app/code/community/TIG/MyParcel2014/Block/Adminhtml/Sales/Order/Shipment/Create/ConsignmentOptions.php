@@ -333,6 +333,52 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
     }
 
     /**
+     * @return string
+     */
+    public function getIsDigitalStamp($items)
+    {
+        $itemWeight = 0;
+        foreach ($items as $item) {
+            $qty = $item->getQty();
+            $qty = $qty == null ? $item->getData('qty_ordered') : $qty;
+            if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+                /** @var Mage_Sales_Model_Order_Item $item */
+                $id = $item->getProductId();
+            } else {
+                /** @var Mage_Sales_Model_Quote_Address_Item $item */
+                $id = $item->getProduct()->getId();
+            }
+            var_dump($item->getWeight());
+            $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($id);
+            if (empty($parentIds)) {
+                $itemWeight += $item->getWeight() * $qty;
+            }
+        }
+
+        // check in which category the weight is and calculate it in grams
+        $itemWeight = $itemWeight * 1000;
+        if ($itemWeight <= 20){
+            $digitalStampUpTo = 20;
+        }else if ($itemWeight > 20 && $itemWeight <= 50){
+            $digitalStampUpTo = 50;
+        }else if ($itemWeight > 50 && $itemWeight <= 100){
+            $digitalStampUpTo = 100;
+        }else if ($itemWeight > 100 && $itemWeight <= 350){
+            $digitalStampUpTo = 350;
+        }else if ($itemWeight > 350 && $itemWeight <= 2000){
+            $digitalStampUpTo = 2000;
+        }
+
+        $selected = 'checked="checked"';
+        $returnArray = array(
+            'digitalStampUpTo'  => $digitalStampUpTo,
+            'selected'          => $selected,
+        );
+
+        return $returnArray;
+    }
+
+    /**
      * Check if the shipment is placed using Pakjegemak
      *
      * @return bool

@@ -417,6 +417,7 @@ class TIG_MyParcel2014_Model_Adminhtml_Observer_ShipmentGrid extends Varien_Obje
                                 TIG_MyParcel2014_Model_Shipment::TYPE_NORMAL     => $helper->__('Normal'),
                                 TIG_MyParcel2014_Model_Shipment::TYPE_LETTER_BOX => $helper->__('Letterbox'),
                                 TIG_MyParcel2014_Model_Shipment::TYPE_UNPAID     => $helper->__('Unpaid'),
+                                TIG_MyParcel2014_Model_Shipment::TYPE_DIGITAL_STAMP     => $helper->__('Digital stamp'),
                             ),
                         ),
                         'create_consignment' => array(

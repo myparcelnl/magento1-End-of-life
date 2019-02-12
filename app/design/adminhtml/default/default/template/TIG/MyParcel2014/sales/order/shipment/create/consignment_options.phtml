@@ -48,6 +48,7 @@ $_returnNoAnswerSelected    = $this->getIsReturnOnNoAnswer();
 $_isXlSelected              = $this->getIsXl();
 $_insured                   = $this->getIsInsured();
 $_isPakjegemak              = $this->getIsPakjeGemak();
+$_digitalStamp              = $this->getIsDigitalStamp($this->getShipment()->getItemsCollection());
 $_insuredSelected           = '';
 $_insuredUpTo               = '';
 $_insuredAmount             = 0;
@@ -64,6 +65,10 @@ if(is_array($_insured)){
     $_insuredAmount   = (int)$_insured['insuredAmount'];
     $_insuredSelected = $_insured['selected'];
     $_insuredUpTo     = $_insured['insuredUpTo'];
+}
+
+if(is_array($_digitalStamp)){
+    $_digitalStampUpTo = $_digitalStamp['digitalStampUpTo'];
 }
 
 $_disabled = '';
@@ -84,7 +89,8 @@ if(true == $_isPakjegemak){
                 <select id="tig_myparcel_shipment_type" name="tig_myparcel[shipment_type]">
                     <option value="normal" <?php echo $type == 1 ? 'selected="selected"' : '';?>><?php echo $this->__('Normal'); ?></option>
                     <?php if ($this->getDestinationCountry() == 'NL'): ?>
-                    <option value="letter_box" <?php echo $_disabled;?> <?php echo $type == 2 ? 'selected="selected"' : '';?>><?php echo $this->__('Letter box'); ?></option>
+                        <option value="letter_box" <?php echo $_disabled;?> <?php echo $type == 2 ? 'selected="selected"' : '';?>><?php echo $this->__('Letter box'); ?></option>
+                        <option value="digital_stamp" <?php echo $_disabled;?> <?php echo $type == 4 ? 'selected="selected"' : '';?>><?php echo $this->__('Digital Stamp'); ?></option>
                     <?php endif; ?>
                     <option value="unstamped" <?php echo $_disabled;?> ><?php echo $this->__('Unpaid'); ?></option>
                 </select>
@@ -158,6 +164,20 @@ if(true == $_isPakjegemak){
                 </p>
             <?php endif;?>
         </div>
+        <div id="myparcel_digital_stamp_options">
+            <?php if ($this->getDestinationCountry() == 'NL'): ?>
+                <p>
+                    <label for="tig_myparcel_insured" class="normal">(<?php echo $this->__('Total order weight: ',$this->getOrderTotal());?>) <?php echo $this->__('Weight up to:');?> </label>
+                    <select id="tig_myparcel_insured_amount" name="tig_myparcel[insured_amount]" >
+                        <option value="20" <?php echo $_digitalStampUpTo == 20 ? 'selected="selected"' : '';?>>0 - 20 gram</option>
+                        <option value="50" <?php echo $_digitalStampUpTo == 50 ? 'selected="selected"' : '';?>>20 - 50 gram</option>
+                        <option value="100" <?php echo $_digitalStampUpTo == 100 ? 'selected="selected"' : '';?>>50 - 100 gram</option>
+                        <option value="350" <?php echo $_digitalStampUpTo == 350 ? 'selected="selected"' : '';?>>100 - 350 gram</option>
+                        <option value="2000" <?php echo $_digitalStampUpTo == 2000 ? 'selected="selected"' : '';?>>350 - 2000 gram</option>
+                    </select>
+                </p>
+            <?php endif;?>
+        </div>
     </div>
     <p><?php echo $this->__('By creating this shipment, you create a concept in MyParcel.<br>In the backoffice you can further customize the options.');?></p>
 </div>
@@ -203,10 +223,15 @@ if(true == $_isPakjegemak){
         function checkConsignment(){
             var value = shipmentTypeSelect.getValue();
             var consignmentOptionFields = $('myparcel_consignment_options');
+            var digitalStampOptionFields = $('myparcel_digital_stamp_options');
+
+            digitalStampOptionFields.hide();
+            consignmentOptionFields.hide();
             if (value == 'normal') {
                 consignmentOptionFields.show();
-            } else {
-                consignmentOptionFields.hide();
+            }
+            if (value == 'digital_stamp'){
+                digitalStampOptionFields.show();
             }
         }
         checkConsignment();

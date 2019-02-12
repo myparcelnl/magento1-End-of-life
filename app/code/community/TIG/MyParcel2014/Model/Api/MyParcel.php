@@ -75,6 +75,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     const SHIPMENT_V2_ACTIVE_FROM = 25;
     const MAX_STREET_LENGTH = 40;
 
+    const DIGITAL_STAMP = 4;
+
     /**
      * @var string
      */
@@ -805,6 +807,32 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $data['physical_properties']['weight'] = (int)$totalWeight;
         }
 
+        if($data['options']['package_type'] == self::DIGITAL_STAMP){
+
+            $totalWeight = 0;
+            $items = $myParcelShipment->getOrder()->getAllItems();
+            foreach($items as $item) {
+                if($item->getProductType() == 'simple') {
+                    $parentId = $item->getParentItemId();
+                    $weight   = floatval($item->getWeight());
+                    $qty      = intval($item->getQtyOrdered());
+
+                    if ( ! empty($parentId)) {
+                        $parent = Mage::getModel('sales/order_item')->load($parentId);
+
+                        if (empty($weight)) {
+                            $weight = $parent->getWeight();
+                        }
+                    }
+                    $weight      *= $qty;
+                    $totalWeight += $weight * 1000;
+                }
+            }
+
+            $data['physical_properties']['weight'] = $totalWeight;
+            unset($data['options']['weight']);
+        }
+
         /**
          * If the customer has chosen to pick up their order at a PakjeGemak location, add the PakjeGemak address.
          */
@@ -861,6 +889,9 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 break;
             case $myParcelShipment::TYPE_UNPAID:
                 $packageType = 3;
+                break;
+            case $myParcelShipment::TYPE_DIGITAL_STAMP:
+                $packageType = 4;
                 break;
             case $myParcelShipment::TYPE_NORMAL:
             default:
@@ -921,6 +952,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     $data['label_description'] = $data['label_description'] . ' (' . $dateTime['day'] . '-' . $dateTime['month'] . ')';
                 }
             }
+
         }
 
         if ((int)$myParcelShipment->getInsured() === 1 && $data['package_type'] != 2) {
