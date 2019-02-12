@@ -332,8 +332,11 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         return $returnArray;
     }
 
+
     /**
-     * @return string
+     * @param $items
+     *
+     * @return array
      */
     public function getIsDigitalStamp($items)
     {

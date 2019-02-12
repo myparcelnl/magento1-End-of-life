@@ -808,7 +808,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         }
 
         if($data['options']['package_type'] == self::DIGITAL_STAMP){
-
             $totalWeight = 0;
             $items = $myParcelShipment->getOrder()->getAllItems();
             foreach($items as $item) {
