@@ -351,7 +351,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
                 /** @var Mage_Sales_Model_Quote_Address_Item $item */
                 $id = $item->getProduct()->getId();
             }
-            
+
             $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($id);
             if (empty($parentIds)) {
                 $itemWeight += $item->getWeight() * $qty;
@@ -362,13 +362,13 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         $itemWeight = $itemWeight * 1000;
         if ($itemWeight <= 20){
             $digitalStampUpTo = 20;
-        }else if ($itemWeight > 20 && $itemWeight <= 50){
+        } else if ($itemWeight <= 50){ // weight between 20 and 50 gram
             $digitalStampUpTo = 50;
-        }else if ($itemWeight > 50 && $itemWeight <= 100){
+        } else if ($itemWeight <= 100){ // weight between 50 and 100 gram
             $digitalStampUpTo = 100;
-        }else if ($itemWeight > 100 && $itemWeight <= 350){
+        } else if ($itemWeight <= 350){ // weight between 100 and 350 gram
             $digitalStampUpTo = 350;
-        }else if ($itemWeight > 350 && $itemWeight <= 2000){
+        } else if ($itemWeight <= 2000){ // weight between 350 and 2000 gram
             $digitalStampUpTo = 2000;
         }
 
