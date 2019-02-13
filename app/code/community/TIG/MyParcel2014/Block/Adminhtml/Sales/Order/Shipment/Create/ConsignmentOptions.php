@@ -351,7 +351,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
                 /** @var Mage_Sales_Model_Quote_Address_Item $item */
                 $id = $item->getProduct()->getId();
             }
-            var_dump($item->getWeight());
+            
             $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($id);
             if (empty($parentIds)) {
                 $itemWeight += $item->getWeight() * $qty;
