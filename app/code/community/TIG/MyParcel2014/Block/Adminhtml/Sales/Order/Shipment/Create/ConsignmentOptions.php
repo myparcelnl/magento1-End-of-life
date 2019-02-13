@@ -371,11 +371,10 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         } else if ($itemWeight <= 2000){ // weight between 350 and 2000 gram
             $digitalStampUpTo = 2000;
         }
-
-        $selected = 'checked="checked"';
+        
         $returnArray = array(
             'digitalStampUpTo'  => $digitalStampUpTo,
-            'selected'          => $selected,
+            'selected'          => 'checked="checked"',
         );
 
         return $returnArray;
