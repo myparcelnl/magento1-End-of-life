@@ -726,6 +726,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             unset($data['recipient']['number_suffix']);
         }
 
+        $totalWeight = 0;
+        $items = $myParcelShipment->getOrder()->getAllItems();
+        $i = 0;
+
         // add customs data for EUR3 and World shipments
         if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
         {
@@ -748,33 +752,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $customType = (int)$helper->getConfig('customs_type', 'shipment', $storeId);
             $data['customs_declaration']['contents']            = $customType == 0 ? 1 : $customType;
 
-            $totalWeight = 0;
-            $items = $myParcelShipment->getOrder()->getAllItems();
-            $i = 0;
+
             foreach($items as $item) {
                 if($item->getProductType() == 'simple') {
-                    $parentId = $item->getParentItemId();
-                    $weight = floatval($item->getWeight());
-                    $price = floatval($item->getPrice());
-                    $qty = intval($item->getQtyOrdered());
 
-                    if(!empty($parentId)) {
-                        $parent = Mage::getModel('sales/order_item')->load($parentId);
-
-                        if (empty($weight)) {
-                            $weight = $parent->getWeight();
-                        }
-
-                        if (empty($price)) {
-                            $price = $parent->getPrice();
-                        }
-                    }
-
-                    $weight *= $qty;
-                    $weight = max(array(1, $weight));
-                    $totalWeight += $weight;
-
-                    $price *= $qty;
+                    $WeightData = $this->getTotalWeight($totalWeight, $item, true);
 
                     if(empty($customsContentType)){
                         $customsContentTypeItem = $helper->getHsCode($item, $storeId);
@@ -796,9 +778,9 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                     $data['customs_declaration']['items'][] = array(
                         'description'       => $itemDescription,
-                        'amount'            => $qty,
-                        'weight'            => (int)$weight * 1000,
-                        'item_value'        => array('amount' => $price * 100, 'currency' => 'EUR'),
+                        'amount'            => $WeightData[2],
+                        'weight'            => (int)$WeightData[0] * 1000,
+                        'item_value'        => array('amount' => $WeightData[3] * 100, 'currency' => 'EUR'),
                         'classification'      => $customsContentTypeItem,
                         'country' => Mage::getStoreConfig('general/country/default', $storeId),
 
@@ -809,33 +791,21 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     }
                 }
             }
-            $data['customs_declaration']['weight'] = (int)$totalWeight;
-            $data['physical_properties']['weight'] = (int)$totalWeight;
+            $data['customs_declaration']['weight'] = (int)$WeightData[1];
+
         }
 
         if($data['options']['package_type'] == self::DIGITAL_STAMP){
-            $totalWeight = 0;
-            $items = $myParcelShipment->getOrder()->getAllItems();
             foreach($items as $item) {
                 if($item->getProductType() == 'simple') {
-                    $parentId = $item->getParentItemId();
-                    $weight   = floatval($item->getWeight());
-                    $qty      = intval($item->getQtyOrdered());
-
-                    if ( ! empty($parentId)) {
-                        $parent = Mage::getModel('sales/order_item')->load($parentId);
-
-                        if (empty($weight)) {
-                            $weight = $parent->getWeight();
-                        }
-                    }
-                    $weight      *= $qty;
-                    $totalWeight += $weight * 1000;
+                    $WeightData = $this->getTotalWeight($totalWeight, $item);
                 }
             }
-
-            $data['physical_properties']['weight'] = $totalWeight;
             unset($data['options']['weight']);
+        }
+
+        if ($WeightData[1]){
+            $data['physical_properties']['weight'] = (int)$WeightData[1];
         }
 
         /**
@@ -863,6 +833,38 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         $data['carrier'] = 1;
         return $data;
+    }
+
+    public function getTotalWeight($totalWeight, $item, $isWoldShipment = false) {
+        $parentId   = $item->getParentItemId();
+        $weight     = floatval($item->getWeight());
+        $price      = floatval($item->getPrice());
+        $qty        = intval($item->getQtyOrdered());
+
+        if ( ! empty($parentId)) {
+            $parent = Mage::getModel('sales/order_item')->load($parentId);
+
+            if (empty($weight)) {
+                $weight = $parent->getWeight();
+            }
+
+            if (empty($price)) {
+                $price = $parent->getPrice();
+            }
+        }
+
+        $weight *= $qty;
+        if ($isWoldShipment != false){
+            $weight = max(array(1, $weight));
+        }
+
+        $totalWeight += $weight * 1000;
+        $price *= $qty;
+
+
+        return [$weight, $totalWeight, $qty, $price];
+
+
     }
 
     /**
