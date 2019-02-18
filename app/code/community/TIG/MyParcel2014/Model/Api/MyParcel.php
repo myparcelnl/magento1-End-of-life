@@ -54,6 +54,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     const REQUEST_TYPE_GET_LOCATIONS        = 'pickup';
 
     /**
+     * Shipment types
+     */
+    const PACKAGE = 1;
+    const MAILBOX = 2;
+    const LETTER = 3;
+    const DIGITAL_STAMP = 4;
+
+    /**
      * Consignment types
      */
     const TYPE_MORNING             = 1;
@@ -74,8 +82,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     const SHIPMENT_V2_ACTIVE_FROM = 25;
     const MAX_STREET_LENGTH = 40;
-
-    const DIGITAL_STAMP = 4;
 
     /**
      * @var string
@@ -881,20 +887,20 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             case $myParcelShipment::TYPE_LETTER_BOX:
                 /* Use mailbox only if no option is selected */
                 if ($helper->shippingMethodIsPakjegemak($myParcelShipment->getOrder()->getShippingMethod())) {
-                    $packageType = 1;
+                    $packageType = self::PACKAGE;
                 } else {
-                    $packageType = 2;
+                    $packageType = self::MAILBOX;
                 }
                 break;
             case $myParcelShipment::TYPE_UNPAID:
-                $packageType = 3;
+                $packageType = self::LETTER;
                 break;
             case $myParcelShipment::TYPE_DIGITAL_STAMP:
-                $packageType = 4;
+                $packageType = self::DIGITAL_STAMP;
                 break;
             case $myParcelShipment::TYPE_NORMAL:
             default:
-                $packageType = 1;
+                $packageType = self::PACKAGE;
 			break;
         }
 
