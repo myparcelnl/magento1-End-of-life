@@ -783,7 +783,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     }
                 }
             }
-            $data['customs_declaration']['weight'] = (int)$WeightData['totalWeight'];
+            $data['customs_declaration']['weight'] = (int)$WeightData['total_weight'];
 
         }
 
@@ -796,8 +796,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             unset($data['options']['weight']);
         }
 
-        if ($WeightData['totalWeight']){
-            $data['physical_properties']['weight'] = (int)$WeightData['totalWeight'];
+        if ($WeightData['total_weight']){
+            $data['physical_properties']['weight'] = (int)$WeightData['total_weight'];
         }
 
         /**
@@ -854,7 +854,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $price *= $qty;
 
 
-        return ['weight' => $weight, 'totalWeight' => $totalWeight, 'qty' => $qty, 'price' => $price];
+        return ['weight' => $weight, 'total_weight' => $totalWeight, 'qty' => $qty, 'price' => $price];
 
 
     }
