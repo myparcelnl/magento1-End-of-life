@@ -87,10 +87,10 @@ if(true == $_isPakjegemak){
             <p>
                 <label for="tig_myparcel_shipment_type" class="normal" ><?php echo $this->__('Shipment type');?></label>
                 <select id="tig_myparcel_shipment_type" name="tig_myparcel[shipment_type]">
-                    <option value="normal" <?php echo $type == TIG_MyParcel2014_Model_Api_MyParcel::PACKAGE ? 'selected="selected"' : '';?>><?php echo $this->__('Normal'); ?></option>
+                    <option value="normal" <?php echo $type == TIG_MyParcel2014_Model_Shipment::TYPE_PACKAGE_NUMBER ? 'selected="selected"' : '';?>><?php echo $this->__('Normal'); ?></option>
                     <?php if ($this->getDestinationCountry() == 'NL'): ?>
-                        <option value="letter_box" <?php echo $_disabled;?> <?php echo $type == TIG_MyParcel2014_Model_Api_MyParcel::MAILBOX ? 'selected="selected"' : '';?>><?php echo $this->__('Letter box'); ?></option>
-                        <option value="digital_stamp" <?php echo $_disabled;?> <?php echo $type == TIG_MyParcel2014_Model_Api_MyParcel::DIGITAL_STAMP ? 'selected="selected"' : '';?>><?php echo $this->__('Digital Stamp'); ?></option>
+                        <option value="letter_box" <?php echo $_disabled;?> <?php echo $type == TIG_MyParcel2014_Model_Shipment::TYPE_MAILBOX_NUMBER ? 'selected="selected"' : '';?>><?php echo $this->__('Letter box'); ?></option>
+                        <option value="digital_stamp" <?php echo $_disabled;?> <?php echo $type == TIG_MyParcel2014_Model_Shipment::TYPE_DIGITAL_STAMP_NUMBER ? 'selected="selected"' : '';?>><?php echo $this->__('Digital Stamp'); ?></option>
                     <?php endif; ?>
                     <option value="unstamped" <?php echo $_disabled;?> ><?php echo $this->__('Unpaid'); ?></option>
                 </select>
