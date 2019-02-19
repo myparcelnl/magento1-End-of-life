@@ -288,6 +288,7 @@ TIG_MyParcel2014::status_10,Retourzending afgeleverd
 TIG_MyParcel2014::status_11,Retourzending op afhaallocatie
 TIG_MyParcel2014::status_12,Ongefrankeerd label geprint
 TIG_MyParcel2014::status_13,Gecrediteerd
+TIG_MyParcel2014::status_14,Digitale postzegel geprint
 TIG_MyParcel2014::status_30,Inactief - Concept
 TIG_MyParcel2014::status_31,Inactief - Voorgemeld
 TIG_MyParcel2014::status_32,Inactief - Aangeboden bij PostNL

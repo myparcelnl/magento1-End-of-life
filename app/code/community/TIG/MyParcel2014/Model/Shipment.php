@@ -108,9 +108,18 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     /**
      * Supported shipment types.
      */
-    const TYPE_LETTER_BOX   = 'letter_box';
-    const TYPE_NORMAL       = 'normal';
-    const TYPE_UNPAID       = 'unstamped';
+    const TYPE_LETTER_BOX       = 'letter_box';
+    const TYPE_NORMAL           = 'normal';
+    const TYPE_UNPAID           = 'unstamped';
+    const TYPE_DIGITAL_STAMP    = 'digital_stamp';
+
+    /**
+     * Shipment types
+     */
+    const TYPE_PACKAGE_NUMBER       = 1;
+    const TYPE_MAILBOX_NUMBER       = 2;
+    const TYPE_LETTER_NUMBER        = 3;
+    const TYPE_DIGITAL_STAMP_NUMBER = 4;
 
     /** @var TIG_MyParcel2014_Helper_Data $helper */
     public $helper;
@@ -807,7 +816,12 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             case self::TYPE_UNPAID:
                 $isValid = true;
                 break;
-            case self::TYPE_LETTER_BOX:
+            case self::TYPE_DIGITAL_STAMP:
+                if ($this->isDutchShipment()) {
+                    $isValid = true;
+                }
+                break;
+             case self::TYPE_LETTER_BOX:
                 if ($this->isDutchShipment()) {
                     $isValid = true;
                 }
