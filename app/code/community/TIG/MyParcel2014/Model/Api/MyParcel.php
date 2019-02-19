@@ -770,9 +770,9 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
                     $data['customs_declaration']['items'][] = array(
                         'description'       => $itemDescription,
-                        'amount'            => $WeightData[2],
-                        'weight'            => (int)$WeightData[0] * 1000,
-                        'item_value'        => array('amount' => $WeightData[3] * 100, 'currency' => 'EUR'),
+                        'amount'            => $WeightData['qty'],
+                        'weight'            => (int)$WeightData['weight'] * 1000,
+                        'item_value'        => array('amount' => $WeightData['price'] * 100, 'currency' => 'EUR'),
                         'classification'      => $customsContentTypeItem,
                         'country' => Mage::getStoreConfig('general/country/default', $storeId),
 
@@ -783,11 +783,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     }
                 }
             }
-            $data['customs_declaration']['weight'] = (int)$WeightData[1];
+            $data['customs_declaration']['weight'] = (int)$WeightData['totalWeight'];
 
         }
 
-        if($data['options']['package_type'] == self::DIGITAL_STAMP){
+        if($data['options']['package_type'] == TIG_MyParcel2014_Model_Shipment::TYPE_DIGITAL_STAMP_NUMBER){
             foreach($items as $item) {
                 if($item->getProductType() == 'simple') {
                     $WeightData = $this->getTotalWeight($totalWeight, $item);
@@ -796,8 +796,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             unset($data['options']['weight']);
         }
 
-        if ($WeightData[1]){
-            $data['physical_properties']['weight'] = (int)$WeightData[1];
+        if ($WeightData['totalWeight']){
+            $data['physical_properties']['weight'] = (int)$WeightData['totalWeight'];
         }
 
         /**
@@ -854,7 +854,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $price *= $qty;
 
 
-        return [$weight, $totalWeight, $qty, $price];
+        return ['weight' => $weight, 'totalWeight' => $totalWeight, 'qty' => $qty, 'price' => $price];
 
 
     }
