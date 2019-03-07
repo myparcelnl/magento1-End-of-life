@@ -476,6 +476,11 @@
                 <url/>
                 <type>error</type>
             </MYPA-0027>
+            <MYPA-0028>
+                <message>The total weight of the order is more than 2000 grams and can not be sent with a digital stamp.</message>
+                <url/>
+                <type>error</type>
+            </MYPA-0028>
         </errors>
     </tig>
 </config>

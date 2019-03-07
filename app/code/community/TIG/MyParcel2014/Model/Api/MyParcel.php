@@ -793,7 +793,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                     $WeightData = $this->getTotalWeight($totalWeight, $item);
                 }
             }
+            unset($data['options']['delivery_date']);
             unset($data['options']['weight']);
+        }
+        // throw Exception when the weight of the digital stamp is more than 2000 grams
+        if ($WeightData['total_weight'] > 2000){
+            throw new TIG_MyParcel2014_Exception(
+                $helper->__('The total weight of the order is more than 2000 grams and can not be sent with a digital stamp.'),
+                'MYPA-0028'
+            );
         }
 
         if ($WeightData['total_weight']){
