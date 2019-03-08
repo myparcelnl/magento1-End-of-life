@@ -121,6 +121,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     const TYPE_LETTER_NUMBER        = 3;
     const TYPE_DIGITAL_STAMP_NUMBER = 4;
 
+    /**
+     * Total weight
+     */
+    const WEIGHT_DIGITAL_STAMP = 2000;
+
     /** @var TIG_MyParcel2014_Helper_Data $helper */
     public $helper;
 
