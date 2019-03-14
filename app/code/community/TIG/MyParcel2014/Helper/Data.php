@@ -280,7 +280,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return array(
             'NL', 'BE', 'BG', 'DK', 'DE', 'EE', 'FI', 'FR', 'HU', 'IE',
             'IT', 'LV', 'LT', 'LU', 'MC', 'AT', 'PL', 'PT', 'RO', 'SI',
-            'SK', 'ES', 'CZ', 'GB', 'SE'
+            'SK', 'ES', 'CZ', 'SE'
         );
     }
 
