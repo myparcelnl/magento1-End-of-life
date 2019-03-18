@@ -69,7 +69,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Localised track and trace base URL's
      */
-    const POSTNL_TRACK_AND_TRACE_NL_BASE_URL = 'https://mijnpakket.postnl.nl/Inbox/Search?';
+    const POSTNL_TRACK_AND_TRACE_NL_BASE_URL = 'https://myparcel.me/track-trace';
     const POSTNL_TRACK_AND_TRACE_INT_BASE_URL = 'https://www.internationalparceltracking.com/Main.aspx#/track';
 
     /**
@@ -342,18 +342,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             )
         ) {
             $barcodeUrl = self::POSTNL_TRACK_AND_TRACE_NL_BASE_URL
-                . '&b=' . $barcode;
-            /**
-             * For dutch shipments add the postcode. For international shipments add an 'international' flag.
-             */
-            if (!empty($postcode)
-                && !empty($countryCode)
-                && $countryCode == 'NL'
-            ) {
-                $barcodeUrl .= '&p=' . $postcode;
-            } else {
-                $barcodeUrl .= '&i=true';
-            }
+                . '/' . $barcode . '/' . $postcode . '/' . $countryCode;
 
             return $barcodeUrl;
         }
