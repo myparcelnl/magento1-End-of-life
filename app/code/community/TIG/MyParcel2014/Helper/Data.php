@@ -342,7 +342,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             )
         ) {
             $barcodeUrl = self::POSTNL_TRACK_AND_TRACE_NL_BASE_URL
-                . '/' . $barcode . '/' . $postcode . '/' . $countryCode;
+                . "/$barcode/$postcode/$countryCode";
 
             return $barcodeUrl;
         }
