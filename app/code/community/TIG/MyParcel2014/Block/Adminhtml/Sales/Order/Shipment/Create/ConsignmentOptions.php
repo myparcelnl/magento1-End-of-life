@@ -276,23 +276,23 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         $orderTotalShipped = $this->getOrderTotal();
 
         //get the insured values
-        $insuredType50     = $helper->getConfig('insured_50',  'shipment', $storeId);
+        $insuredType100    = $helper->getConfig('insured_100',  'shipment', $storeId);
         $insuredType250    = $helper->getConfig('insured_250', 'shipment', $storeId);
         $insuredType500    = $helper->getConfig('insured_500', 'shipment', $storeId);
 
         //check if the values are not empty/zero
-        $insuredType50     = (!empty($insuredType50) && $insuredType50 > 0)? $insuredType50 : false;
+        $insuredType100    = (!empty($insuredType100) && $insuredType100 > 0)? $insuredType100 : false;
         $insuredType250    = (!empty($insuredType250) && $insuredType250 > 0)? $insuredType250 : false;
         $insuredType500    = (!empty($insuredType500) && $insuredType500 > 0)? $insuredType500 : false;
 
         //if nothing is filled in, then set the default values, but do not pre-select
         $selected = 'checked="checked"';
         if(
-            false === $insuredType50 &&
+            false === $insuredType100 &&
             false === $insuredType250 &&
             false === $insuredType500
         ){
-            $insuredType50  = 50;
+            $insuredType100 = 100;
             $insuredType250 = 250;
             $insuredType500 = 500;
             $selected = 0;
@@ -304,9 +304,9 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         }elseif(false !== $insuredType250 && $orderTotalShipped > $insuredType250){
             $insuredValue = $insuredType250;
             $insuredUpTo = 250;
-        }elseif(false !== $insuredType50 && $orderTotalShipped > $insuredType50){
-            $insuredValue = $insuredType50;
-            $insuredUpTo = 50;
+        }elseif(false !== $insuredType100 && $orderTotalShipped > $insuredType100){
+            $insuredValue = $insuredType100;
+            $insuredUpTo = 100;
         }else{
             $insuredValue = 0;
             $insuredUpTo = 0;
@@ -330,6 +330,54 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         }
 
         return $returnArray;
+    }
+
+
+    /**
+     * @param $items
+     *
+     * @return array
+     */
+    public function getIsDigitalStamp($items)
+    {
+        $itemWeight = 0;
+        foreach ($items as $item) {
+            $qty = $item->getQty();
+            $qty = $qty == null ? $item->getData('qty_ordered') : $qty;
+            if ($item instanceof Mage_Sales_Model_Order_Shipment_Item) {
+                /** @var Mage_Sales_Model_Order_Item $item */
+                $id = $item->getProductId();
+            } else {
+                /** @var Mage_Sales_Model_Quote_Address_Item $item */
+                $id = $item->getProduct()->getId();
+            }
+
+            $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($id);
+            if (empty($parentIds)) {
+                $itemWeight += $item->getWeight() * $qty;
+            }
+        }
+
+        // check in which category the weight is and calculate it in grams
+        $itemWeight = $itemWeight * 1000;
+        if ($itemWeight <= 20){
+            $digitalStampUpTo = 20;
+        } else if ($itemWeight <= 50){ // weight between 20 and 50 gram
+            $digitalStampUpTo = 50;
+        } else if ($itemWeight <= 100){ // weight between 50 and 100 gram
+            $digitalStampUpTo = 100;
+        } else if ($itemWeight <= 350){ // weight between 100 and 350 gram
+            $digitalStampUpTo = 350;
+        } else if ($itemWeight <= 2000){ // weight between 350 and 2000 gram
+            $digitalStampUpTo = 2000;
+        }
+
+        $result = array(
+            'digitalStampUpTo'  => $digitalStampUpTo,
+            'selected'          => 'checked="checked"',
+        );
+
+        return $result;
     }
 
     /**

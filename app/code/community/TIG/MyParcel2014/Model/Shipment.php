@@ -108,9 +108,23 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     /**
      * Supported shipment types.
      */
-    const TYPE_LETTER_BOX   = 'letter_box';
-    const TYPE_NORMAL       = 'normal';
-    const TYPE_UNPAID       = 'unstamped';
+    const TYPE_LETTER_BOX       = 'letter_box';
+    const TYPE_NORMAL           = 'normal';
+    const TYPE_UNPAID           = 'unstamped';
+    const TYPE_DIGITAL_STAMP    = 'digital_stamp';
+
+    /**
+     * Shipment types
+     */
+    const TYPE_PACKAGE_NUMBER       = 1;
+    const TYPE_MAILBOX_NUMBER       = 2;
+    const TYPE_LETTER_NUMBER        = 3;
+    const TYPE_DIGITAL_STAMP_NUMBER = 4;
+
+    /**
+     * Total weight
+     */
+    const WEIGHT_DIGITAL_STAMP = 2000;
 
     /** @var TIG_MyParcel2014_Helper_Data $helper */
     public $helper;
@@ -453,12 +467,12 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $orderTotalShipped = $this->getOrderTotal();
 
         //get the insured values
-        $insuredType50     = $helper->getConfig('insured_50','shipment',$storeId);
+        $insuredType100    = $helper->getConfig('insured_100','shipment',$storeId);
         $insuredType250    = $helper->getConfig('insured_250','shipment',$storeId);
         $insuredType500    = $helper->getConfig('insured_500','shipment',$storeId);
 
         //check if the values are not empty/zero.
-        $insuredType50     = (!empty($insuredType50) && $insuredType50 > 0)? $insuredType50 : false;
+        $insuredType100    = (!empty($insuredType100) && $insuredType100 > 0)? $insuredType100 : false;
         $insuredType250    = (!empty($insuredType250) && $insuredType250 > 0)? $insuredType250 : false;
         $insuredType500    = (!empty($insuredType500) && $insuredType500 > 0)? $insuredType500 : false;
 
@@ -467,8 +481,8 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             $insuredValue = 500;
         }elseif(false !== $insuredType250 && $orderTotalShipped > $insuredType250){
             $insuredValue = 250;
-        }elseif(false !== $insuredType50 && $orderTotalShipped > $insuredType50){
-            $insuredValue = 50;
+        }elseif(false !== $insuredType100 && $orderTotalShipped > $insuredType100){
+            $insuredValue = 100;
         }else{
             $insuredValue = 0;
         }
@@ -807,7 +821,12 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             case self::TYPE_UNPAID:
                 $isValid = true;
                 break;
-            case self::TYPE_LETTER_BOX:
+            case self::TYPE_DIGITAL_STAMP:
+                if ($this->isDutchShipment()) {
+                    $isValid = true;
+                }
+                break;
+             case self::TYPE_LETTER_BOX:
                 if ($this->isDutchShipment()) {
                     $isValid = true;
                 }

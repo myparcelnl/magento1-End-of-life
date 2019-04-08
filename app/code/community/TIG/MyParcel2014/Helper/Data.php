@@ -69,8 +69,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Localised track and trace base URL's
      */
-    const POSTNL_TRACK_AND_TRACE_NL_BASE_URL = 'https://mijnpakket.postnl.nl/Inbox/Search?';
-    const POSTNL_TRACK_AND_TRACE_INT_BASE_URL = 'https://www.internationalparceltracking.com/Main.aspx#/track';
+    const POSTNL_TRACK_AND_TRACE_NL_BASE_URL = 'https://myparcel.me/track-trace';
 
     /**
      * List of MyParcel shipping methods.
@@ -280,7 +279,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         return array(
             'NL', 'BE', 'BG', 'DK', 'DE', 'EE', 'FI', 'FR', 'HU', 'IE',
             'IT', 'LV', 'LT', 'LU', 'MC', 'AT', 'PL', 'PT', 'RO', 'SI',
-            'SK', 'ES', 'CZ', 'GB', 'SE'
+            'SK', 'ES', 'CZ', 'SE'
         );
     }
 
@@ -328,46 +327,11 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             }
 
             $countryCode = $destination->getCountry();
-            $postcode = str_replace(' ', '', $destination->getPostcode());
         } else {
             throw new InvalidArgumentException('Destination must be an array or an instance of Varien_Object.');
         }
 
-        /**
-         * Get the dutch track & trace URL for dutch shipments or for the admin.
-         */
-        if ($forceNl
-            || (!empty($countryCode)
-                && $countryCode == 'NL'
-            )
-        ) {
-            $barcodeUrl = self::POSTNL_TRACK_AND_TRACE_NL_BASE_URL
-                . '&b=' . $barcode;
-            /**
-             * For dutch shipments add the postcode. For international shipments add an 'international' flag.
-             */
-            if (!empty($postcode)
-                && !empty($countryCode)
-                && $countryCode == 'NL'
-            ) {
-                $barcodeUrl .= '&p=' . $postcode;
-            } else {
-                $barcodeUrl .= '&i=true';
-            }
-
-            return $barcodeUrl;
-        }
-
-        /**
-         * Get a general track & trace URL for all other destinations.
-         */
-        $barcodeUrl = self::POSTNL_TRACK_AND_TRACE_INT_BASE_URL
-            . '/' . $barcode
-            . '/' . $countryCode;
-
-        if (!empty($postcode)) {
-            $barcodeUrl .= '/' . $postcode;
-        }
+        $barcodeUrl = self::POSTNL_TRACK_AND_TRACE_NL_BASE_URL . "/$barcode/$postcode/$countryCode";
 
         return $barcodeUrl;
     }
@@ -427,7 +391,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
 
         if (strlen($fullStreet) > 40 && $throwException) {
             throw new TIG_MyParcel2014_Exception(
-                $this->__('Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice of MyParcel.'),
+                $this->__('Address is too long. Make the delivery address less than 40 characters. Click on send (in the order detail page) to create a concept. And then edit the shipment in the backoffice.'),
                 'MYPA-0026'
             );
         }
