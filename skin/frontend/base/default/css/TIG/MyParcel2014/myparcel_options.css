@@ -178,9 +178,6 @@
     white-space: nowrap;
     width: 20px !important;
 }
-.mypa-delivery-option input{
-    width: 20px;
-}
 .mypa-delivery-option-table tr td:last-child {
     white-space: nowrap;
     vertical-align:top;
