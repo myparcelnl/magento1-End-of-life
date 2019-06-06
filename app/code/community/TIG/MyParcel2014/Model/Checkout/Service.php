@@ -54,7 +54,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
             $address = $addressHelper->getQuoteAddress($quote);
 
             if ($address['country'] !== 'NL' && $address['country'] !== 'BE'){
-                $quote->setMyparcelData(null)->save();
+                $this->setMyParcelDataInCookie($quote, null);
                 return true;
             }
 
@@ -64,7 +64,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
             if (strpos($request->getPost('shipping_method', ''), 'myparcel') !== false) {
 
                 if ($request->getPost('mypa-post-nl-data') == null) {
-                    $quote->setMyparcelData(null)->save();
+                    $this->setMyParcelDataInCookie($quote, null);
                     return true;
                 }
 
@@ -93,10 +93,10 @@ class TIG_MyParcel2014_Model_Checkout_Service
                     $this->removePgAddress($quote);
                 }
 
-                $quote->setMyparcelData(json_encode($data))->save();
+                $this->setMyParcelDataInCookie($quote, $data);
 
             } else {
-                $quote->setMyparcelData(null)->save();
+                $this->setMyParcelDataInCookie($quote, null);
                 $this->removePgAddress($quote);
             }
         }
@@ -104,10 +104,26 @@ class TIG_MyParcel2014_Model_Checkout_Service
     }
 
     /**
-     * @param object                 $data
+     * @param $quote
+     * @param $data
+     *
+     * When it is not possible to save the data in setMyparcelData, it will also saved in core/session
+     */
+    public function setMyParcelDataInCookie($quote, $data)
+    {
+        $data = json_encode($data);
+        Mage::getSingleton('core/session')->setData('MyParcel data',$data);
+        $quote->setMyparcelData($data)->save();
+
+        return;
+    }
+
+    /**
+     * @param object $data
      * @param Mage_Sales_Model_Quote $quote
      *
      * @return $this
+     * @throws \Exception
      */
     public function savePgAddress($data, Mage_Sales_Model_Quote $quote)
     {
