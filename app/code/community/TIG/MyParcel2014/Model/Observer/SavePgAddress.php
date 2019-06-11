@@ -98,8 +98,8 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         $myParcelData = $quote->getMyparcelData();
 
         /* Check when $myParcelData is null and get the delivery data from "core/session" */
-        if ($myParcelData === null){
-            $myParcelData =  Mage::getSingleton('core/session')->getData('MyParcel data');
+        if ($myParcelData === null) {
+            $myParcelData = Mage::getSingleton('core/session')->getData('myparcel_data');
         }
 
         $myParcelData = $myParcelData == null ? array() : json_decode($myParcelData, true);

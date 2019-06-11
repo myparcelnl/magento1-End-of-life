@@ -112,7 +112,7 @@ class TIG_MyParcel2014_Model_Checkout_Service
     public function setMyParcelDataInCookie($quote, $data)
     {
         $data = json_encode($data);
-        Mage::getSingleton('core/session')->setData('MyParcel data',$data);
+        Mage::getSingleton('core/session')->setData('myparcel_data', $data);
         $quote->setMyparcelData($data)->save();
 
         return;
