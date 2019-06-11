@@ -93,9 +93,15 @@ class TIG_MyParcel2014_Model_Observer_SavePgAddress extends Varien_Object
         }
 
         /**
-         * Set myparcel json data from checkout
+         * Set MyParcel json data from checkout
          */
         $myParcelData = $quote->getMyparcelData();
+
+        /* Check when $myParcelData is null and get the delivery data from "core/session" */
+        if ($myParcelData === null) {
+            $myParcelData = Mage::getSingleton('core/session')->getData('myparcel_data');
+        }
+
         $myParcelData = $myParcelData == null ? array() : json_decode($myParcelData, true);
         $myParcelData['browser'] = $_SERVER['HTTP_USER_AGENT'];
         $order->setMyparcelData(json_encode($myParcelData));
