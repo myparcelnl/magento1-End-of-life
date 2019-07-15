@@ -325,7 +325,8 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             if (!$destination->getCountry()) {
                 throw new InvalidArgumentException('Destination must contain a country code.');
             }
-
+            
+            $postcode = $destination->getPostcode();
             $countryCode = $destination->getCountry();
         } else {
             throw new InvalidArgumentException('Destination must be an array or an instance of Varien_Object.');
