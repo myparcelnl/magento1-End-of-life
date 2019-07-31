@@ -679,6 +679,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $order = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
         $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
+        $WeightData = [];
 
         if($storeId != $this->getStoreId()){
             $this->apiUsername = $helper->getConfig('username', 'api', $storeId);
