@@ -956,6 +956,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 			unset($data['signature']);
 			unset($data['return']);
 			unset($data['delivery_date']);
+			unset($data['age_check']);
 		}
 
         return $data;
