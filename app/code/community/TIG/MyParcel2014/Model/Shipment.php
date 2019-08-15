@@ -726,7 +726,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                     //add comment to order-comment history
                     $comment = $this->helper->__('Track&amp;Trace e-mail is sent: %s', $barcodeUrl);
 
-                    // flag the postnl shipment that barcode is send
+                    // flag the MyParcel shipment that barcode is send
                     $this->setBarcodeSend(true);
 
                 } else {
@@ -769,7 +769,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $shipment = $this->getShipment();
 
         if (! $shipment || ! $trackAndTraceCode) {
-            throw new DMP_PostNL_Exception(
+            throw new TIG_MyParcel2014_Exception(
                 $this->helper->__(
                     'Unable to add tracking info: no track&amp;trace code or shipment available.'
                 ),

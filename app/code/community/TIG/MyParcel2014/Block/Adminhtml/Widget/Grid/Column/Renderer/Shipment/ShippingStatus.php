@@ -59,7 +59,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_Shipment_Ship
     public function render(Varien_Object $row)
     {
         /**
-         * The shipment was not shipped using PostNL
+         * The shipment was not shipped using MyParcel
          */
         $shippingMethod = $row->getData(self::SHIPPING_METHOD_COLUMN);
         if (! Mage::helper('tig_myparcel')->shippingMethodIsMyParcel($shippingMethod)) {
