@@ -189,6 +189,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
     /**
      * @return int
+     * @throws \Mage_Core_Model_Store_Exception
      */
     public function getStoreId()
     {
@@ -293,7 +294,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $header[] = $requestHeader . 'charset=utf-8';
         $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
         $header[] = 'User-Agent:'. $this->_getUserAgent();
-        
+
         $this->requestHeader   = $header;
 
         return $this;
@@ -454,6 +455,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
      *
      * @return $this
+     * @throws \TIG_MyParcel2014_Exception
      */
     public function createConsignmentRequest(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
@@ -797,13 +799,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             }
             unset($data['options']['delivery_date']);
             unset($data['options']['weight']);
-        }
-        // throw Exception when the weight of the digital stamp is more than 2000 grams
-        if ($WeightData['total_weight'] > $myParcelShipment::WEIGHT_DIGITAL_STAMP){
-            throw new TIG_MyParcel2014_Exception(
-                $helper->__('The total weight of the order is more than 2000 grams and can not be sent with a digital stamp.'),
-                'MYPA-0028'
-            );
+
+            // throw Exception when the weight of the digital stamp is more than 2000 grams
+            if ($WeightData['total_weight'] > $myParcelShipment::WEIGHT_DIGITAL_STAMP){
+                throw new TIG_MyParcel2014_Exception(
+                    $helper->__('The total weight of the order is more than 2000 grams and can not be sent with a digital stamp.'),
+                    'MYPA-0028'
+                );
+            }
         }
 
         if ($WeightData['total_weight']){
