@@ -103,11 +103,11 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
                     $html .= "<br />";
                 }
 
-                $separateBarcodes = explode(",", $myParcelShipment->getBarcode());
-                foreach ($separateBarcodes as $separateBarcode) {
-                    $barcodeUrl = $helper->getBarcodeUrl($separateBarcode, $destinationData, false);
+                $barcodeCollection = explode(",", $myParcelShipment->getBarcode());
+                foreach ($barcodeCollection as $barcode) {
+                    $barcodeUrl = $helper->getBarcodeUrl($barcode, $destinationData, false);
                     if ($myParcelShipment->getBarcode()) {
-                        $html .= "<a href='{$barcodeUrl}' target='_blank'>{$separateBarcode}</a>";
+                        $html .= "<a href='{$barcodeUrl}' target='_blank'>{$barcode}</a>";
                     }
                     if ($myParcelShipment->getConsignmentId() && $myParcelShipment->getShipment()->getShippingAddress() && in_array($myParcelShipment->getShipment()->getShippingAddress()->getCountry(), $helper->getReturnCountries())) {
                         $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id' => $myParcelShipment->getShipment()->getId()));
