@@ -40,7 +40,9 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
 {
     /**
      * @param Varien_Event_Observer $observer
+     *
      * @return $this
+     * @throws \Mage_Core_Exception
      * @event controller_action_predispatch_adminhtml_sales_order_shipment_save
      * @observer tig_myparcel_shipment_save
      */
@@ -150,41 +152,60 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
         Mage::register('tig_myparcel_consignment_options', $consignmentOptions);
 
         $myParcelShipment->setShipmentId($shipment->getId())
-                         ->setConsignmentOptions()
-                         ->createConsignment()
-                         ->save();
+                       ->setConsignmentOptions()
+                       ->createConsignment()
+                       ->save();
 
-        $barcode = $myParcelShipment->getBarcode();
-        if ($barcode) {
-            $carrierCode = TIG_MyParcel2014_Model_Shipment::MYPARCEL_CARRIER_CODE;
-
-            $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/name', $shipment->getStoreId());
-            //if the other carrier-method is used, get the title
-            if($helper->getPgAddress($myParcelShipment)){
-                $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/pakjegemak_title', $shipment->getStoreId());
-            }
-
-
-
-            $data = array(
-                'carrier_code' => $carrierCode,
-                'title'        => $carrierTitle,
-                'number'       => $barcode,
-            );
-
-            /**
-             * @var Mage_Sales_Model_Order_Shipment_Track $track
-             */
-            $track = Mage::getModel('sales/order_shipment_track')->addData($data);
-            $shipment->addTrack($track);
-            $trackCollection = $shipment->getTracksCollection();
-
-            foreach($trackCollection as $track) {
-                $track->save();
-            }
-        }
+        $this->saveMultiColloToTrack($myParcelShipment, $shipment, $helper);
 
         return $this;
+    }
+
+    /**
+     * @param $myParcelShipment
+     * @param $shipment
+     * @param $helper
+     *
+     */
+    public function saveMultiColloToTrack($myParcelShipment, $shipment, $helper)
+    {
+        $multicolloAmount = (int) $myParcelShipment['multi_collo_amount'];
+
+        /**
+         * The first label will not be a secondary_shipments (multicollo) shipment and will therefore be skipped
+         */
+        $i = 1;
+        $multicolloAmount--;
+        while ($i <= $multicolloAmount) {
+
+            $barcode = $myParcelShipment->getBarcode();
+            if ($barcode) {
+                $carrierCode = TIG_MyParcel2014_Model_Shipment::MYPARCEL_CARRIER_CODE;
+
+                $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/name', $shipment->getStoreId());
+                //if the other carrier-method is used, get the title
+                if ($helper->getPgAddress($myParcelShipment)) {
+                    $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/pakjegemak_title', $shipment->getStoreId());
+                }
+
+                $data = array(
+                    'carrier_code' => $carrierCode,
+                    'title'        => $carrierTitle,
+                    'number'       => $barcode,
+                );
+
+                /**
+                 * @var Mage_Sales_Model_Order_Shipment_Track $track
+                 */
+                $track = Mage::getModel('sales/order_shipment_track')->addData($data);
+                $shipment->addTrack($track);
+            }
+            $i++;
+        }
+
+        $shipment->save();
+
+        return;
     }
 
 }

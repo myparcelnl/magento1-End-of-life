@@ -325,7 +325,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             if (!$destination->getCountry()) {
                 throw new InvalidArgumentException('Destination must contain a country code.');
             }
-            
+
             $postcode = $destination->getPostcode();
             $countryCode = $destination->getCountry();
         } else {
@@ -1014,6 +1014,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function sendBarcodeEmail($barcode = '', $myParcelShipment)
     {
+        $barcode = $barcode[0];
         if (empty($barcode)) {
             return false;
         }

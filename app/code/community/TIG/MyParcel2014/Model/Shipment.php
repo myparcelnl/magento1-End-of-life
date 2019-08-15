@@ -663,12 +663,19 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $responseShipments = $apiInfo->getConsignmentsInfoData(array($consignmentId));
 
         $responseShipment = $responseShipments[0];
+
+        $consignmentIds[] = $responseShipment->id;
+        foreach ($responseShipment->secondary_shipments as $secondaryShipments) {
+            $consignmentIds[] = $secondaryShipments->id;
+        }
+        $consignmentIds = implode(';', $consignmentIds);
+
         if($responseShipment){
             $this->updateStatus($responseShipment);
         }
 
 
-        $this->setConsignmentId($consignmentId);
+        $this->setConsignmentId($consignmentIds);
 
         return $this;
     }
@@ -679,39 +686,47 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      * @param $responseShipment
      *
      * @return bool
+     * @throws \TIG_MyParcel2014_Exception
      */
     public function updateStatus($responseShipment)
     {
+        $barcodeCollection[] = $responseShipment->barcode;
+
+        foreach ($responseShipment->secondary_shipments as $secondaryShipments) {
+            array_push($barcodeCollection, $secondaryShipments->barcode);
+        }
+
+        $barcodes = implode(',', $barcodeCollection);
+
         if (is_object($responseShipment)) {
 
             $this->setStatus($responseShipment->status);
 
-            if($responseShipment->status > 6){
+            if ($responseShipment->status > 6) {
                 $this->setIsFinal('1');
             }
+
             /**
              * check if barcode is available
              */
-            if ($this->getBarcode() === null && $responseShipment->barcode != $this->getBarcode() && (int)$this->getBarcodeSend() == false && !empty($responseShipment->barcode)) {
+            if ($this->getBarcode() === null && null !== $barcodes && (bool) $this->getBarcodeSend() == false && ! empty($responseShipment->barcode)) {
 
-                $barcode = $responseShipment->barcode;
-                $this->setBarcode($barcode);
+                $this->setBarcode($barcodes);
 
-
-                if ($barcode) {
-                    $this->addTrackingCodeToShipment($barcode);
+                if ($barcodes) {
+                    $this->addTrackingCodeToShipment($barcodes);
                 }
 
-                $isSend = $this->helper->sendBarcodeEmail($barcode, $this);
+                $isSend = $this->helper->sendBarcodeEmail($barcodeCollection, $this);
 
                 //add comment to order-comment history
                 $shippingAddress = $this->getShippingAddress();
-                $barcodeUrl = $this->helper->getBarcodeUrl($barcode, $shippingAddress);
+                $barcodeUrl      = $this->helper->getBarcodeUrl($barcodes, $shippingAddress);
                 if ($isSend) {
                     //add comment to order-comment history
                     $comment = $this->helper->__('Track&amp;Trace e-mail is sent: %s', $barcodeUrl);
 
-                    // flag the myparcel shipment that barcode is send
+                    // flag the postnl shipment that barcode is send
                     $this->setBarcodeSend(true);
 
                 } else {
@@ -723,13 +738,13 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                 /** @var Mage_Sales_Model_Order $order */
                 $order = $this->getOrder();
                 $order->addStatusHistoryComment($comment)
-                    ->setIsVisibleOnFront(false)
-                    ->setIsCustomerNotified(true);
+                      ->setIsVisibleOnFront(false)
+                      ->setIsCustomerNotified(true);
                 $order->save();
                 $this->setOrder($order);
             }
 
-            if($this->hasDataChanges()){
+            if ($this->hasDataChanges()) {
                 $this->save();
             }
 
@@ -770,13 +785,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             'title'        => $carrierTitle,
             'number'       => $trackAndTraceCode,
         );
-
         /**
          * @var Mage_Sales_Model_Order_Shipment_Track $track
          */
         $track = Mage::getModel('sales/order_shipment_track')->addData($data);
         $shipment->addTrack($track);
-
         /**
          * Save the Mage_Sales_Order_Shipment object
          *
@@ -785,8 +798,6 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         $transaction = Mage::getModel('core/resource_transaction');
         $transaction->addObject($shipment)
                     ->save();
-
-        return $this;
     }
 
     /**
