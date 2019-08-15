@@ -704,7 +704,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'email'         => $email,
             ),
             'options'    => $this->_getOptionsData($myParcelShipment, $checkoutData),
-            'secondary_shipments' => $this->getSecondaryShipmentsData($postNLShipment)
+            'secondary_shipments' => $this->getSecondaryShipmentsData($myParcelShipment)
         );
 
         if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
@@ -721,7 +721,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             unset($data['recipient']['number_suffix']);
         }
 
-        if ((int) $postNLShipment['multi_collo_amount'] <= 1){
+        if ((int) $myParcelShipment['multi_collo_amount'] <= 1){
             unset($data['secondary_shipments']);
         }
 
@@ -842,6 +842,29 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         return $data;
     }
 
+    /**
+     * @param \TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     *
+     * @return array|null
+     */
+    public function getSecondaryShipmentsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment){
+        $multycolloAmount = (int) $myParcelShipment['multi_collo_amount'];
+        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL' &&
+            $myParcelShipment->getShippingAddress()->getCountry() != 'BE' &&
+            $myParcelShipment->getShipmentType() !== $myParcelShipment::TYPE_PACKAGE_NUMBER) {
+            return null;
+        }
+        if ($multycolloAmount > 1) {
+            $i = 1;
+            $multycolloAmount--;
+            while ($i <= $multycolloAmount) {
+                $data[] = (object) [];
+                $i++;
+            }
+        }
+        return $data;
+    }
+
     public function getTotalWeight($totalWeight, $item, $isWoldShipment = false) {
         $parentId   = $item->getParentItemId();
         $weight     = floatval($item->getWeight());
@@ -870,8 +893,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
 
         return ['weight' => $weight, 'total_weight' => $totalWeight, 'qty' => $qty, 'price' => $price];
-
-
     }
 
     /**
