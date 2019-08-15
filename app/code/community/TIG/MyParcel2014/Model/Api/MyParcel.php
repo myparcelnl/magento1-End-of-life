@@ -679,6 +679,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $order = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
         $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
+        $countryCode = $myParcelShipment->getShippingAddress()->getCountry();
         $WeightData = [];
 
         if($storeId != $this->getStoreId()){
@@ -703,11 +704,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'city'          => trim($shippingAddress->getCity()),
                 'email'         => $email,
             ),
-            'options'    => $this->_getOptionsData($myParcelShipment, $checkoutData),
-            'secondary_shipments' => $this->getSecondaryShipmentsData($myParcelShipment)
+            'options'    => $this->_getOptionsData($myParcelShipment, $checkoutData, $countryCode),
+            'secondary_shipments' => $this->getSecondaryShipmentsData($myParcelShipment, $countryCode)
         );
 
-        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
+        if ($countryCode != 'NL') {
             $phone           = $order->getBillingAddress()->getTelephone();
             if ($phone)
                 $data['recipient']['phone'] = $phone;
@@ -845,12 +846,16 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * @param \TIG_MyParcel2014_Model_Shipment $myParcelShipment
      *
+     * @param                                  $countryCode
+     *
      * @return array|null
      */
-    public function getSecondaryShipmentsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment){
+    public function getSecondaryShipmentsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $countryCode){
+
         $multycolloAmount = (int) $myParcelShipment['multi_collo_amount'];
-        if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL' &&
-            $myParcelShipment->getShippingAddress()->getCountry() != 'BE' &&
+
+        if ($countryCode != 'NL' &&
+            $countryCode != 'BE' &&
             $myParcelShipment->getShipmentType() !== $myParcelShipment::TYPE_PACKAGE_NUMBER) {
             return null;
         }
@@ -900,10 +905,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
      *
-     * @param $checkoutData
+     * @param                                 $checkoutData
+     * @param                                 $countryCode
+     *
      * @return array
+     * @throws \Exception
      */
-    protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $checkoutData)
+    protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $checkoutData, $countryCode)
     {
         /**
          * @var TIG_MyParcel2014_Helper_Data $helper
@@ -995,7 +1003,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             $data['insurance']['currency'] = 'EUR';
         }
 
-		if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL' || $data['package_type'] == 2) {
+		if ($countryCode != 'NL' || $data['package_type'] == 2) {
 			// strip all Dutch domestic options if shipment is not NL or package_type is mailbox
 			unset($data['only_recipient']);
 			unset($data['signature']);
