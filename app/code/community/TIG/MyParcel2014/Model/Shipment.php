@@ -762,14 +762,14 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
      *
      * @return $this
      *
-     * @throws TIG_MyParcel2014_Exception
+     * @throws \Exception
      */
     public function addTrackingCodeToShipment($trackAndTraceCode)
     {
         $shipment = $this->getShipment();
 
-        if (!$shipment || !$trackAndTraceCode) {
-            throw new TIG_MyParcel2014_Exception(
+        if (! $shipment || ! $trackAndTraceCode) {
+            throw new DMP_PostNL_Exception(
                 $this->helper->__(
                     'Unable to add tracking info: no track&amp;trace code or shipment available.'
                 ),
@@ -777,27 +777,36 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
             );
         }
 
-        $carrierCode = self::MYPARCEL_CARRIER_CODE;
+        $carrierCode  = self::MYPARCEL_CARRIER_CODE;
         $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/name', $shipment->getStoreId());
 
-        $data = array(
-            'carrier_code' => $carrierCode,
-            'title'        => $carrierTitle,
-            'number'       => $trackAndTraceCode,
-        );
-        /**
-         * @var Mage_Sales_Model_Order_Shipment_Track $track
-         */
-        $track = Mage::getModel('sales/order_shipment_track')->addData($data);
-        $shipment->addTrack($track);
-        /**
-         * Save the Mage_Sales_Order_Shipment object
-         *
-         * @var Mage_Core_Model_Resource_Transaction $transaction
-         */
-        $transaction = Mage::getModel('core/resource_transaction');
-        $transaction->addObject($shipment)
-                    ->save();
+        $trackingCode = explode(",", $trackAndTraceCode);
+
+        foreach ($trackingCode as $trackAndTraceCode) {
+
+            $data = array(
+                'carrier_code' => $carrierCode,
+                'title'        => $carrierTitle,
+                'number'       => $trackAndTraceCode,
+            );
+
+            /**
+             * @var Mage_Sales_Model_Order_Shipment_Track $track
+             */
+            $track = Mage::getModel('sales/order_shipment_track')->addData($data);
+            $shipment->addTrack($track);
+
+            /**
+             * Save the Mage_Sales_Order_Shipment object
+             *
+             * @var Mage_Core_Model_Resource_Transaction $transaction
+             */
+            $transaction = Mage::getModel('core/resource_transaction');
+            $transaction->addObject($shipment)
+                        ->save();
+        }
+
+        return $this;
     }
 
     /**
