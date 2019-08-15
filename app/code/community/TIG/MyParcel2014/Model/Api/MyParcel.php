@@ -290,10 +290,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $this->requestString = $requestString;
         $this->requestType   = $requestType;
 
-        $header[] = $requestHeader . 'charset=utf-8';
+        $header[] = $requestHeader . 'charset=utf-8;version=1.1';
         $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
         $header[] = 'User-Agent:'. $this->_getUserAgent();
-        
+
         $this->requestHeader   = $header;
 
         return $this;
@@ -704,6 +704,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'email'         => $email,
             ),
             'options'    => $this->_getOptionsData($myParcelShipment, $checkoutData),
+            'secondary_shipments' => $this->getSecondaryShipmentsData($postNLShipment)
         );
 
         if ($myParcelShipment->getShippingAddress()->getCountry() != 'NL') {
@@ -718,6 +719,10 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 	        }
             unset($data['recipient']['number']);
             unset($data['recipient']['number_suffix']);
+        }
+
+        if ((int) $postNLShipment['multi_collo_amount'] <= 1){
+            unset($data['secondary_shipments']);
         }
 
         $totalWeight = 0;
