@@ -852,17 +852,17 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     public function getSecondaryShipmentsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $countryCode){
 
-        $multycolloAmount = (int) $myParcelShipment['multi_collo_amount'];
+        $multicolloAmount = (int) $myParcelShipment['multi_collo_amount'];
 
         if ($countryCode != 'NL' &&
             $countryCode != 'BE' &&
             $myParcelShipment->getShipmentType() !== $myParcelShipment::TYPE_PACKAGE_NUMBER) {
             return null;
         }
-        if ($multycolloAmount > 1) {
+        if ($multicolloAmount > 1) {
             $i = 1;
-            $multycolloAmount--;
-            while ($i <= $multycolloAmount) {
+            $multicolloAmount--;
+            while ($i <= $multicolloAmount) {
                 $data[] = (object) [];
                 $i++;
             }
