@@ -859,7 +859,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         if ($countryCode != 'NL' &&
             $countryCode != 'BE' &&
-            $myParcelShipment->getShipmentType() !== $myParcelShipment::TYPE_PACKAGE_NUMBER) {
+            $myParcelShipment->getShipmentType() !== $myParcelShipment::TYPE_PACKAGE_NUMBER
+        ) {
             return null;
         }
 
