@@ -99,7 +99,7 @@ class TIG_MyParcel2014_Block_Adminhtml_Widget_Grid_Column_Renderer_ShippingStatu
             $i = 0;
             foreach ($myParcelShipments as $myParcelShipment) {
 
-                if ($i ++ == 1) {
+                if ($i++ == 1) {
                     $html .= "<br />";
                 }
 
