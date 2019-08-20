@@ -172,7 +172,7 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
         $multicolloAmount = (int) $myParcelShipment['multi_collo_amount'];
 
         /**
-         * The first label will not be a secondary_shipments (multicollo) shipment and will therefore be skipped
+// The first label will not be a secondary_shipments (multicollo) shipment and will therefore be skipped
          */
         $i = 1;
         $multicolloAmount--;
