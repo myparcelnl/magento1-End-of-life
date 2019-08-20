@@ -141,7 +141,7 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
     {
         $this->_init('tig_myparcel/shipment');
         $this->helper = Mage::helper('tig_myparcel');
-        $this->helper_address_validation = new TIG_MyParcel2014_Helper_AddressValidation;
+        $this->helper_address_validation = new TIG_MyParcel2014_Helper_AddressValidation();
     }
 
     /**
