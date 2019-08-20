@@ -183,7 +183,7 @@ class TIG_MyParcel2014_Model_Observer_SaveShipment
                 $carrierCode = TIG_MyParcel2014_Model_Shipment::MYPARCEL_CARRIER_CODE;
 
                 $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/name', $shipment->getStoreId());
-                //if the other carrier-method is used, get the title
+                // If the other carrier-method is used, get the title
                 if ($helper->getPgAddress($myParcelShipment)) {
                     $carrierTitle = Mage::getStoreConfig('carriers/' . $carrierCode . '/pakjegemak_title', $shipment->getStoreId());
                 }
