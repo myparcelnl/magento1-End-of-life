@@ -865,7 +865,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         }
 
         $i = 1;
-        $multicolloAmount --;
+        $multicolloAmount--;
         while ($i <= $multicolloAmount) {
             $data[] = (object) [];
             $i ++;
