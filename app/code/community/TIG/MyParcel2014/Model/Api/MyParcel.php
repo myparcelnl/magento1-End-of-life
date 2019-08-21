@@ -909,8 +909,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
      *
-     * @param                                 $checkoutData
-     * @param                                 $countryCode
+     * @param array                           $checkoutData
+     * @param string                          $countryCode
      *
      * @return array
      * @throws \Exception
