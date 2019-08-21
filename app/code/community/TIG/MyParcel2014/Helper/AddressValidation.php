@@ -211,7 +211,7 @@ class TIG_MyParcel2014_Helper_AddressValidation extends TIG_MyParcel2014_Helper_
     }
 
     /**
-     * @param null $storeId
+     * @param int|null $storeId
      *
      * @return bool
      */
