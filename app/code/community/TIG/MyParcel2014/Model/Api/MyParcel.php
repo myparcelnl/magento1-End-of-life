@@ -293,7 +293,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $header[] = $requestHeader . 'charset=utf-8';
         $header[] = 'Authorization: basic ' . base64_encode($this->apiKey);
         $header[] = 'User-Agent:'. $this->_getUserAgent();
-        
+
         $this->requestHeader   = $header;
 
         return $this;
@@ -881,15 +881,13 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $checkoutData)
     {
-        /**
-         * @var TIG_MyParcel2014_Helper_Data $helper
-         */
+
+        // @var TIG_MyParcel2014_Helper_Data $helper
         $helper = Mage::helper('tig_myparcel');
         $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
         $order = $myParcelShipment->getOrder();
-        /**
-         * Add the shipment type parameter.
-         */
+
+        // Add the shipment type parameter.
         switch ($myParcelShipment->getShipmentType()) {
             case $myParcelShipment::TYPE_LETTER_BOX:
                 /* Use mailbox only if no option is selected */
