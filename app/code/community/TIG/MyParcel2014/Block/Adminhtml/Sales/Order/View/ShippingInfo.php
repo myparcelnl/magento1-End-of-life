@@ -133,10 +133,13 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_View_ShippingInfo extends Mag
         $optionsHtml = '';
         /** @var $myParcelShipment TIG_MyParcel2014_Model_Shipment */
         foreach ($this->_myParcelShipments as $myParcelShipment) {
-            $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id'=>$myParcelShipment->getShipment()->getId()));
+            $shipmentUrl = Mage::helper('adminhtml')->getUrl("*/sales_shipment/view", array('shipment_id' => $myParcelShipment->getShipment()->getId()));
 
-            $linkText = $myParcelShipment->getBarcode() ? $myParcelShipment->getBarcode() : $this->__('Shipment');
-            $optionsHtml .= '<p><a href="'.$shipmentUrl.'">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment) .'</p>';
+            $barcodeCollection = explode(",", $myParcelShipment->getBarcode());
+            foreach ($barcodeCollection as $barcode) {
+                $linkText    = $barcode ?: $this->__('Shipment');
+                $optionsHtml .= '<p><a href="' . $shipmentUrl . '">' . $linkText . '</a>: ' . $this->_helper->getCurrentOptionsHtml($myParcelShipment) . '</p>';
+            }
         }
 
         return $optionsHtml;
