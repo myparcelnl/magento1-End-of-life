@@ -947,18 +947,19 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $checkoutData, $countryCode)
     {
+
         /**
          * @var TIG_MyParcel2014_Helper_Data $helper
          */
-        $helper = Mage::helper('tig_myparcel');
+        $helper            = Mage::helper('tig_myparcel');
+        $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
+        $order             = $myParcelShipment->getOrder();
 
-        /**
-         * Add the shipment type parameter.
-         */
+        // Add the shipment type parameter.
         switch ($myParcelShipment->getShipmentType()) {
             case $myParcelShipment::TYPE_LETTER_BOX:
                 /* Use mailbox only if no option is selected */
-                if ($helper->shippingMethodIsPakjegemak($myParcelShipment->getOrder()->getShippingMethod())) {
+                if ($helper->shippingMethodIsPakjegemak($order->getShippingMethod())) {
                     $packageType = $myParcelShipment::TYPE_PACKAGE_NUMBER;
                 } else {
                     $packageType = $myParcelShipment::TYPE_MAILBOX_NUMBER;
@@ -973,7 +974,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             case $myParcelShipment::TYPE_NORMAL:
             default:
                 $packageType = $myParcelShipment::TYPE_PACKAGE_NUMBER;
-			break;
+                break;
         }
 
         $data = array(
@@ -982,37 +983,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             'only_recipient'        => (int)$myParcelShipment->isHomeAddressOnly(),
             'signature'             => (int)$myParcelShipment->isSignatureOnReceipt(),
             'return'                => (int)$myParcelShipment->getReturnIfNoAnswer(),
-            'label_description' => $myParcelShipment->getOrder()->getIncrementId(),
+            'label_description'     => $order->getIncrementId(),
+            'age_check'             => (int)$addressValidation->hasAgeCheck($order->getStoreId()),
         );
 
         if ($checkoutData !== null) {
 
-            if (key_exists('time', $checkoutData) && key_exists('price_comment', $checkoutData['time'][0]) && $checkoutData['time'][0]['price_comment'] !== null) {
-                switch ($checkoutData['time'][0]['price_comment']) {
-                    case 'morning':
-                        $data['delivery_type'] = self::TYPE_MORNING;
-                        break;
-                    case 'standard':
-                        $data['delivery_type'] = self::TYPE_STANDARD;
-                        break;
-                    case 'avond':
-                        $data['delivery_type'] = self::TYPE_NIGHT;
-                        break;
-                }
-            } elseif (key_exists('price_comment', $checkoutData) && $checkoutData['price_comment'] !== null) {
-                switch ($checkoutData['price_comment']) {
-                    case 'retail':
-                        $data['delivery_type'] = self::TYPE_RETAIL;
-                        break;
-                    case 'retailexpress':
-                        $data['delivery_type'] = self::TYPE_RETAIL_EXPRESS;
-                        break;
-                }
-            }
+            $data = $helper->getDeliveryType($checkoutData, $data, $order);
 
             if (key_exists('date', $checkoutData) && $checkoutData['date'] !== null) {
-
-
                 $checkoutDateTime = $checkoutData['date'] . ' 00:00:00';
                 $currentDateTime = $currentDate = new dateTime();
                 $currentDate = $currentDate->format('Y-m-d') . ' 00:00:00';
@@ -1043,6 +1022,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 			unset($data['signature']);
 			unset($data['return']);
 			unset($data['delivery_date']);
+			unset($data['age_check']);
 		}
 
         return $data;
