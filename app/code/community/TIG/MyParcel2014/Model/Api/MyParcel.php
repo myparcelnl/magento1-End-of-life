@@ -838,8 +838,8 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     }
 
     /**
-     * @param                                  $totalWeight
-     * @param                                  $item
+     * @param int|float                        $totalWeight
+     * @param mixed                            $item
      * @param \TIG_MyParcel2014_Model_Shipment $myParcelShipment
      * @param bool                             $isWoldShipment
      *
@@ -872,7 +872,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     }
 
     /**
-     * @param                                  $weight
+     * @param int|float                        $weight
      * @param \TIG_MyParcel2014_Model_Shipment $myParcelShipment
      *
      * @return int
