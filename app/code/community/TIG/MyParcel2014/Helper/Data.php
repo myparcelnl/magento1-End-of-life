@@ -253,7 +253,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             if ($myParcelShipment->getHomeAddressOnly() == '1' && $addressValidation->hasAgeCheck($storeId) == false)
                 $options[] = $this->__('Home address only');
 
-            if ($myParcelShipment->getSignatureOnReceipt() == '1' && $addressValidation->hasAgeCheck( $storeId ) == false)
+            if ($myParcelShipment->getSignatureOnReceipt() == '1' && $addressValidation->hasAgeCheck($storeId) == false)
                 $options[] = $this->__('Signature on receipt');
 
             if ($myParcelShipment->getReturnIfNoAnswer() == '1')
