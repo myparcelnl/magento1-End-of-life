@@ -706,9 +706,8 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                 $this->setIsFinal('1');
             }
 
-            /**
-             * check if barcode is available
-             */
+
+            // Check if barcode is available
             if ($this->getBarcode() === null && null !== $barcodes && (bool)$this->getBarcodeSend() == false && !empty($responseShipment->barcode)) {
 
                 $this->setBarcode($barcodes);
