@@ -882,10 +882,12 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     protected function _getOptionsData(TIG_MyParcel2014_Model_Shipment $myParcelShipment, $checkoutData)
     {
 
-        // @var TIG_MyParcel2014_Helper_Data $helper
-        $helper = Mage::helper('tig_myparcel');
+        /*
+         * @var TIG_MyParcel2014_Helper_Data $helper
+         */
+        $helper            = Mage::helper('tig_myparcel');
         $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
-        $order = $myParcelShipment->getOrder();
+        $order             = $myParcelShipment->getOrder();
 
         // Add the shipment type parameter.
         switch ($myParcelShipment->getShipmentType()) {
@@ -906,7 +908,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             case $myParcelShipment::TYPE_NORMAL:
             default:
                 $packageType = $myParcelShipment::TYPE_PACKAGE_NUMBER;
-			break;
+                break;
         }
 
         $data = array(
