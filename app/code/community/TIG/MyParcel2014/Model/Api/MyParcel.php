@@ -908,7 +908,6 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * Gets the product code parameters for this shipment.
      *
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
-     *
      * @param array                           $checkoutData
      * @param string                          $countryCode
      *
