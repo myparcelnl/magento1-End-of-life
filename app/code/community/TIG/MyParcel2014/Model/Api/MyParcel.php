@@ -189,6 +189,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
     /**
      * @return int
+     * @throws \Mage_Core_Model_Store_Exception
      */
     public function getStoreId()
     {
@@ -454,6 +455,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * @param TIG_MyParcel2014_Model_Shipment $myParcelShipment
      *
      * @return $this
+     * @throws \TIG_MyParcel2014_Exception
      */
     public function createConsignmentRequest(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
@@ -674,15 +676,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _getConsignmentData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
-        $helper = Mage::helper('tig_myparcel');
-        $order = $myParcelShipment->getOrder();
-        $storeId = $order->getStore()->getId();
+        // @var TIG_MyParcel2014_Helper_Data $helper
+        $helper       = Mage::helper('tig_myparcel');
+        $order        = $myParcelShipment->getOrder();
+        $storeId      = $order->getStore()->getId();
         $checkoutData = json_decode($myParcelShipment->getOrder()->getMyparcelData(), true);
-        $countryCode = $myParcelShipment->getShippingAddress()->getCountry();
-        $WeightData = [];
+        $countryCode  = $myParcelShipment->getShippingAddress()->getCountry();
+        $WeightData   = [];
 
-        if($storeId != $this->getStoreId()){
+        if ($storeId != $this->getStoreId()) {
             $this->apiUsername = $helper->getConfig('username', 'api', $storeId);
             $this->apiKey      = $helper->getConfig('key', 'api', $storeId, true);
         }
@@ -692,11 +694,11 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         $email           = $myParcelShipment->getOrder()->getCustomerEmail();
 
         $data = array(
-            'recipient'     => array(
-                'cc'    =>      $shippingAddress->getCountry(),
+            'recipient' => array(
+                'cc'            => $shippingAddress->getCountry(),
                 'person'        => trim($shippingAddress->getName()),
                 'company'       => (string) trim($shippingAddress->getCompany()),
-                'postal_code'  => trim($shippingAddress->getPostcode()),
+                'postal_code'   => trim($shippingAddress->getPostcode()),
                 'street'        => trim($streetData['streetname']),
                 'number'        => trim($streetData['housenumber']),
                 'region'        => trim($shippingAddress->getRegion()),
@@ -704,20 +706,22 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'city'          => trim($shippingAddress->getCity()),
                 'email'         => $email,
             ),
+          
             'options'    => $this->_getOptionsData($myParcelShipment, $checkoutData, $countryCode),
             'secondary_shipments' => $this->getSecondaryShipmentsData($myParcelShipment, $countryCode)
         );
 
         if ($countryCode != 'NL') {
-            $phone           = $order->getBillingAddress()->getTelephone();
+            $phone = $order->getBillingAddress()->getTelephone();
             if ($phone)
                 $data['recipient']['phone'] = $phone;
+            }
 
-            $streetParts = $this->getInternationalStreetParts($streetData);
+            $streetParts                 = $this->getInternationalStreetParts($streetData);
             $data['recipient']['street'] = $streetParts[0];
-	        if (isset($streetParts[1])) {
-		        $data['recipient']['street_additional_info'] = $streetParts[1];
-	        }
+            if (isset($streetParts[1])) {
+                $data['recipient']['street_additional_info'] = $streetParts[1];
+            }
             unset($data['recipient']['number']);
             unset($data['recipient']['number_suffix']);
         }
@@ -727,43 +731,41 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         }
 
         $totalWeight = 0;
-        $items = $myParcelShipment->getOrder()->getAllItems();
-        $i = 0;
+        $items       = $myParcelShipment->getOrder()->getAllItems();
+        $i           = 0;
 
         // add customs data for EUR3 and World shipments
-        if($helper->countryNeedsCustoms($shippingAddress->getCountry()))
-        {
+        if ($helper->countryNeedsCustoms($shippingAddress->getCountry())) {
 
             $customsContentType = null;
-            if($myParcelShipment->getCustomsContentType()){
+            if ($myParcelShipment->getCustomsContentType()) {
                 $customsContentType = explode(',', $myParcelShipment->getCustomsContentType());
             }
 
-            if($data['options']['package_type'] == 2){
+            if ($data['options']['package_type'] == 2) {
                 throw new TIG_MyParcel2014_Exception(
                     $helper->__('International shipments can not be sent by') . ' ' . strtolower($helper->__('Letter box')),
                     'MYPA-0027'
                 );
             }
 
-            $data['customs_declaration']                        = array();
-            $data['customs_declaration']['items']               = array();
-            $data['customs_declaration']['invoice']             = $order->getIncrementId();
-            $customType = (int)$helper->getConfig('customs_type', 'shipment', $storeId);
-            $data['customs_declaration']['contents']            = $customType == 0 ? 1 : $customType;
+            $data['customs_declaration']             = array();
+            $data['customs_declaration']['items']    = array();
+            $data['customs_declaration']['invoice']  = $order->getIncrementId();
+            $customType                              = (int) $helper->getConfig('customs_type', 'shipment', $storeId);
+            $data['customs_declaration']['contents'] = $customType == 0 ? 1 : $customType;
 
+            foreach ($items as $item) {
+                if ($item->getProductType() == 'simple') {
 
-            foreach($items as $item) {
-                if($item->getProductType() == 'simple') {
+                    $WeightData = $this->getTotalWeight($totalWeight, $item, $myParcelShipment, true);
 
-                    $WeightData = $this->getTotalWeight($totalWeight, $item, true);
-
-                    if(empty($customsContentType)){
+                    if (empty($customsContentType)) {
                         $customsContentTypeItem = $helper->getHsCode($item, $storeId);
                     } else {
                         $customsContentTypeItem = key_exists($i, $customsContentType) ? $customsContentType[$i] : $customsContentType[0];
                     }
-                    if(!$customsContentTypeItem) {
+                    if (! $customsContentTypeItem) {
                         throw new TIG_MyParcel2014_Exception(
                             $helper->__('No Customs Content HS Code found. Go to the MyParcel plugin settings to set this code.'),
                             'MYPA-0026'
@@ -776,17 +778,19 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         $itemDescription = substr($itemDescription, 0, 50);
                     }
 
+                    $calculateWeight = $this->getCalculatedWeightToGram($WeightData['weight'], $myParcelShipment);
+
                     $data['customs_declaration']['items'][] = array(
-                        'description'       => $itemDescription,
-                        'amount'            => $WeightData['qty'],
-                        'weight'            => (int)$WeightData['weight'] * 1000,
-                        'item_value'        => array('amount' => $WeightData['price'] * 100, 'currency' => 'EUR'),
-                        'classification'      => $customsContentTypeItem,
-                        'country' => Mage::getStoreConfig('general/country/default', $storeId),
+                        'description'    => $itemDescription,
+                        'amount'         => $WeightData['qty'],
+                        'weight'         => $calculateWeight,
+                        'item_value'     => array('amount' => $WeightData['price'] * 100, 'currency' => 'EUR'),
+                        'classification' => $customsContentTypeItem,
+                        'country'        => Mage::getStoreConfig('general/country/default', $storeId),
 
                     );
 
-                    if(++$i >= 5) {
+                    if (++ $i >= 5) {
                         break; // max 5 entries
                     }
                 }
@@ -803,15 +807,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
             }
             unset($data['options']['delivery_date']);
             unset($data['options']['weight']);
-        }
-        // throw Exception when the weight of the digital stamp is more than 2000 grams
-        if ($WeightData['total_weight'] > $myParcelShipment::WEIGHT_DIGITAL_STAMP){
-            throw new TIG_MyParcel2014_Exception(
-                $helper->__('The total weight of the order is more than 2000 grams and can not be sent with a digital stamp.'),
-                'MYPA-0028'
-            );
-        }
 
+            // Throw Exception when the weight of the digital stamp is more than 2000 grams
+            if ($WeightData['total_weight'] > $myParcelShipment::WEIGHT_DIGITAL_STAMP){
+                throw new TIG_MyParcel2014_Exception(
+                    $helper->__('The total weight of the order is more than 2000 grams and can not be sent with a digital stamp.'),
+                    'MYPA-0028'
+                );
+            }
+        }
         if ($WeightData['total_weight']){
             $data['physical_properties']['weight'] = (int)$WeightData['total_weight'];
         }
@@ -845,9 +849,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
     /**
      * @param \TIG_MyParcel2014_Model_Shipment $myParcelShipment
-     *
      * @param $countryCode
-     *
      * @param null $data
      *
      * @return array|null
@@ -873,8 +875,17 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         return $data;
     }
+      
+     /**   
+     * @param int|float                        $totalWeight
+     * @param mixed                            $item
+     * @param \TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     * @param bool                             $isWoldShipment
+     *
+     * @return array
+     */    
+    public function getTotalWeight($totalWeight, $item, $myParcelShipment, $isWoldShipment = false) {
 
-    public function getTotalWeight($totalWeight, $item, $isWoldShipment = false) {
         $parentId   = $item->getParentItemId();
         $weight     = floatval($item->getWeight());
         $price      = floatval($item->getPrice());
@@ -893,15 +904,35 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         }
 
         $weight *= $qty;
-        if ($isWoldShipment != false){
-            $weight = max(array(1, $weight));
+
+        $totalWeight += $this->getCalculatedWeightToGram($weight, $myParcelShipment);
+
+        $price *= $qty;
+        return ['weight' => $weight, 'total_weight' => $totalWeight, 'qty' => $qty, 'price' => $price];
+    }
+
+    /**
+     * @param int|float                        $weight
+     * @param \TIG_MyParcel2014_Model_Shipment $myParcelShipment
+     *
+     * @return int
+     */
+    protected function getCalculatedWeightToGram($weight, $myParcelShipment)
+    {
+        /**
+        *  @var TIG_MyParcel2014_Helper_Data $helper
+        */
+        $helper  = Mage::helper('tig_myparcel');
+        $order   = $myParcelShipment->getOrder();
+        $storeId = $order->getStore()->getId();
+
+        $weightType = $helper->getConfig('weight_indication', 'general', $storeId);
+
+        if ($weightType != 'gram') {
+            return (int) ($weight * 1000);
         }
 
-        $totalWeight += $weight * 1000;
-        $price *= $qty;
-
-
-        return ['weight' => $weight, 'total_weight' => $totalWeight, 'qty' => $qty, 'price' => $price];
+        return (int) $weight;
     }
 
     /**
