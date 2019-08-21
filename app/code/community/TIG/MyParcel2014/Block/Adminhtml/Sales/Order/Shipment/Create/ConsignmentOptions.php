@@ -380,13 +380,14 @@ class TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOp
         return $result;
     }
 
-    public function getMultiCollo(){
+    public function getMultiCollo()
+    {
         // For now the default multi colli amount is always 1
         $colloAmount = 1;
 
         $result = array(
-            'colloAmount'       => $colloAmount,
-            'selected'          => 'checked="checked"',
+            'colloAmount' => $colloAmount,
+            'selected'    => 'checked="checked"',
         );
 
         return $result;
