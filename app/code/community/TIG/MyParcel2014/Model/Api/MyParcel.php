@@ -674,7 +674,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      */
     protected function _getConsignmentData(TIG_MyParcel2014_Model_Shipment $myParcelShipment)
     {
-        /** @var TIG_MyParcel2014_Helper_Data $helper */
+        // @var TIG_MyParcel2014_Helper_Data $helper
         $helper       = Mage::helper('tig_myparcel');
         $order        = $myParcelShipment->getOrder();
         $storeId      = $order->getStore()->getId();
@@ -769,7 +769,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                         $itemDescription = substr($itemDescription, 0, 50);
                     }
 
-                    $calculateWeight = $this->getCorrectWeightType($WeightData['weight'], $myParcelShipment);
+                    $calculateWeight = $this->getCalculatedWeightToGram($WeightData['weight'], $myParcelShipment);
 
                     $data['customs_declaration']['items'][] = array(
                         'description'    => $itemDescription,
@@ -865,7 +865,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         $weight *= $qty;
 
-        $totalWeight += $this->getCorrectWeightType($weight, $myParcelShipment);
+        $totalWeight += $this->getCalculatedWeightToGram($weight, $myParcelShipment);
 
         $price *= $qty;
         return ['weight' => $weight, 'total_weight' => $totalWeight, 'qty' => $qty, 'price' => $price];
@@ -877,15 +877,16 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      *
      * @return int
      */
-    protected function getCorrectWeightType($weight, $myParcelShipment){
+    protected function getCalculatedWeightToGram($weight, $myParcelShipment)
+    {
         /** @var TIG_MyParcel2014_Helper_Data $helper */
-        $helper = Mage::helper('tig_myparcel');
-        $order = $myParcelShipment->getOrder();
+        $helper  = Mage::helper('tig_myparcel');
+        $order   = $myParcelShipment->getOrder();
         $storeId = $order->getStore()->getId();
 
         $weightType = $helper->getConfig('weight_indication', 'general', $storeId);
 
-        if ($weightType != 'gram'){
+        if ($weightType != 'gram') {
             return (int) ($weight * 1000);
         }
 
