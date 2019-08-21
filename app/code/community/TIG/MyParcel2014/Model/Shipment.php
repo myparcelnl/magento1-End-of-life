@@ -52,6 +52,7 @@
  * @method boolean hasBarcodeSend()
  * @method boolean hasShipmentType()
  * @method boolean hasIsXl()
+ * @method boolean getBarcodeSend()
  *
  * @method string getShipmentId()
  * @method string getTrackId()
@@ -66,7 +67,6 @@
  * @method int    getReturnIfNoAnswer()
  * @method int    getInsured()
  * @method int    getInsuredAmount()
- * @method int    getBarcodeSend()
  * @method int    getCustomsContentType()
  * @method string getShipmentType()
  * @method int    getIsXL()
@@ -85,7 +85,7 @@
  * @method TIG_MyParcel2014_Model_Shipment setShippingAddress(Mage_Sales_Model_Order_Address $value)
  * @method TIG_MyParcel2014_Model_Shipment setApi(TIG_MyParcel2014_Model_Api_MyParcel $value)
  * @method TIG_MyParcel2014_Model_Shipment setShipmentIncrementId(string $value)
- * @method TIG_MyParcel2014_Model_Shipment setBarcodeSend(int $value)
+ * @method TIG_MyParcel2014_Model_Shipment setBarcodeSend(boolean $value)
  * @method TIG_MyParcel2014_Model_Shipment setRetourlink(string $value)
  * @method TIG_MyParcel2014_Model_Shipment setIsCredit(int $value)
  * @method TIG_MyParcel2014_Model_Shipment setCustomsContentType(int $value)
@@ -706,9 +706,8 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
                 $this->setIsFinal('1');
             }
 
-
             // Check if barcode is available
-            if ($this->getBarcode() === null && null !== $barcodes && (bool)$this->getBarcodeSend() == false && !empty($responseShipment->barcode)) {
+            if (null === $this->getBarcode()  && null !== $barcodes && false == $this->getBarcodeSend() && ! empty($responseShipment->barcode)) {
 
                 $this->setBarcode($barcodes);
 
@@ -718,11 +717,11 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
 
                 $isSend = $this->helper->sendBarcodeEmail($barcodeCollection, $this);
 
-                //add comment to order-comment history
+                // add comment to order-comment history
                 $shippingAddress = $this->getShippingAddress();
                 $barcodeUrl      = $this->helper->getBarcodeUrl($barcodes, $shippingAddress);
                 if ($isSend) {
-                    //add comment to order-comment history
+                    // add comment to order-comment history
                     $comment = $this->helper->__('Track&amp;Trace e-mail is sent: %s', $barcodeUrl);
 
                     // flag the MyParcel shipment that barcode is send
