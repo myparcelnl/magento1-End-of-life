@@ -252,7 +252,7 @@
                 <pakjegemak_use_shipment_address>1</pakjegemak_use_shipment_address>
                 <myparcel_shipping_methods>tig_myparcel_flatrate,myparcel_flatrate,tig_myparcel_tablerate,myparcel_tablerate,tig_myparcel_pakjegemak,myparcel_pakjegemak</myparcel_shipping_methods>
                 <use_filter>0</use_filter>
-                <weight_indication>Gram</weight_indication>
+                <weight_indication>Kilo</weight_indication>
                 <ssl_handshake>0</ssl_handshake>
             </general>
             <shipment>
