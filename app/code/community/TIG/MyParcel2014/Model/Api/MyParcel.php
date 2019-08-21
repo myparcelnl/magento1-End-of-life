@@ -706,14 +706,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
                 'city'          => trim($shippingAddress->getCity()),
                 'email'         => $email,
             ),
-          
+
             'options'    => $this->_getOptionsData($myParcelShipment, $checkoutData, $countryCode),
             'secondary_shipments' => $this->getSecondaryShipmentsData($myParcelShipment, $countryCode)
         );
 
         if ($countryCode != 'NL') {
             $phone = $order->getBillingAddress()->getTelephone();
-            if ($phone)
+            if ($phone) {
                 $data['recipient']['phone'] = $phone;
             }
 
@@ -875,15 +875,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
 
         return $data;
     }
-      
-     /**   
+
+     /**
      * @param int|float                        $totalWeight
      * @param mixed                            $item
      * @param \TIG_MyParcel2014_Model_Shipment $myParcelShipment
      * @param bool                             $isWoldShipment
      *
      * @return array
-     */    
+     */
     public function getTotalWeight($totalWeight, $item, $myParcelShipment, $isWoldShipment = false) {
 
         $parentId   = $item->getParentItemId();
