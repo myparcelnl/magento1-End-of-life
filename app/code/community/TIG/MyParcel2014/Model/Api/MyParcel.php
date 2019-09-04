@@ -472,16 +472,14 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
      * @param array $consignmentIds
      *
      * @return array $responseShipments|false
+     * @throws \TIG_MyParcel2014_Exception
      */
     public function getConsignmentsInfoData($consignmentIds = array()){
-
         if($consignmentIds){
-
-            $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
-            $responseData = $apiInfo->createConsignmentsInfoRequest($consignmentIds)
+            /** @var \TIG_MyParcel2014_Model_Api_MyParcel $apiInfo */
+            $responseData = $this->createConsignmentsInfoRequest($consignmentIds)
                 ->sendRequest('GET')
                 ->getRequestResponse();
-
             $responseData = json_decode($responseData);
 
             if (!key_exists('data', (array)$responseData)) {
@@ -501,17 +499,15 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
     /**
      * @param array $consignmentIds
      *
-     * @return $this
+     * @return self
      */
-    public function  createConsignmentsInfoRequest($consignmentIds = array()){
+    public function createConsignmentsInfoRequest($consignmentIds = array()){
 
-
-        $requestString = '/' . implode(';',$consignmentIds) . '?size=300';
+        $requestString = '/' . implode(';',$consignmentIds) . '?size=800';
 
         $this->_setRequestParameters($requestString, self::REQUEST_TYPE_CREATE_CONSIGNMENT, self::REQUEST_HEADER_SHIPMENT);
 
         return $this;
-
     }
 
     /**
