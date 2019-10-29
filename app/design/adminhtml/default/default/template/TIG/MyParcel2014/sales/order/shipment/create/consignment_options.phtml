@@ -39,23 +39,29 @@
  * @var TIG_MyParcel2014_Block_Adminhtml_Sales_Order_Shipment_Create_ConsignmentOptions $this
  */
 /** @var $_helper TIG_MyParcel2014_Helper_Data */
-$_countryNeedsCustoms       = $this->countryNeedsCustoms();
-$_storeId                   = $this->getOrderStoreId();
-$_helper                    = Mage::helper('tig_myparcel');
-$_homeSelected              = $this->getIsHomeSelected();
-$_signatureSelected         = $this->getIsSignatureOnReceipt();
-$_returnNoAnswerSelected    = $this->getIsReturnOnNoAnswer();
-$_isXlSelected              = $this->getIsXl();
-$_insured                   = $this->getIsInsured();
-$_isPakjegemak              = $this->getIsPakjeGemak();
-$_digitalStamp              = $this->getIsDigitalStamp($this->getShipment()->getItemsCollection());
-$_insuredSelected           = '';
-$_insuredUpTo               = '';
-$_insuredAmount             = 0;
+$addressValidation       = new TIG_MyParcel2014_Helper_AddressValidation;
+$_countryNeedsCustoms    = $this->countryNeedsCustoms();
+$_storeId                = $this->getOrderStoreId();
+$_helper                 = Mage::helper('tig_myparcel');
+$_homeSelected           = $this->getIsHomeSelected();
+$_signatureSelected      = $this->getIsSignatureOnReceipt();
+$_returnNoAnswerSelected = $this->getIsReturnOnNoAnswer();
+$_isXlSelected           = $this->getIsXl();
+$_insured                = $this->getIsInsured();
+$_isPakjegemak           = $this->getIsPakjeGemak();
+$_digitalStamp           = $this->getIsDigitalStamp($this->getShipment()->getItemsCollection());
+$_insuredSelected        = '';
+$_insuredUpTo            = '';
+$_insuredAmount          = 0;
+
+$_colliSelected             = '';
+$_colloAmount               = '';
 
 $_customsTypeOptions        = $this->getCustomsTypeOptions();
 $_defaultCustomsCode        = $_helper->getConfig('customs_type', 'shipment', $_storeId);
 $_defaultCustomsContentCode = $_helper->getHsCodes($this->getShipment()->getOrder()->getAllVisibleItems(), $_storeId);
+
+$_colloAmount               = $this->getMultiCollo();
 
 $tmpInsured = 1000;
 
@@ -69,6 +75,10 @@ if(is_array($_insured)){
 
 if(is_array($_digitalStamp)){
     $_digitalStampUpTo = $_digitalStamp['digitalStampUpTo'];
+}
+
+if(is_array($_colloAmount)){
+    $_colloAmount = $_colloAmount['colloAmount'];
 }
 
 $_disabled = '';
@@ -97,14 +107,16 @@ if(true == $_isPakjegemak){
             </p>
         <div id="myparcel_consignment_options">
             <?php if ($this->getDestinationCountry() == 'NL'): ?>
-                <p>
-                    <label for="tig_myparcel_home_address_only" class="normal"><?php echo $this->__('Home address only');?></label>
-                    <input id="tig_myparcel_home_address_only" type="checkbox" value="1" name="tig_myparcel[home_address_only]" <?php echo $_homeSelected;?> />
-                </p>
-                <p>
-                    <label for="tig_myparcel_signature_on_receipt" class="normal"><?php echo $this->__('Signature on receipt');?></label>
-                    <input id="tig_myparcel_signature_on_receipt" type="checkbox" value="1" name="tig_myparcel[signature_on_receipt]" <?php echo $_signatureSelected;?> />
-                </p>
+                <?php if ($addressValidation->hasAgeCheck($_storeId) == false):?>
+                    <p>
+                        <label for="tig_myparcel_home_address_only" class="normal"><?php echo $this->__('Home address only');?></label>
+                        <input id="tig_myparcel_home_address_only" type="checkbox" value="1" name="tig_myparcel[home_address_only]" <?php echo $_homeSelected;?> />
+                    </p>
+                    <p>
+                        <label for="tig_myparcel_signature_on_receipt" class="normal"><?php echo $this->__('Signature on receipt');?></label>
+                        <input id="tig_myparcel_signature_on_receipt" type="checkbox" value="1" name="tig_myparcel[signature_on_receipt]" <?php echo $_signatureSelected;?> />
+                    </p>
+                <?php endif; ?>
                 <p>
                     <label for="tig_myparcel_return_if_no_answer" class="normal"><?php echo $this->__('Return if no answer');?></label>
                     <input id="tig_myparcel_return_if_no_answer" type="checkbox" value="1" name="tig_myparcel[return_if_no_answer]" <?php echo $_returnNoAnswerSelected;?> />
@@ -125,7 +137,21 @@ if(true == $_isPakjegemak){
                         <?php endwhile; ?>
                     </select>
                     <input id="tig_myparcel_insured" type="checkbox" value="1" name="tig_myparcel[insured]" <?php echo $_insuredSelected;?> />
-
+                </p>
+                <p>
+                    <label for="tig_myparcel_multi_collo" class="normal"><?php echo $this->__('Aantal pakketten');?></label>
+                    <select id="tig_myparcel_multi_collo_amount" name="tig_myparcel[multi_collo_amount]" >
+                        <option value="1" <?php echo $_colloAmount == 1 ? 'selected="selected"' : '';?>>1</option>
+                        <option value="2" <?php echo $_colloAmount == 2 ? 'selected="selected"' : '';?>>2</option>
+                        <option value="3" <?php echo $_colloAmount == 3 ? 'selected="selected"' : '';?>>3</option>
+                        <option value="4" <?php echo $_colloAmount == 4 ? 'selected="selected"' : '';?>>4</option>
+                        <option value="5" <?php echo $_colloAmount == 5 ? 'selected="selected"' : '';?>>5</option>
+                        <option value="6" <?php echo $_colloAmount == 6 ? 'selected="selected"' : '';?>>6</option>
+                        <option value="7" <?php echo $_colloAmount == 7 ? 'selected="selected"' : '';?>>7</option>
+                        <option value="8" <?php echo $_colloAmount == 8 ? 'selected="selected"' : '';?>>8</option>
+                        <option value="9" <?php echo $_colloAmount == 9 ? 'selected="selected"' : '';?>>9</option>
+                        <option value="10" <?php echo $_colloAmount == 10 ? 'selected="selected"' : '';?>>10</option>
+                    </select>
                 </p>
 
             <?php elseif($_countryNeedsCustoms): ?>

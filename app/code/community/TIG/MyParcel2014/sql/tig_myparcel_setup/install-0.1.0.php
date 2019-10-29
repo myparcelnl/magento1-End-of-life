@@ -98,7 +98,7 @@ if (!$conn->isTableExists($tableName)) {
         /**
          * the track and trace code from MyParcel
          */
-        ->addColumn('barcode', Varien_Db_Ddl_Table::TYPE_TEXT, 64, array(
+        ->addColumn('barcode', Varien_Db_Ddl_Table::TYPE_TEXT, 255, array(
         ), 'Barcode')
         /**
          * Whether the shipment should only be delivered to the stated address.

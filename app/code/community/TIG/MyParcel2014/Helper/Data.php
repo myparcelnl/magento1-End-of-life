@@ -242,16 +242,18 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCurrentOptionsHtml($myParcelShipment)
     {
+        $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
         $options = array(
             $this->__(ucfirst(str_replace('_', ' ', $myParcelShipment->getShipmentType()))),
         );
 
         if ($myParcelShipment->getShipmentType() == 'normal') {
 
-            if ($myParcelShipment->getHomeAddressOnly() == '1')
+            $storeId = $myParcelShipment->getOrder()->getStoreId();
+            if ($myParcelShipment->getHomeAddressOnly() == '1' && $addressValidation->hasAgeCheck($storeId) == false)
                 $options[] = $this->__('Home address only');
 
-            if ($myParcelShipment->getHomeAddressOnly() == '1')
+            if ($myParcelShipment->getSignatureOnReceipt() == '1' && $addressValidation->hasAgeCheck($storeId) == false)
                 $options[] = $this->__('Signature on receipt');
 
             if ($myParcelShipment->getReturnIfNoAnswer() == '1')
@@ -325,7 +327,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
             if (!$destination->getCountry()) {
                 throw new InvalidArgumentException('Destination must contain a country code.');
             }
-            
+
             $postcode = $destination->getPostcode();
             $countryCode = $destination->getCountry();
         } else {
@@ -495,6 +497,46 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $type;
+    }
+
+    /**
+     * @param array $checkoutData
+     * @param array $data
+     * @param Mage_Sales_Model_Order $order
+     *
+     * @return mixed
+     */
+    public function getDeliveryType( $checkoutData, $data, $order ) {
+        $addressValidation = new TIG_MyParcel2014_Helper_AddressValidation;
+        if ( key_exists( 'time', $checkoutData ) && key_exists( 'price_comment', $checkoutData['time'][0] ) && $checkoutData['time'][0]['price_comment'] !== null ) {
+            switch ( $checkoutData['time'][0]['price_comment'] ) {
+                case 'morning':
+                    if ($addressValidation->hasAgeCheck($order->getStoreId()) == false) {
+                        $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_MORNING;
+                        return $data;
+                    }
+                case 'standard':
+                    $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_STANDARD;
+                    return $data;
+                case 'night':
+                    if ($addressValidation->hasAgeCheck($order->getStoreId()) == false) {
+                        $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_NIGHT;
+                        return $data;
+                    }
+            }
+        }
+        if ( key_exists( 'price_comment', $checkoutData ) && $checkoutData['price_comment'] !== null ) {
+            switch ( $checkoutData['price_comment'] ) {
+                case 'retail':
+                    $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_RETAIL;
+                    return $data;
+                case 'retailexpress':
+                    $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_RETAIL_EXPRESS;
+                    return $data;
+            }
+        }
+        $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_STANDARD;
+        return $data;
     }
 
     /**
@@ -1014,6 +1056,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function sendBarcodeEmail($barcode = '', $myParcelShipment)
     {
+        $barcode = $barcode[0];
         if (empty($barcode)) {
             return false;
         }

@@ -65,12 +65,18 @@ class TIG_MyParcel2014_Model_Observer_Cron
     protected function _checkEUShipments()
     {
         $resource   = Mage::getSingleton('core/resource');
+        /** @var TIG_MyParcel2014_Model_Resource_Shipment_Collection $collection */
         $collection = Mage::getResourceModel('tig_myparcel/shipment_collection');
 
-        $collection->getSelect()->joinLeft(
-            array('shipping_address' => $resource->getTableName('sales/order_address')),
-            "main_table.entity_id=shipping_address.parent_id AND shipping_address.address_type='shipping'",
-            array());
+        $collection->getSelect()
+                   ->limit(800)
+                   ->joinLeft(
+                       array(
+                           'shipping_address' => $resource->getTableName('sales/order_address')
+                       ),
+                       "main_table.entity_id=shipping_address.parent_id AND shipping_address.address_type='shipping'",
+                       array()
+                   );
 
         $collection->addFieldToFilter('shipping_address.country_id', array(
                 'in' => array($this->helper->whiteListCodes()))
@@ -78,7 +84,8 @@ class TIG_MyParcel2014_Model_Observer_Cron
         $collection->addFieldToFilter('main_table.is_final', array('eq' => '0'));
         $collection->addFieldToFilter('main_table.created_at', array(
                 'gt' => date('Y-m-d', strtotime('-21 day')))
-        );
+        )
+        ->setOrder('main_table.created_at', 'DESC');
 
         $this->_checkCollectionStatus($collection);
     }
@@ -128,8 +135,8 @@ class TIG_MyParcel2014_Model_Observer_Cron
             }
         }
 
-
-        $apiInfo    = Mage::getModel('tig_myparcel/api_myParcel');
+        /** @var \TIG_MyParcel2014_Model_Api_MyParcel $apiInfo */
+        $apiInfo           = Mage::getModel('tig_myparcel/api_myParcel');
         $responseShipments = $apiInfo->getConsignmentsInfoData($consignmentIds);
 
         if($responseShipments){
