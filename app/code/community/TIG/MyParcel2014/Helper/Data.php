@@ -519,8 +519,10 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                     $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_STANDARD;
                     return $data;
                 case 'night':
+                case 'avond':
                     if ($addressValidation->hasAgeCheck($order->getStoreId()) == false) {
                         $data['delivery_type'] = TIG_MyParcel2014_Model_Api_MyParcel::TYPE_NIGHT;
+
                         return $data;
                     }
             }
