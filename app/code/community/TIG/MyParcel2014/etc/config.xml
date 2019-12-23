@@ -2,7 +2,7 @@
 <config>
     <modules>
         <TIG_MyParcel2014>
-            <version>1.18.2</version>
+            <version>1.19.0</version>
         </TIG_MyParcel2014>
     </modules>
     <global>
@@ -310,10 +310,6 @@
                 <pickup_title>Ophalen bij een PostNL locatie</pickup_title>
                 <pickup_fee>0</pickup_fee>
             </pickup>
-            <pickup_express>
-                <pickup_express_active>1</pickup_express_active>
-                <pickup_express_fee>1.38</pickup_express_fee>
-            </pickup_express>
             <belgium_delivery>
                 <belgium_delivery_title>Bezorgen</belgium_delivery_title>
                 <belgium_standard_delivery_titel>Standaard levering</belgium_standard_delivery_titel>

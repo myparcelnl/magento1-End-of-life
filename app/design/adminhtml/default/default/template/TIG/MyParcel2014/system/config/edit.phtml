@@ -265,7 +265,6 @@ var adminSystemConfig = {
         configShippingMethodsContent.insert($('tig_myparcel_morning_delivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_eveningdelivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_pickup-head').up(1));
-        configShippingMethodsContent.insert($('tig_myparcel_pickup_express-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_belgium_delivery-head').up(1));
         configShippingMethodsContent.insert($('tig_myparcel_pickup_belgium-head').up(1));
 
@@ -299,11 +298,6 @@ var adminSystemConfig = {
         this.updateDependsAgeCheck();
         /** age check */
         $('tig_myparcel_delivery_age_check').observe('change', this.updateDependsAgeCheck);
-
-        this.updateDependsPickupCheck();
-        /** Pickup Express check */
-        $('tig_myparcel_pickup_pickup_active').observe('change', this.updateDependsPickupCheck);
-
     },
     updateDependsAgeCheck: function () {
         var active = $('tig_myparcel_delivery_age_check').value;
@@ -328,20 +322,6 @@ var adminSystemConfig = {
         $('row_tig_myparcel_eveningdelivery_eveningdelivery_active').style.display = "table-row";
         $('row_tig_myparcel_eveningdelivery_eveningdelivery_fee').style.display = "table-row";
     },
-    updateDependsPickupCheck: function () {
-        var active = $('tig_myparcel_pickup_pickup_active').value;
-        if (active == 1) {
-            $('row_tig_myparcel_pickup_express_pickup_express_not_active_holder').style.display = "none";
-            $('row_tig_myparcel_pickup_express_pickup_express_active').style.display = "table-row";
-            $('row_tig_myparcel_pickup_express_pickup_express_fee').style.display = "table-row";
-            return;
-        }
-
-        $('row_tig_myparcel_pickup_express_pickup_express_not_active_holder').style.display = "table-row";
-        $('row_tig_myparcel_pickup_express_pickup_express_active').style.display = "none";
-        $('row_tig_myparcel_pickup_express_pickup_express_fee').style.display = "none";
-
-    }
 };
 
 adminSystemConfig.setFieldsInTabs();

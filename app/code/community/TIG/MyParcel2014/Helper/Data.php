@@ -226,7 +226,7 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $myParcelCarrier = Mage::getModel('tig_myparcel/carrier_myParcel');
         $myParcelCode = $myParcelCarrier->getCarrierCode();
 
-        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup' || $method == $myParcelCode . '_pickup_express') {
+        if ($method == $myParcelCode . '_pakjegemak' || $method == $myParcelCode . '_pickup') {
             return true;
         }
 
@@ -1197,7 +1197,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
         $eveningFee = (float)$this->getConfig('eveningdelivery_fee', 'eveningdelivery');
         $signatureAndOnlyRecipient = (float)$this->getConfig('signature_and_only_recipient_fee', 'delivery');
         $pickupFee = (float)$this->getConfig('pickup_fee', 'pickup');
-        $pickupExpressFee = (float)$this->getConfig('pickup_express_fee', 'pickup_express');
         $mailboxFee = (float)$this->getConfig('mailbox_fee', 'mailbox');
 
         switch ($method) {
@@ -1226,9 +1225,6 @@ class TIG_MyParcel2014_Helper_Data extends Mage_Core_Helper_Abstract
                 break;
             case ('pickup'):
                 $price += $pickupFee;
-                break;
-            case ('pickup_express'):
-                $price += $pickupExpressFee;
                 break;
             case ('mailbox'):
                 $price = $mailboxFee;
