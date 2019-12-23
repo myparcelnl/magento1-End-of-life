@@ -90,9 +90,6 @@ TIG_MyParcel2014::Pickup at PostNL location,Ophalen bij PostNL locatie
 TIG_MyParcel2014::Pickup active,Ophalen actief
 TIG_MyParcel2014::Pickup title,Ophalen titel
 TIG_MyParcel2014::Pickup fee,Ophalen prijs
-TIG_MyParcel2014::Pickup Express at PostNL location,Extra vroeg ophalen bij PostNL locatie
-TIG_MyParcel2014::Pickup Express active,Extra vroeg ophalen actief
-TIG_MyParcel2014::Pickup Express fee,Extra vroeg ophalen prijs
 TIG_MyParcel2014::Pickup at Belgium PostNL location,Ophalen bij een Belgische PostNL locatie
 TIG_MyParcel2014::Pickup Belgium active,Ophalen België actief
 TIG_MyParcel2014::Pickup Belgium title,Ophalen België titel

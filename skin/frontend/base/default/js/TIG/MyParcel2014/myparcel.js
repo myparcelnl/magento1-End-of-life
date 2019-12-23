@@ -102,7 +102,6 @@ MyParcel = {
                                 "priceEveningDelivery": data.eveningDelivery['fee'],
                                 "priceSignature": data.delivery['signature_fee'],
                                 "pricePickup": data.pickup['fee'],
-                                "pricePickupExpress": data.pickupExpress['fee'],
                                 "priceOnlyRecipient": data.delivery['only_recipient_fee'],
 
                                 "deliveryTitel":data.delivery['delivery_title'],
@@ -440,18 +439,7 @@ MyParcel = {
          */
         if (mypajQuery('#mypa-pickup-delivery').prop('checked') || mypajQuery('#mypa-pickup-selector').prop('checked'))
         {
-            /**
-             * Early morning pickup
-             */
-            if (mypajQuery('#mypa-pickup-express-selector').prop('checked'))
-            {
-                mypajQuery('#s_method_myparcel_pickup_express').click();
-                MyParcel.addPickupToMagentoInput('retailexpress');
-                MyParcel.addStyleToPrice('#mypa-pickup-express-price');
-                return;
-            }else{
-                MyParcel.addStyleToPrice('#mypa-pickup-price');
-            }
+            MyParcel.addStyleToPrice('#mypa-pickup-price');
 
             mypajQuery('#s_method_myparcel_pickup').click();
             MyParcel.addPickupToMagentoInput('retail');
@@ -540,15 +528,9 @@ MyParcel = {
         var isPickup	= mypajQuery('#mypa-pickup-delivery').is(':checked');
         mypajQuery('#mypa-pickup-selector').prop('checked', true);
 
-        if(isPickup && this.currentLocation.price_comment === "retailexpress"){
-            mypajQuery('#mypa-pickup-express-price').html(MyParcel.getPriceHtml(this.data.config.pricePickupExpress));
-            mypajQuery('#mypa-pickup-express').show();
+        mypajQuery('#mypa-pickup-express-selector').attr("checked", false);
+        mypajQuery('#mypa-pickup-express').hide();
 
-        } else{
-            mypajQuery('#mypa-pickup-express-selector').attr("checked", false);
-            mypajQuery('#mypa-pickup-express').hide();
-
-        }
     },
 
 

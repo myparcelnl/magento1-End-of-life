@@ -167,7 +167,6 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             'evening' => $helper->__('TYPE_night'),
             'evening_signature' => $helper->__('TYPE_night') . ' (' . $signatureTitle . ')',
             'pickup' => $helper->getConfig('pickup_title', 'pickup'),
-            'pickup_express' => $helper->getConfig('pickup_title', 'pickup') . ' (' . strtolower($helper->__('TYPE_retailexpress')) . ')',
             'flatrate' => $this->getConfigData('name') . ' flat',
             'tablerate' => $this->getConfigData('name') . ' table',
             'mailbox' => $helper->getConfig('mailbox_title', 'mailbox'),
@@ -230,7 +229,6 @@ class TIG_MyParcel2014_Model_Carrier_MyParcel extends Mage_Shipping_Model_Carrie
             $this->addShippingRate($result, 'morning_delivery', 'morning_delivery', 'morning_signature');
             $this->addShippingRate($result, 'eveningdelivery', 'eveningdelivery', 'evening');
             $this->addShippingRate($result, 'eveningdelivery', 'eveningdelivery', 'evening_signature');
-            $this->addShippingRate($result, 'pickup_express', 'pickup_express', 'pickup_express');
         }
 
         return $result;

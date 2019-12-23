@@ -145,10 +145,6 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         }
         $data['pickup'] = (object)$pickup;
 
-        $pickupExpress['active'] =                  $helper->getConfig('pickup_express_active', 'pickup_express') == "1" && $data['address']['country'] == self::CC_NL ? true : false;
-        $pickupExpress['fee'] =                     $this->getExtraPrice($basePrice, $this->getShippingPrice($helper->getConfig('pickup_express_fee', 'pickup_express'), $quote));
-        $data['pickupExpress'] = (object)$pickupExpress;
-
         $info = array(
             'version' => (string) Mage::getConfig()->getModuleConfig("TIG_MyParcel2014")->version,
             'data' => (object)$data
@@ -158,7 +154,7 @@ class TIG_MyParcel2014_CheckoutController extends Mage_Core_Controller_Front_Act
         echo(json_encode($info));
         exit;
     }
-    
+
 
     /**
      * Save the MyParcel data in quote
