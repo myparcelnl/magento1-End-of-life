@@ -798,7 +798,7 @@ class TIG_MyParcel2014_Model_Api_MyParcel extends Varien_Object
         if($data['options']['package_type'] == TIG_MyParcel2014_Model_Shipment::TYPE_DIGITAL_STAMP_NUMBER){
             foreach($items as $item) {
                 if($item->getProductType() == 'simple') {
-                    $WeightData = $this->getTotalWeight($totalWeight, $item);
+                    $WeightData = $this->getTotalWeight($totalWeight, $item, $myParcelShipment);
                 }
             }
             unset($data['options']['delivery_date']);
