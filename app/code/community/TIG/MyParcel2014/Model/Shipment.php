@@ -687,7 +687,10 @@ class TIG_MyParcel2014_Model_Shipment extends Mage_Core_Model_Abstract
         if($responseShipment){
             $this->updateStatus($responseShipment);
         }
-
+	    
+	if (empty($consignmentIds)) {
+            $consignmentIds = (string) $consignmentId;
+	}
 
         $this->setConsignmentId($consignmentIds);
 
